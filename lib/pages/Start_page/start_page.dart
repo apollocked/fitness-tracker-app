@@ -16,11 +16,11 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr( "Fitness Mesurment App" ),
+      appBar: customAppBarr(),
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Padding(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -30,7 +30,7 @@ class _StartPageState extends State<StartPage> {
                       width: 400,
                       height: 230,
                       child: Image.asset(
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.fitHeight,
                         startBanner,
                       ),
                     ),

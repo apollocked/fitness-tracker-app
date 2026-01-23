@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/data.dart';
@@ -30,7 +32,7 @@ class _CustomRatioState extends State<CustomGenderRatio> {
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(secondColor),
           title: Text(
-           "Female",
+            "Female",
             style: TextStyle(color: primaryColor),
           ),
           value: "Female",

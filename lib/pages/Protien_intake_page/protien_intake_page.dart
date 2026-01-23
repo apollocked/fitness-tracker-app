@@ -25,7 +25,7 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: customAppBarr("Protien Intake Calculator"),
+        appBar: customAppBarr("Potien Intake Calculator"),
         body: Padding(
           padding: const EdgeInsets.all(5),
           child: SingleChildScrollView(
