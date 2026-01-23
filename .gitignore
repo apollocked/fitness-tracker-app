@@ -1,4 +1,4 @@
 build/
-
-
+.dart_tools/
+.dart_tool/chrome-device/
 
