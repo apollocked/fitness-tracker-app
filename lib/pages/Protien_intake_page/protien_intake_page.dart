@@ -30,13 +30,13 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
           padding: const EdgeInsets.all(5),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 400,
-                  height: 230,
+                  width: 300,
+                  height: 200,
                   child: Image.asset(
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.contain,
                     protienBanner,
                   ),
                 ),

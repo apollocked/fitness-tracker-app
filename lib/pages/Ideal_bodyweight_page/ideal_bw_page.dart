@@ -35,10 +35,10 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
             child: Column(
               children: [
                 SizedBox(
-                  width: 400,
-                  height: 230,
+                  width: 300,
+                  height: 200,
                   child: Image.asset(
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.contain,
                     weightBanner,
                   ),
                 ),

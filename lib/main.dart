@@ -13,6 +13,6 @@ class FitApp extends StatelessWidget {
     return const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "fitness mesurment app",
-        home: SafeArea(child: StartPage()));
+        home: StartPage());
   }
 }
