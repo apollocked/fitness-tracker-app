@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/Start_page/start_page.dart';
+import 'package:myapp/pages/home/home_page.dart';
 
 void main() {
   runApp(const FitApp());
@@ -10,9 +10,16 @@ class FitApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "fitness mesurment app",
-        home: StartPage());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Fitness Measurement App",
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+      ),
+      // Change this to StartPage() if you want to show the start page first
+      // Or use HomePage() to go directly to the main app
+      home: const HomePage(),
+    );
   }
 }
