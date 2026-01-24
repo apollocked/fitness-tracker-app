@@ -9,10 +9,8 @@ class CustomTextfeild extends StatelessWidget {
       required this.hintText,
       required this.onSaved,
       required this.text,
-      required this.validator,
-      required this.icon});
+      required this.validator});
   dynamic validator;
-  IconData icon;
   dynamic onSaved;
   dynamic hintText;
   dynamic text;
@@ -45,10 +43,6 @@ class CustomTextfeild extends StatelessWidget {
         label: Text(
           text,
           style: TextStyle(color: secondColor),
-        ),
-        icon: Icon(
-          icon,
-          color: secondColor,
         ),
       ),
     );

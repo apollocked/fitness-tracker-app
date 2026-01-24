@@ -56,7 +56,6 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                       height: 15,
                     ),
                     CustomTextfeild(
-                      icon: Icons.height,
                       color: primaryColor,
                       hintText: "Enter your Height in CM",
                       onSaved: (value) {
@@ -82,7 +81,6 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                       height: 15,
                     ),
                     CustomTextfeild(
-                        icon: Icons.monitor_weight,
                         color: primaryColor,
                         hintText: "Enter your Weight in KG",
                         onSaved: (value) {

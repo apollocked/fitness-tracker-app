@@ -54,7 +54,6 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                       height: 15,
                     ),
                     CustomTextfeild(
-                        icon: Icons.monitor_weight,
                         color: orangeColor,
                         hintText: "Enter your Weight in KG",
                         onSaved: (value) {
