@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/utils/colors.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -6,10 +8,10 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+      appBar: customAppBarr(
+        'Profile',
+        primaryColor,
+        backgroundColor,
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -18,7 +18,7 @@ class _CustomBodyTypeRatio extends State<CustomBodyTypeRatio> {
       children: [
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(secondColor),
-          title: Text("No", style: TextStyle(color: primaryColor)),
+          title: Text("No", style: TextStyle(color: orangeColor)),
           value: false.toString(),
           groupValue: user["isBodybuilder"].toString(),
           onChanged: (value) {
@@ -31,7 +31,7 @@ class _CustomBodyTypeRatio extends State<CustomBodyTypeRatio> {
           fillColor: WidgetStatePropertyAll(secondColor),
           title: Text(
             "Yes",
-            style: TextStyle(color: primaryColor),
+            style: TextStyle(color: orangeColor),
           ),
           value: true.toString(),
           groupValue: user["isBodybuilder"].toString(),

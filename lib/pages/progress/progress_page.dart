@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/utils/colors.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -11,10 +13,10 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Progress'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+      appBar: customAppBarr(
+        'Progress',
+        primaryColor,
+        backgroundColor,
       ),
       body: _buildEmptyState(),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/utils/colors.dart';
 
 class DailyCaloriePage extends StatefulWidget {
   const DailyCaloriePage({super.key});
@@ -72,11 +74,8 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Daily Calorie Needs'),
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
-      ),
+      appBar:
+          customAppBarr("Daily Calorie Calculator", redColor, backgroundColor),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -113,7 +112,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                           _gender = value!;
                         });
                       },
-                      activeColor: Colors.red,
+                      activeColor: redColor,
                     ),
                   ),
                   Expanded(
@@ -126,7 +125,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                           _gender = value!;
                         });
                       },
-                      activeColor: Colors.red,
+                      activeColor: redColor,
                     ),
                   ),
                 ],
@@ -217,7 +216,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                  color: Colors.grey[50],
+                  color: secondColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.grey[300]!),
                 ),

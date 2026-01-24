@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Calculators/ideal_bw_page.dart';
 import 'package:myapp/pages/Calculators/protien_intake_page.dart';
 import 'package:myapp/pages/Calculators/daily_calorie_page.dart';
 import 'package:myapp/pages/Calculators/add_measurement_page.dart';
 import 'package:myapp/pages/progress/progress_page.dart';
 import 'package:myapp/pages/Profile/profile_page.dart';
+import 'package:myapp/utils/colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +30,8 @@ class _HomePageState extends State<HomePage> {
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
+        selectedItemColor: primaryColor,
+        unselectedItemColor: Colors.grey,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
@@ -36,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Dashboard',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.show_chart),
@@ -58,10 +62,10 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Fitness Tracker'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+      appBar: customAppBarr(
+        'Home',
+        primaryColor,
+        backgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -120,7 +124,7 @@ class DashboardPage extends StatelessWidget {
                     context,
                     'Measurements',
                     Icons.straighten,
-                    Colors.green,
+                    greenColor,
                     'Track',
                     () {
                       // Navigate to Add Measurement
@@ -153,19 +157,6 @@ class DashboardPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddMeasurementPage(),
-            ),
-          );
-        },
-        icon: const Icon(Icons.add),
-        label: const Text('Add Measurement'),
-        backgroundColor: Colors.blue,
       ),
     );
   }

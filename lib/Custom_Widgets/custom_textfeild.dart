@@ -5,28 +5,28 @@ import 'package:myapp/utils/colors.dart';
 class CustomTextfeild extends StatelessWidget {
   CustomTextfeild(
       {super.key,
+      required this.color,
       required this.hintText,
       required this.onSaved,
       required this.text,
-      required this.validator});
+      required this.validator,
+      required this.icon});
   dynamic validator;
+  IconData icon;
   dynamic onSaved;
   dynamic hintText;
   dynamic text;
+  Color color;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: 
-        validator
-      ,
-      onSaved: 
-        onSaved
-      ,
+      validator: validator,
+      onSaved: onSaved,
       keyboardType: TextInputType.number,
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
       ],
-      style: TextStyle(color: primaryColor),
+      style: TextStyle(color: color),
       decoration: InputDecoration(
         errorStyle: const TextStyle(fontSize: 15),
         focusedBorder: OutlineInputBorder(
@@ -45,6 +45,10 @@ class CustomTextfeild extends StatelessWidget {
         label: Text(
           text,
           style: TextStyle(color: secondColor),
+        ),
+        icon: Icon(
+          icon,
+          color: secondColor,
         ),
       ),
     );

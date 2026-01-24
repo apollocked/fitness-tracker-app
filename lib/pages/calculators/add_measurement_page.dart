@@ -55,8 +55,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     return Scaffold(
       appBar: customAppBarr(
         'Add Measurement',
-        primaryColor,
-        secondColor,
+        greenColor,
+        backgroundColor,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -75,7 +75,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                     const SizedBox(height: 8),
                     Text(
                       'Fill in at least one field',
-                      style: TextStyle(color: Colors.grey[600]),
+                      style: TextStyle(color: secondColor),
                     ),
                     const SizedBox(height: 24),
                     _buildTextField(
@@ -87,7 +87,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                     _buildTextField(
                       controller: _waistController,
                       label: 'Waist (cm)',
-                      icon: Icons.accessibility,
+                      icon: Icons.straighten,
                     ),
                     const SizedBox(height: 16),
                     const SizedBox(height: 50),
@@ -97,8 +97,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                       child: ElevatedButton(
                         onPressed: _saveMeasurement,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
+                          backgroundColor: greenColor,
+                          foregroundColor: backgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
