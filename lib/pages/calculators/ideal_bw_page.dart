@@ -28,7 +28,8 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: customAppBarr("Ideal Body Weight Calculator"),
+        appBar: customAppBarr(
+            "Ideal Body Weight Calculator", primaryColor, backgroundColor),
         body: Padding(
           padding: const EdgeInsets.all(5),
           child: SingleChildScrollView(

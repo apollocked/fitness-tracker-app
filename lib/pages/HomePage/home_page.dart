@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/calculators/ideal_bw_page.dart';
-import 'package:myapp/pages/calculators/protien_intake_page.dart';
-import 'package:myapp/pages/calculators/daily_calorie_page.dart';
-import 'package:myapp/pages/calculators/add_measurement_page.dart';
+import 'package:myapp/pages/Calculators/ideal_bw_page.dart';
+import 'package:myapp/pages/Calculators/protien_intake_page.dart';
+import 'package:myapp/pages/Calculators/daily_calorie_page.dart';
+import 'package:myapp/pages/Calculators/add_measurement_page.dart';
 import 'package:myapp/pages/progress/progress_page.dart';
-import 'package:myapp/pages/profile/profile_page.dart';
+import 'package:myapp/pages/Profile/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

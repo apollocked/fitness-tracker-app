@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/calculators/add_measurement_page.dart';
+import 'package:myapp/pages/Calculators/add_measurement_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});

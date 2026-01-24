@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/utils/colors.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   const AddMeasurementPage({super.key});
@@ -51,10 +53,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Measurement'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+      appBar: customAppBarr(
+        'Add Measurement',
+        primaryColor,
+        secondColor,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
