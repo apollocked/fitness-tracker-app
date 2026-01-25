@@ -57,6 +57,8 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                       height: 15,
                     ),
                     CustomTextfeild(
+                      isObscure: false,
+                      keyboard: TextInputType.number,
                       color: primaryColor,
                       onSaved: (value) {
                         user["height"] = double.parse(value!);
@@ -82,6 +84,8 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                       height: 15,
                     ),
                     CustomTextfeild(
+                      isObscure: false,
+                      keyboard: TextInputType.number,
                       color: primaryColor,
                       onSaved: (value) {
                         user["weight"] = double.parse(value!);

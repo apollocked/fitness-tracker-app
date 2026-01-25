@@ -109,6 +109,8 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
 
               // Age Input
               CustomTextfeild(
+                isObscure: false,
+                keyboard: TextInputType.number,
                 icon: const Icon(Icons.cake),
                 color: redColor,
                 onSaved: (value) {},
@@ -127,6 +129,8 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
 
               // Weight Input
               CustomTextfeild(
+                isObscure: false,
+                keyboard: TextInputType.number,
                 icon: const Icon(Icons.monitor_weight),
                 color: redColor,
                 onSaved: (value) {},
@@ -144,6 +148,8 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               const SizedBox(height: 16),
 
               CustomTextfeild(
+                isObscure: false,
+                keyboard: TextInputType.number,
                 icon: const Icon(Icons.height),
                 color: redColor,
                 text: 'Height (cm)',

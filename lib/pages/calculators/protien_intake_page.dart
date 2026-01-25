@@ -56,6 +56,8 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                       height: 15,
                     ),
                     CustomTextfeild(
+                      isObscure: false,
+                      keyboard: TextInputType.number,
                       color: orangeColor,
                       onSaved: (value) {
                         user["weight"] = double.parse(value!);

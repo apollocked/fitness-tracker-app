@@ -88,9 +88,13 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                       validator: (value) {
                         return null;
                       },
+                      isObscure: false,
+                      keyboard: TextInputType.number,
                     ),
                     const SizedBox(height: 16),
                     CustomTextfeild(
+                      isObscure: false,
+                      keyboard: TextInputType.number,
                       icon: const Icon(Icons.straighten),
                       color: blackColor,
                       onSaved: (value) {},

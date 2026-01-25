@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
 import 'package:myapp/pages/HomePage/home_page.dart';
+import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class LoginPage extends StatelessWidget {
@@ -97,57 +99,45 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: [
                       // Email Field
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          labelText: "Email",
-                          prefixIcon: const Icon(Icons.email_outlined),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Email is required";
-                          }
-                          if (!value.contains('@')) {
-                            return "Enter a valid email";
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          email = value;
-                        },
-                      ),
+                      CustomTextfeild(
+                          icon: const Icon(Icons.email_outlined),
+                          color: Colors.blue,
+                          onSaved: (value) {
+                            email = value;
+                          },
+                          text: "Email",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Email is required";
+                            }
+                            if (!value.contains('@')) {
+                              return "Enter a valid email";
+                            }
+                            return null;
+                          },
+                          isObscure: false,
+                          keyboard: TextInputType.emailAddress),
                       const SizedBox(height: 16),
 
                       // Password Field
-                      TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Password is required";
-                          }
-                          if (value.length < 8) {
-                            return "Password must be at least 8 characters";
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          password = value;
-                        },
-                      ),
+                      CustomTextfeild(
+                          icon: const Icon(Icons.lock_outline),
+                          color: Colors.blue,
+                          onSaved: (value) {
+                            password = value;
+                          },
+                          text: "Password",
+                          isObscure: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Password is required";
+                            }
+                            if (value.length < 6) {
+                              return "Password must be at least 6 characters";
+                            }
+                            return null;
+                          },
+                          keyboard: TextInputType.text),
                       const SizedBox(height: 30),
 
                       // Login Button
@@ -184,6 +174,7 @@ class LoginPage extends StatelessWidget {
                             style: TextStyle(color: Colors.grey[600]),
                           ),
                           TextButton(
+                            autofocus: true,
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,
@@ -192,9 +183,10 @@ class LoginPage extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: const Text(
+                            child: Text(
                               "Sign Up",
                               style: TextStyle(
+                                color: primaryColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),

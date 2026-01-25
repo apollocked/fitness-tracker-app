@@ -5,23 +5,27 @@ import 'package:myapp/utils/colors.dart';
 class CustomTextfeild extends StatelessWidget {
   CustomTextfeild(
       {super.key,
+      required this.keyboard,
       required this.icon,
       required this.color,
       required this.onSaved,
       required this.text,
-      required this.validator});
+      required this.validator,
+      required this.isObscure});
+  TextInputType keyboard;
   dynamic validator;
   dynamic onSaved;
-
   dynamic text;
   Color color;
   Icon icon;
+  bool isObscure;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: isObscure,
       validator: validator,
       onSaved: onSaved,
-      keyboardType: TextInputType.number,
+      keyboardType: keyboard,
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
       ],
@@ -43,7 +47,7 @@ class CustomTextfeild extends StatelessWidget {
         ),
         label: Text(
           text,
-          style: TextStyle(color: secondColor),
+          style: TextStyle(color: blackColor),
         ),
       ),
     );
