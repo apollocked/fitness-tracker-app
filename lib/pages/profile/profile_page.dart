@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/user_data.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    if (currentUser == null) {
+      return Scaffold(
+        appBar: customAppBarr('Profile', primaryColor, backgroundColor),
+        body: const Center(child: Text('No user logged in')),
+      );
+    }
+
+    final user = currentUser!;
+    final age = user['age'] ?? 'N/A';
+    final weight = user['weight'] ?? 'N/A';
+    final height = user['height'] ?? 'N/A';
+    final gender = user['gender'] ?? 'N/A';
+
     return Scaffold(
-      appBar: customAppBarr(
-        'Profile',
-        primaryColor,
-        backgroundColor,
-      ),
+      appBar: customAppBarr('Profile', primaryColor, backgroundColor),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -23,52 +33,67 @@ class ProfilePage extends StatelessWidget {
               child: const Icon(Icons.person, size: 60, color: Colors.blue),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Your Profile',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Text(
+              user['username'] ?? 'User Profile',
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              user['email'] ?? '',
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
             const SizedBox(height: 32),
-            _buildProfileCard(
-              context,
-              [
-                _buildListTile(
-                  Icons.person,
-                  'Personal Info',
-                  'Edit your details',
-                  () {},
-                ),
-                _buildListTile(
-                  Icons.flag,
-                  'Goals',
-                  'Set your fitness goals',
-                  () {},
-                ),
-                _buildListTile(
-                  Icons.notifications,
-                  'Reminders',
-                  'Manage notifications',
-                  () {},
-                ),
-              ],
-            ),
+
+            // Personal Information Card
+            _buildProfileCard(context, [
+              _buildInfoTile('Age', '$age years', Icons.cake),
+              const Divider(),
+              _buildInfoTile('Weight', '$weight kg', Icons.monitor_weight),
+              const Divider(),
+              _buildInfoTile('Height', '$height cm', Icons.height),
+              const Divider(),
+              _buildInfoTile('Gender', gender, Icons.wc),
+            ]),
             const SizedBox(height: 16),
-            _buildProfileCard(
-              context,
-              [
-                _buildListTile(
-                  Icons.help_outline,
-                  'Help & Support',
-                  'Get assistance',
-                  () {},
-                ),
-                _buildListTile(
-                  Icons.info_outline,
-                  'About',
-                  'App information',
-                  () {},
-                ),
-              ],
-            ),
+
+            // Settings Card
+            _buildProfileCard(context, [
+              _buildListTile(
+                Icons.person,
+                'Personal Info',
+                'Edit your details',
+                () {},
+              ),
+              _buildListTile(
+                Icons.flag,
+                'Goals',
+                'Set your fitness goals',
+                () {},
+              ),
+              _buildListTile(
+                Icons.notifications,
+                'Reminders',
+                'Manage notifications',
+                () {},
+              ),
+            ]),
+            const SizedBox(height: 16),
+
+            // Support Card
+            _buildProfileCard(context, [
+              _buildListTile(
+                Icons.help_outline,
+                'Help & Support',
+                'Get assistance',
+                () {},
+              ),
+              _buildListTile(
+                Icons.info_outline,
+                'About',
+                'App information',
+                () {},
+              ),
+            ]),
             const SizedBox(height: 32),
           ],
         ),
@@ -91,6 +116,32 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
       child: Column(children: children),
+    );
+  }
+
+  Widget _buildInfoTile(String label, String value, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: Colors.blue),
+              const SizedBox(width: 12),
+              Text(
+                label,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     );
   }
 

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/data.dart';
+import 'package:myapp/utils/user_data.dart';
 
 class CustomGenderRatio extends StatefulWidget {
   const CustomGenderRatio({
