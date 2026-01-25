@@ -16,19 +16,14 @@ class PersonalInfoPage extends StatelessWidget {
             customAppBarr('Personal Information', Colors.blue, Colors.white),
         body: // Personal Information Card
             Column(children: [
-          const SizedBox(height: 16),
-          Text(
-            currentUser?['username'] ?? 'User Profile',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            currentUser?['email'] ?? 'Yoiur email here',
-            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-          ),
-          const SizedBox(height: 32),
           const SizedBox(height: 32),
           _buildProfileCard(context, [
+            _buildInfoTile(
+                'Username', currentUser?['username'] ?? 'N/A', Icons.person),
+            const Divider(),
+            _buildInfoTile(
+                'Email', currentUser?['email'] ?? 'N/A', Icons.email),
+            const Divider(),
             _buildInfoTile('Age', '$age years', Icons.cake),
             const Divider(),
             _buildInfoTile('Weight', '$weight kg', Icons.monitor_weight),
