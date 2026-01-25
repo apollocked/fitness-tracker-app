@@ -5,6 +5,7 @@ import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/models/measurement_model.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/user_data.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   const AddMeasurementPage({super.key});
@@ -53,8 +54,11 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
       );
 
       measurements.add(measurement);
-
-      setState(() => _isLoading = false);
+      setState(() {
+        currentUser!['waist'] = double.parse(_waistController.text);
+        currentUser!['weight'] = double.parse(_weightController.text);
+        _isLoading = false;
+      });
 
       if (context.mounted) {
         // ignore: use_build_context_synchronously

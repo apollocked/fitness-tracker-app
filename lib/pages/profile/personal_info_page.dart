@@ -8,6 +8,7 @@ class PersonalInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final age = currentUser?['age'] ?? 'N/A';
+    final waist = currentUser?['waist'] ?? 'N/A';
     final weight = currentUser?['weight'] ?? 'N/A';
     final height = currentUser?['height'] ?? 'N/A';
     final gender = currentUser?['gender'] ?? 'N/A';
@@ -26,9 +27,11 @@ class PersonalInfoPage extends StatelessWidget {
             const Divider(),
             _buildInfoTile('Age', '$age years', Icons.cake),
             const Divider(),
+            _buildInfoTile('Height', '$height cm', Icons.height),
+            const Divider(),
             _buildInfoTile('Weight', '$weight kg', Icons.monitor_weight),
             const Divider(),
-            _buildInfoTile('Height', '$height cm', Icons.height),
+            _buildInfoTile('Waist', '$waist cm', Icons.straighten),
             const Divider(),
             _buildInfoTile('Gender', gender, Icons.wc),
           ]),
