@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/authentication/register_page.dart';
+import 'package:myapp/pages/HomePage/home_page.dart';
 import 'package:myapp/utils/user_data.dart';
 
 void main() {
@@ -11,6 +11,7 @@ class FitApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //uses a default user if i editing without logging in
     currentUser ??= users[0];
 
     return MaterialApp(
@@ -20,6 +21,6 @@ class FitApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           useMaterial3: true,
         ),
-        home: const RegisterPage());
+        home: const HomePage());
   }
 }

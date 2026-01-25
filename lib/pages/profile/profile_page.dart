@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Profile/help_support_page.dart';
+import 'package:myapp/pages/Profile/logout_dialog.dart';
 import 'package:myapp/pages/Profile/personal_info_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
@@ -68,6 +69,13 @@ class ProfilePage extends StatelessWidget {
               _buildListTile(
                   Icons.info_outline, 'About', 'App information', () {}),
             ]),
+            const SizedBox(height: 16),
+            _buildProfileCard(context, [
+              _buildListTile(
+                  Icons.logout, 'Logout', 'Sign out from your account', () {
+                LogoutDialog.show(context);
+              }, isLogout: true),
+            ]),
             const SizedBox(height: 32),
           ],
         ),
@@ -97,11 +105,15 @@ class ProfilePage extends StatelessWidget {
     IconData icon,
     String title,
     String subtitle,
-    VoidCallback onTap,
-  ) {
+    VoidCallback onTap, {
+    bool isLogout = false,
+  }) {
     return ListTile(
-      leading: Icon(icon, color: Colors.blue),
-      title: Text(title),
+      leading: Icon(icon, color: isLogout ? Colors.red : Colors.blue),
+      title: Text(
+        title,
+        style: TextStyle(color: isLogout ? Colors.red : Colors.black),
+      ),
       subtitle: Text(subtitle),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
