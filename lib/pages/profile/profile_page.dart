@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/pages/Profile/help_support_page.dart';
 import 'package:myapp/pages/Profile/personal_info_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
@@ -40,50 +41,32 @@ class ProfilePage extends StatelessWidget {
               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
             const SizedBox(height: 32),
-
-            // Personal Information Card
-
-            const SizedBox(height: 16),
-
-            // Settings Card
             _buildProfileCard(context, [
               _buildListTile(Icons.person, 'Personal Info', 'View your info',
                   () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PersonalInfoPage(),
-                    ));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PersonalInfoPage()),
+                );
               }),
               _buildListTile(
-                Icons.flag,
-                'Goals',
-                'Set your fitness goals',
-                () {},
-              ),
-              _buildListTile(
-                Icons.notifications,
-                'Reminders',
-                'Manage notifications',
-                () {},
-              ),
+                  Icons.flag, 'Goals', 'Set your fitness goals', () {}),
+              _buildListTile(Icons.notifications, 'Reminders',
+                  'Manage notifications', () {}),
             ]),
             const SizedBox(height: 16),
-
-            // Support Card
             _buildProfileCard(context, [
               _buildListTile(
-                Icons.help_outline,
-                'Help & Support',
-                'Get assistance',
-                () {},
-              ),
+                  Icons.help_outline, 'Help & Support', 'Get assistance', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HelpAndSupportPage()),
+                );
+              }),
               _buildListTile(
-                Icons.info_outline,
-                'About',
-                'App information',
-                () {},
-              ),
+                  Icons.info_outline, 'About', 'App information', () {}),
             ]),
             const SizedBox(height: 32),
           ],
