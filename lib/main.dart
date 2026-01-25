@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/HomePage/home_page.dart';
+import 'package:myapp/pages/authentication/login_page.dart';
 
 void main() {
   runApp(const FitApp());
@@ -17,9 +18,7 @@ class FitApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      // Change this to StartPage() if you want to show the start page first
-      // Or use HomePage() to go directly to the main app
-      home: const HomePage(),
+      home: LoginPage(),
     );
   }
 }
