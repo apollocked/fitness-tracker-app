@@ -41,7 +41,7 @@ class CustomTextfeild extends StatelessWidget {
         errorStyle: const TextStyle(fontSize: 15),
         focusedBorder: OutlineInputBorder(
           borderSide:
-              BorderSide(color: blackColor, style: BorderStyle.solid, width: 2),
+              BorderSide(color: color, style: BorderStyle.solid, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
         enabled: true,

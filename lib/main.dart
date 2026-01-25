@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/HomePage/home_page.dart';
+import 'package:myapp/pages/authentication/register_page.dart';
 import 'package:myapp/utils/user_data.dart';
 
 void main() {
@@ -11,15 +11,15 @@ class FitApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    currentUser = users[0];
+    currentUser ??= users[0];
+
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Fitness Measurement App",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: "Fitness Measurement App",
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          useMaterial3: true,
+        ),
+        home: const RegisterPage());
   }
 }

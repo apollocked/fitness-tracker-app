@@ -6,10 +6,16 @@ import 'package:myapp/pages/authentication/login_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   String? username;
   String? email;
   String? password;
@@ -17,9 +23,18 @@ class RegisterPage extends StatelessWidget {
   String? weight;
   String? height;
   String gender = "Male";
+
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+
+  @override
+  void dispose() {
+    _ageController.dispose();
+    _weightController.dispose();
+    _heightController.dispose();
+    super.dispose();
+  }
 
   void register(BuildContext context) {
     if (!_formKey.currentState!.validate()) {
@@ -40,22 +55,24 @@ class RegisterPage extends StatelessWidget {
       return;
     }
 
-    // Create new user
+    // Create new user with all data
     final newUser = {
       "id": DateTime.now().millisecondsSinceEpoch.toString(),
       "username": username,
       "email": email,
       "password": password,
-      "age": int.tryParse(age ?? "0"),
-      "weight": double.tryParse(weight ?? "0"),
-      "height": double.tryParse(height ?? "0"),
+      "age": int.tryParse(_ageController.text) ?? 0,
+      "weight": double.tryParse(_weightController.text) ?? 0.0,
+      "height": double.tryParse(_heightController.text) ?? 0.0,
       "gender": gender,
+      "waist": 0.0,
       "createdAt": DateTime.now().toIso8601String(),
       "isBodybuilder": false,
       "caloriesGoal": 2000,
     };
 
     users.add(newUser);
+    currentUser = newUser;
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -105,7 +122,6 @@ class RegisterPage extends StatelessWidget {
                     color: primaryColor,
                   ),
                 ),
-
                 const SizedBox(height: 2),
                 Text(
                   "Start your fitness journey today",
@@ -153,9 +169,7 @@ class RegisterPage extends StatelessWidget {
                       CustomTextfeild(
                         icon: const Icon(Icons.email_outlined),
                         color: primaryColor,
-                        onSaved: (value) {
-                          email = value;
-                        },
+                        onSaved: (value) => email = value,
                         text: "Email",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -177,9 +191,7 @@ class RegisterPage extends StatelessWidget {
                       CustomTextfeild(
                         icon: const Icon(Icons.lock_outline),
                         color: primaryColor,
-                        onSaved: (value) {
-                          password = value;
-                        },
+                        onSaved: (value) => password = value,
                         text: "Password",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -207,42 +219,38 @@ class RegisterPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
 
-                      // Age, Weight, Height Row
+                      // Age
+                      CustomTextfeild(
+                        controller: _ageController,
+                        isObscure: false,
+                        keyboard: TextInputType.number,
+                        icon: const Icon(Icons.cake),
+                        color: primaryColor,
+                        onSaved: (value) {},
+                        text: 'Age (years)',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your age';
+                          }
+                          if (int.tryParse(value) == null) {
+                            return 'Please enter a valid number';
+                          }
+                          return null;
+                        },
+                        input: FilteringTextInputFormatter.digitsOnly,
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Weight & Height Row
                       Row(
                         children: [
                           Expanded(
-                            child: // Age Input
-                                CustomTextfeild(
-                              controller: _ageController,
-                              isObscure: false,
-                              keyboard: TextInputType.number,
-                              icon: const Icon(Icons.cake),
-                              color: redColor,
-                              onSaved: (value) {},
-                              text: 'Age (years)',
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your age';
-                                }
-                                if (int.tryParse(value) == null) {
-                                  return 'Please enter a valid number';
-                                }
-                                return null;
-                              },
-                              input: FilteringTextInputFormatter.digitsOnly,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child:
-
-                                // Weight Input
-                                CustomTextfeild(
+                            child: CustomTextfeild(
                               controller: _weightController,
                               isObscure: false,
                               keyboard: TextInputType.number,
                               icon: const Icon(Icons.monitor_weight),
-                              color: redColor,
+                              color: primaryColor,
                               onSaved: (value) {},
                               text: 'Weight (kg)',
                               validator: (value) {
@@ -265,7 +273,7 @@ class RegisterPage extends StatelessWidget {
                               isObscure: false,
                               keyboard: TextInputType.number,
                               icon: const Icon(Icons.height),
-                              color: redColor,
+                              color: primaryColor,
                               text: 'Height (cm)',
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -284,33 +292,12 @@ class RegisterPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      CustomTextfeild(
-                          text: "Height (cm)",
-                          isObscure: false,
-                          color: primaryColor,
-                          icon: const Icon(Icons.height_outlined),
-                          onSaved: (value) => height = value,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Height is required";
-                            }
-                            if (double.tryParse(value) == null ||
-                                double.parse(value) <= 0) {
-                              return "Enter a valid height";
-                            }
-                            return null;
-                          },
-                          keyboard: TextInputType.number,
-                          input: FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d*\.?\d*'))),
-                      const SizedBox(height: 16),
 
                       // Gender Selection
                       const Text(
                         "Gender",
                         style: TextStyle(fontSize: 14),
                       ),
-
                       SizedBox(
                         child: CustomGenderRatio(
                           color: primaryColor,
@@ -320,7 +307,6 @@ class RegisterPage extends StatelessWidget {
                           },
                         ),
                       ),
-
                       const SizedBox(height: 30),
 
                       // Register Button
@@ -365,9 +351,10 @@ class RegisterPage extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: const Text(
+                            child: Text(
                               "Login",
                               style: TextStyle(
+                                color: primaryColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),

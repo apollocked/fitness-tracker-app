@@ -8,15 +8,17 @@ class PersonalInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final age = currentUser?['age'] ?? 'N/A';
-    final waist = currentUser?['waist'] ?? 'N/A';
+    final waist = (currentUser?['waist'] == 0 || currentUser?['waist'] == null)
+        ? 'N/A'
+        : currentUser?['waist'];
     final weight = currentUser?['weight'] ?? 'N/A';
     final height = currentUser?['height'] ?? 'N/A';
     final gender = currentUser?['gender'] ?? 'N/A';
+
     return Scaffold(
-        appBar:
-            customAppBarr('Personal Information', Colors.blue, Colors.white),
-        body: // Personal Information Card
-            Column(children: [
+      appBar: customAppBarr('Personal Information', Colors.blue, Colors.white),
+      body: Column(
+        children: [
           const SizedBox(height: 32),
           _buildProfileCard(context, [
             _buildInfoTile(
@@ -33,9 +35,11 @@ class PersonalInfoPage extends StatelessWidget {
             const Divider(),
             _buildInfoTile('Waist', '$waist cm', Icons.straighten),
             const Divider(),
-            _buildInfoTile('Gender', gender, Icons.wc),
+            _buildInfoTile('Gender', '$gender', Icons.wc),
           ]),
-        ]));
+        ],
+      ),
+    );
   }
 }
 
