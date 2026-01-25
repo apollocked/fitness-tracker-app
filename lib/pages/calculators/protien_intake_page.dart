@@ -5,7 +5,8 @@ import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/select_workout_type.dart';
 import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/data.dart';
+
+import 'package:myapp/utils/user_data.dart';
 
 class ProtienIntakePage extends StatefulWidget {
   const ProtienIntakePage({super.key});

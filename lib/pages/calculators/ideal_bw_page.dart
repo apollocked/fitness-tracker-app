@@ -6,7 +6,7 @@ import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/Custom_Widgets/weight_diffrence.dart';
 import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/data.dart';
+import 'package:myapp/utils/user_data.dart';
 
 class IdealBodyWeightPage extends StatefulWidget {
   const IdealBodyWeightPage({super.key});
