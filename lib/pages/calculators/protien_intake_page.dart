@@ -23,6 +23,7 @@ double normalProteinIntake = 0.0;
 class _ProtienIntakePageState extends State<ProtienIntakePage> {
   @override
   Widget build(BuildContext context) {
+    var user = currentUser!;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: customAppBarr(

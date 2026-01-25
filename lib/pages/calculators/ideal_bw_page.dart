@@ -25,6 +25,7 @@ String gender = "Male";
 class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
   @override
   Widget build(BuildContext context) {
+    var user = currentUser!;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: customAppBarr(

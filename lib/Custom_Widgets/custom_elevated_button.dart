@@ -6,9 +6,10 @@ class CustomElevatedButton extends StatelessWidget {
       {super.key,
       required this.onpressed,
       required this.text,
-      required Color color});
+      required this.color});
   dynamic text;
   dynamic onpressed;
+  Color color;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -16,7 +17,7 @@ class CustomElevatedButton extends StatelessWidget {
             backgroundColor: backgroundColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
-                side: BorderSide(color: primaryColor, width: 1)),
+                side: BorderSide(color: color, width: 1)),
             minimumSize: const Size(70, 35)),
         onPressed: onpressed,
         child: Text(

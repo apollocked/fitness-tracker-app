@@ -14,6 +14,7 @@ class CustomBodyTypeRatio extends StatefulWidget {
 class _CustomBodyTypeRatio extends State<CustomBodyTypeRatio> {
   @override
   Widget build(BuildContext context) {
+    var user = currentUser!;
     return Column(
       children: [
         RadioListTile<String>(

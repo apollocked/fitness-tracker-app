@@ -11,6 +11,8 @@ List<Map<String, dynamic>> users = [
     "weight": 72.0,
     "height": 170.0,
     "gender": "Male",
+    "isBodybuilder": false,
+    "caloriesGoal": 2500,
     "createdAt": "2026-01-23",
   },
   {
@@ -22,6 +24,8 @@ List<Map<String, dynamic>> users = [
     "weight": 75.0,
     "height": 175.0,
     "gender": "Male",
+    "isBodybuilder": false,
+    "caloriesGoal": 2500,
     "createdAt": "2025-01-20",
   },
   {
@@ -33,15 +37,11 @@ List<Map<String, dynamic>> users = [
     "weight": 65.0,
     "height": 165.0,
     "gender": "Female",
+    "isBodybuilder": false,
+    "caloriesGoal": 2500,
     "createdAt": "2025-01-21",
   },
 ];
-Map<String, dynamic> user = {
-  "height": 0.0,
-  "weight": 0.0,
-  "gender": "Male",
-  "isBodybuilder": false
-};
 
 // Store measurements per user
 Map<String, List<Map<String, dynamic>>> userMeasurements = {

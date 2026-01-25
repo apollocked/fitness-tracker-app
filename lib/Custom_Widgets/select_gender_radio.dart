@@ -16,6 +16,7 @@ class CustomGenderRatio extends StatefulWidget {
 class _CustomRatioState extends State<CustomGenderRatio> {
   @override
   Widget build(BuildContext context) {
+    var user = currentUser!;
     return Column(
       children: [
         RadioListTile<String>(
