@@ -11,6 +11,7 @@ List<Map<String, dynamic>> users = [
     "weight": 72.0,
     "height": 170.0,
     "gender": "Male",
+    "waist": 80.0,
     "isBodybuilder": false,
     "caloriesGoal": 2500,
     "createdAt": "2026-01-23",
@@ -23,6 +24,7 @@ List<Map<String, dynamic>> users = [
     "age": 25,
     "weight": 75.0,
     "height": 175.0,
+    "waist": 80.0,
     "gender": "Male",
     "isBodybuilder": false,
     "caloriesGoal": 2500,
@@ -35,6 +37,7 @@ List<Map<String, dynamic>> users = [
     "password": "password123",
     "age": 28,
     "weight": 65.0,
+    "waist": 80.0,
     "height": 165.0,
     "gender": "Female",
     "isBodybuilder": false,
@@ -43,39 +46,6 @@ List<Map<String, dynamic>> users = [
   },
 ];
 
-// Store measurements per user
-Map<String, List<Map<String, dynamic>>> userMeasurements = {
-  "1": [
-    {
-      "date": "2025-01-20T10:00:00.000",
-      "weight": 75.0,
-      "waist": 80.0,
-    },
-  ],
-  "2": [
-    {
-      "date": "2025-01-21T10:00:00.000",
-      "weight": 65.0,
-      "waist": 70.0,
-    },
-  ],
-};
-
 // Get current user's measurements
-List<Map<String, dynamic>> getCurrentUserMeasurements() {
-  if (currentUser == null) return [];
-  String userId = currentUser!['id'];
-  return userMeasurements[userId] ?? [];
-}
 
 // Add measurement for current user
-void addMeasurementForCurrentUser(Map<String, dynamic> measurement) {
-  if (currentUser == null) return;
-  String userId = currentUser!['id'];
-
-  if (userMeasurements[userId] == null) {
-    userMeasurements[userId] = [];
-  }
-
-  userMeasurements[userId]!.add(measurement);
-}

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/models/measurement_model.dart';
+import 'package:myapp/pages/Calculators/add_measurement_page.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/user_data.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -13,21 +14,33 @@ class ProgressPage extends StatefulWidget {
 class _ProgressPageState extends State<ProgressPage> {
   @override
   Widget build(BuildContext context) {
-    if (currentUser == null) {
-      return Scaffold(
-        appBar: customAppBarr('Progress', primaryColor, backgroundColor),
-        body: const Center(child: Text('No user logged in')),
-      );
-    }
-
-    final measurements = getCurrentUserMeasurements();
-
     return Scaffold(
       appBar: customAppBarr('Progress', primaryColor, backgroundColor),
-      body: measurements.isEmpty
-          ? _buildEmptyState()
-          : _buildMeasurementsList(measurements),
+      body:
+          measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),
+      floatingActionButton: measurements.isNotEmpty
+          ? ElevatedButton.icon(
+              onPressed: _navigateToAddMeasurement,
+              icon: const Icon(Icons.add),
+              label: const Text('Add Measurement'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                iconColor: backgroundColor,
+                foregroundColor: backgroundColor,
+              ),
+            )
+          : null,
     );
+  }
+
+  void _navigateToAddMeasurement() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddMeasurementPage()),
+    );
+    if (result == true) {
+      setState(() {});
+    }
   }
 
   Widget _buildEmptyState() {
@@ -35,39 +48,38 @@ class _ProgressPageState extends State<ProgressPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.show_chart,
-            size: 80,
-            color: Colors.grey[400],
-          ),
+          Icon(Icons.show_chart, size: 80, color: primaryColor),
           const SizedBox(height: 16),
-          Text(
-            'No measurements yet',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey[600],
-            ),
-          ),
+          Text('No measurements yet',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey[600])),
           const SizedBox(height: 8),
-          Text(
-            'Add your first measurement to see progress',
-            style: TextStyle(color: Colors.grey[500]),
+          Text('Add your first measurement to see progress',
+              style: TextStyle(color: Colors.grey[500])),
+          const SizedBox(height: 32),
+          ElevatedButton.icon(
+            onPressed: _navigateToAddMeasurement,
+            icon: const Icon(Icons.add),
+            label: const Text('Add Measurement'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryColor,
+              iconColor: backgroundColor,
+              foregroundColor: backgroundColor,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMeasurementsList(List<Map<String, dynamic>> measurements) {
+  Widget _buildMeasurementsList() {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: measurements.length,
       itemBuilder: (context, index) {
-        final measurement = measurements[index];
-        final date = DateTime.parse(measurement['date']);
-        final formattedDate = '${date.day}/${date.month}/${date.year}';
-
+        final m = measurements[measurements.length - 1 - index];
         return Card(
           margin: const EdgeInsets.only(bottom: 16),
           child: Padding(
@@ -79,28 +91,44 @@ class _ProgressPageState extends State<ProgressPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      formattedDate,
+                      '${m.date.day}/${m.date.month}/${m.date.year}',
                       style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                          fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Icon(Icons.calendar_today, color: Colors.blue[300]),
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _deleteMeasurement(index),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                _buildMeasurementRow(
-                  'Weight',
-                  '${measurement['weight']} kg',
-                  Icons.monitor_weight,
-                ),
-                const SizedBox(height: 12),
-                _buildMeasurementRow(
-                  'Waist',
-                  '${measurement['waist']} cm',
-                  Icons.straighten,
-                ),
-                const SizedBox(height: 12),
+                const Divider(),
+                if (m.weight != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Weight:', style: TextStyle(fontSize: 14)),
+                        Text('${m.weight} kg',
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue)),
+                      ],
+                    ),
+                  ),
+                if (m.waist != null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Waist:', style: TextStyle(fontSize: 14)),
+                      Text('${m.waist} cm',
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue)),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -109,29 +137,27 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  Widget _buildMeasurementRow(String label, String value, IconData icon) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Icon(icon, size: 20, color: Colors.blue),
-            const SizedBox(width: 12),
-            Text(
-              label,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
+  void _deleteMeasurement(int index) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Measurement?'),
+        content:
+            const Text('Are you sure you want to delete this measurement?'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel')),
+          TextButton(
+            onPressed: () {
+              setState(
+                  () => measurements.removeAt(measurements.length - 1 - index));
+              Navigator.pop(context);
+            },
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
