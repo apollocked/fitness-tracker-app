@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/Custom_Widgets/support_contact_widget.dart';
 import 'package:myapp/utils/colors.dart';
 
 class HelpAndSupportPage extends StatelessWidget {
@@ -25,7 +26,7 @@ class HelpAndSupportPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             _buildFeatureCard(
-              icon: Icons.show_chart,
+              icon: Icons.calculate,
               title: 'Daily Calorie Calculator',
               description:
                   'Calculate your daily calorie needs based on your age, weight, height, gender, and activity level.',
@@ -100,6 +101,11 @@ class HelpAndSupportPage extends StatelessWidget {
                 'Build muscle effectively with proper nutrition',
                 'Optimize your diet based on fitness goals',
               ],
+            ),
+            const SizedBox(height: 32),
+            const SupportContactWidget(
+              email: 'support@fitnessapp.com',
+              title: 'Need Help?',
             ),
             const SizedBox(height: 32),
           ],

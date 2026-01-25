@@ -25,23 +25,22 @@ class ProfilePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
             CircleAvatar(
               radius: 60,
               backgroundColor: Colors.blue[100],
               child: const Icon(Icons.person, size: 60, color: Colors.blue),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             Text(
               user['username'] ?? 'User Profile',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
             Text(
               user['email'] ?? '',
               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 20),
             _buildProfileCard(context, [
               _buildListTile(Icons.person, 'Personal Info', 'View your info',
                   () {
@@ -56,7 +55,7 @@ class ProfilePage extends StatelessWidget {
               _buildListTile(Icons.notifications, 'Reminders',
                   'Manage notifications', () {}),
             ]),
-            const SizedBox(height: 16),
+            const SizedBox(height: 5),
             _buildProfileCard(context, [
               _buildListTile(
                   Icons.help_outline, 'Help & Support', 'Get assistance', () {
@@ -69,7 +68,7 @@ class ProfilePage extends StatelessWidget {
               _buildListTile(
                   Icons.info_outline, 'About', 'App information', () {}),
             ]),
-            const SizedBox(height: 16),
+            const SizedBox(height: 5),
             _buildProfileCard(context, [
               _buildListTile(
                   Icons.logout, 'Logout', 'Sign out from your account', () {
