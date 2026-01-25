@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
@@ -52,7 +53,12 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     ),
                     Text('Select Your Gender',
                         style: TextStyle(color: secondColor, fontSize: 16)),
-                    CustomGenderRatio(color: primaryColor),
+                    CustomGenderRatio(
+                      color: primaryColor,
+                      onGenderChanged: (value) {
+                        gender = value;
+                      },
+                    ),
                     const SizedBox(
                       height: 15,
                     ),
@@ -62,7 +68,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                       color: primaryColor,
                       onSaved: (value) {
                         user["height"] = double.parse(value!);
-                        user["gender"] == "Male"
+                        currentUser?["gender"] == "Male"
                             ? idealBodyWeight =
                                 50 + (0.91 * (user["height"] - 152.4))
                             : idealBodyWeight =
@@ -79,11 +85,15 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                         return null;
                       },
                       icon: const Icon(Icons.height),
+                      input: FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d*\.?\d*')),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     CustomTextfeild(
+                      input: FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d*\.?\d*')),
                       isObscure: false,
                       keyboard: TextInputType.number,
                       color: primaryColor,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
 import 'package:myapp/pages/HomePage/home_page.dart';
@@ -100,44 +101,51 @@ class LoginPage extends StatelessWidget {
                     children: [
                       // Email Field
                       CustomTextfeild(
-                          icon: const Icon(Icons.email_outlined),
-                          color: Colors.blue,
-                          onSaved: (value) {
-                            email = value;
-                          },
-                          text: "Email",
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Email is required";
-                            }
-                            if (!value.contains('@')) {
-                              return "Enter a valid email";
-                            }
-                            return null;
-                          },
-                          isObscure: false,
-                          keyboard: TextInputType.emailAddress),
+                        icon: const Icon(Icons.email_outlined),
+                        color: Colors.blue,
+                        onSaved: (value) {
+                          email = value;
+                        },
+                        text: "Email",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Email is required";
+                          }
+                          if (!value.contains('@')) {
+                            return "Enter a valid email";
+                          }
+                          return null;
+                        },
+                        isObscure: false,
+                        keyboard: TextInputType.emailAddress,
+                        input: FilteringTextInputFormatter.allow(
+                            RegExp(r'[a-zA-Z0-9@._\-]')),
+                      ),
                       const SizedBox(height: 16),
 
                       // Password Field
+
                       CustomTextfeild(
-                          icon: const Icon(Icons.lock_outline),
-                          color: Colors.blue,
-                          onSaved: (value) {
-                            password = value;
-                          },
-                          text: "Password",
-                          isObscure: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Password is required";
-                            }
-                            if (value.length < 6) {
-                              return "Password must be at least 6 characters";
-                            }
-                            return null;
-                          },
-                          keyboard: TextInputType.text),
+                        icon: const Icon(Icons.lock_outline),
+                        color: Colors.blue,
+                        onSaved: (value) {
+                          password = value;
+                        },
+                        text: "Password",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Password is required";
+                          }
+                          if (value.length < 6) {
+                            return "Password must be at least 6 characters";
+                          }
+                          return null;
+                        },
+                        isObscure: true,
+                        keyboard: TextInputType.text,
+                        input: FilteringTextInputFormatter.allow(
+                            RegExp(r'[a-zA-Z0-9@._\-]')),
+                      ),
                       const SizedBox(height: 30),
 
                       // Login Button
@@ -174,7 +182,6 @@ class LoginPage extends StatelessWidget {
                             style: TextStyle(color: Colors.grey[600]),
                           ),
                           TextButton(
-                            autofocus: true,
                             onPressed: () {
                               Navigator.pushReplacement(
                                 context,

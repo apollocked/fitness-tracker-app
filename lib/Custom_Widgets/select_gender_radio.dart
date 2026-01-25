@@ -8,26 +8,40 @@ class CustomGenderRatio extends StatefulWidget {
   CustomGenderRatio({
     super.key,
     required this.color,
+    required this.onGenderChanged,
+    this.initialGender = "Male",
   });
   Color color;
+  Function(String) onGenderChanged;
+  String initialGender;
+
   @override
   State<CustomGenderRatio> createState() => _CustomRatioState();
 }
 
 class _CustomRatioState extends State<CustomGenderRatio> {
+  late String selectedGender;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedGender = widget.initialGender;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var user = currentUser!;
     return Column(
       children: [
         RadioListTile<String>(
-          fillColor: WidgetStatePropertyAll((widget.color)),
+          fillColor: WidgetStatePropertyAll(widget.color),
           title: Text("Male", style: TextStyle(color: blackColor)),
           value: "Male",
-          groupValue: user["gender"],
+          groupValue: selectedGender,
           onChanged: (value) {
             setState(() {
-              user["gender"] = "Male";
+              currentUser!["gender"] = "Male";
+              selectedGender = "Male";
+              widget.onGenderChanged("Male");
             });
           },
         ),
@@ -38,10 +52,12 @@ class _CustomRatioState extends State<CustomGenderRatio> {
             style: TextStyle(color: blackColor),
           ),
           value: "Female",
-          groupValue: user["gender"],
+          groupValue: selectedGender,
           onChanged: (value) {
             setState(() {
-              user["gender"] = "Female";
+              currentUser!["gender"] = "Female";
+              selectedGender = "Female";
+              widget.onGenderChanged("Female");
             });
           },
         ),

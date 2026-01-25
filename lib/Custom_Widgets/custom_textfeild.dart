@@ -11,7 +11,9 @@ class CustomTextfeild extends StatelessWidget {
       required this.onSaved,
       required this.text,
       required this.validator,
-      required this.isObscure});
+      required this.isObscure,
+      this.input,
+      this.controller});
   TextInputType keyboard;
   dynamic validator;
   dynamic onSaved;
@@ -19,16 +21,19 @@ class CustomTextfeild extends StatelessWidget {
   Color color;
   Icon icon;
   bool isObscure;
+  TextInputFormatter? input;
+  TextEditingController? controller;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       obscureText: isObscure,
       validator: validator,
       onSaved: onSaved,
       keyboardType: keyboard,
-      inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
-      ],
+      enabled: true,
+      inputFormatters: input != null ? [input!] : [],
       style: TextStyle(color: color),
       decoration: InputDecoration(
         prefixIcon: icon,

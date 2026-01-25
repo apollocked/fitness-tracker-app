@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
@@ -77,6 +78,8 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                         return null;
                       },
                       icon: const Icon(Icons.monitor_weight),
+                      input: FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d*\.?\d*')),
                     ),
                     const SizedBox(
                       height: 25,

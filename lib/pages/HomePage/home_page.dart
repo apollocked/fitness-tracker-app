@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Calculators/ideal_bw_page.dart';
 import 'package:myapp/pages/Calculators/protien_intake_page.dart';
-import 'package:myapp/pages/Calculators/daily_calorie_page.dart';
+import 'package:myapp/pages/DailyCalorie/daily_calorie_page.dart';
 import 'package:myapp/pages/Calculators/add_measurement_page.dart';
 import 'package:myapp/pages/progress/progress_page.dart';
 import 'package:myapp/pages/Profile/profile_page.dart';

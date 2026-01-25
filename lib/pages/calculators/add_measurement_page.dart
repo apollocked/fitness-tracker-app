@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
@@ -90,11 +91,11 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                       },
                       isObscure: false,
                       keyboard: TextInputType.number,
+                      input: FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d*\.?\d*')),
                     ),
                     const SizedBox(height: 16),
                     CustomTextfeild(
-                      isObscure: false,
-                      keyboard: TextInputType.number,
                       icon: const Icon(Icons.straighten),
                       color: blackColor,
                       onSaved: (value) {},
@@ -102,6 +103,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                       validator: (value) {
                         return null;
                       },
+                      isObscure: false,
+                      keyboard: TextInputType.number,
+                      input: FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d*\.?\d*')),
                     ),
                     const SizedBox(height: 16),
                     const SizedBox(height: 50),
