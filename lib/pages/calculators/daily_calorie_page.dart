@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
+import 'package:myapp/Custom_Widgets/custom_textfeild.dart'
+    show CustomTextfeild;
 import 'package:myapp/utils/colors.dart';
 
 class DailyCaloriePage extends StatefulWidget {
@@ -133,18 +136,11 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               const SizedBox(height: 16),
 
               // Age Input
-              TextFormField(
-                controller: _ageController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Age (years)',
-                  prefixIcon: const Icon(Icons.cake),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[50],
-                ),
+              CustomTextfeild(
+                icon: const Icon(Icons.cake),
+                color: blackColor,
+                onSaved: (value) {},
+                text: 'Age (years)',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your age';
@@ -158,18 +154,11 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               const SizedBox(height: 16),
 
               // Weight Input
-              TextFormField(
-                controller: _weightController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Weight (kg)',
-                  prefixIcon: const Icon(Icons.monitor_weight),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[50],
-                ),
+              CustomTextfeild(
+                icon: const Icon(Icons.monitor_weight),
+                color: blackColor,
+                onSaved: (value) {},
+                text: 'Weight (kg)',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your weight';
@@ -182,19 +171,10 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               ),
               const SizedBox(height: 16),
 
-              // Height Input
-              TextFormField(
-                controller: _heightController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Height (cm)',
-                  prefixIcon: const Icon(Icons.height),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[50],
-                ),
+              CustomTextfeild(
+                icon: const Icon(Icons.height),
+                color: blackColor,
+                text: 'Height (cm)',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your height';
@@ -204,6 +184,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                   }
                   return null;
                 },
+                onSaved: (value) {},
               ),
               const SizedBox(height: 16),
 
@@ -260,19 +241,10 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               SizedBox(
                 width: double.infinity,
                 height: 50,
-                child: ElevatedButton(
-                  onPressed: _calculateCalories,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'Calculate',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+                child: CustomElevatedButton(
+                  onpressed: _calculateCalories,
+                  text: "Calculate",
+                  color: redColor,
                 ),
               ),
               const SizedBox(height: 32),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
+import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/utils/colors.dart';
 
 class AddMeasurementPage extends StatefulWidget {
@@ -78,61 +80,38 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                       style: TextStyle(color: secondColor),
                     ),
                     const SizedBox(height: 24),
-                    _buildTextField(
-                      controller: _weightController,
-                      label: 'Weight (kg)',
-                      icon: Icons.monitor_weight,
+                    CustomTextfeild(
+                      icon: const Icon(Icons.monitor_weight),
+                      color: blackColor,
+                      onSaved: (value) {},
+                      text: 'Weight (kg)',
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 16),
-                    _buildTextField(
-                      controller: _waistController,
-                      label: 'Waist (cm)',
-                      icon: Icons.straighten,
+                    CustomTextfeild(
+                      icon: const Icon(Icons.straighten),
+                      color: blackColor,
+                      onSaved: (value) {},
+                      text: 'Waist Circumference (cm)',
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 16),
                     const SizedBox(height: 50),
                     SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: _saveMeasurement,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: greenColor,
-                          foregroundColor: backgroundColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: const Text(
-                          'Save Measurement',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ),
+                        width: double.infinity,
+                        height: 50,
+                        child: CustomElevatedButton(
+                            onpressed: _saveMeasurement,
+                            text: 'Save Measurement',
+                            color: greenColor)),
                   ],
                 ),
               ),
             ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-  }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        filled: true,
-        fillColor: Colors.grey[50],
-      ),
     );
   }
 }

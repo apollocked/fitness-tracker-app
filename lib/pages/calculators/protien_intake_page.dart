@@ -29,7 +29,7 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
       appBar: customAppBarr(
           "Potien Intake Calculator", orangeColor, backgroundColor),
       body: Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,43 +56,48 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                       height: 15,
                     ),
                     CustomTextfeild(
-                        color: orangeColor,
-                        hintText: "Enter your Weight in KG",
-                        onSaved: (value) {
-                          user["weight"] = double.parse(value!);
-                          if (user["isBodybuilder"] == false) {
-                            normalProteinIntake = 0.8 * user["weight"];
-                          } else {
-                            highistProtienIntake = 2.0 * user["weight"];
+                      color: orangeColor,
+                      onSaved: (value) {
+                        user["weight"] = double.parse(value!);
+                        if (user["isBodybuilder"] == false) {
+                          normalProteinIntake = 0.8 * user["weight (kg)"];
+                        } else {
+                          highistProtienIntake = 2.0 * user["weight (kg)"];
 
-                            loweistProtienIntake = 1.2 * user["weight"];
-                          }
-                        },
-                        text: "Weight ",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Enter your weight please";
-                          }
-                          return null;
-                        }),
-                    const SizedBox(
-                      height: 15,
+                          loweistProtienIntake = 1.2 * user["weight (kg)"];
+                        }
+                      },
+                      text: "Weight ",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Enter your weight please";
+                        }
+                        return null;
+                      },
+                      icon: const Icon(Icons.monitor_weight),
                     ),
-                    CustomElevatedButton(
-                        onpressed: () {
-                          setState(() {
-                            form2.currentState?.validate();
-                            form2.currentState?.save();
-                            normalProteinIntake =
-                                (normalProteinIntake * 100).round() / 100;
-                            highistProtienIntake =
-                                (highistProtienIntake * 100).round() / 100;
-                            loweistProtienIntake =
-                                (loweistProtienIntake * 100).round() / 100;
-                          });
-                        },
-                        text: "OK",
-                        color: orangeColor),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: CustomElevatedButton(
+                          onpressed: () {
+                            setState(() {
+                              form2.currentState?.validate();
+                              form2.currentState?.save();
+                              normalProteinIntake =
+                                  (normalProteinIntake * 100).round() / 100;
+                              highistProtienIntake =
+                                  (highistProtienIntake * 100).round() / 100;
+                              loweistProtienIntake =
+                                  (loweistProtienIntake * 100).round() / 100;
+                            });
+                          },
+                          text: "OK",
+                          color: orangeColor),
+                    ),
                     const SizedBox(
                       height: 35,
                     ),

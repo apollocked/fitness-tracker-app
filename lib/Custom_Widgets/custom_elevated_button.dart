@@ -7,6 +7,7 @@ class CustomElevatedButton extends StatelessWidget {
       required this.onpressed,
       required this.text,
       required this.color});
+
   dynamic text;
   dynamic onpressed;
   Color color;
@@ -14,15 +15,32 @@ class CustomElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                side: BorderSide(color: color, width: 1)),
-            minimumSize: const Size(70, 35)),
+          backgroundColor: color,
+          foregroundColor: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
         onPressed: onpressed,
         child: Text(
-          "OK",
-          style: TextStyle(color: secondColor),
+          text.toString(),
+          style: const TextStyle(
+            fontSize: 18,
+          ),
         ));
   }
 }
+// ElevatedButton(
+//                         onPressed: _saveMeasurement,
+//                         style: ElevatedButton.styleFrom(
+//                           backgroundColor: greenColor,
+//                           foregroundColor: backgroundColor,
+//                           shape: RoundedRectangleBorder(
+//                             borderRadius: BorderRadius.circular(12),
+//                           ),
+//                         ),
+//                         child: const Text(
+//                           'Save Measurement',
+//                           style: TextStyle(fontSize: 18),
+//                         ),
+//                       ),

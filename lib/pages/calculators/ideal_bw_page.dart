@@ -31,7 +31,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
       appBar: customAppBarr(
           "Ideal Body Weight Calculator", primaryColor, backgroundColor),
       body: Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -58,7 +58,6 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     ),
                     CustomTextfeild(
                       color: primaryColor,
-                      hintText: "Enter your Height in CM",
                       onSaved: (value) {
                         user["height"] = double.parse(value!);
                         user["gender"] == "Male"
@@ -77,40 +76,46 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                         }
                         return null;
                       },
+                      icon: const Icon(Icons.height),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     CustomTextfeild(
-                        color: primaryColor,
-                        hintText: "Enter your Weight in KG",
-                        onSaved: (value) {
-                          user["weight"] = double.parse(value!);
-                        },
-                        text: "Weight ",
-                        validator: (value) {
-                          if (idealBodyWeight < 0) {
-                            return "Enter the correct data please";
-                          }
-                          if (value == null || value.isEmpty) {
-                            return "Enter your weight please";
-                          }
-                          return null;
-                        }),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    CustomElevatedButton(
-                      onpressed: () {
-                        setState(() {
-                          form1.currentState?.validate();
-                          form1.currentState?.save();
-                          idealBodyWeight =
-                              (idealBodyWeight * 100).round() / 100;
-                        });
-                      },
-                      text: "OK",
                       color: primaryColor,
+                      onSaved: (value) {
+                        user["weight"] = double.parse(value!);
+                      },
+                      text: "Weight ",
+                      validator: (value) {
+                        if (idealBodyWeight < 0) {
+                          return "Enter the correct data please";
+                        }
+                        if (value == null || value.isEmpty) {
+                          return "Enter your weight please";
+                        }
+                        return null;
+                      },
+                      icon: const Icon(Icons.monitor_weight),
+                    ),
+                    const SizedBox(
+                      height: 22,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: CustomElevatedButton(
+                        onpressed: () {
+                          setState(() {
+                            form1.currentState?.validate();
+                            form1.currentState?.save();
+                            idealBodyWeight =
+                                (idealBodyWeight * 100).round() / 100;
+                          });
+                        },
+                        text: "OK",
+                        color: primaryColor,
+                      ),
                     ),
                     const SizedBox(
                       height: 35,
