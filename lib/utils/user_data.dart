@@ -3,6 +3,17 @@ Map<String, dynamic>? currentUser;
 
 List<Map<String, dynamic>> users = [
   {
+    "id": "72",
+    "username": "apollo",
+    "email": "hama@",
+    "password": "aaaaaaaa",
+    "age": 24,
+    "weight": 72.0,
+    "height": 170.0,
+    "gender": "Male",
+    "createdAt": "2026-01-23",
+  },
+  {
     "id": "1",
     "username": "john_doe",
     "email": "john@fitness.com",

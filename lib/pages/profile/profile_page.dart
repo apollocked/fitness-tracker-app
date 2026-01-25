@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/pages/Profile/personal_info_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
@@ -16,10 +17,6 @@ class ProfilePage extends StatelessWidget {
     }
 
     final user = currentUser!;
-    final age = user['age'] ?? 'N/A';
-    final weight = user['weight'] ?? 'N/A';
-    final height = user['height'] ?? 'N/A';
-    final gender = user['gender'] ?? 'N/A';
 
     return Scaffold(
       appBar: customAppBarr('Profile', primaryColor, backgroundColor),
@@ -45,25 +42,19 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 32),
 
             // Personal Information Card
-            _buildProfileCard(context, [
-              _buildInfoTile('Age', '$age years', Icons.cake),
-              const Divider(),
-              _buildInfoTile('Weight', '$weight kg', Icons.monitor_weight),
-              const Divider(),
-              _buildInfoTile('Height', '$height cm', Icons.height),
-              const Divider(),
-              _buildInfoTile('Gender', gender, Icons.wc),
-            ]),
+
             const SizedBox(height: 16),
 
             // Settings Card
             _buildProfileCard(context, [
-              _buildListTile(
-                Icons.person,
-                'Personal Info',
-                'Edit your details',
-                () {},
-              ),
+              _buildListTile(Icons.person, 'Personal Info', 'View your info',
+                  () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PersonalInfoPage(),
+                    ));
+              }),
               _buildListTile(
                 Icons.flag,
                 'Goals',
@@ -116,32 +107,6 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
       child: Column(children: children),
-    );
-  }
-
-  Widget _buildInfoTile(String label, String value, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: Colors.blue),
-              const SizedBox(width: 12),
-              Text(
-                label,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
     );
   }
 
