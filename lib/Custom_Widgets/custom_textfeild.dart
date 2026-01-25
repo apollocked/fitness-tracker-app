@@ -28,6 +28,7 @@ class CustomTextfeild extends StatelessWidget {
       style: TextStyle(color: color),
       decoration: InputDecoration(
         prefixIcon: icon,
+        prefixIconColor: color,
         errorStyle: const TextStyle(fontSize: 15),
         focusedBorder: OutlineInputBorder(
           borderSide:

@@ -5,10 +5,11 @@ import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class CustomGenderRatio extends StatefulWidget {
-  const CustomGenderRatio({
+  CustomGenderRatio({
     super.key,
+    required this.color,
   });
-
+  Color color;
   @override
   State<CustomGenderRatio> createState() => _CustomRatioState();
 }
@@ -20,8 +21,8 @@ class _CustomRatioState extends State<CustomGenderRatio> {
     return Column(
       children: [
         RadioListTile<String>(
-          fillColor: WidgetStatePropertyAll(secondColor),
-          title: Text("Male", style: TextStyle(color: primaryColor)),
+          fillColor: WidgetStatePropertyAll((widget.color)),
+          title: Text("Male", style: TextStyle(color: blackColor)),
           value: "Male",
           groupValue: user["gender"],
           onChanged: (value) {
@@ -31,10 +32,10 @@ class _CustomRatioState extends State<CustomGenderRatio> {
           },
         ),
         RadioListTile<String>(
-          fillColor: WidgetStatePropertyAll(secondColor),
+          fillColor: WidgetStatePropertyAll(widget.color),
           title: Text(
             "Female",
-            style: TextStyle(color: primaryColor),
+            style: TextStyle(color: blackColor),
           ),
           value: "Female",
           groupValue: user["gender"],

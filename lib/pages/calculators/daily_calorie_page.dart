@@ -3,6 +3,7 @@ import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart'
     show CustomTextfeild;
+import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/utils/colors.dart';
 
 class DailyCaloriePage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
 
+  // ignore: prefer_final_fields
   String _gender = 'Male';
   String _activityLevel = 'Sedentary';
   double? _bmr;
@@ -103,42 +105,12 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: RadioListTile<String>(
-                      title: const Text('Male'),
-                      value: 'Male',
-                      groupValue: _gender,
-                      onChanged: (value) {
-                        setState(() {
-                          _gender = value!;
-                        });
-                      },
-                      activeColor: redColor,
-                    ),
-                  ),
-                  Expanded(
-                    child: RadioListTile<String>(
-                      title: const Text('Female'),
-                      value: 'Female',
-                      groupValue: _gender,
-                      onChanged: (value) {
-                        setState(() {
-                          _gender = value!;
-                        });
-                      },
-                      activeColor: redColor,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
+              CustomGenderRatio(color: redColor),
 
               // Age Input
               CustomTextfeild(
                 icon: const Icon(Icons.cake),
-                color: blackColor,
+                color: redColor,
                 onSaved: (value) {},
                 text: 'Age (years)',
                 validator: (value) {
@@ -156,7 +128,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               // Weight Input
               CustomTextfeild(
                 icon: const Icon(Icons.monitor_weight),
-                color: blackColor,
+                color: redColor,
                 onSaved: (value) {},
                 text: 'Weight (kg)',
                 validator: (value) {
@@ -173,7 +145,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
 
               CustomTextfeild(
                 icon: const Icon(Icons.height),
-                color: blackColor,
+                color: redColor,
                 text: 'Height (cm)',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
