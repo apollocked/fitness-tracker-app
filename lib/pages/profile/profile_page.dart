@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/pages/Profile/about_page.dart';
 import 'package:myapp/pages/Profile/help_support_page.dart';
 import 'package:myapp/pages/Profile/logout_dialog.dart';
 import 'package:myapp/pages/Profile/personal_info_page.dart';
@@ -65,8 +66,13 @@ class ProfilePage extends StatelessWidget {
                       builder: (context) => const HelpAndSupportPage()),
                 );
               }),
-              _buildListTile(
-                  Icons.info_outline, 'About', 'App information', () {}),
+              _buildListTile(Icons.info_outline, 'About', 'App information',
+                  () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutPage()),
+                );
+              }),
             ]),
             const SizedBox(height: 5),
             _buildProfileCard(context, [
