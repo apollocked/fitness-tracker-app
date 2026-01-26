@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
-import 'package:myapp/Custom_Widgets/daily_calories_dialog.dart';
 import 'package:myapp/Custom_Widgets/daily_calorie_input_section.dart';
+import 'package:myapp/Custom_Widgets/daily_calories_dialog.dart';
 
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
