@@ -21,6 +21,16 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   final TextEditingController _heightController = TextEditingController();
 
   String _activityLevel = 'Sedentary';
+  String _gender = 'Male';
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with current user's gender if available
+    if (currentUser != null && currentUser!["gender"] != null) {
+      _gender = currentUser!["gender"];
+    }
+  }
 
   @override
   void dispose() {
@@ -36,7 +46,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
       final weight = double.parse(_weightController.text);
       final height = double.parse(_heightController.text);
 
-      double bmr = currentUser!["gender"] == 'Male'
+      double bmr = _gender == 'Male'
           ? (10 * weight) + (6.25 * height) - (5 * age) + 5
           : (10 * weight) + (6.25 * height) - (5 * age) - 161;
 
@@ -82,8 +92,10 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                 weightController: _weightController,
                 heightController: _heightController,
                 activityLevel: _activityLevel,
+                gender: _gender,
                 onActivityChanged: (value) =>
                     setState(() => _activityLevel = value),
+                onGenderChanged: (value) => setState(() => _gender = value),
               ),
               const SizedBox(height: 32),
               SizedBox(

@@ -63,12 +63,12 @@ class _RegisterPageState extends State<RegisterPage> {
     final newUser = {
       "id": DateTime.now().millisecondsSinceEpoch.toString(),
       "username": username,
-      "email": email?.toLowerCase(), // Store email in lowercase
+      "email": email?.toLowerCase(),
       "password": password,
       "age": int.tryParse(_ageController.text) ?? 0,
       "weight": double.tryParse(_weightController.text) ?? 0.0,
       "height": double.tryParse(_heightController.text) ?? 0.0,
-      "gender": gender, // Now properly set from the form
+      "gender": gender,
       "waist": 0.0,
       "createdAt": DateTime.now().toIso8601String(),
       "isBodybuilder": false,
@@ -88,7 +88,6 @@ class _RegisterPageState extends State<RegisterPage> {
           backgroundColor: Colors.green),
     );
 
-    // Navigate after a brief delay to show the success message
     await Future.delayed(const Duration(milliseconds: 500));
 
     if (mounted) {
@@ -148,7 +147,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (value == null || value.isEmpty) {
                             return "Email required";
                           }
-                          // Better email validation
                           final emailRegex =
                               RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                           if (!emailRegex.hasMatch(value)) {
@@ -195,16 +193,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   questionText: "Already have an account? ",
                   linkText: "Login",
                   onButtonPressed: () {
-                    _isLoading ? null : () => register(context);
+                    if (!_isLoading) register(context);
                   },
                   onLinkPressed: () {
-                    _isLoading
-                        ? null
-                        : () => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                            );
+                    if (!_isLoading) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    }
                   },
                 ),
                 if (_isLoading)

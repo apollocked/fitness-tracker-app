@@ -3,21 +3,24 @@ import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/user_data.dart';
 
 class DailyCalorieInputSection extends StatefulWidget {
   final TextEditingController ageController;
   final TextEditingController weightController;
   final TextEditingController heightController;
   final String activityLevel;
+  final String gender;
   final Function(String) onActivityChanged;
+  final Function(String) onGenderChanged;
 
   const DailyCalorieInputSection({
     required this.ageController,
     required this.weightController,
     required this.heightController,
     required this.activityLevel,
+    required this.gender,
     required this.onActivityChanged,
+    required this.onGenderChanged,
     super.key,
   });
 
@@ -37,7 +40,8 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
         const SizedBox(height: 8),
         CustomGenderRatio(
           color: redColor,
-          onGenderChanged: (value) => currentUser?["gender"] = value,
+          initialGender: widget.gender,
+          onGenderChanged: widget.onGenderChanged,
         ),
         const SizedBox(height: 16),
         CustomTextfeild(

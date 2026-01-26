@@ -45,7 +45,3 @@ List<Map<String, dynamic>> users = [
     "createdAt": "2025-01-21",
   },
 ];
-
-// Get current user's measurements
-
-// Add measurement for current user
