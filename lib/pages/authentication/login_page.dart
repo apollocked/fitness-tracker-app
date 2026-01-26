@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
+import 'package:myapp/pages/LayoutPage/layout_page.dart';
+import 'package:myapp/pages/authentication/authWidgets/auth_footer_widget.dart';
+import 'package:myapp/pages/authentication/authWidgets/auth_header_widget.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
-import 'package:myapp/pages/HomePage/layout_page.dart';
-import 'package:myapp/utils/assets.dart';
+
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
@@ -13,41 +15,28 @@ class LoginPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? email;
   String? password;
-  bool isValid = false;
 
   void login(BuildContext context) {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
+    if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
 
-    bool isLogin = false;
-    for (var user in users) {
-      if (user['email'] == email && user['password'] == password) {
-        currentUser = user;
-        isLogin = true;
-        break;
-      }
-    }
+    bool isLogin = users
+        .any((user) => user['email'] == email && user['password'] == password);
 
     if (!isLogin) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text(
-            "Invalid email or password",
-            textAlign: TextAlign.center,
-          ),
+          content:
+              Text("Invalid email or password", textAlign: TextAlign.center),
           backgroundColor: Colors.red,
         ),
       );
       return;
     }
 
+    currentUser = users.firstWhere((user) => user['email'] == email);
     Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const LayoutPage()),
-    );
+        context, MaterialPageRoute(builder: (context) => const LayoutPage()));
   }
 
   @override
@@ -57,44 +46,21 @@ class LoginPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                logoWidget,
-                const SizedBox(height: 30),
-
-                // Welcome Text
-                const Text(
-                  "Welcome Back!",
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Login to continue your fitness journey",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 40),
-
-                // Form
+                const AuthHeader(
+                    title: "Welcome Back!",
+                    subtitle: "Login to continue your fitness journey"),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      // Email Field
                       CustomTextfeild(
                         icon: const Icon(Icons.email_outlined),
                         color: primaryColor,
-                        onSaved: (value) {
-                          email = value;
-                        },
+                        onSaved: (value) => email = value,
                         text: "Email",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -111,15 +77,10 @@ class LoginPage extends StatelessWidget {
                             RegExp(r'[a-zA-Z0-9@._\-]')),
                       ),
                       const SizedBox(height: 16),
-
-                      // Password Field
-
                       CustomTextfeild(
                         icon: const Icon(Icons.lock_outline),
                         color: primaryColor,
-                        onSaved: (value) {
-                          password = value;
-                        },
+                        onSaved: (value) => password = value,
                         text: "Password",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -135,62 +96,18 @@ class LoginPage extends StatelessWidget {
                         input: FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z0-9@._\-]')),
                       ),
-                      const SizedBox(height: 30),
-
-                      // Login Button
-                      SizedBox(
-                        width: double.infinity,
-                        height: 55,
-                        child: ElevatedButton(
-                          onPressed: () => login(context),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 2,
-                          ),
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Sign Up Link
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account? ",
-                            style: TextStyle(color: Colors.grey[600]),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const RegisterPage(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
+                  ),
+                ),
+                AuthFooter(
+                  buttonText: "Login",
+                  questionText: "Don't have an account? ",
+                  linkText: "Sign Up",
+                  onButtonPressed: () => login(context),
+                  onLinkPressed: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterPage()),
                   ),
                 ),
               ],

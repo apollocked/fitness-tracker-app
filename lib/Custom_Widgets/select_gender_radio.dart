@@ -1,19 +1,17 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/user_data.dart';
 
 class CustomGenderRatio extends StatefulWidget {
-  CustomGenderRatio({
+  const CustomGenderRatio({
     super.key,
     required this.color,
     required this.onGenderChanged,
     this.initialGender = "Male",
   });
-  Color color;
-  Function(String) onGenderChanged;
-  String initialGender;
+
+  final Color color;
+  final Function(String) onGenderChanged;
+  final String initialGender;
 
   @override
   State<CustomGenderRatio> createState() => _CustomRatioState();
@@ -28,6 +26,13 @@ class _CustomRatioState extends State<CustomGenderRatio> {
     selectedGender = widget.initialGender;
   }
 
+  void _handleGenderChange(String gender) {
+    setState(() {
+      selectedGender = gender;
+    });
+    widget.onGenderChanged(gender);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,11 +43,9 @@ class _CustomRatioState extends State<CustomGenderRatio> {
           value: "Male",
           groupValue: selectedGender,
           onChanged: (value) {
-            setState(() {
-              currentUser!["gender"] = "Male";
-              selectedGender = "Male";
-              widget.onGenderChanged("Male");
-            });
+            if (value != null) {
+              _handleGenderChange(value);
+            }
           },
         ),
         RadioListTile<String>(
@@ -54,11 +57,9 @@ class _CustomRatioState extends State<CustomGenderRatio> {
           value: "Female",
           groupValue: selectedGender,
           onChanged: (value) {
-            setState(() {
-              currentUser!["gender"] = "Female";
-              selectedGender = "Female";
-              widget.onGenderChanged("Female");
-            });
+            if (value != null) {
+              _handleGenderChange(value);
+            }
           },
         ),
       ],
