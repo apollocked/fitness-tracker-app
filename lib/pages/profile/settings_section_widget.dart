@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 Widget buildSectionTitle(String title) {
   return Padding(
     padding: const EdgeInsets.only(left: 8, bottom: 12),
     child: Text(
       title,
-      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey),
+      style: TextStyle(
+          fontSize: 16, fontWeight: FontWeight.bold, color: getSubtitleColor()),
     ),
   );
 }
@@ -14,10 +16,15 @@ Widget buildSectionTitle(String title) {
 Widget buildCardSection(List<Widget> children) {
   return Container(
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: getCardColor(),
       borderRadius: BorderRadius.circular(12),
       boxShadow: [
-        BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5),
+        BoxShadow(
+            color: isDarkMode()
+                ? Colors.black.withOpacity(0.3)
+                : Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5),
       ],
     ),
     child: Column(children: children),
@@ -33,8 +40,12 @@ Widget buildListTile(
 }) {
   return ListTile(
     leading: Icon(icon, color: isDanger ? Colors.red : primaryColor),
-    title: Text(title, style: TextStyle(color: isDanger ? Colors.red : Colors.black)),
-    subtitle: Text(subtitle, style: const TextStyle(fontSize: 12)),
+    title: Text(title,
+        style: TextStyle(
+            color: isDanger ? Colors.red : getTextColor(),
+            fontWeight: FontWeight.w500)),
+    subtitle: Text(subtitle,
+        style: TextStyle(fontSize: 12, color: getSubtitleColor())),
     trailing: const Icon(Icons.chevron_right),
     onTap: onTap,
   );
@@ -49,8 +60,10 @@ Widget buildSwitchTile(
 ) {
   return ListTile(
     leading: Icon(icon, color: primaryColor),
-    title: Text(title),
-    subtitle: Text(subtitle, style: const TextStyle(fontSize: 12)),
-    trailing: Switch(value: value, onChanged: onChanged, activeColor: primaryColor),
+    title: Text(title, style: TextStyle(color: getTextColor())),
+    subtitle: Text(subtitle,
+        style: TextStyle(fontSize: 12, color: getSubtitleColor())),
+    trailing:
+        Switch(value: value, onChanged: onChanged, activeColor: primaryColor),
   );
 }

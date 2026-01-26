@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class CustomBodyTypeRatio extends StatefulWidget {
@@ -19,7 +20,7 @@ class _CustomBodyTypeRatio extends State<CustomBodyTypeRatio> {
       children: [
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(orangeColor),
-          title: Text("No", style: TextStyle(color: blackColor)),
+          title: Text("No", style: TextStyle(color: getTextColor())),
           value: false.toString(),
           groupValue: user["isBodybuilder"].toString(),
           onChanged: (value) {
@@ -32,7 +33,7 @@ class _CustomBodyTypeRatio extends State<CustomBodyTypeRatio> {
           fillColor: WidgetStatePropertyAll(orangeColor),
           title: Text(
             "Yes",
-            style: TextStyle(color: blackColor),
+            style: TextStyle(color: getTextColor()),
           ),
           value: true.toString(),
           groupValue: user["isBodybuilder"].toString(),

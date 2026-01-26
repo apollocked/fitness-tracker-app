@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class ProteinResultsDialog {
   static void showResults(
@@ -11,6 +12,7 @@ class ProteinResultsDialog {
     showDialog(
       context: context,
       builder: (context) => Dialog(
+        backgroundColor: getCardColor(),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: SingleChildScrollView(
           child: Padding(
@@ -28,12 +30,14 @@ class ProteinResultsDialog {
                       size: 48, color: Colors.orange),
                 ),
                 const SizedBox(height: 20),
-                const Text('Your Protein Intake',
-                    style:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                Text('Your Protein Intake',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: getTextColor())),
                 const SizedBox(height: 8),
                 Text(isBodybuilder ? 'Bodybuilder Plan' : 'Regular Plan',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+                    style: TextStyle(fontSize: 14, color: getSubtitleColor())),
                 const SizedBox(height: 24),
                 if (isBodybuilder) ...[
                   Container(
@@ -45,17 +49,19 @@ class ProteinResultsDialog {
                     ),
                     child: Column(
                       children: [
-                        const Text('Daily Protein Range',
-                            style: TextStyle(fontSize: 14, color: Colors.grey)),
+                        Text('Daily Protein Range',
+                            style: TextStyle(
+                                fontSize: 14, color: getSubtitleColor())),
                         const SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
                               children: [
-                                const Text('Minimum',
+                                Text('Minimum',
                                     style: TextStyle(
-                                        fontSize: 12, color: Colors.grey)),
+                                        fontSize: 12,
+                                        color: getSubtitleColor())),
                                 const SizedBox(height: 4),
                                 Text('${minProtein.toStringAsFixed(1)}g',
                                     style: const TextStyle(
@@ -66,12 +72,13 @@ class ProteinResultsDialog {
                             ),
                             Text('to',
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.grey[400])),
+                                    fontSize: 16, color: getSubtitleColor())),
                             Column(
                               children: [
-                                const Text('Maximum',
+                                Text('Maximum',
                                     style: TextStyle(
-                                        fontSize: 12, color: Colors.grey)),
+                                        fontSize: 12,
+                                        color: getSubtitleColor())),
                                 const SizedBox(height: 4),
                                 Text('${maxProtein.toStringAsFixed(1)}g',
                                     style: const TextStyle(
@@ -89,11 +96,13 @@ class ProteinResultsDialog {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                        color: Colors.blue[50],
+                        color: Colors.blue[isDarkMode() ? 900 : 50],
                         borderRadius: BorderRadius.circular(8)),
-                    child: const Text(
+                    child: Text(
                       '💪 As a bodybuilder, consume protein throughout the day for optimal muscle growth',
-                      style: TextStyle(fontSize: 12, color: Colors.blue),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.blue[isDarkMode() ? 300 : 600]),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -107,8 +116,9 @@ class ProteinResultsDialog {
                     ),
                     child: Column(
                       children: [
-                        const Text('Daily Protein Intake',
-                            style: TextStyle(fontSize: 14, color: Colors.grey)),
+                        Text('Daily Protein Intake',
+                            style: TextStyle(
+                                fontSize: 14, color: getSubtitleColor())),
                         const SizedBox(height: 12),
                         Text('${normalProtein.toStringAsFixed(1)}g',
                             style: const TextStyle(
@@ -122,11 +132,13 @@ class ProteinResultsDialog {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                        color: Colors.green[50],
+                        color: Colors.green[isDarkMode() ? 900 : 50],
                         borderRadius: BorderRadius.circular(8)),
-                    child: const Text(
+                    child: Text(
                       '✓ This is the recommended daily protein intake for a healthy lifestyle',
-                      style: TextStyle(fontSize: 12, color: Colors.green),
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.green[isDarkMode() ? 300 : 600]),
                       textAlign: TextAlign.center,
                     ),
                   ),

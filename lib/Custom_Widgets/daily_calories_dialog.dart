@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class DailyCaloriesResultsDialog {
   static void showResults(
@@ -9,6 +10,7 @@ class DailyCaloriesResultsDialog {
     showDialog(
       context: context,
       builder: (context) => Dialog(
+        backgroundColor: getCardColor(),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: SingleChildScrollView(
           child: Padding(
@@ -22,11 +24,15 @@ class DailyCaloriesResultsDialog {
                     color: Colors.red[100],
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Icon(Icons.local_fire_department, size: 48, color: Colors.red),
+                  child: const Icon(Icons.local_fire_department,
+                      size: 48, color: Colors.red),
                 ),
                 const SizedBox(height: 20),
-                const Text('Your Daily Calorie Needs',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                Text('Your Daily Calorie Needs',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: getTextColor())),
                 const SizedBox(height: 24),
                 Container(
                   padding: const EdgeInsets.all(20),
@@ -37,36 +43,57 @@ class DailyCaloriesResultsDialog {
                   ),
                   child: Column(
                     children: [
-                      const Text('Daily Calorie Intake',
-                          style: TextStyle(fontSize: 14, color: Colors.grey)),
+                      Text('Daily Calorie Intake',
+                          style: TextStyle(
+                              fontSize: 14, color: getSubtitleColor())),
                       const SizedBox(height: 12),
                       Text('${dailyCalories.toStringAsFixed(0)} cal/day',
-                          style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.red)),
+                          style: const TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red)),
                     ],
                   ),
                 ),
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(
+                      color: isDarkMode() ? Colors.grey[800] : Colors.grey[100],
+                      borderRadius: BorderRadius.circular(12)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         children: [
-                          const Text('BMR', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          Text('BMR',
+                              style: TextStyle(
+                                  fontSize: 12, color: getSubtitleColor())),
                           const SizedBox(height: 8),
                           Text('${bmr.toStringAsFixed(0)} cal/day',
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: getTextColor())),
                         ],
                       ),
-                      Container(width: 2, height: 50, color: Colors.grey[300]),
+                      Container(
+                          width: 2,
+                          height: 50,
+                          color: isDarkMode()
+                              ? Colors.grey[700]
+                              : Colors.grey[300]),
                       Column(
                         children: [
-                          const Text('Maintenance', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          Text('Maintenance',
+                              style: TextStyle(
+                                  fontSize: 12, color: getSubtitleColor())),
                           const SizedBox(height: 8),
                           Text('${dailyCalories.toStringAsFixed(0)} cal/day',
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red)),
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red)),
                         ],
                       ),
                     ],
@@ -75,17 +102,28 @@ class DailyCaloriesResultsDialog {
                 const SizedBox(height: 20),
                 Container(
                   padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(color: Colors.blue[50], borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(
+                      color: Colors.blue[isDarkMode() ? 900 : 50],
+                      borderRadius: BorderRadius.circular(8)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('💡 Weight Goals:',
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.blue)),
+                      Text('💡 Weight Goals:',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.blue[isDarkMode() ? 300 : 600])),
                       const SizedBox(height: 8),
-                      Text('• Weight Loss: ${(dailyCalories - 500).toStringAsFixed(0)} cal/day',
-                          style: const TextStyle(fontSize: 11, color: Colors.blue)),
-                      Text('• Weight Gain: ${(dailyCalories + 500).toStringAsFixed(0)} cal/day',
-                          style: const TextStyle(fontSize: 11, color: Colors.blue)),
+                      Text(
+                          '• Weight Loss: ${(dailyCalories - 500).toStringAsFixed(0)} cal/day',
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.blue[isDarkMode() ? 300 : 600])),
+                      Text(
+                          '• Weight Gain: ${(dailyCalories + 500).toStringAsFixed(0)} cal/day',
+                          style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.blue[isDarkMode() ? 300 : 600])),
                     ],
                   ),
                 ),
@@ -97,10 +135,14 @@ class DailyCaloriesResultsDialog {
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
                     ),
                     child: const Text('Got it!',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
                   ),
                 ),
               ],

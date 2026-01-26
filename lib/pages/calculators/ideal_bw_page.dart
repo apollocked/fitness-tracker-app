@@ -5,7 +5,7 @@ import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/Custom_Widgets/ideal_weight_dialog.dart';
-
+import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
 
@@ -52,9 +52,9 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: getBackgroundColor(),
       appBar: customAppBarr(
-          "Ideal Body Weight Calculator", blueColor, backgroundColor),
+          "Ideal Body Weight Calculator", blueColor, getBackgroundColor()),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
@@ -74,7 +74,8 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                   children: [
                     const SizedBox(height: 10),
                     Text('Select Your Gender',
-                        style: TextStyle(color: secondColor, fontSize: 16)),
+                        style:
+                            TextStyle(color: getSubtitleColor(), fontSize: 16)),
                     CustomGenderRatio(
                       color: blueColor,
                       initialGender: "Male",

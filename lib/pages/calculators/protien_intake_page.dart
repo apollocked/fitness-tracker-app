@@ -5,7 +5,7 @@ import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/protein_dialog.dart';
 import 'package:myapp/Custom_Widgets/select_workout_type.dart';
-
+import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
@@ -59,9 +59,9 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: getBackgroundColor(),
       appBar: customAppBarr(
-          "Protein Intake Calculator", orangeColor, backgroundColor),
+          "Protein Intake Calculator", orangeColor, getBackgroundColor()),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
@@ -78,8 +78,8 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                 child: Column(
                   children: [
                     const SizedBox(height: 10),
-                    const Text('Are You a BodyBuilder ?',
-                        style: TextStyle(fontSize: 16)),
+                    Text('Are You a BodyBuilder ?',
+                        style: TextStyle(fontSize: 16, color: getTextColor())),
                     const CustomBodyTypeRatio(),
                     const SizedBox(height: 15),
                     CustomTextfeild(

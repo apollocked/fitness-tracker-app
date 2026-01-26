@@ -5,6 +5,7 @@ import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/models/measurement_model.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class AddMeasurementPage extends StatefulWidget {
@@ -55,8 +56,12 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
       measurements.add(measurement);
       setState(() {
-        currentUser!['waist'] = double.parse(_waistController.text);
-        currentUser!['weight'] = double.parse(_weightController.text);
+        if (_waistController.text.isNotEmpty) {
+          currentUser!['waist'] = double.parse(_waistController.text);
+        }
+        if (_weightController.text.isNotEmpty) {
+          currentUser!['weight'] = double.parse(_weightController.text);
+        }
         _isLoading = false;
       });
 
@@ -76,7 +81,9 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('Add Measurement', greenColor, backgroundColor),
+      appBar:
+          customAppBarr('Add Measurement', greenColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -86,12 +93,14 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Enter your measurements',
+                    Text('Enter your measurements',
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: getTextColor())),
                     const SizedBox(height: 8),
                     Text('Fill in at least one field',
-                        style: TextStyle(color: secondColor)),
+                        style: TextStyle(color: getSubtitleColor())),
                     const SizedBox(height: 24),
                     CustomTextfeild(
                       controller: _weightController,

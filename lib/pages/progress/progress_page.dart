@@ -3,6 +3,7 @@ import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/models/measurement_model.dart';
 import 'package:myapp/pages/Calculators/add_measurement_page.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -15,7 +16,8 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('Progress', primaryColor, backgroundColor),
+      appBar: customAppBarr('Progress', primaryColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(),
       body:
           measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),
       floatingActionButton: measurements.isNotEmpty
@@ -25,8 +27,8 @@ class _ProgressPageState extends State<ProgressPage> {
               label: const Text('Add Measurement'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryColor,
-                iconColor: backgroundColor,
-                foregroundColor: backgroundColor,
+                iconColor: getBackgroundColor(),
+                foregroundColor: getBackgroundColor(),
               ),
             )
           : null,
@@ -54,10 +56,10 @@ class _ProgressPageState extends State<ProgressPage> {
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: Colors.grey[600])),
+                  color: getTextColor())),
           const SizedBox(height: 8),
           Text('Add your first measurement to see progress',
-              style: TextStyle(color: Colors.grey[500])),
+              style: TextStyle(color: getSubtitleColor())),
           const SizedBox(height: 32),
           ElevatedButton.icon(
             onPressed: _navigateToAddMeasurement,
@@ -65,8 +67,8 @@ class _ProgressPageState extends State<ProgressPage> {
             label: const Text('Add Measurement'),
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
-              iconColor: backgroundColor,
-              foregroundColor: backgroundColor,
+              iconColor: getBackgroundColor(),
+              foregroundColor: getBackgroundColor(),
             ),
           ),
         ],
@@ -81,6 +83,7 @@ class _ProgressPageState extends State<ProgressPage> {
       itemBuilder: (context, index) {
         final m = measurements[measurements.length - 1 - index];
         return Card(
+          color: getCardColor(),
           margin: const EdgeInsets.only(bottom: 16),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -92,8 +95,10 @@ class _ProgressPageState extends State<ProgressPage> {
                   children: [
                     Text(
                       '${m.date.day}/${m.date.month}/${m.date.year}',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: getTextColor()),
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
@@ -108,7 +113,9 @@ class _ProgressPageState extends State<ProgressPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Weight:', style: TextStyle(fontSize: 14)),
+                        Text('Weight:',
+                            style:
+                                TextStyle(fontSize: 14, color: getTextColor())),
                         Text('${m.weight} kg',
                             style: const TextStyle(
                                 fontSize: 14,
@@ -121,7 +128,9 @@ class _ProgressPageState extends State<ProgressPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Waist:', style: TextStyle(fontSize: 14)),
+                      Text('Waist:',
+                          style:
+                              TextStyle(fontSize: 14, color: getTextColor())),
                       Text('${m.waist} cm',
                           style: const TextStyle(
                               fontSize: 14,
@@ -141,9 +150,11 @@ class _ProgressPageState extends State<ProgressPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Measurement?'),
-        content:
-            const Text('Are you sure you want to delete this measurement?'),
+        backgroundColor: getCardColor(),
+        title: Text('Delete Measurement?',
+            style: TextStyle(color: getTextColor())),
+        content: Text('Are you sure you want to delete this measurement?',
+            style: TextStyle(color: getTextColor())),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context),

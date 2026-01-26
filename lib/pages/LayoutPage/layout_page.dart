@@ -3,6 +3,7 @@ import 'package:myapp/pages/HomePage/home_page.dart';
 import 'package:myapp/pages/progress/progress_page.dart';
 import 'package:myapp/pages/Profile/profile_page.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class LayoutPage extends StatefulWidget {
   const LayoutPage({super.key});
@@ -25,9 +26,10 @@ class _HomePageState extends State<LayoutPage> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: getCardColor(),
         currentIndex: _selectedIndex,
         selectedItemColor: primaryColor,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: getSubtitleColor(),
         onTap: (index) {
           setState(() {
             _selectedIndex = index;

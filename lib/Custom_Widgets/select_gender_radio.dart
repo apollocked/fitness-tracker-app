@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class CustomGenderRatio extends StatefulWidget {
   const CustomGenderRatio({
@@ -39,7 +39,7 @@ class _CustomRatioState extends State<CustomGenderRatio> {
       children: [
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(widget.color),
-          title: Text("Male", style: TextStyle(color: blackColor)),
+          title: Text("Male", style: TextStyle(color: getTextColor())),
           value: "Male",
           groupValue: selectedGender,
           onChanged: (value) {
@@ -52,7 +52,7 @@ class _CustomRatioState extends State<CustomGenderRatio> {
           fillColor: WidgetStatePropertyAll(widget.color),
           title: Text(
             "Female",
-            style: TextStyle(color: blackColor),
+            style: TextStyle(color: getTextColor()),
           ),
           value: "Female",
           groupValue: selectedGender,

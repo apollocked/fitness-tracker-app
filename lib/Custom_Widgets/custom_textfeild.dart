@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class CustomTextfeild extends StatelessWidget {
   CustomTextfeild(
@@ -34,7 +34,7 @@ class CustomTextfeild extends StatelessWidget {
       keyboardType: keyboard,
       enabled: true,
       inputFormatters: input != null ? [input!] : [],
-      style: TextStyle(color: color),
+      style: TextStyle(color: getTextColor()),
       decoration: InputDecoration(
         prefixIcon: icon,
         prefixIconColor: color,
@@ -47,13 +47,15 @@ class CustomTextfeild extends StatelessWidget {
         enabled: true,
         border: OutlineInputBorder(
           borderSide: BorderSide(
-              color: secondColor, style: BorderStyle.solid, width: 1),
+              color: getSubtitleColor(), style: BorderStyle.solid, width: 1),
           borderRadius: BorderRadius.circular(5),
         ),
         label: Text(
           text,
-          style: TextStyle(color: blackColor),
+          style: TextStyle(color: getTextColor()),
         ),
+        fillColor: getCardColor(),
+        filled: true,
       ),
     );
   }

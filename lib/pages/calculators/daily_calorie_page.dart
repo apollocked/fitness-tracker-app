@@ -3,8 +3,8 @@ import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/daily_calorie_input_section.dart';
 import 'package:myapp/Custom_Widgets/daily_calories_dialog.dart';
-
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class DailyCaloriePage extends StatefulWidget {
@@ -72,8 +72,9 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          customAppBarr("Daily Calorie Calculator", redColor, backgroundColor),
+      appBar: customAppBarr(
+          "Daily Calorie Calculator", redColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -81,11 +82,14 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Calculate Your Daily Calorie Needs',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              Text('Calculate Your Daily Calorie Needs',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: getTextColor())),
               const SizedBox(height: 8),
               Text('Enter your details to calculate daily calorie requirements',
-                  style: TextStyle(color: Colors.grey[600])),
+                  style: TextStyle(color: getSubtitleColor())),
               const SizedBox(height: 24),
               DailyCalorieInputSection(
                 ageController: _ageController,

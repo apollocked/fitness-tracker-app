@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/support_contact_widget.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class HelpAndSupportPage extends StatelessWidget {
   const HelpAndSupportPage({super.key});
@@ -9,20 +10,25 @@ class HelpAndSupportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('Help & Support', primaryColor, backgroundColor),
+      appBar:
+          customAppBarr('Help & Support', primaryColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'About Our Features',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: getTextColor()),
             ),
             const SizedBox(height: 8),
             Text(
               'Learn how to use our fitness app features',
-              style: TextStyle(color: Colors.grey[600]),
+              style: TextStyle(color: getSubtitleColor()),
             ),
             const SizedBox(height: 24),
             _buildFeatureCard(
@@ -122,11 +128,13 @@ class HelpAndSupportPage extends StatelessWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: getCardColor(),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: isDarkMode()
+                ? Colors.black.withOpacity(0.3)
+                : Colors.grey.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 5,
           ),
@@ -143,9 +151,10 @@ class HelpAndSupportPage extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: getTextColor(),
                   ),
                 ),
               ),
@@ -154,12 +163,15 @@ class HelpAndSupportPage extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             description,
-            style: TextStyle(color: Colors.grey[700], fontSize: 14),
+            style: TextStyle(color: getSubtitleColor(), fontSize: 14),
           ),
           const SizedBox(height: 16),
-          const Text(
+          Text(
             'Why it\'s useful:',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                color: getTextColor()),
           ),
           const SizedBox(height: 8),
           ...benefits.map((benefit) => Padding(
@@ -173,7 +185,7 @@ class HelpAndSupportPage extends StatelessWidget {
                     Expanded(
                       child: Text(
                         benefit,
-                        style: TextStyle(color: Colors.grey[700]),
+                        style: TextStyle(color: getSubtitleColor()),
                       ),
                     ),
                   ],

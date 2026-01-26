@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Profile/settings_dialogs.dart';
 import 'package:myapp/pages/Profile/settings_section_widget.dart';
-
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/user_data.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -14,12 +15,20 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _notificationsEnabled = true;
-  final bool _darkModeEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (currentUser != null && currentUser!['darkMode'] != null) {
+      // Dark mode will be applied at app level
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('Settings', primaryColor, backgroundColor),
+      appBar: customAppBarr('Settings', primaryColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -54,11 +63,25 @@ class _SettingsPageState extends State<SettingsPage> {
             buildSectionTitle('Appearance'),
             buildCardSection([
               buildSwitchTile(
-                  Icons.dark_mode, 'Dark Mode', 'Coming soon', _darkModeEnabled,
-                  (value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Dark mode coming soon!')),
-                );
+                  Icons.dark_mode,
+                  'Dark Mode',
+                  'Toggle dark/light theme',
+                  currentUser!['darkMode'] ?? false, (value) {
+                setState(() {
+                  currentUser!['darkMode'] = value;
+                  // Update in users list
+                  final userIndex = users
+                      .indexWhere((user) => user['id'] == currentUser!['id']);
+                  if (userIndex != -1) {
+                    users[userIndex]['darkMode'] = value;
+                  }
+                });
+                // Rebuild the entire app to apply theme change
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  if (mounted) {
+                    setState(() {});
+                  }
+                });
               }),
             ]),
             const SizedBox(height: 24),

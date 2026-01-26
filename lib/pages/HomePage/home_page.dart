@@ -5,6 +5,7 @@ import 'package:myapp/pages/Calculators/daily_calorie_page.dart';
 import 'package:myapp/pages/Calculators/ideal_bw_page.dart';
 import 'package:myapp/pages/Calculators/protien_intake_page.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,21 +16,25 @@ class HomePage extends StatelessWidget {
       appBar: customAppBarr(
         'Home',
         primaryColor,
-        backgroundColor,
+        getBackgroundColor(),
       ),
+      backgroundColor: getBackgroundColor(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Welcome Back!',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: getTextColor()),
             ),
             const SizedBox(height: 8),
             Text(
               'Track your fitness journey',
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              style: TextStyle(fontSize: 16, color: getSubtitleColor()),
             ),
             const SizedBox(height: 24),
             Expanded(
@@ -45,7 +50,6 @@ class HomePage extends StatelessWidget {
                     Colors.blue,
                     'Calculate',
                     () {
-                      // Navigate to IdealBodyWeightPage
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -61,7 +65,6 @@ class HomePage extends StatelessWidget {
                     Colors.orange,
                     'Calculate',
                     () {
-                      // Navigate to ProteinIntakePage
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -77,7 +80,6 @@ class HomePage extends StatelessWidget {
                     greenColor,
                     'Track',
                     () {
-                      // Navigate to Add Measurement
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -93,7 +95,6 @@ class HomePage extends StatelessWidget {
                     Colors.red,
                     'Calculate',
                     () {
-                      // Navigate to Daily Calorie Page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -120,6 +121,7 @@ class HomePage extends StatelessWidget {
     VoidCallback onTap,
   ) {
     return Card(
+      color: getCardColor(),
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
@@ -135,8 +137,10 @@ class HomePage extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: getTextColor()),
               ),
               const SizedBox(height: 8),
               Text(

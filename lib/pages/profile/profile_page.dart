@@ -6,6 +6,7 @@ import 'package:myapp/pages/Profile/logout_dialog.dart';
 import 'package:myapp/pages/Profile/personal_info_page.dart';
 import 'package:myapp/pages/Profile/settings_page.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -20,75 +21,95 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     if (currentUser == null) {
       return Scaffold(
-        appBar: customAppBarr('Profile', primaryColor, backgroundColor),
-        body: const Center(child: Text('No user logged in')),
+        appBar: customAppBarr('Profile', primaryColor, getBackgroundColor()),
+        backgroundColor: getBackgroundColor(),
+        body: Center(
+            child: Text('No user logged in',
+                style: TextStyle(color: getTextColor()))),
       );
     }
 
-    return Scaffold(
-      appBar: customAppBarr('Profile', primaryColor, backgroundColor),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 60,
-              backgroundColor: primaryColor,
-              child: Icon(Icons.person, size: 60, color: backgroundColor),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              currentUser?['username'] ?? 'User Profile',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              currentUser?['email'] ?? 'Email',
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-            ),
-            const SizedBox(height: 20),
-            _buildProfileCard(context, [
-              _buildListTile(Icons.person, 'Personal Info', 'View your info',
-                  () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PersonalInfoPage()));
-              }),
-              _buildListTile(
-                  Icons.flag, 'Goals', 'Set your fitness goals', () {}),
-              _buildListTile(Icons.notifications, 'Reminders',
-                  'Manage notifications', () {}),
-            ]),
-            const SizedBox(height: 5),
-            _buildProfileCard(context, [
-              _buildListTile(Icons.settings, 'Settings', 'App preferences', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingsPage()));
-              }),
-              _buildListTile(
-                  Icons.help_outline, 'Help & Support', 'Get assistance', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HelpAndSupportPage()));
-              }),
-              _buildListTile(Icons.info_outline, 'About', 'App information',
-                  () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const AboutPage()));
-              }),
-            ]),
-            const SizedBox(height: 5),
-            _buildProfileCard(context, [
-              _buildListTile(
-                  Icons.logout, 'Logout', 'Sign out from your account', () {
-                LogoutDialog.show(context);
-              }, isLogout: true),
-            ]),
-            const SizedBox(height: 32),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        setState(() {});
+        return true;
+      },
+      child: Scaffold(
+        appBar: customAppBarr('Profile', primaryColor, getBackgroundColor()),
+        backgroundColor: getBackgroundColor(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              CircleAvatar(
+                radius: 60,
+                backgroundColor: primaryColor,
+                child:
+                    Icon(Icons.person, size: 60, color: getBackgroundColor()),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                currentUser?['username'] ?? 'User Profile',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: getTextColor()),
+              ),
+              Text(
+                currentUser?['email'] ?? 'Email',
+                style: TextStyle(fontSize: 14, color: getSubtitleColor()),
+              ),
+              const SizedBox(height: 20),
+              _buildProfileCard(context, [
+                _buildListTile(Icons.person, 'Personal Info', 'View your info',
+                    () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PersonalInfoPage()));
+                }),
+                _buildListTile(
+                    Icons.flag, 'Goals', 'Set your fitness goals', () {}),
+                _buildListTile(Icons.notifications, 'Reminders',
+                    'Manage notifications', () {}),
+              ]),
+              const SizedBox(height: 5),
+              _buildProfileCard(context, [
+                _buildListTile(Icons.settings, 'Settings', 'App preferences',
+                    () {
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SettingsPage()))
+                      .then((_) {
+                    setState(() {});
+                  });
+                }),
+                _buildListTile(
+                    Icons.help_outline, 'Help & Support', 'Get assistance', () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HelpAndSupportPage()));
+                }),
+                _buildListTile(Icons.info_outline, 'About', 'App information',
+                    () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AboutPage()));
+                }),
+              ]),
+              const SizedBox(height: 5),
+              _buildProfileCard(context, [
+                _buildListTile(
+                    Icons.logout, 'Logout', 'Sign out from your account', () {
+                  LogoutDialog.show(context);
+                }, isLogout: true),
+              ]),
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
     );
@@ -98,11 +119,13 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: getCardColor(),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: isDarkMode()
+                  ? Colors.black.withOpacity(0.3)
+                  : Colors.grey.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 5),
         ],
@@ -119,10 +142,12 @@ class _ProfilePageState extends State<ProfilePage> {
     bool isLogout = false,
   }) {
     return ListTile(
-      leading: Icon(icon, color: isLogout ? Colors.red : Colors.blue),
+      leading: Icon(icon, color: isLogout ? Colors.red : primaryColor),
       title: Text(title,
-          style: TextStyle(color: isLogout ? Colors.red : Colors.black)),
-      subtitle: Text(subtitle),
+          style: TextStyle(
+              color: isLogout ? Colors.red : getTextColor(),
+              fontWeight: FontWeight.w500)),
+      subtitle: Text(subtitle, style: TextStyle(color: getSubtitleColor())),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );

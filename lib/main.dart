@@ -6,21 +6,48 @@ void main() {
   runApp(const FitApp());
 }
 
-class FitApp extends StatelessWidget {
+class FitApp extends StatefulWidget {
   const FitApp({super.key});
+
+  // ignore: library_private_types_in_public_api
+  static _FitAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_FitAppState>();
+
+  @override
+  State<FitApp> createState() => _FitAppState();
+}
+
+class _FitAppState extends State<FitApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Use default user if editing without logging in
+    currentUser ??= users[0];
+    // Initialize dark mode
+    currentUser!['darkMode'] ??= false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    //uses a default user if i editing without logging in
-    currentUser ??= users[0];
+    final isDark = currentUser?['darkMode'] ?? false;
 
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Fitness Measurement App",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          useMaterial3: true,
-        ),
-        home: const LayoutPage());
+      debugShowCheckedModeBanner: false,
+      title: "Fitness Tracker",
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.grey[100],
+      ),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF121212),
+      ),
+      home: const LayoutPage(),
+    );
   }
 }

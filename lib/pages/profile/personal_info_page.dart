@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class PersonalInfoPage extends StatelessWidget {
@@ -17,8 +18,9 @@ class PersonalInfoPage extends StatelessWidget {
     final gender = currentUser?['gender'] ?? 'N/A';
 
     return Scaffold(
-      appBar:
-          customAppBarr('Personal Information', primaryColor, backgroundColor),
+      appBar: customAppBarr(
+          'Personal Information', primaryColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(),
       body: Column(
         children: [
           const SizedBox(height: 32),
@@ -48,10 +50,10 @@ class PersonalInfoPage extends StatelessWidget {
 Widget _buildInfoTile(String title, String value, IconData icon) {
   return ListTile(
     leading: Icon(icon, color: primaryColor),
-    title: Text(title),
+    title: Text(title, style: TextStyle(color: getTextColor())),
     trailing: Text(
       value,
-      style: const TextStyle(fontWeight: FontWeight.bold),
+      style: TextStyle(fontWeight: FontWeight.bold, color: getTextColor()),
     ),
   );
 }
@@ -60,11 +62,13 @@ Widget _buildProfileCard(BuildContext context, List<Widget> children) {
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 16),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: getCardColor(),
       borderRadius: BorderRadius.circular(12),
       boxShadow: [
         BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
+          color: isDarkMode()
+              ? Colors.black.withOpacity(0.3)
+              : Colors.grey.withOpacity(0.1),
           spreadRadius: 1,
           blurRadius: 5,
         ),

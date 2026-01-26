@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/authentication/login_page.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class LogoutDialog {
@@ -8,8 +9,10 @@ class LogoutDialog {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Logout'),
-          content: const Text('Are you sure you want to logout?'),
+          backgroundColor: getCardColor(),
+          title: Text('Logout', style: TextStyle(color: getTextColor())),
+          content: Text('Are you sure you want to logout?',
+              style: TextStyle(color: getTextColor())),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),

@@ -10,3 +10,9 @@ Color primaryColor = const Color.fromARGB(255, 114, 0, 245);
 Color blackColor = const Color(0xFF14213D);
 Color backgroundColor = Colors.white;
 Color greyColor = Colors.grey;
+
+// Dark mode colors
+const Color darkBg = Color(0xFF121212);
+const Color darkCard = Color(0xFF1E1E1E);
+const Color darkCardSecondary = Color(0xFF2A2A2A);
+const Color darkText = Color(0xFFE0E0E0);
