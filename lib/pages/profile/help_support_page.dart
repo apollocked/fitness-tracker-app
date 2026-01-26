@@ -138,7 +138,7 @@ class HelpAndSupportPage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, size: 32, color: Colors.blue),
+              Icon(icon, size: 32, color: primaryColor),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(

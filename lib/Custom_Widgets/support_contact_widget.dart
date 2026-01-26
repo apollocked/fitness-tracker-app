@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/colors.dart';
 
 class SupportContactWidget extends StatelessWidget {
   final String email;
@@ -16,9 +17,9 @@ class SupportContactWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.blue[50],
+        color: grey50Color,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue[200]!),
+        border: Border.all(color: primaryColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +36,7 @@ class SupportContactWidget extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.email, color: Colors.blue, size: 20),
+              Icon(Icons.email, color: primaryColor, size: 20),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -48,10 +49,10 @@ class SupportContactWidget extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       email,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: Colors.blue,
+                        color: primaryColor,
                       ),
                     ),
                   ],
