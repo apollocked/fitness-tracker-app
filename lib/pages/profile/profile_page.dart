@@ -4,12 +4,18 @@ import 'package:myapp/pages/Profile/about_page.dart';
 import 'package:myapp/pages/Profile/help_support_page.dart';
 import 'package:myapp/pages/Profile/logout_dialog.dart';
 import 'package:myapp/pages/Profile/personal_info_page.dart';
+import 'package:myapp/pages/Profile/settings_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     if (currentUser == null) {
@@ -18,8 +24,6 @@ class ProfilePage extends StatelessWidget {
         body: const Center(child: Text('No user logged in')),
       );
     }
-
-    final user = currentUser!;
 
     return Scaffold(
       appBar: customAppBarr('Profile', primaryColor, backgroundColor),
@@ -34,11 +38,11 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              user['username'] ?? 'User Profile',
+              currentUser?['username'] ?? 'User Profile',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Text(
-              user['email'] ?? '',
+              currentUser?['email'] ?? 'Email',
               style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
             const SizedBox(height: 20),
@@ -46,10 +50,9 @@ class ProfilePage extends StatelessWidget {
               _buildListTile(Icons.person, 'Personal Info', 'View your info',
                   () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PersonalInfoPage()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PersonalInfoPage()));
               }),
               _buildListTile(
                   Icons.flag, 'Goals', 'Set your fitness goals', () {}),
@@ -58,20 +61,23 @@ class ProfilePage extends StatelessWidget {
             ]),
             const SizedBox(height: 5),
             _buildProfileCard(context, [
+              _buildListTile(Icons.settings, 'Settings', 'App preferences', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsPage()));
+              }),
               _buildListTile(
                   Icons.help_outline, 'Help & Support', 'Get assistance', () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const HelpAndSupportPage()),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HelpAndSupportPage()));
               }),
               _buildListTile(Icons.info_outline, 'About', 'App information',
                   () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AboutPage()),
-                );
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AboutPage()));
               }),
             ]),
             const SizedBox(height: 5),
@@ -96,10 +102,9 @@ class ProfilePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 5,
-          ),
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 5),
         ],
       ),
       child: Column(children: children),
@@ -114,11 +119,9 @@ class ProfilePage extends StatelessWidget {
     bool isLogout = false,
   }) {
     return ListTile(
-      leading: Icon(icon, color: isLogout ? Colors.red : primaryColor),
-      title: Text(
-        title,
-        style: TextStyle(color: isLogout ? Colors.red : Colors.black),
-      ),
+      leading: Icon(icon, color: isLogout ? Colors.red : Colors.blue),
+      title: Text(title,
+          style: TextStyle(color: isLogout ? Colors.red : Colors.black)),
       subtitle: Text(subtitle),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,

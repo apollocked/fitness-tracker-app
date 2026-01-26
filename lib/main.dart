@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/authentication/register_page.dart';
+import 'package:myapp/pages/LayoutPage/layout_page.dart';
 import 'package:myapp/utils/user_data.dart';
 
 void main() {
@@ -21,6 +21,6 @@ class FitApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           useMaterial3: true,
         ),
-        home: const RegisterPage());
+        home: const LayoutPage());
   }
 }
