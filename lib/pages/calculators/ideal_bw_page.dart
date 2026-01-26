@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
-import 'package:myapp/Custom_Widgets/results_dialog.dart';
 import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
+import 'package:myapp/Custom_Widgets/ideal_weight_dialog.dart';
+
 import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
 
@@ -40,7 +41,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
 
       idealWeight = (idealWeight * 100).round() / 100;
 
-      ResultsDialog.showIdealWeightResults(
+      IdealWeightResultsDialog.showResults(
         context,
         idealWeight: idealWeight,
         currentWeight: currentWeight,
