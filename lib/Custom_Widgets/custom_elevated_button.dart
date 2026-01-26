@@ -30,17 +30,3 @@ class CustomElevatedButton extends StatelessWidget {
         ));
   }
 }
-// ElevatedButton(
-//                         onPressed: _saveMeasurement,
-//                         style: ElevatedButton.styleFrom(
-//                           backgroundColor: greenColor,
-//                           foregroundColor: backgroundColor,
-//                           shape: RoundedRectangleBorder(
-//                             borderRadius: BorderRadius.circular(12),
-//                           ),
-//                         ),
-//                         child: const Text(
-//                           'Save Measurement',
-//                           style: TextStyle(fontSize: 18),
-//                         ),
-//                       ),
