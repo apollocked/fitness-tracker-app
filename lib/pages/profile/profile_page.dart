@@ -29,8 +29,8 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 20),
             CircleAvatar(
               radius: 60,
-              backgroundColor: Colors.blue[100],
-              child: const Icon(Icons.person, size: 60, color: Colors.blue),
+              backgroundColor: primaryColor,
+              child: Icon(Icons.person, size: 60, color: backgroundColor),
             ),
             const SizedBox(height: 10),
             Text(
@@ -114,7 +114,7 @@ class ProfilePage extends StatelessWidget {
     bool isLogout = false,
   }) {
     return ListTile(
-      leading: Icon(icon, color: isLogout ? Colors.red : Colors.blue),
+      leading: Icon(icon, color: isLogout ? Colors.red : primaryColor),
       title: Text(
         title,
         style: TextStyle(color: isLogout ? Colors.red : Colors.black),

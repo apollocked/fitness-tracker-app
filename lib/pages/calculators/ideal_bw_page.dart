@@ -30,7 +30,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: customAppBarr(
-          "Ideal Body Weight Calculator", primaryColor, backgroundColor),
+          "Ideal Body Weight Calculator", blueColor, backgroundColor),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -54,7 +54,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     Text('Select Your Gender',
                         style: TextStyle(color: secondColor, fontSize: 16)),
                     CustomGenderRatio(
-                      color: primaryColor,
+                      color: blueColor,
                       onGenderChanged: (value) {
                         gender = value;
                       },
@@ -65,7 +65,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     CustomTextfeild(
                       isObscure: false,
                       keyboard: TextInputType.number,
-                      color: primaryColor,
+                      color: blueColor,
                       onSaved: (value) {
                         user["height"] = double.parse(value!);
                         currentUser?["gender"] == "Male"
@@ -96,7 +96,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                           RegExp(r'^\d*\.?\d*')),
                       isObscure: false,
                       keyboard: TextInputType.number,
-                      color: primaryColor,
+                      color: blueColor,
                       onSaved: (value) {
                         user["weight"] = double.parse(value!);
                       },
@@ -128,7 +128,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                           });
                         },
                         text: "OK",
-                        color: primaryColor,
+                        color: blueColor,
                       ),
                     ),
                     const SizedBox(
@@ -137,7 +137,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     idealBodyWeight > 0.0
                         ? Text(
                             " Your Ideal Body Weight is $idealBodyWeight KG",
-                            style: TextStyle(color: primaryColor, fontSize: 16),
+                            style: TextStyle(color: blueColor, fontSize: 16),
                           )
                         : Container(),
                     const SizedBox(
@@ -147,8 +147,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                         ? Center(
                             child: Text(
                               diffrence(user["weight"], idealBodyWeight),
-                              style:
-                                  TextStyle(color: primaryColor, fontSize: 16),
+                              style: TextStyle(color: blueColor, fontSize: 16),
                             ),
                           )
                         : Container(),

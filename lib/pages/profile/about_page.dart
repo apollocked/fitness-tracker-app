@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
 
 class AboutPage extends StatelessWidget {
@@ -15,20 +16,7 @@ class AboutPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 32),
-            Center(
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Icon(
-                  Icons.fitness_center,
-                  size: 60,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            Center(child: logoWidget),
             const SizedBox(height: 24),
             const Center(
               child: Text(

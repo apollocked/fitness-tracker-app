@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class PersonalInfoPage extends StatelessWidget {
@@ -16,7 +17,8 @@ class PersonalInfoPage extends StatelessWidget {
     final gender = currentUser?['gender'] ?? 'N/A';
 
     return Scaffold(
-      appBar: customAppBarr('Personal Information', Colors.blue, Colors.white),
+      appBar:
+          customAppBarr('Personal Information', primaryColor, backgroundColor),
       body: Column(
         children: [
           const SizedBox(height: 32),
@@ -45,7 +47,7 @@ class PersonalInfoPage extends StatelessWidget {
 
 Widget _buildInfoTile(String title, String value, IconData icon) {
   return ListTile(
-    leading: Icon(icon, color: Colors.blue),
+    leading: Icon(icon, color: primaryColor),
     title: Text(title),
     trailing: Text(
       value,

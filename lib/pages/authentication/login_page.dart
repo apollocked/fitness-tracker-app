@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
 import 'package:myapp/pages/HomePage/home_page.dart';
+import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
@@ -60,19 +61,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo/Icon
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.fitness_center,
-                    size: 60,
-                    color: Colors.white,
-                  ),
-                ),
+                logoWidget,
                 const SizedBox(height: 30),
 
                 // Welcome Text
@@ -102,7 +91,7 @@ class LoginPage extends StatelessWidget {
                       // Email Field
                       CustomTextfeild(
                         icon: const Icon(Icons.email_outlined),
-                        color: Colors.blue,
+                        color: primaryColor,
                         onSaved: (value) {
                           email = value;
                         },
@@ -127,7 +116,7 @@ class LoginPage extends StatelessWidget {
 
                       CustomTextfeild(
                         icon: const Icon(Icons.lock_outline),
-                        color: Colors.blue,
+                        color: primaryColor,
                         onSaved: (value) {
                           password = value;
                         },
@@ -155,7 +144,7 @@ class LoginPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () => login(context),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor: primaryColor,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
