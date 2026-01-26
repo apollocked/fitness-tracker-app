@@ -7,6 +7,7 @@ class LogoutDialog {
   static void show(BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: getCardColor(),

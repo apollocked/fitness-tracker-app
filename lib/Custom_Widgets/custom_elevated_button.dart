@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   CustomElevatedButton(
@@ -11,21 +11,24 @@ class CustomElevatedButton extends StatelessWidget {
   dynamic text;
   dynamic onpressed;
   Color color;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          foregroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
+          elevation: 4,
         ),
         onPressed: onpressed,
         child: Text(
           text.toString(),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: getTextColor(),
           ),
         ));
   }

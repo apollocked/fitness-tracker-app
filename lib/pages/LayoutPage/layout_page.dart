@@ -6,7 +6,9 @@ import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 
 class LayoutPage extends StatefulWidget {
-  const LayoutPage({super.key});
+  final Function(bool)? onThemeChanged;
+
+  const LayoutPage({super.key, this.onThemeChanged});
 
   @override
   State<LayoutPage> createState() => _HomePageState();

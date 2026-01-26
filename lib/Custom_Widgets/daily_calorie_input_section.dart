@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/dark_mode_helper.dart';
 
 class DailyCalorieInputSection extends StatefulWidget {
   final TextEditingController ageController;
@@ -35,8 +36,11 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Gender',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+        Text('Gender',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: getTextColor())),
         const SizedBox(height: 8),
         CustomGenderRatio(
           color: redColor,
@@ -98,13 +102,15 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: secondColor.withOpacity(0.1),
+            color: getCardDecorationColor(),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.grey[300]!),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: widget.activityLevel,
+              dropdownColor: getCardDecorationColor(),
+              style: TextStyle(color: getTextColor()),
               isExpanded: true,
               items: const [
                 DropdownMenuItem(

@@ -20,6 +20,10 @@ Color getSubtitleColor() {
   return isDarkMode() ? Colors.grey[400]! : Colors.grey[600]!;
 }
 
+Color getCardDecorationColor() {
+  return isDarkMode() ? Colors.grey[800]! : Colors.white;
+}
+
 BoxDecoration getCardDecoration() {
   return BoxDecoration(
     color: getCardColor(),

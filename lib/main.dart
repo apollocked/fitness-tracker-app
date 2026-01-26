@@ -18,6 +18,8 @@ class FitApp extends StatefulWidget {
 }
 
 class _FitAppState extends State<FitApp> {
+  late bool _isDarkMode;
+
   @override
   void initState() {
     super.initState();
@@ -25,16 +27,21 @@ class _FitAppState extends State<FitApp> {
     currentUser ??= users[0];
     // Initialize dark mode
     currentUser!['darkMode'] ??= false;
+    _isDarkMode = currentUser!['darkMode'] ?? false;
+  }
+
+  void _updateTheme(bool isDark) {
+    setState(() {
+      _isDarkMode = isDark;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = currentUser?['darkMode'] ?? false;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Fitness Tracker",
-      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
@@ -47,7 +54,7 @@ class _FitAppState extends State<FitApp> {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF121212),
       ),
-      home: const LayoutPage(),
+      home: LayoutPage(onThemeChanged: _updateTheme),
     );
   }
 }

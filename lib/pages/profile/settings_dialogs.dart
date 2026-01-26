@@ -188,6 +188,7 @@ class SettingsDialogs {
   static void showDeleteAccountDialog(BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: getCardColor(),
         title: Text('Delete Account', style: TextStyle(color: getTextColor())),
