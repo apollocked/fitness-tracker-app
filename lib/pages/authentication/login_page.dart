@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
-import 'package:myapp/pages/HomePage/home_page.dart';
+import 'package:myapp/pages/HomePage/layout_page.dart';
 import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
@@ -46,7 +46,7 @@ class LoginPage extends StatelessWidget {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const LayoutPage()),
     );
   }
 

@@ -1,63 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/pages/Calculators/add_measurement_page.dart';
+import 'package:myapp/pages/Calculators/daily_calorie_page.dart';
 import 'package:myapp/pages/Calculators/ideal_bw_page.dart';
 import 'package:myapp/pages/Calculators/protien_intake_page.dart';
-import 'package:myapp/pages/DailyCalorie/daily_calorie_page.dart';
-import 'package:myapp/pages/Calculators/add_measurement_page.dart';
-import 'package:myapp/pages/progress/progress_page.dart';
-import 'package:myapp/pages/Profile/profile_page.dart';
 import 'package:myapp/utils/colors.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    const DashboardPage(),
-    const ProgressPage(),
-    const ProfilePage(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: primaryColor,
-        unselectedItemColor: Colors.grey,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
-            label: 'Progress',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
