@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
+import 'package:myapp/Custom_Widgets/results_dialog.dart';
 import 'package:myapp/pages/DailyCalorie/daily_calorie_input_section.dart';
-import 'package:myapp/pages/DailyCalorie/daily_calorie_results_section.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
@@ -20,8 +20,6 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   final TextEditingController _heightController = TextEditingController();
 
   String _activityLevel = 'Sedentary';
-  double? _bmr;
-  double? _dailyCalories;
 
   @override
   void dispose() {
@@ -50,10 +48,13 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
         _ => 1.2,
       };
 
-      setState(() {
-        _bmr = bmr;
-        _dailyCalories = bmr * activityMultiplier;
-      });
+      double dailyCalories = bmr * activityMultiplier;
+
+      ResultsDialog.showDailyCaloriesResults(
+        context,
+        bmr: bmr,
+        dailyCalories: dailyCalories,
+      );
     }
   }
 
@@ -94,9 +95,6 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                 ),
               ),
               const SizedBox(height: 32),
-              if (_dailyCalories != null)
-                DailyCalorieResultsSection(
-                    bmr: _bmr!, dailyCalories: _dailyCalories!),
             ],
           ),
         ),

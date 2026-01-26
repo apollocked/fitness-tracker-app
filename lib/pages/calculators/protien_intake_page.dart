@@ -4,9 +4,9 @@ import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/select_workout_type.dart';
+import 'package:myapp/pages/calculators/protein_results_dialog.dart';
 import 'package:myapp/utils/assets.dart';
 import 'package:myapp/utils/colors.dart';
-
 import 'package:myapp/utils/user_data.dart';
 
 class ProtienIntakePage extends StatefulWidget {
@@ -16,21 +16,53 @@ class ProtienIntakePage extends StatefulWidget {
   State<ProtienIntakePage> createState() => _ProtienIntakePageState();
 }
 
-GlobalKey<FormState> form2 = GlobalKey<FormState>();
-double loweistProtienIntake = 0.0;
-double highistProtienIntake = 0.0;
-double normalProteinIntake = 0.0;
-
 class _ProtienIntakePageState extends State<ProtienIntakePage> {
+  final GlobalKey<FormState> _form2 = GlobalKey<FormState>();
+  final TextEditingController _weightController = TextEditingController();
+
+  @override
+  void dispose() {
+    _weightController.dispose();
+    super.dispose();
+  }
+
+  void _calculateProtein() {
+    if (_form2.currentState!.validate()) {
+      final weight = double.parse(_weightController.text);
+
+      double normalProteins = 0.0;
+      double minProteins = 0.0;
+      double maxProteins = 0.0;
+
+      if (currentUser!["isBodybuilder"] == false) {
+        normalProteins = 0.8 * weight;
+      } else {
+        maxProteins = 2.0 * weight;
+        minProteins = 1.2 * weight;
+      }
+
+      normalProteins = (normalProteins * 100).round() / 100;
+      maxProteins = (maxProteins * 100).round() / 100;
+      minProteins = (minProteins * 100).round() / 100;
+
+      ProteinResultsDialog.showResults(
+        context,
+        isBodybuilder: currentUser!["isBodybuilder"] ?? false,
+        normalProtein: normalProteins,
+        minProtein: minProteins,
+        maxProtein: maxProteins,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var user = currentUser!;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: customAppBarr(
-          "Potien Intake Calculator", orangeColor, backgroundColor),
+          "Protein Intake Calculator", orangeColor, backgroundColor),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,42 +70,30 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
               SizedBox(
                 width: 300,
                 height: 200,
-                child: Image.asset(
-                  fit: BoxFit.contain,
-                  protienBanner,
-                ),
+                child: Image.asset(fit: BoxFit.contain, protienBanner),
               ),
               Form(
-                key: form2,
+                key: _form2,
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     const Text('Are You a BodyBuilder ?',
                         style: TextStyle(fontSize: 16)),
                     const CustomBodyTypeRatio(),
-                    const SizedBox(
-                      height: 15,
-                    ),
+                    const SizedBox(height: 15),
                     CustomTextfeild(
+                      controller: _weightController,
                       isObscure: false,
                       keyboard: TextInputType.number,
                       color: orangeColor,
-                      onSaved: (value) {
-                        user["weight"] = double.parse(value!);
-                        if (user["isBodybuilder"] == false) {
-                          normalProteinIntake = 0.8 * user["weight (kg)"];
-                        } else {
-                          highistProtienIntake = 2.0 * user["weight (kg)"];
-
-                          loweistProtienIntake = 1.2 * user["weight (kg)"];
-                        }
-                      },
-                      text: "Weight ",
+                      onSaved: (value) {},
+                      text: "Weight (kg)",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Enter your weight please";
+                        }
+                        if (double.tryParse(value) == null) {
+                          return "Enter a valid number";
                         }
                         return null;
                       },
@@ -81,59 +101,20 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                       input: FilteringTextInputFormatter.allow(
                           RegExp(r'^\d*\.?\d*')),
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
+                    const SizedBox(height: 25),
                     SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: CustomElevatedButton(
-                          onpressed: () {
-                            setState(() {
-                              form2.currentState?.validate();
-                              form2.currentState?.save();
-                              normalProteinIntake =
-                                  (normalProteinIntake * 100).round() / 100;
-                              highistProtienIntake =
-                                  (highistProtienIntake * 100).round() / 100;
-                              loweistProtienIntake =
-                                  (loweistProtienIntake * 100).round() / 100;
-                            });
-                          },
-                          text: "OK",
-                          color: orangeColor),
+                        onpressed: _calculateProtein,
+                        text: "Calculate",
+                        color: orangeColor,
+                      ),
                     ),
-                    const SizedBox(
-                      height: 35,
-                    ),
+                    const SizedBox(height: 35),
                   ],
                 ),
               ),
-              normalProteinIntake +
-                          highistProtienIntake +
-                          loweistProtienIntake !=
-                      0.0
-                  ? user["isBodybuilder"] == true
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "You Must Eat Between",
-                              style:
-                                  TextStyle(color: orangeColor, fontSize: 16),
-                            ),
-                            Text(
-                              "$loweistProtienIntake grams To $highistProtienIntake grams of Protien Daily",
-                              style:
-                                  TextStyle(color: orangeColor, fontSize: 16),
-                            ),
-                          ],
-                        )
-                      : Text(
-                          " You Must eat $normalProteinIntake Grams of Protien Daily !",
-                          style: TextStyle(color: orangeColor, fontSize: 16),
-                        )
-                  : Container(),
             ],
           ),
         ),
