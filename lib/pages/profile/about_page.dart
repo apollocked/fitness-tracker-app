@@ -18,7 +18,9 @@ class AboutPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 32),
-            Center(child: logoWidget),
+            Center(
+              child: logoWidget,
+            ),
             const SizedBox(height: 24),
             Center(
               child: Text(
@@ -36,7 +38,7 @@ class AboutPage extends StatelessWidget {
                 style: TextStyle(fontSize: 14, color: getSubtitleColor()),
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 16),
             Text(
               'About This App',
               style: TextStyle(
@@ -68,11 +70,9 @@ class AboutPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: isDarkMode() ? Colors.blue[900] : Colors.blue[50],
+                color: getCardColor(),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                    color:
-                        isDarkMode() ? Colors.blue[700]! : Colors.blue[200]!),
+                border: Border.all(color: primaryColor),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +114,7 @@ class AboutPage extends StatelessWidget {
                     children: [
                       Text('Developer:',
                           style: TextStyle(color: getSubtitleColor())),
-                      Text('Fitness Team',
+                      Text('Apollo team.eng',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: getTextColor())),
