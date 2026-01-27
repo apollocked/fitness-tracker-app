@@ -9,6 +9,10 @@ Color getCardColor() {
 }
 
 Color getBackgroundColor() {
+  return isDarkMode() ? Colors.black : Colors.white;
+}
+
+Color insideButtonsColor() {
   return isDarkMode() ? darkBg : Colors.grey[100]!;
 }
 

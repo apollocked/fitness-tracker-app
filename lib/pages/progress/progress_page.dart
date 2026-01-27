@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
+import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/models/measurement_model.dart';
 import 'package:myapp/pages/Calculators/add_measurement_page.dart';
 import 'package:myapp/utils/colors.dart';
@@ -21,15 +22,10 @@ class _ProgressPageState extends State<ProgressPage> {
       body:
           measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),
       floatingActionButton: measurements.isNotEmpty
-          ? ElevatedButton.icon(
-              onPressed: _navigateToAddMeasurement,
-              icon: const Icon(Icons.add),
-              label: const Text('Add Measurement'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                iconColor: getBackgroundColor(),
-                foregroundColor: getBackgroundColor(),
-              ),
+          ? CustomElevatedButton(
+              onpressed: _navigateToAddMeasurement,
+              text: 'Add Measurement',
+              color: blueColor,
             )
           : null,
     );
