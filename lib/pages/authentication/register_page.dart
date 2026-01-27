@@ -5,7 +5,6 @@ import 'package:myapp/pages/authentication/authWidgets/auth_footer_widget.dart';
 import 'package:myapp/pages/authentication/authWidgets/auth_header_widget.dart';
 import 'package:myapp/pages/authentication/authWidgets/personal_info_section.dart';
 import 'package:myapp/pages/authentication/login_page.dart';
-
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
@@ -105,15 +104,20 @@ class _RegisterPageState extends State<RegisterPage> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const AuthHeader(
                     title: "Welcome!",
                     subtitle: "Start your fitness journey today"),
-                const Text("Create Account",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 10),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Create Account",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[700])),
+                ),
+                const SizedBox(height: 16),
                 Form(
                   key: _formKey,
                   child: Column(

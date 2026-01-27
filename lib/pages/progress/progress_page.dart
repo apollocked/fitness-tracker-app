@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/models/measurement_model.dart';
-import 'package:myapp/pages/Calculators/add_measurement_page.dart';
+import 'package:myapp/pages/Cards/add_measurement_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 
@@ -25,7 +26,7 @@ class _ProgressPageState extends State<ProgressPage> {
           ? CustomElevatedButton(
               onpressed: _navigateToAddMeasurement,
               text: 'Add Measurement',
-              color: blueColor,
+              color: primaryColor,
             )
           : null,
     );
@@ -89,12 +90,21 @@ class _ProgressPageState extends State<ProgressPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${m.date.day}/${m.date.month}/${m.date.year}',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: getTextColor()),
+                    SizedBox(
+                      width: 280,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            DateFormat('EEEE, d/M/y, h:m:s a').format(m.date),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: getTextColor(),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
@@ -113,10 +123,10 @@ class _ProgressPageState extends State<ProgressPage> {
                             style:
                                 TextStyle(fontSize: 14, color: getTextColor())),
                         Text('${m.weight} kg',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue)),
+                                color: primaryColor)),
                       ],
                     ),
                   ),
@@ -128,10 +138,10 @@ class _ProgressPageState extends State<ProgressPage> {
                           style:
                               TextStyle(fontSize: 14, color: getTextColor())),
                       Text('${m.waist} cm',
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Colors.blue)),
+                              color: primaryColor)),
                     ],
                   ),
               ],

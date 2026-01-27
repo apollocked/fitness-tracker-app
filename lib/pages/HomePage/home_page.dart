@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
-import 'package:myapp/pages/Calculators/add_measurement_page.dart';
-import 'package:myapp/pages/Calculators/daily_calorie_page.dart';
-import 'package:myapp/pages/Calculators/ideal_bw_page.dart';
-import 'package:myapp/pages/Calculators/protien_intake_page.dart';
+import 'package:myapp/pages/Cards/add_measurement_page.dart';
+import 'package:myapp/pages/Cards/daily_calorie_page.dart';
+import 'package:myapp/pages/Cards/ideal_bw_page.dart';
+import 'package:myapp/pages/Cards/protien_intake_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 

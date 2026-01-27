@@ -26,7 +26,10 @@ class PersonalInfoSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Personal Information",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[700])),
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700])),
         const SizedBox(height: 16),
         CustomTextfeild(
           controller: ageController,
@@ -84,7 +87,11 @@ class PersonalInfoSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        const Text("Gender", style: TextStyle(fontSize: 14)),
+        Text("Gender",
+            style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[700],
+                fontWeight: FontWeight.w600)),
         CustomGenderRatio(
           color: primaryColor,
           initialGender: "Male",

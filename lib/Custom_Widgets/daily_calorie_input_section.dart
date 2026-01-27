@@ -96,21 +96,27 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
           input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
         ),
         const SizedBox(height: 16),
-        const Text('Activity Level',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+        Text('Activity Level',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: getTextColor())),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: getCardDecorationColor(),
+            color: getCardColor(),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.grey[300]!),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: widget.activityLevel,
-              dropdownColor: getCardDecorationColor(),
-              style: TextStyle(color: getTextColor()),
+              dropdownColor: getCardColor(),
+              style: TextStyle(
+                  color: getTextColor(),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
               isExpanded: true,
               items: const [
                 DropdownMenuItem(
