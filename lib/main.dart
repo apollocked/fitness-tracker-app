@@ -9,6 +9,7 @@ void main() {
 class FitApp extends StatefulWidget {
   const FitApp({super.key});
 
+  // Provide access to state for theme updates
   // ignore: library_private_types_in_public_api
   static _FitAppState? of(BuildContext context) =>
       context.findAncestorStateOfType<_FitAppState>();
@@ -30,9 +31,24 @@ class _FitAppState extends State<FitApp> {
     _isDarkMode = currentUser!['darkMode'] ?? true;
   }
 
-  void _updateTheme(bool isDark) {
+  void updateTheme(bool isDark) {
     setState(() {
       _isDarkMode = isDark;
+      currentUser!['darkMode'] = isDark;
+
+      // Update in users list
+      final userIndex =
+          users.indexWhere((user) => user['id'] == currentUser!['id']);
+      if (userIndex != -1) {
+        users[userIndex]['darkMode'] = isDark;
+      }
+    });
+
+    // Force rebuild the entire app
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {});
+      }
     });
   }
 
@@ -54,7 +70,7 @@ class _FitAppState extends State<FitApp> {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF121212),
       ),
-      home: LayoutPage(onThemeChanged: _updateTheme),
+      home: LayoutPage(onThemeChanged: updateTheme),
     );
   }
 }

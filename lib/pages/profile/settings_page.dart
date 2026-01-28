@@ -7,7 +7,9 @@ import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  final VoidCallback onThemeChanged;
+
+  const SettingsPage({super.key, required this.onThemeChanged});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -15,13 +17,30 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _notificationsEnabled = true;
+  bool _darkModeValue = false;
 
   @override
   void initState() {
     super.initState();
-    if (currentUser != null && currentUser!['darkMode'] != null) {
-      // Dark mode will be applied at app level
+    // Initialize with current theme value
+    _darkModeValue = currentUser!['darkMode'] ?? false;
+  }
+
+  void _updateDarkMode(bool value) {
+    setState(() {
+      _darkModeValue = value;
+    });
+
+    // Update user data
+    currentUser!['darkMode'] = value;
+    final userIndex =
+        users.indexWhere((user) => user['id'] == currentUser!['id']);
+    if (userIndex != -1) {
+      users[userIndex]['darkMode'] = value;
     }
+
+    // Notify theme change
+    widget.onThemeChanged();
   }
 
   @override
@@ -62,27 +81,8 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 24),
             buildSectionTitle('Appearance'),
             buildCardSection([
-              buildSwitchTile(
-                  Icons.dark_mode,
-                  'Dark Mode',
-                  'Toggle dark/light theme',
-                  currentUser!['darkMode'] ?? false, (value) {
-                setState(() {
-                  currentUser!['darkMode'] = value;
-                  // Update in users list
-                  final userIndex = users
-                      .indexWhere((user) => user['id'] == currentUser!['id']);
-                  if (userIndex != -1) {
-                    users[userIndex]['darkMode'] = value;
-                  }
-                });
-                // Rebuild the entire app to apply theme change
-                Future.delayed(const Duration(milliseconds: 100), () {
-                  if (mounted) {
-                    setState(() {});
-                  }
-                });
-              }),
+              buildSwitchTile(Icons.dark_mode, 'Dark Mode',
+                  'Toggle dark/light theme', _darkModeValue, _updateDarkMode),
             ]),
             const SizedBox(height: 24),
             buildSectionTitle('More'),

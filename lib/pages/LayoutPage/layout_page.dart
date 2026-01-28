@@ -4,6 +4,7 @@ import 'package:myapp/pages/progress/progress_page.dart';
 import 'package:myapp/pages/Profile/profile_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/user_data.dart';
 
 class LayoutPage extends StatefulWidget {
   final Function(bool)? onThemeChanged;
@@ -11,17 +12,45 @@ class LayoutPage extends StatefulWidget {
   const LayoutPage({super.key, this.onThemeChanged});
 
   @override
-  State<LayoutPage> createState() => _HomePageState();
+  State<LayoutPage> createState() => _LayoutPageState();
 }
 
-class _HomePageState extends State<LayoutPage> {
+class _LayoutPageState extends State<LayoutPage> {
   int _selectedIndex = 0;
+  late List<Widget> _pages;
 
-  final List<Widget> _pages = [
-    const HomePage(),
-    const ProgressPage(),
-    const ProfilePage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _updatePages();
+  }
+
+  void _updatePages() {
+    _pages = [
+      HomePage(
+        key: ValueKey('home_${DateTime.now().millisecondsSinceEpoch}'),
+      ),
+      ProgressPage(
+        key: ValueKey('progress_${DateTime.now().millisecondsSinceEpoch}'),
+      ),
+      ProfilePage(
+        key: ValueKey('profile_${DateTime.now().millisecondsSinceEpoch}'),
+        onThemeChanged: () {
+          // This callback will be called from Profile/Settings page
+          widget.onThemeChanged?.call(currentUser?['darkMode'] ?? false);
+
+          // Force rebuild all pages
+          _refreshAllPages();
+        },
+      ),
+    ];
+  }
+
+  void _refreshAllPages() {
+    setState(() {
+      _updatePages();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

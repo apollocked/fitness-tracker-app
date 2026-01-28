@@ -1,10 +1,10 @@
 name: myapp
 description: A fitness measurement tracking app
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -16,13 +16,28 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1 # Added for app icon generation
+
+# App icon configuration - add this section
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  # remove_alpha_ios: true  # Uncomment if your icon has transparency and you want solid background on iOS
+  adaptive_icon_background: "#D4AF37" # Uncomment for Android adaptive icons
+  adaptive_icon_foreground: "assets/icons/app_icon.png" # Uncomment for Android adaptive icons
 
 flutter:
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/icons/ # Add this line for icon assets folder
+
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #   - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

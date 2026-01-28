@@ -10,7 +10,9 @@ import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final VoidCallback? onThemeChanged;
+
+  const ProfilePage({super.key, this.onThemeChanged});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -29,87 +31,82 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        setState(() {});
-        return true;
-      },
-      child: Scaffold(
-        appBar: customAppBarr('Profile', primaryColor, getBackgroundColor()),
-        backgroundColor: getBackgroundColor(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              CircleAvatar(
-                radius: 60,
-                backgroundColor: primaryColor,
-                child:
-                    Icon(Icons.person, size: 60, color: getBackgroundColor()),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                currentUser?['username'] ?? 'User Profile',
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: getTextColor()),
-              ),
-              Text(
-                currentUser?['email'] ?? 'Email',
-                style: TextStyle(fontSize: 14, color: getSubtitleColor()),
-              ),
-              const SizedBox(height: 20),
-              _buildProfileCard(context, [
-                _buildListTile(Icons.person, 'Personal Info', 'View your info',
-                    () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PersonalInfoPage()));
-                }),
-                _buildListTile(
-                    Icons.flag, 'Goals', 'Set your fitness goals', () {}),
-                _buildListTile(Icons.notifications, 'Reminders',
-                    'Manage notifications', () {}),
-              ]),
-              const SizedBox(height: 5),
-              _buildProfileCard(context, [
-                _buildListTile(Icons.settings, 'Settings', 'App preferences',
-                    () {
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SettingsPage()))
-                      .then((_) {
-                    setState(() {});
-                  });
-                }),
-                _buildListTile(
-                    Icons.help_outline, 'Help & Support', 'Get assistance', () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HelpAndSupportPage()));
-                }),
-                _buildListTile(Icons.info_outline, 'About', 'App information',
-                    () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AboutPage()));
-                }),
-              ]),
-              const SizedBox(height: 5),
-              _buildProfileCard(context, [
-                _buildListTile(
-                    Icons.logout, 'Logout', 'Sign out from your account', () {
-                  LogoutDialog.show(context);
-                }, isLogout: true),
-              ]),
-              const SizedBox(height: 32),
-            ],
-          ),
+    return Scaffold(
+      appBar: customAppBarr('Profile', primaryColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            CircleAvatar(
+              radius: 60,
+              backgroundColor: primaryColor,
+              child: Icon(Icons.person, size: 60, color: getBackgroundColor()),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              currentUser?['username'] ?? 'User Profile',
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: getTextColor()),
+            ),
+            Text(
+              currentUser?['email'] ?? 'Email',
+              style: TextStyle(fontSize: 14, color: getSubtitleColor()),
+            ),
+            const SizedBox(height: 20),
+            _buildProfileCard(context, [
+              _buildListTile(Icons.person, 'Personal Info', 'View your info',
+                  () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PersonalInfoPage()));
+              }),
+              _buildListTile(
+                  Icons.flag, 'Goals', 'Set your fitness goals', () {}),
+              _buildListTile(Icons.notifications, 'Reminders',
+                  'Manage notifications', () {}),
+            ]),
+            const SizedBox(height: 5),
+            _buildProfileCard(context, [
+              _buildListTile(Icons.settings, 'Settings', 'App preferences', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SettingsPage(
+                      onThemeChanged: () {
+                        // This will be called when theme changes in SettingsPage
+                        widget.onThemeChanged?.call();
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                );
+              }),
+              _buildListTile(
+                  Icons.help_outline, 'Help & Support', 'Get assistance', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HelpAndSupportPage()));
+              }),
+              _buildListTile(Icons.info_outline, 'About', 'App information',
+                  () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AboutPage()));
+              }),
+            ]),
+            const SizedBox(height: 5),
+            _buildProfileCard(context, [
+              _buildListTile(
+                  Icons.logout, 'Logout', 'Sign out from your account', () {
+                LogoutDialog.show(context);
+              }, isLogout: true),
+            ]),
+            const SizedBox(height: 32),
+          ],
         ),
       ),
     );
