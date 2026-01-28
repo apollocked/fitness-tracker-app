@@ -1,10 +1,7 @@
-// lib/pages/Profile/Goals/widgets/goal_tile.dart
 // ignore_for_file: use_super_parameters
 
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/Profile/Goals/edit_goal_dialog.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
-
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/colors.dart';
 
@@ -72,7 +69,7 @@ class GoalTile extends StatelessWidget {
           children: [
             const SizedBox(height: 12),
 
-            // Goal type badge if exists
+            // Goal type badge for weight goals
             if (goal['goalType'] != null) ...[
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -109,6 +106,8 @@ class GoalTile extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
+
+            // Progress bar for weight goals
             LinearProgressIndicator(
               value: progress,
               backgroundColor: Colors.grey.withOpacity(0.3),
@@ -117,22 +116,28 @@ class GoalTile extends StatelessWidget {
               minHeight: 6,
               borderRadius: BorderRadius.circular(3),
             ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit, size: 20),
-                  color: primaryColor,
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (_) => EditGoalDialog(
-                      goalKey: goalKey,
-                      controller: controller,
+            const SizedBox(height: 8),
+
+            // Status text
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: [
+                  Icon(
+                    completed ? Icons.check_circle : Icons.timelapse,
+                    size: 16,
+                    color: completed ? greenColor : orangeColor,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    controller.getGoalStatus(goalKey),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: completed ? greenColor : getSubtitleColor(),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Cards/add_measurement_page.dart';
-import 'package:myapp/pages/Cards/daily_calorie_page.dart';
-import 'package:myapp/pages/Cards/ideal_bw_page.dart';
-import 'package:myapp/pages/Cards/protien_intake_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 
@@ -43,6 +40,7 @@ class HomePage extends StatelessWidget {
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 children: [
+                  // Update each calculator card
                   _buildDashboardCard(
                     context,
                     'Ideal Body Weight',
@@ -50,12 +48,7 @@ class HomePage extends StatelessWidget {
                     Colors.blue,
                     'Calculate',
                     () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const IdealBodyWeightPage(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/ideal-weight');
                     },
                   ),
                   _buildDashboardCard(
@@ -65,27 +58,7 @@ class HomePage extends StatelessWidget {
                     Colors.orange,
                     'Calculate',
                     () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ProtienIntakePage(),
-                        ),
-                      );
-                    },
-                  ),
-                  _buildDashboardCard(
-                    context,
-                    'Measurements',
-                    Icons.straighten,
-                    greenColor,
-                    'Track',
-                    () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AddMeasurementPage(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/protein-intake');
                     },
                   ),
                   _buildDashboardCard(
@@ -95,16 +68,21 @@ class HomePage extends StatelessWidget {
                     Colors.red,
                     'Calculate',
                     () {
-                      // Example: When navigating from home page
+                      Navigator.pushNamed(context, '/daily-calories');
+                    },
+                  ),
+
+                  _buildDashboardCard(
+                    context,
+                    'Update Weight',
+                    Icons.straighten,
+                    greenColor,
+                    'Track Weight',
+                    () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DailyCaloriePage(
-                            onGoalsUpdated: () {
-                              // This will be called when goals are updated
-                              // You can trigger a refresh of the goals page
-                            },
-                          ),
+                          builder: (context) => const AddMeasurementPage(),
                         ),
                       );
                     },
@@ -144,17 +122,19 @@ class HomePage extends StatelessWidget {
                 title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: getTextColor()),
               ),
               const SizedBox(height: 8),
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: color,
+              Center(
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
                 ),
               ),
             ],

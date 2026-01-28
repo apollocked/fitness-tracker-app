@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/LayoutPage/layout_page.dart';
 import 'package:myapp/utils/user_data.dart';
+// Import your calculator pages
+import 'package:myapp/pages/Cards/ideal_bw_page.dart';
+import 'package:myapp/pages/Cards/protien_intake_page.dart';
+import 'package:myapp/pages/Cards/daily_calorie_page.dart';
+import 'package:myapp/pages/Cards/add_measurement_page.dart';
 
 void main() {
   runApp(const FitApp());
@@ -71,6 +76,13 @@ class _FitAppState extends State<FitApp> {
         scaffoldBackgroundColor: const Color(0xFF121212),
       ),
       home: LayoutPage(onThemeChanged: updateTheme),
+      // Add named routes here
+      routes: {
+        '/ideal-weight': (context) => const IdealBodyWeightPage(),
+        '/protein-intake': (context) => const ProtienIntakePage(),
+        '/daily-calories': (context) => const DailyCaloriePage(),
+        '/add-measurement': (context) => const AddMeasurementPage(),
+      },
     );
   }
 }

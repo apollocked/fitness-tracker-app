@@ -18,23 +18,32 @@ class AddMeasurementPage extends StatefulWidget {
 class _AddMeasurementPageState extends State<AddMeasurementPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _waistController = TextEditingController();
+  // REMOVED: final TextEditingController _waistController = TextEditingController();
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Pre-fill with current weight if available
+    if (currentUser != null && currentUser!['weight'] != null) {
+      _weightController.text = currentUser!['weight'].toString();
+    }
+  }
 
   @override
   void dispose() {
     _weightController.dispose();
-    _waistController.dispose();
+    // REMOVED: _waistController.dispose();
     super.dispose();
   }
 
   Future<void> _saveMeasurement() async {
     if (_formKey.currentState!.validate()) {
-      // Check if at least one field is filled
-      if (_weightController.text.isEmpty && _waistController.text.isEmpty) {
+      // Check if weight field is filled
+      if (_weightController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text('Fill at least one field'),
+              content: Text('Please enter your weight'),
               backgroundColor: Colors.red),
         );
         return;
@@ -46,35 +55,57 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
       // Create and add measurement
       final measurement = Measurement(
         date: DateTime.now(),
-        weight: _weightController.text.isEmpty
-            ? null
-            : double.parse(_weightController.text),
-        waist: _waistController.text.isEmpty
-            ? null
-            : double.parse(_waistController.text),
+        weight: double.parse(_weightController.text),
+        // REMOVED: waist: null,
       );
 
       measurements.add(measurement);
+
+      // Update user data and weight goal
+      final newWeight = double.parse(_weightController.text);
+      currentUser!['weight'] = newWeight;
+
+      // Update weight goal automatically
+      _updateWeightGoal(newWeight);
+
       setState(() {
-        if (_waistController.text.isNotEmpty) {
-          currentUser!['waist'] = double.parse(_waistController.text);
-        }
-        if (_weightController.text.isNotEmpty) {
-          currentUser!['weight'] = double.parse(_weightController.text);
-        }
         _isLoading = false;
       });
 
       if (context.mounted) {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               content: Text('Measurement saved successfully!'),
               backgroundColor: Colors.green),
         );
-        // ignore: use_build_context_synchronously
         Navigator.pop(context, true);
       }
+    }
+  }
+
+  void _updateWeightGoal(double newWeight) {
+    if (currentUser != null &&
+        currentUser!['goals'] != null &&
+        currentUser!['goals']['weight'] != null) {
+      final weightGoal = currentUser!['goals']['weight'];
+
+      // Update only the current value
+      weightGoal['current'] = newWeight;
+
+      // Also update in users list
+      final index = users.indexWhere((u) => u['id'] == currentUser!['id']);
+      if (index != -1 && users[index]['goals'] != null) {
+        users[index]['goals']['weight'] = weightGoal;
+      }
+
+      // Show notification about goal update
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Weight goal updated with new measurement!'),
+          backgroundColor: Colors.blue,
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 
@@ -93,13 +124,14 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Enter your measurements',
+                    Text('Update Your Weight',
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: getTextColor())),
                     const SizedBox(height: 8),
-                    Text('Fill in at least one field',
+                    Text(
+                        'This will update your weight goal progress automatically',
                         style: TextStyle(color: getSubtitleColor())),
                     const SizedBox(height: 24),
                     CustomTextfeild(
@@ -107,33 +139,52 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                       icon: const Icon(Icons.monitor_weight),
                       color: greenColor,
                       onSaved: (value) {},
-                      text: 'Weight (kg)',
-                      validator: (value) => null,
+                      text: 'Current Weight (kg)',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your weight';
+                        }
+                        if (double.tryParse(value) == null) {
+                          return 'Please enter a valid number';
+                        }
+                        return null;
+                      },
                       isObscure: false,
                       keyboard: TextInputType.number,
                       input: FilteringTextInputFormatter.allow(
                           RegExp(r'^\d*\.?\d*')),
                     ),
-                    const SizedBox(height: 16),
-                    CustomTextfeild(
-                      controller: _waistController,
-                      icon: const Icon(Icons.straighten),
-                      color: greenColor,
-                      onSaved: (value) {},
-                      text: 'Waist Circumference (cm)',
-                      validator: (value) => null,
-                      isObscure: false,
-                      keyboard: TextInputType.number,
-                      input: FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d*\.?\d*')),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: blueColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: blueColor.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.info, color: blueColor, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'Your weight goal will be automatically updated with this measurement',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: getTextColor(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 30),
                     SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: CustomElevatedButton(
                         onpressed: _saveMeasurement,
-                        text: 'Save Measurement',
+                        text: 'Save Weight Measurement',
                         color: greenColor,
                       ),
                     ),

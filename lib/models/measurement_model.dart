@@ -1,19 +1,19 @@
 class Measurement {
   final DateTime date;
-  final double? weight;
-  final double? waist;
+  final double weight;
+  // REMOVED: final double? waist;
 
   Measurement({
     required this.date,
-    this.weight,
-    this.waist,
+    required this.weight,
+    // REMOVED: this.waist,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'date': date.toIso8601String(),
       'weight': weight,
-      'waist': waist,
+      // REMOVED: 'waist': waist,
     };
   }
 
@@ -21,7 +21,7 @@ class Measurement {
     return Measurement(
       date: DateTime.parse(map['date']),
       weight: map['weight'],
-      waist: map['waist'],
+      // REMOVED: waist: map['waist'],
     );
   }
 }

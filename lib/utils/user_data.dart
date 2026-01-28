@@ -11,17 +11,16 @@ List<Map<String, dynamic>> users = [
     "weight": 72.0,
     "height": 170.0,
     "gender": "Male",
-    "waist": 80.0,
+    // REMOVED: "waist": 80.0,
     "isBodybuilder": false,
     "caloriesGoal": 2500,
     "createdAt": "2026-01-23",
     "goals": {
-      // Add goals field
       'weight': {'target': 75.0, 'current': 71.3, 'unit': 'kg', 'active': true},
       'protein': {
         'target': 120,
         'current': 100,
-        'unit': 'protein',
+        'unit': 'g', // Changed from 'protein' to 'g'
         'active': true
       },
       'calories': {

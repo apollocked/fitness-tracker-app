@@ -113,37 +113,23 @@ class _ProgressPageState extends State<ProgressPage> {
                   ],
                 ),
                 const Divider(),
-                if (m.weight != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Weight:',
-                            style:
-                                TextStyle(fontSize: 14, color: getTextColor())),
-                        Text('${m.weight} kg',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: primaryColor)),
-                      ],
-                    ),
-                  ),
-                if (m.waist != null)
-                  Row(
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Waist:',
+                      Text('Weight:',
                           style:
                               TextStyle(fontSize: 14, color: getTextColor())),
-                      Text('${m.waist} cm',
+                      Text('${m.weight} kg',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: primaryColor)),
                     ],
                   ),
+                ),
+                // REMOVED: Waist display section
               ],
             ),
           ),

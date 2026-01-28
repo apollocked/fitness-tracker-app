@@ -27,19 +27,11 @@ class _LayoutPageState extends State<LayoutPage> {
 
   void _updatePages() {
     _pages = [
-      HomePage(
-        key: ValueKey('home_${DateTime.now().millisecondsSinceEpoch}'),
-      ),
-      ProgressPage(
-        key: ValueKey('progress_${DateTime.now().millisecondsSinceEpoch}'),
-      ),
+      const HomePage(),
+      const ProgressPage(),
       ProfilePage(
-        key: ValueKey('profile_${DateTime.now().millisecondsSinceEpoch}'),
         onThemeChanged: () {
-          // This callback will be called from Profile/Settings page
           widget.onThemeChanged?.call(currentUser?['darkMode'] ?? false);
-
-          // Force rebuild all pages
           _refreshAllPages();
         },
       ),
@@ -55,7 +47,10 @@ class _LayoutPageState extends State<LayoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: getCardColor(),
         currentIndex: _selectedIndex,

@@ -1,11 +1,12 @@
+// ignore_for_file: use_super_parameters
+
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
-import 'package:myapp/pages/Profile/Settings/goals_tile.dart';
+import 'package:myapp/pages/Profile/Goals/goals_tile.dart';
 
 class GoalsList extends StatefulWidget {
   final GoalsController controller;
 
-  // ignore: use_super_parameters
   const GoalsList({Key? key, required this.controller}) : super(key: key);
 
   @override
@@ -33,11 +34,20 @@ class _GoalsListState extends State<GoalsList> {
 
   @override
   Widget build(BuildContext context) {
+    // Filter to only show weight goals
+    final weightGoals = widget.controller.goals.entries
+        .where((entry) => entry.key == 'weight')
+        .toList();
+
+    if (weightGoals.isEmpty) {
+      return const SizedBox();
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      itemCount: widget.controller.goals.length,
+      itemCount: weightGoals.length,
       itemBuilder: (_, index) {
-        final key = widget.controller.goals.keys.elementAt(index);
+        final key = weightGoals[index].key;
         return GoalTile(goalKey: key, controller: widget.controller);
       },
     );

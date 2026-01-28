@@ -3,16 +3,7 @@ import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class GoalsController extends ChangeNotifier {
-  Map<String, Map<String, dynamic>> _goals = {
-    'weight': {'target': 70.0, 'current': 75.0, 'unit': 'kg', 'active': true},
-    'calories': {
-      'target': 2500,
-      'current': 1800,
-      'unit': 'cal',
-      'active': true
-    },
-    'protein': {'target': 150.0, 'current': 120.0, 'unit': 'g', 'active': true},
-  };
+  Map<String, Map<String, dynamic>> _goals = {};
 
   Map<String, Map<String, dynamic>> get goals => _goals;
 
@@ -51,18 +42,20 @@ class GoalsController extends ChangeNotifier {
     int count = 0;
     _goals.forEach((key, goal) {
       if (goal['active'] == true) {
-        if (goal['goalType'] == 'lose') {
-          // For lose goal, current should be less than or equal to target
-          if (goal['current'] <= goal['target']) {
-            count++;
+        // For weight goals with goalType
+        if (key == 'weight' && goal['goalType'] != null) {
+          if (goal['goalType'] == 'lose') {
+            if (goal['current'] <= goal['target']) {
+              count++;
+            }
+          } else if (goal['goalType'] == 'gain') {
+            if (goal['current'] >= goal['target']) {
+              count++;
+            }
           }
-        } else if (goal['goalType'] == 'gain') {
-          // For gain goal, current should be greater than or equal to target
-          if (goal['current'] >= goal['target']) {
-            count++;
-          }
-        } else {
-          // For maintain or no goal type, use default logic
+        }
+        // For calories and protein, use simple comparison
+        else if (key == 'calories' || key == 'protein') {
           if (goal['current'] >= goal['target']) {
             count++;
           }
@@ -74,41 +67,71 @@ class GoalsController extends ChangeNotifier {
 
   double getProgress(String key) {
     final goal = _goals[key]!;
+
+    // For weight goals, calculate detailed progress
+    if (key == 'weight' && goal['goalType'] != null) {
+      final target =
+          goal['target'] is int ? goal['target'].toDouble() : goal['target'];
+      final current =
+          goal['current'] is int ? goal['current'].toDouble() : goal['current'];
+
+      if (goal['goalType'] == 'lose') {
+        double startWeight =
+            goal['startWeight'] ?? (current > target ? current : target);
+        double totalToLose = startWeight - target;
+
+        if (totalToLose <= 0) return 1.0;
+        double weightLost = startWeight - current;
+        if (weightLost > totalToLose) return 1.0;
+        if (weightLost < 0) return 0.0;
+        return (weightLost / totalToLose).clamp(0.0, 1.0);
+      } else if (goal['goalType'] == 'gain') {
+        double startWeight =
+            goal['startWeight'] ?? (current < target ? current : target);
+        double totalToGain = target - startWeight;
+
+        if (totalToGain <= 0) return 1.0;
+        double weightGained = current - startWeight;
+        if (weightGained > totalToGain) return 1.0;
+        if (weightGained < 0) return 0.0;
+        return (weightGained / totalToGain).clamp(0.0, 1.0);
+      }
+    }
+
+    // For all other goals (calories, protein), return 1.0 if target reached
     final target =
         goal['target'] is int ? goal['target'].toDouble() : goal['target'];
     final current =
         goal['current'] is int ? goal['current'].toDouble() : goal['current'];
 
-    // Adjust progress calculation based on goal type
-    if (goal['goalType'] == 'lose') {
-      // For lose goal: progress = how much lost / total to lose
-      double startWeight = current > target ? current : target;
-      double weightToLose = (startWeight - target).abs();
-      if (weightToLose == 0) return 1.0;
-      double weightLost = (startWeight - current).abs();
-      return (weightLost / weightToLose).clamp(0.0, 1.0);
-    } else if (goal['goalType'] == 'gain') {
-      // For gain goal: progress = how much gained / total to gain
-      double startWeight = current < target ? current : target;
-      double weightToGain = (target - startWeight).abs();
-      if (weightToGain == 0) return 1.0;
-      double weightGained = (current - startWeight).abs();
-      return (weightGained / weightToGain).clamp(0.0, 1.0);
-    } else {
-      // Default logic for maintain or no goal type
-      return target == 0 ? 0.0 : (current / target).clamp(0.0, 1.0);
-    }
+    return current >= target ? 1.0 : 0.0;
   }
 
   Color getProgressColor(String key) {
     final progress = getProgress(key);
     return progress >= 1.0
         ? greenColor
-        : progress >= 0.75
-            ? blueColor
-            : progress >= 0.5
-                ? orangeColor
-                : redColor;
+        : redColor; // Simple: green for completed, red for not completed
+  }
+
+  // New method to check if a goal should show percentage
+  bool shouldShowPercentage(String key) {
+    return key == 'weight';
+  }
+
+  // New method to check if a goal should show progress bar
+  bool shouldShowProgressBar(String key) {
+    return key == 'weight';
+  }
+
+  // New method to get goal status text
+  String getGoalStatus(String key) {
+    final progress = getProgress(key);
+    if (progress >= 1.0) {
+      return 'Goal achieved';
+    } else {
+      return 'In progress';
+    }
   }
 
   static String capitalize(String s) =>
