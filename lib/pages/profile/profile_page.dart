@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Profile/about_page.dart';
+import 'package:myapp/pages/Profile/Goals/goals_page.dart';
 import 'package:myapp/pages/Profile/help_support_page.dart';
 import 'package:myapp/pages/Profile/logout_dialog.dart';
 import 'package:myapp/pages/Profile/personal_info_page.dart';
-import 'package:myapp/pages/Profile/settings_page.dart';
+import 'package:myapp/pages/Profile/Settings/settings_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
@@ -64,8 +65,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     MaterialPageRoute(
                         builder: (context) => const PersonalInfoPage()));
               }),
-              _buildListTile(
-                  Icons.flag, 'Goals', 'Set your fitness goals', () {}),
+              _buildListTile(Icons.flag, 'Goals', 'Set your fitness goals', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const GoalsPage(),
+                  ),
+                );
+              }),
               _buildListTile(Icons.notifications, 'Reminders',
                   'Manage notifications', () {}),
             ]),

@@ -7,6 +7,9 @@ class IdealWeightResultsDialog {
     BuildContext context, {
     required double idealWeight,
     required double currentWeight,
+    required Null Function() onSetGoal,
+    required String goalType,
+    required double weightDifference,
   }) {
     final difference = currentWeight - idealWeight;
     final isOverweight = difference > 0;

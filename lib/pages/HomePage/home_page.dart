@@ -95,10 +95,16 @@ class HomePage extends StatelessWidget {
                     Colors.red,
                     'Calculate',
                     () {
+                      // Example: When navigating from home page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const DailyCaloriePage(),
+                          builder: (context) => DailyCaloriePage(
+                            onGoalsUpdated: () {
+                              // This will be called when goals are updated
+                              // You can trigger a refresh of the goals page
+                            },
+                          ),
                         ),
                       );
                     },

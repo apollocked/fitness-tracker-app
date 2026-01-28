@@ -15,33 +15,21 @@ List<Map<String, dynamic>> users = [
     "isBodybuilder": false,
     "caloriesGoal": 2500,
     "createdAt": "2026-01-23",
-  },
-  {
-    "id": "1",
-    "username": "john_doe",
-    "email": "john@fitness.com",
-    "password": "password123",
-    "age": 25,
-    "weight": 75.0,
-    "height": 175.0,
-    "waist": 80.0,
-    "gender": "Male",
-    "isBodybuilder": false,
-    "caloriesGoal": 2500,
-    "createdAt": "2025-01-20",
-  },
-  {
-    "id": "2",
-    "username": "jane_smith",
-    "email": "jane@fitness.com",
-    "password": "password123",
-    "age": 28,
-    "weight": 65.0,
-    "waist": 80.0,
-    "height": 165.0,
-    "gender": "Female",
-    "isBodybuilder": false,
-    "caloriesGoal": 2500,
-    "createdAt": "2025-01-21",
+    "goals": {
+      // Add goals field
+      'weight': {'target': 75.0, 'current': 71.3, 'unit': 'kg', 'active': true},
+      'protein': {
+        'target': 120,
+        'current': 100,
+        'unit': 'protein',
+        'active': true
+      },
+      'calories': {
+        'target': 2500,
+        'current': 1800,
+        'unit': 'cal',
+        'active': true
+      },
+    },
   },
 ];

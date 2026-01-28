@@ -8,6 +8,7 @@ class ProteinResultsDialog {
     required double normalProtein,
     required double minProtein,
     required double maxProtein,
+    required Null Function() onSetGoal,
   }) {
     showDialog(
       context: context,

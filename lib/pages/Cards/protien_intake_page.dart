@@ -5,12 +5,15 @@ import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/protein_dialog.dart';
 import 'package:myapp/Custom_Widgets/select_workout_type.dart';
+import 'package:myapp/services/create%20goals_service.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class ProtienIntakePage extends StatefulWidget {
-  const ProtienIntakePage({super.key});
+  final VoidCallback? onGoalsUpdated;
+
+  const ProtienIntakePage({super.key, this.onGoalsUpdated});
 
   @override
   State<ProtienIntakePage> createState() => _ProtienIntakePageState();
@@ -45,12 +48,35 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
       maxProteins = (maxProteins * 100).round() / 100;
       minProteins = (minProteins * 100).round() / 100;
 
+      // For non-bodybuilders, use normalProteins as target
+      // For bodybuilders, use maxProteins as target
+      final targetProtein =
+          currentUser!["isBodybuilder"] == false ? normalProteins : maxProteins;
+
+      // Save as goal
+      GoalsService.updateGoalFromCalculator(
+        'protein',
+        0.0, // Start with 0 current
+        targetProtein,
+      );
+
+      // Notify parent if callback exists
+      widget.onGoalsUpdated?.call();
+
       ProteinResultsDialog.showResults(
         context,
         isBodybuilder: currentUser!["isBodybuilder"] ?? false,
         normalProtein: normalProteins,
         minProtein: minProteins,
         maxProtein: maxProteins,
+        onSetGoal: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Protein goal saved successfully!'),
+              backgroundColor: greenColor,
+            ),
+          );
+        },
       );
     }
   }
