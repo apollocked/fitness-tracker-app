@@ -79,6 +79,7 @@ class SettingsDialogs {
               if (newPasswordController.text ==
                   confirmPasswordController.text) {
                 currentUser!['password'] = newPasswordController.text;
+                updateUser(currentUser!['id'], currentUser!);
                 Navigator.pop(dialogContext);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -148,7 +149,7 @@ class SettingsDialogs {
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
               if (!emailRegex.hasMatch(emailController.text)) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -159,24 +160,44 @@ class SettingsDialogs {
                 );
                 return;
               }
-              currentUser!['username'] = usernameController.text;
-              currentUser!['email'] = emailController.text;
 
-              final userIndex =
-                  users.indexWhere((user) => user['id'] == currentUser!['id']);
-              if (userIndex != -1) {
-                users[userIndex]['username'] = usernameController.text;
-                users[userIndex]['email'] = emailController.text;
+              // Check if email is already taken by another user
+              final emailTaken = users.any((user) =>
+                  user['email'].toLowerCase() ==
+                      emailController.text.toLowerCase() &&
+                  user['id'] != currentUser!['id']);
+
+              if (emailTaken) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Email already taken by another user'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return;
               }
 
-              Navigator.pop(dialogContext);
-              onSave();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Profile updated!'),
-                  backgroundColor: Colors.green,
-                ),
-              );
+              try {
+                currentUser!['username'] = usernameController.text;
+                currentUser!['email'] = emailController.text;
+                await updateUser(currentUser!['id'], currentUser!);
+
+                Navigator.pop(dialogContext);
+                onSave();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Profile updated!'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error updating profile: $e'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
             },
             child: const Text('Save'),
           ),
@@ -203,16 +224,89 @@ class SettingsDialogs {
           ),
           TextButton(
             onPressed: () async {
-              if (currentUser != null) {
-                // Delete user from storage
-                await deleteUser(currentUser!['id']);
+              if (currentUser == null) {
+                Navigator.pop(dialogContext);
+                return;
               }
 
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const RegisterPage()),
-                (route) => false,
-              );
+              final userId = currentUser!['id'];
+              final username = currentUser!['username'];
+
+              try {
+                // Close confirmation dialog first
+                Navigator.pop(dialogContext);
+
+                // Show loading indicator
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext loadingContext) => const AlertDialog(
+                    content: Row(
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(width: 16),
+                        Text('Deleting account...'),
+                      ],
+                    ),
+                  ),
+                );
+
+                // Delete the user
+                await deleteUser(userId);
+                currentUser = null;
+                await saveCurrentUserToStorage();
+                for (var i = 0; i < users.length; i++) {
+                  if (users[i]['id'] == userId) {
+                    users.removeAt(i);
+                    break;
+                  }
+                }
+                await saveUsersToStorage();
+
+                // Close loading dialog
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+
+                // Show success message
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Account "$username" deleted successfully'),
+                      backgroundColor: Colors.green,
+                      duration: const Duration(seconds: 3),
+                    ),
+                  );
+                }
+
+                // Navigate to register page
+                await Future.delayed(const Duration(milliseconds: 500));
+
+                if (context.mounted) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterPage()),
+                    (route) => false,
+                  );
+                }
+              } catch (e) {
+                // Close loading dialog if it's still open
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+
+                // Show error message
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to delete account: $e'),
+                      backgroundColor: Colors.red,
+                      duration: const Duration(seconds: 3),
+                    ),
+                  );
+                }
+              }
             },
             child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),

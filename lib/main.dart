@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/LayoutPage/layout_page.dart';
+import 'package:myapp/pages/Profile/Settings/privacy_policy_page.dart';
+import 'package:myapp/pages/Profile/Settings/terms_conditions_page.dart';
 import 'package:myapp/utils/user_data.dart'; // Updated
 import 'package:myapp/pages/Cards/ideal_bw_page.dart';
 import 'package:myapp/pages/Cards/protien_intake_page.dart';
@@ -85,6 +87,8 @@ class _FitAppState extends State<FitApp> {
           ? LayoutPage(onThemeChanged: updateTheme)
           : const LoginPage(),
       routes: {
+        '/terms-conditions': (context) => const TermsConditionsPage(),
+        '/privacy-policy': (context) => const PrivacyPolicyPage(),
         '/ideal-weight': (context) => const IdealBodyWeightPage(),
         '/protein-intake': (context) => const ProtienIntakePage(),
         '/daily-calories': (context) => const DailyCaloriePage(),

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:myapp/services/storage_service.dart';
 
 // Global user data storage
@@ -6,112 +8,177 @@ List<Map<String, dynamic>> users = [];
 
 // Initialize from storage
 Future<void> initUserData() async {
-  // Get users from storage
-  users = StorageService.getUsers();
+  try {
+    // Get users from storage
+    users = StorageService.getUsers();
 
-  // Get current user from storage
-  currentUser = StorageService.getCurrentUser();
+    // Get current user from storage
+    currentUser = StorageService.getCurrentUser();
 
-  // If no users in storage, add default demo user
-  if (users.isEmpty) {
-    final defaultUser = {
-      "id": "demo_001",
-      "username": "demo_user",
-      "email": "demo@fitness.com",
-      "password": "demo123",
-      "age": 25,
-      "weight": 70.0,
-      "height": 175.0,
-      "gender": "Male",
-      "isBodybuilder": false,
-      "createdAt": DateTime.now().toIso8601String(),
-      "darkMode": false,
-      "goals": {
-        'weight': {
-          'target': 75.0,
-          'current': 70.0,
-          'unit': 'kg',
-          'active': true,
-          'goalType': 'gain'
+    // If no users in storage, add default demo user
+    if (users.isEmpty) {
+      final defaultUser = {
+        "id": "demo_001",
+        "username": "demo_user",
+        "email": "demo@fitness.com",
+        "password": "demo123",
+        "age": 25,
+        "weight": 70.0,
+        "height": 175.0,
+        "gender": "Male",
+        "isBodybuilder": false,
+        "createdAt": DateTime.now().toIso8601String(),
+        "darkMode": false,
+        "goals": {
+          'weight': {
+            'target': 75.0,
+            'current': 70.0,
+            'unit': 'kg',
+            'active': true,
+            'goalType': 'gain'
+          },
+          'protein': {'target': 120, 'unit': 'g', 'active': true},
+          'calories': {'target': 2500, 'unit': 'cal', 'active': true},
         },
-        'protein': {'target': 120, 'unit': 'g', 'active': true},
-        'calories': {'target': 2500, 'unit': 'cal', 'active': true},
-      },
-    };
+      };
 
-    users.add(defaultUser);
-    await StorageService.saveUsers(users);
+      users.add(defaultUser);
+      await StorageService.saveUsers(users);
+    }
+  } catch (e) {
+    print('Error initializing user data: $e');
+    // Initialize with empty data on error
+    users = [];
+    currentUser = null;
   }
 }
 
 // Save users to storage
 Future<void> saveUsersToStorage() async {
-  await StorageService.saveUsers(users);
+  try {
+    await StorageService.saveUsers(users);
+  } catch (e) {
+    print('Error saving users: $e');
+    rethrow;
+  }
 }
 
 // Save current user to storage
 Future<void> saveCurrentUserToStorage() async {
-  await StorageService.saveCurrentUser(currentUser);
+  try {
+    await StorageService.saveCurrentUser(currentUser);
+  } catch (e) {
+    print('Error saving current user: $e');
+    rethrow;
+  }
 }
 
 // Add a new user
 Future<void> addUser(Map<String, dynamic> newUser) async {
-  users.add(newUser);
-  await saveUsersToStorage();
+  try {
+    users.add(newUser);
+    await saveUsersToStorage();
+  } catch (e) {
+    print('Error adding user: $e');
+    rethrow;
+  }
 }
 
 // Update existing user
 Future<void> updateUser(String userId, Map<String, dynamic> updatedData) async {
-  final index = users.indexWhere((user) => user['id'] == userId);
-  if (index != -1) {
-    users[index] = updatedData;
-    await saveUsersToStorage();
+  try {
+    final index = users.indexWhere((user) => user['id'] == userId);
+    if (index != -1) {
+      users[index] = {...users[index], ...updatedData};
+      await saveUsersToStorage();
 
-    // Update current user if it's the same user
-    if (currentUser != null && currentUser!['id'] == userId) {
-      currentUser = updatedData;
-      await saveCurrentUserToStorage();
+      // Update current user if it's the same user
+      if (currentUser != null && currentUser!['id'] == userId) {
+        currentUser = users[index];
+        await saveCurrentUserToStorage();
+      }
     }
+  } catch (e) {
+    print('Error updating user: $e');
+    rethrow;
   }
 }
 
 // Delete user
 Future<void> deleteUser(String userId) async {
-  users.removeWhere((user) => user['id'] == userId);
-  await saveUsersToStorage();
+  try {
+    // Store user data before deletion for potential recovery
+    final userToDelete = users.firstWhere(
+      (user) => user['id'] == userId,
+      orElse: () => {},
+    );
 
-  // Log out if current user is deleted
-  if (currentUser != null && currentUser!['id'] == userId) {
-    currentUser = null;
-    await StorageService.saveCurrentUser(null);
-    await StorageService.setLoggedIn(false);
+    if (userToDelete.isNotEmpty) {
+      // Remove from users list
+      users.removeWhere((user) => user['id'] == userId);
+      await saveUsersToStorage();
+
+      // Log out if current user is deleted
+      if (currentUser != null && currentUser!['id'] == userId) {
+        currentUser = null;
+        await StorageService.saveCurrentUser(null);
+        await StorageService.setLoggedIn(false);
+      }
+      print('User $userId deleted successfully');
+    } else {
+      print('User $userId not found for deletion');
+    }
+  } catch (e) {
+    print('Error deleting user: $e');
+    rethrow;
   }
 }
 
 // Login user
 Future<void> loginUser(Map<String, dynamic> user) async {
-  currentUser = user;
-  await saveCurrentUserToStorage();
-  await StorageService.setLoggedIn(true);
+  try {
+    currentUser = user;
+    await saveCurrentUserToStorage();
+    await StorageService.setLoggedIn(true);
+  } catch (e) {
+    print('Error logging in user: $e');
+    rethrow;
+  }
 }
 
 // Logout user
 Future<void> logoutUser() async {
-  currentUser = null;
-  await StorageService.clearAll();
+  try {
+    currentUser = null;
+    await StorageService.clearAll();
+  } catch (e) {
+    print('Error logging out: $e');
+    rethrow;
+  }
 }
 
 // Check if email exists
 bool emailExists(String email) {
-  return users.any(
-      (user) => user['email'].toString().toLowerCase() == email.toLowerCase());
+  try {
+    return users.any((user) =>
+        user['email'].toString().toLowerCase() == email.toLowerCase());
+  } catch (e) {
+    print('Error checking email existence: $e');
+    return false;
+  }
 }
 
 // Find user by email and password
 Map<String, dynamic>? findUser(String email, String password) {
-  return users.firstWhere(
+  try {
+    return users.firstWhere(
       (user) =>
           user['email'].toString().toLowerCase() == email.toLowerCase() &&
           user['password'] == password,
-      orElse: () => {});
+      orElse: () => {},
+    );
+  } catch (e) {
+    print('Error finding user: $e');
+    return {};
+  }
 }
