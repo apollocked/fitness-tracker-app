@@ -5,6 +5,7 @@ import 'package:myapp/pages/authentication/authWidgets/auth_footer_widget.dart';
 import 'package:myapp/pages/authentication/authWidgets/auth_header_widget.dart';
 import 'package:myapp/pages/authentication/authWidgets/personal_info_section.dart';
 import 'package:myapp/pages/authentication/login_page.dart';
+import 'package:myapp/services/registration_validator.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
@@ -36,34 +37,30 @@ class _RegisterPageState extends State<RegisterPage> {
   void register(BuildContext context) async {
     if (!_formKey.currentState!.validate()) return;
 
-    // Prevent multiple submissions
-    if (_isLoading) return;
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    _formKey.currentState!.save();
-
-    // Case-insensitive email check
-    if (users.any((user) =>
-        user['email'].toString().toLowerCase() == email!.toLowerCase())) {
-      setState(() {
-        _isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text("Email already registered"),
-            backgroundColor: Colors.red),
-      );
+    // Validate all fields using validator service
+    if (!RegistrationValidator.validateAll(
+      username: username,
+      email: email,
+      password: password,
+      age: _ageController.text,
+      weight: _weightController.text,
+      height: _heightController.text,
+      gender: gender,
+    )) {
+      _showError("Please fill all fields correctly");
       return;
     }
 
+    if (_isLoading) return;
+    setState(() => _isLoading = true);
+
+    _formKey.currentState!.save();
+
     final newUser = {
       "id": DateTime.now().millisecondsSinceEpoch.toString(),
-      "username": username,
-      "email": email?.toLowerCase(),
-      "password": password,
+      "username": username?.trim() ?? '',
+      "email": email?.toLowerCase().trim() ?? '',
+      "password": password ?? '',
       "age": int.tryParse(_ageController.text) ?? 0,
       "weight": double.tryParse(_weightController.text) ?? 0.0,
       "height": double.tryParse(_heightController.text) ?? 0.0,
@@ -72,21 +69,24 @@ class _RegisterPageState extends State<RegisterPage> {
       "createdAt": DateTime.now().toIso8601String(),
       "isBodybuilder": false,
       "caloriesGoal": 2000,
+      "darkMode": true,
+      "goals": {
+        'weight': {
+          'target': 0.0,
+          'current': double.tryParse(_weightController.text) ?? 0.0,
+          'unit': 'kg',
+          'active': false
+        },
+        'protein': {'target': 0, 'unit': 'g', 'active': false},
+        'calories': {'target': 0, 'unit': 'cal', 'active': false},
+      },
     };
 
     users.add(newUser);
     currentUser = newUser;
+    setState(() => _isLoading = false);
 
-    setState(() {
-      _isLoading = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-          content: Text("Account created successfully!"),
-          backgroundColor: Colors.green),
-    );
-
+    _showSuccess("Account created successfully!");
     await Future.delayed(const Duration(milliseconds: 500));
 
     if (mounted) {
@@ -94,6 +94,21 @@ class _RegisterPageState extends State<RegisterPage> {
           context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
   }
+
+  void _showError(String message) => ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3)),
+      );
+
+  void _showSuccess(String message) =>
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 2)),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +119,6 @@ class _RegisterPageState extends State<RegisterPage> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const AuthHeader(
                     title: "Welcome!",
@@ -128,15 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: primaryColor,
                         icon: const Icon(Icons.person_outline),
                         onSaved: (value) => username = value?.trim(),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Username required";
-                          }
-                          if (value.trim().length < 3) {
-                            return "Username must be at least 3 characters";
-                          }
-                          return null;
-                        },
+                        validator: RegistrationValidator.validateUsername,
                         keyboard: TextInputType.text,
                         input: FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z0-9._\-]')),
@@ -147,17 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: primaryColor,
                         onSaved: (value) => email = value?.trim(),
                         text: "Email",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Email required";
-                          }
-                          final emailRegex =
-                              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                          if (!emailRegex.hasMatch(value)) {
-                            return "Enter valid email";
-                          }
-                          return null;
-                        },
+                        validator: RegistrationValidator.validateEmail,
                         isObscure: false,
                         keyboard: TextInputType.emailAddress,
                         input: FilteringTextInputFormatter.allow(
@@ -169,13 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: primaryColor,
                         onSaved: (value) => password = value,
                         text: "Password",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Password required";
-                          }
-                          if (value.length < 6) return "Min 6 characters";
-                          return null;
-                        },
+                        validator: RegistrationValidator.validatePassword,
                         isObscure: true,
                         keyboard: TextInputType.visiblePassword,
                         input: FilteringTextInputFormatter.deny(RegExp(r'\s')),
@@ -192,6 +182,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 24),
+                _buildRequirementsChecklist(),
+                const SizedBox(height: 24),
                 AuthFooter(
                   buttonText: _isLoading ? "Creating Account..." : "Sign Up",
                   questionText: "Already have an account? ",
@@ -201,22 +194,70 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                   onLinkPressed: () {
                     if (!_isLoading) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => LoginPage()));
                     }
                   },
                 ),
                 if (_isLoading)
                   const Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: CircularProgressIndicator(),
-                  ),
+                      padding: EdgeInsets.only(top: 16),
+                      child: CircularProgressIndicator()),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  _buildRequirementsChecklist() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.blue[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.blue[200]!),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Account Requirements:',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue[900],
+            ),
+          ),
+          const SizedBox(height: 12),
+          _buildRequirementItem('Username (minimum 3 characters)'),
+          _buildRequirementItem('Valid email address'),
+          _buildRequirementItem('Password (minimum 6 characters)'),
+          _buildRequirementItem('Age ( older than 12 years)'),
+          _buildRequirementItem('Weight (in kg)'),
+          _buildRequirementItem('Height (in cm)'),
+          _buildRequirementItem('Gender selection'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRequirementItem(String requirement) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          Icon(Icons.check_circle_outline, size: 18, color: Colors.blue[700]),
+          const SizedBox(width: 8),
+          Text(
+            requirement,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.blue[900],
+            ),
+          ),
+        ],
       ),
     );
   }

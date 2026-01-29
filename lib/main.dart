@@ -5,6 +5,7 @@ import 'package:myapp/pages/Cards/ideal_bw_page.dart';
 import 'package:myapp/pages/Cards/protien_intake_page.dart';
 import 'package:myapp/pages/Cards/daily_calorie_page.dart';
 import 'package:myapp/pages/Cards/add_measurement_page.dart';
+import 'package:myapp/pages/Profile/features_page.dart';
 
 void main() {
   runApp(const FitApp());
@@ -77,6 +78,7 @@ class _FitAppState extends State<FitApp> {
         '/protein-intake': (context) => const ProtienIntakePage(),
         '/daily-calories': (context) => const DailyCaloriePage(),
         '/add-measurement': (context) => const AddMeasurementPage(),
+        '/features': (context) => const FeaturesPage(), // ADD THIS ROUTE
       },
     );
   }

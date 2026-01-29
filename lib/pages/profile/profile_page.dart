@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Profile/about_page.dart';
 import 'package:myapp/pages/Profile/Goals/goals_page.dart';
+import 'package:myapp/pages/Profile/features_page.dart';
 import 'package:myapp/pages/Profile/help_support_page.dart';
 import 'package:myapp/pages/Profile/logout_dialog.dart';
 import 'package:myapp/pages/Profile/personal_info_page.dart';
@@ -96,6 +97,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const HelpAndSupportPage()));
+              }),
+              _buildListTile(Icons.info, 'App Features', 'Explore all features',
+                  () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FeaturesPage()),
+                );
               }),
               _buildListTile(Icons.info_outline, 'About', 'App information',
                   () {
