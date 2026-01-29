@@ -65,7 +65,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
       double weightDifference = (targetWeight - currentWeight).abs();
       weightDifference = (weightDifference * 100).round() / 100;
 
-      // Save as goal with automatically determined goal type
+      // Save as weight goal with automatically determined goal type
       GoalsService.updateWeightGoalWithTarget(
         currentWeight,
         targetWeight,

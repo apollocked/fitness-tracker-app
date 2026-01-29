@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/LayoutPage/layout_page.dart';
 import 'package:myapp/utils/user_data.dart';
-// Import your calculator pages
 import 'package:myapp/pages/Cards/ideal_bw_page.dart';
 import 'package:myapp/pages/Cards/protien_intake_page.dart';
 import 'package:myapp/pages/Cards/daily_calorie_page.dart';
@@ -37,23 +36,19 @@ class _FitAppState extends State<FitApp> {
   }
 
   void updateTheme(bool isDark) {
+    // Update user data
+    currentUser!['darkMode'] = isDark;
+
+    // Update in users list
+    final userIndex =
+        users.indexWhere((user) => user['id'] == currentUser!['id']);
+    if (userIndex != -1) {
+      users[userIndex]['darkMode'] = isDark;
+    }
+
+    // Rebuild the entire app
     setState(() {
       _isDarkMode = isDark;
-      currentUser!['darkMode'] = isDark;
-
-      // Update in users list
-      final userIndex =
-          users.indexWhere((user) => user['id'] == currentUser!['id']);
-      if (userIndex != -1) {
-        users[userIndex]['darkMode'] = isDark;
-      }
-    });
-
-    // Force rebuild the entire app
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        setState(() {});
-      }
     });
   }
 

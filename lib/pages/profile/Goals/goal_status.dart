@@ -11,6 +11,11 @@ class GoalsStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Count only active goals
+    final activeGoals =
+        controller.goals.values.where((g) => g['active'] == true).length;
+    final completedGoals = controller.completedCount;
+
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
@@ -20,10 +25,9 @@ class GoalsStats extends StatelessWidget {
         children: [
           _buildStatItem(
               'Total', controller.goals.length.toString(), Icons.list),
+          _buildStatItem('Active', activeGoals.toString(), Icons.flag),
           _buildStatItem(
-              'Active', controller.activeCount.toString(), Icons.flag),
-          _buildStatItem('Completed', controller.completedCount.toString(),
-              Icons.check_circle),
+              'Completed', completedGoals.toString(), Icons.check_circle),
         ],
       ),
     );

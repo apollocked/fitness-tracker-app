@@ -17,39 +17,36 @@ class LayoutPage extends StatefulWidget {
 
 class _LayoutPageState extends State<LayoutPage> {
   int _selectedIndex = 0;
-  late List<Widget> _pages;
 
   @override
-  void initState() {
-    super.initState();
-    _updatePages();
+  void didUpdateWidget(LayoutPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Rebuild when widget updates (theme change propagated from main)
+    setState(() {});
   }
 
-  void _updatePages() {
-    _pages = [
-      const HomePage(),
-      const ProgressPage(),
-      ProfilePage(
-        onThemeChanged: () {
-          widget.onThemeChanged?.call(currentUser?['darkMode'] ?? false);
-          _refreshAllPages();
-        },
-      ),
-    ];
-  }
+  void _handleThemeChange() {
+    // Call parent's theme change callback
+    widget.onThemeChanged?.call(currentUser?['darkMode'] ?? false);
 
-  void _refreshAllPages() {
-    setState(() {
-      _updatePages();
-    });
+    // Force immediate rebuild of this widget and all children
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: getBackgroundColor(),
       body: IndexedStack(
         index: _selectedIndex,
-        children: _pages,
+        children: [
+          HomePage(key: ValueKey('home_${isDarkMode()}')),
+          ProgressPage(key: ValueKey('progress_${isDarkMode()}')),
+          ProfilePage(
+            key: ValueKey('profile_${isDarkMode()}'),
+            onThemeChanged: _handleThemeChange,
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: getCardColor(),

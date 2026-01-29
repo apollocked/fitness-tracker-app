@@ -1,3 +1,4 @@
+// lib/pages/Profile/Goals/goals_list.dart
 // ignore_for_file: use_super_parameters
 
 import 'package:flutter/material.dart';
@@ -35,21 +36,42 @@ class _GoalsListState extends State<GoalsList> {
   @override
   Widget build(BuildContext context) {
     // Filter to only show weight goals
-    final weightGoals = widget.controller.goals.entries
-        .where((entry) => entry.key == 'weight')
-        .toList();
+    final weightGoal = widget.controller.goals['weight'];
 
-    if (weightGoals.isEmpty) {
+    if (weightGoal == null) {
       return const SizedBox();
     }
 
-    return ListView.builder(
+    return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      itemCount: weightGoals.length,
-      itemBuilder: (_, index) {
-        final key = weightGoals[index].key;
-        return GoalTile(goalKey: key, controller: widget.controller);
-      },
+      children: [
+        GoalTile(goalKey: 'weight', controller: widget.controller),
+        const SizedBox(height: 16),
+        // Add a note about read-only goals
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.blue.withOpacity(0.3)),
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.info, size: 20, color: Colors.blue),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Weight goals can be edited. Calorie and protein goals are set from their calculators.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.blue[800],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

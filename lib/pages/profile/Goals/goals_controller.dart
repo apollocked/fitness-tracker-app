@@ -41,24 +41,12 @@ class GoalsController extends ChangeNotifier {
   int get completedCount {
     int count = 0;
     _goals.forEach((key, goal) {
-      if (goal['active'] == true) {
-        // For weight goals with goalType
-        if (key == 'weight' && goal['goalType'] != null) {
-          if (goal['goalType'] == 'lose') {
-            if (goal['current'] <= goal['target']) {
-              count++;
-            }
-          } else if (goal['goalType'] == 'gain') {
-            if (goal['current'] >= goal['target']) {
-              count++;
-            }
-          }
-        }
-        // For calories and protein, use simple comparison
-        else if (key == 'calories' || key == 'protein') {
-          if (goal['current'] >= goal['target']) {
-            count++;
-          }
+      if (goal['active'] == true &&
+          key == 'weight' &&
+          goal['current'] != null) {
+        final progress = getProgress(key);
+        if (progress >= 1.0) {
+          count++;
         }
       }
     });
@@ -68,69 +56,129 @@ class GoalsController extends ChangeNotifier {
   double getProgress(String key) {
     final goal = _goals[key]!;
 
-    // For weight goals, calculate detailed progress
-    if (key == 'weight' && goal['goalType'] != null) {
-      final target =
-          goal['target'] is int ? goal['target'].toDouble() : goal['target'];
-      final current =
-          goal['current'] is int ? goal['current'].toDouble() : goal['current'];
+    // Only weight goals have progress tracking
+    if (key != 'weight' || goal['current'] == null) return 0.0;
 
-      if (goal['goalType'] == 'lose') {
-        double startWeight =
-            goal['startWeight'] ?? (current > target ? current : target);
-        double totalToLose = startWeight - target;
-
-        if (totalToLose <= 0) return 1.0;
-        double weightLost = startWeight - current;
-        if (weightLost > totalToLose) return 1.0;
-        if (weightLost < 0) return 0.0;
-        return (weightLost / totalToLose).clamp(0.0, 1.0);
-      } else if (goal['goalType'] == 'gain') {
-        double startWeight =
-            goal['startWeight'] ?? (current < target ? current : target);
-        double totalToGain = target - startWeight;
-
-        if (totalToGain <= 0) return 1.0;
-        double weightGained = current - startWeight;
-        if (weightGained > totalToGain) return 1.0;
-        if (weightGained < 0) return 0.0;
-        return (weightGained / totalToGain).clamp(0.0, 1.0);
-      }
-    }
-
-    // For all other goals (calories, protein), return 1.0 if target reached
     final target =
         goal['target'] is int ? goal['target'].toDouble() : goal['target'];
     final current =
         goal['current'] is int ? goal['current'].toDouble() : goal['current'];
 
-    return current >= target ? 1.0 : 0.0;
+    // For weight goals with goal type
+    if (goal['goalType'] == 'lose') {
+      double startWeight =
+          goal['startWeight'] ?? (current > target ? current : target);
+      double totalToLose = startWeight - target;
+      if (totalToLose <= 0) return 1.0;
+      double weightLost = startWeight - current;
+      if (weightLost > totalToLose) return 1.0;
+      if (weightLost < 0) return 0.0;
+      return (weightLost / totalToLose).clamp(0.0, 1.0);
+    } else if (goal['goalType'] == 'gain') {
+      double startWeight =
+          goal['startWeight'] ?? (current < target ? current : target);
+      double totalToGain = target - startWeight;
+      if (totalToGain <= 0) return 1.0;
+      double weightGained = current - startWeight;
+      if (weightGained > totalToGain) return 1.0;
+      if (weightGained < 0) return 0.0;
+      return (weightGained / totalToGain).clamp(0.0, 1.0);
+    }
+
+    // Default for maintain weight goals
+    if (target == 0) return 0.0;
+    return (current / target).clamp(0.0, 1.0);
+  }
+
+  int getProgressPercentage(String key) {
+    final progress = getProgress(key);
+    return (progress * 100).toInt();
   }
 
   Color getProgressColor(String key) {
     final progress = getProgress(key);
     return progress >= 1.0
         ? greenColor
-        : redColor; // Simple: green for completed, red for not completed
+        : progress >= 0.75
+            ? blueColor
+            : progress >= 0.5
+                ? orangeColor
+                : redColor;
   }
 
-  // New method to check if a goal should show percentage
+  // Check if goal should show percentage (only for weight goals with current value)
   bool shouldShowPercentage(String key) {
-    return key == 'weight';
+    final goal = _goals[key];
+    if (goal == null) return false;
+    return key == 'weight' && goal['current'] != null;
   }
 
-  // New method to check if a goal should show progress bar
+  // Check if goal should show progress bar (only for weight goals)
   bool shouldShowProgressBar(String key) {
-    return key == 'weight';
+    final goal = _goals[key];
+    if (goal == null) return false;
+    return key == 'weight' && goal['current'] != null;
   }
 
-  // New method to get goal status text
   String getGoalStatus(String key) {
-    final progress = getProgress(key);
-    if (progress >= 1.0) {
-      return 'Goal achieved';
-    } else {
-      return 'In progress';
+    final goal = _goals[key]!;
+
+    // For calories and protein goals - always "Goal Set"
+    if (key == 'calories' || key == 'protein') {
+      return 'Goal Set';
+    }
+
+    // For weight goals
+    if (key == 'weight' && goal['current'] != null) {
+      final progress = getProgress(key);
+      if (progress >= 1.0) {
+        return 'Goal achieved';
+      } else {
+        return 'In progress';
+      }
+    }
+
+    // Default for other goals
+    return 'Not started';
+  }
+
+  // Helper methods for square cards
+  Color getCardColor(String key) {
+    switch (key) {
+      case 'calories':
+        return Colors.red;
+      case 'protein':
+        return Colors.orange;
+      case 'weight':
+        return blueColor;
+      default:
+        return primaryColor;
+    }
+  }
+
+  String getShortTitle(String key) {
+    switch (key) {
+      case 'calories':
+        return 'Calories';
+      case 'protein':
+        return 'Protein';
+      case 'weight':
+        return 'Weight';
+      default:
+        return capitalize(key);
+    }
+  }
+
+  IconData getIcon(String key) {
+    switch (key) {
+      case 'calories':
+        return Icons.local_fire_department;
+      case 'protein':
+        return Icons.restaurant;
+      case 'weight':
+        return Icons.monitor_weight;
+      default:
+        return Icons.flag;
     }
   }
 

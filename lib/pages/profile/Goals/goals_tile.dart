@@ -1,6 +1,8 @@
+// lib/pages/Profile/Goals/goals_tile.dart
 // ignore_for_file: use_super_parameters
 
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/Profile/Goals/edit_goal_dialog.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/colors.dart';
@@ -21,6 +23,7 @@ class GoalTile extends StatelessWidget {
     final percent = (progress * 100).toInt();
     final completed = progress >= 1.0;
     final isActive = goal['active'] == true;
+    final hasCurrent = goal['current'] != null;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -69,8 +72,8 @@ class GoalTile extends StatelessWidget {
           children: [
             const SizedBox(height: 12),
 
-            // Goal type badge for weight goals
-            if (goal['goalType'] != null) ...[
+            // Goal type badge for weight goals only
+            if (goalKey == 'weight' && goal['goalType'] != null) ...[
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
@@ -96,26 +99,33 @@ class GoalTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${goal['current']} / ${goal['target']} ${goal['unit']}',
-                    style: TextStyle(fontSize: 14, color: getSubtitleColor())),
-                Text('$percent%',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: controller.getProgressColor(goalKey))),
+                Text(
+                  hasCurrent
+                      ? '${goal['current']} / ${goal['target']} ${goal['unit']}'
+                      : 'Target: ${goal['target']} ${goal['unit']}',
+                  style: TextStyle(fontSize: 14, color: getSubtitleColor()),
+                ),
+                if (hasCurrent && controller.shouldShowPercentage(goalKey))
+                  Text('$percent%',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: controller.getProgressColor(goalKey))),
               ],
             ),
             const SizedBox(height: 8),
 
-            // Progress bar for weight goals
-            LinearProgressIndicator(
-              value: progress,
-              backgroundColor: Colors.grey.withOpacity(0.3),
-              color:
-                  isActive ? controller.getProgressColor(goalKey) : Colors.grey,
-              minHeight: 6,
-              borderRadius: BorderRadius.circular(3),
-            ),
+            // Progress bar for weight goals only
+            if (goalKey == 'weight' && hasCurrent)
+              LinearProgressIndicator(
+                value: progress,
+                backgroundColor: Colors.grey.withOpacity(0.3),
+                color: isActive
+                    ? controller.getProgressColor(goalKey)
+                    : Colors.grey,
+                minHeight: 6,
+                borderRadius: BorderRadius.circular(3),
+              ),
             const SizedBox(height: 8),
 
             // Status text
@@ -124,21 +134,55 @@ class GoalTile extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(
-                    completed ? Icons.check_circle : Icons.timelapse,
+                    completed
+                        ? Icons.check_circle
+                        : hasCurrent
+                            ? Icons.timelapse
+                            : Icons.remove_circle_outline,
                     size: 16,
-                    color: completed ? greenColor : orangeColor,
+                    color: completed
+                        ? greenColor
+                        : hasCurrent
+                            ? orangeColor
+                            : Colors.grey,
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    controller.getGoalStatus(goalKey),
+                    hasCurrent
+                        ? controller.getGoalStatus(goalKey)
+                        : 'Not tracked',
                     style: TextStyle(
                       fontSize: 12,
-                      color: completed ? greenColor : getSubtitleColor(),
+                      color: completed
+                          ? greenColor
+                          : hasCurrent
+                              ? getSubtitleColor()
+                              : Colors.grey,
                     ),
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 8),
+
+            // Edit button - ONLY FOR WEIGHT GOALS
+            if (goalKey == 'weight')
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit, size: 20),
+                    color: primaryColor,
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (_) => EditGoalDialog(
+                        goalKey: goalKey,
+                        controller: controller,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

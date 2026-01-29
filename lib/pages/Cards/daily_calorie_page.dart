@@ -97,12 +97,8 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
       // Round to nearest 10
       dailyCalories = (dailyCalories / 10).round() * 10;
 
-      // Save as goal
-      GoalsService.updateGoalFromCalculator(
-        'calories',
-        0.0, // Start with 0 current
-        dailyCalories,
-      );
+      // Save calorie goal WITHOUT current value (only target)
+      GoalsService.updateGoalFromCalculator('calories', dailyCalories);
 
       // Notify parent if callback exists
       widget.onGoalsUpdated?.call();

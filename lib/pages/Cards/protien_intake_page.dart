@@ -53,12 +53,8 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
       final targetProtein =
           currentUser!["isBodybuilder"] == false ? normalProteins : maxProteins;
 
-      // Save as goal
-      GoalsService.updateGoalFromCalculator(
-        'protein',
-        0.0, // Start with 0 current
-        targetProtein,
-      );
+      // Save protein goal WITHOUT current value (only target)
+      GoalsService.updateGoalFromCalculator('protein', targetProtein);
 
       // Notify parent if callback exists
       widget.onGoalsUpdated?.call();
