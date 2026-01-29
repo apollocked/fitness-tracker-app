@@ -55,13 +55,13 @@ class _ProgressPageState extends State<ProgressPage> {
                   fontWeight: FontWeight.w600,
                   color: getTextColor())),
           const SizedBox(height: 8),
-          Text('Add your first measurement to see progress',
+          Text('Add your weight measurements to track your progress over time.',
               style: TextStyle(color: getSubtitleColor())),
           const SizedBox(height: 32),
           ElevatedButton.icon(
             onPressed: _navigateToAddMeasurement,
             icon: const Icon(Icons.add),
-            label: const Text('Add Measurement'),
+            label: const Text('Add weight measurement'),
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
               iconColor: getBackgroundColor(),

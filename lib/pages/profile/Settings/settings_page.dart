@@ -88,20 +88,18 @@ class _SettingsPageState extends State<SettingsPage> {
             buildSectionTitle('More'),
             buildCardSection([
               buildListTile(
-                  Icons.privacy_tip,
-                  'Privacy Policy',
-                  'Read our privacy terms',
-                  () => SettingsDialogs.showInfoDialog(
-                      context, 'Privacy Policy', 'Your data is safe with us.')),
+                Icons.privacy_tip,
+                'Privacy Policy',
+                'Read our privacy terms',
+                () => Navigator.pushNamed(context, '/privacy-policy'),
+              ),
               const Divider(),
               buildListTile(
-                  Icons.description,
-                  'Terms & Conditions',
-                  'Read our terms',
-                  () => SettingsDialogs.showInfoDialog(
-                      context,
-                      'Terms & Conditions',
-                      'By using this app, you agree to our terms.')),
+                Icons.description,
+                'Terms & Conditions',
+                'Read our terms',
+                () => Navigator.pushNamed(context, '/terms-conditions'),
+              ),
               const Divider(),
               buildListTile(
                   Icons.delete_forever,

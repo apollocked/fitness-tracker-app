@@ -17,7 +17,7 @@ class AboutPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
             Center(
               child: logoWidget,
             ),
@@ -31,14 +31,14 @@ class AboutPage extends StatelessWidget {
                     color: getTextColor()),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 2),
             Center(
               child: Text(
                 'Version 1.0.0',
                 style: TextStyle(fontSize: 14, color: getSubtitleColor()),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Text(
               'About This App',
               style: TextStyle(

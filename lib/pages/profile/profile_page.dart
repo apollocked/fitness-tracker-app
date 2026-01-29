@@ -83,7 +83,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   MaterialPageRoute(
                     builder: (context) => SettingsPage(
                       onThemeChanged: () {
-                        // This will be called when theme changes in SettingsPage
                         widget.onThemeChanged?.call();
                         setState(() {});
                       },
@@ -98,7 +97,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     MaterialPageRoute(
                         builder: (context) => const HelpAndSupportPage()));
               }),
-              _buildListTile(Icons.info, 'App Features', 'Explore all features',
+              _buildListTile(
+                  Icons.auto_fix_high, 'App Features', 'Explore all features',
                   () {
                 Navigator.push(
                   context,

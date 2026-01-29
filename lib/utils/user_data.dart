@@ -5,7 +5,7 @@ List<Map<String, dynamic>> users = [
   {
     "id": "72",
     "username": "apollo",
-    "email": "hama@",
+    "email": "hama@m.com",
     "password": "aaaaaaaa",
     "age": 24,
     "weight": 72.0,

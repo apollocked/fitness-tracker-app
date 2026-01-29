@@ -1,11 +1,9 @@
-// lib/pages/Profile/Goals/goals_page.dart
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Profile/Goals/goal_status.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
 import 'package:myapp/pages/Profile/Goals/goals_list.dart';
 import 'package:myapp/pages/Profile/Goals/goals_square_row.dart';
-
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 

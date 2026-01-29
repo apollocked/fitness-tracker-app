@@ -541,10 +541,10 @@ Contributions are welcome! Please follow these steps:
 
 ## 📞 Contact
 
-- **Developer**: Your Name
-- **Email**: your.email@example.com
-- **GitHub**: [@yourusername](https://github.com/yourusername)
-- **LinkedIn**: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- **Developer**: muhammed jameel barznji
+- **Email**: mahamadbarznji712@gmail.com
+- **GitHub**: [@apollocked](https://github.com/apollocked)
+- **LinkedIn**: [muhammed jameel](https://www.linkedin.com/in/apollocked)
 
 ---
 

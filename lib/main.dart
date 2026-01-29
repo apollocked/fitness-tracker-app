@@ -6,6 +6,8 @@ import 'package:myapp/pages/Cards/protien_intake_page.dart';
 import 'package:myapp/pages/Cards/daily_calorie_page.dart';
 import 'package:myapp/pages/Cards/add_measurement_page.dart';
 import 'package:myapp/pages/Profile/features_page.dart';
+import 'package:myapp/pages/Profile/Settings/privacy_policy_page.dart';
+import 'package:myapp/pages/Profile/Settings/terms_conditions_page.dart';
 
 void main() {
   runApp(const FitApp());
@@ -73,12 +75,18 @@ class _FitAppState extends State<FitApp> {
       ),
       home: LayoutPage(onThemeChanged: updateTheme),
       // Add named routes here
+      // Add these imports at the top
+
+// In your FitApp class, update the routes:
       routes: {
         '/ideal-weight': (context) => const IdealBodyWeightPage(),
         '/protein-intake': (context) => const ProtienIntakePage(),
         '/daily-calories': (context) => const DailyCaloriePage(),
         '/add-measurement': (context) => const AddMeasurementPage(),
-        '/features': (context) => const FeaturesPage(), // ADD THIS ROUTE
+        '/features': (context) => const FeaturesPage(),
+        '/privacy-policy': (context) => const PrivacyPolicyPage(), // ADD THIS
+        '/terms-conditions': (context) =>
+            const TermsConditionsPage(), // ADD THIS
       },
     );
   }

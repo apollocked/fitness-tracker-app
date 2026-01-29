@@ -1,6 +1,3 @@
-// lib/pages/Profile/Goals/goals_list.dart
-// ignore_for_file: use_super_parameters
-
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
 import 'package:myapp/pages/Profile/Goals/goals_tile.dart';
@@ -8,7 +5,7 @@ import 'package:myapp/pages/Profile/Goals/goals_tile.dart';
 class GoalsList extends StatefulWidget {
   final GoalsController controller;
 
-  const GoalsList({Key? key, required this.controller}) : super(key: key);
+  const GoalsList({super.key, required this.controller});
 
   @override
   State<GoalsList> createState() => _GoalsListState();

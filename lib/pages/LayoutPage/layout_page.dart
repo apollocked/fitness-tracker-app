@@ -55,6 +55,8 @@ class _LayoutPageState extends State<LayoutPage> {
         unselectedIconTheme: const IconThemeData(size: 20),
         backgroundColor: getCardColor(),
         currentIndex: _selectedIndex,
+        showSelectedLabels: true,
+        showUnselectedLabels: false,
         selectedItemColor: primaryColor,
         unselectedItemColor: getSubtitleColor(),
         onTap: (index) {
