@@ -185,7 +185,7 @@ class SettingsDialogs {
     );
   }
 
-  static void showDeleteAccountDialog(BuildContext context) {
+  static void showDeleteAccountDialog(BuildContext context) async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -193,18 +193,21 @@ class SettingsDialogs {
         backgroundColor: getCardColor(),
         title: Text('Delete Account', style: TextStyle(color: getTextColor())),
         content: Text(
-            'Are you sure you want to delete your account? This action cannot be undone.',
-            style: TextStyle(color: getTextColor())),
+          'Are you sure you want to delete your account? This action cannot be undone.',
+          style: TextStyle(color: getTextColor()),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
-              users.removeWhere(
-                  (user) => user['email'] == currentUser!['email']);
-              currentUser = null;
+            onPressed: () async {
+              if (currentUser != null) {
+                // Delete user from storage
+                await deleteUser(currentUser!['id']);
+              }
+
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const RegisterPage()),

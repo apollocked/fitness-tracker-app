@@ -5,15 +5,15 @@ class AuthFooter extends StatelessWidget {
   final String buttonText;
   final String questionText;
   final String linkText;
-  final VoidCallback onButtonPressed;
-  final VoidCallback onLinkPressed;
+  final VoidCallback? onButtonPressed; // Make nullable
+  final VoidCallback? onLinkPressed; // Make nullable
 
   const AuthFooter({
     required this.buttonText,
     required this.questionText,
     required this.linkText,
-    required this.onButtonPressed,
-    required this.onLinkPressed,
+    this.onButtonPressed, // Now nullable
+    this.onLinkPressed, // Now nullable
     super.key,
   });
 
@@ -26,11 +26,13 @@ class AuthFooter extends StatelessWidget {
           width: double.infinity,
           height: 55,
           child: ElevatedButton(
-            onPressed: onButtonPressed,
+            onPressed: onButtonPressed, // Can be null
             style: ElevatedButton.styleFrom(
-              backgroundColor: primaryColor,
+              backgroundColor:
+                  onButtonPressed != null ? primaryColor : Colors.grey,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               elevation: 2,
             ),
             child: Text(
@@ -45,11 +47,11 @@ class AuthFooter extends StatelessWidget {
           children: [
             Text(questionText, style: TextStyle(color: Colors.grey[600])),
             TextButton(
-              onPressed: onLinkPressed,
+              onPressed: onLinkPressed, // Can be null
               child: Text(
                 linkText,
                 style: TextStyle(
-                  color: primaryColor,
+                  color: onLinkPressed != null ? primaryColor : Colors.grey,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),

@@ -21,27 +21,28 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  String? username, email, password;
   String gender = "Male";
   bool _isLoading = false;
 
   @override
-  void dispose() {
-    _ageController.dispose();
-    _weightController.dispose();
-    _heightController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    // Initialize user data
+    initUserData();
   }
 
-  void register(BuildContext context) async {
+  Future<void> register(BuildContext context) async {
     if (!_formKey.currentState!.validate()) return;
 
     // Validate all fields using validator service
     if (!RegistrationValidator.validateAll(
-      username: username,
-      email: email,
-      password: password,
+      username: _usernameController.text,
+      email: _emailController.text,
+      password: _passwordController.text,
       age: _ageController.text,
       weight: _weightController.text,
       height: _heightController.text,
@@ -51,39 +52,45 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    if (_isLoading) return;
-    setState(() => _isLoading = true);
+    // Check if email already exists (from storage)
+    if (emailExists(_emailController.text.trim())) {
+      _showError("Email already registered");
+      return;
+    }
 
-    _formKey.currentState!.save();
+    setState(() => _isLoading = true);
 
     final newUser = {
       "id": DateTime.now().millisecondsSinceEpoch.toString(),
-      "username": username?.trim() ?? '',
-      "email": email?.toLowerCase().trim() ?? '',
-      "password": password ?? '',
+      "username": _usernameController.text.trim(),
+      "email": _emailController.text.toLowerCase().trim(),
+      "password": _passwordController.text,
       "age": int.tryParse(_ageController.text) ?? 0,
       "weight": double.tryParse(_weightController.text) ?? 0.0,
       "height": double.tryParse(_heightController.text) ?? 0.0,
       "gender": gender,
-      "waist": 0.0,
-      "createdAt": DateTime.now().toIso8601String(),
       "isBodybuilder": false,
-      "caloriesGoal": 2000,
-      "darkMode": true,
+      "createdAt": DateTime.now().toIso8601String(),
+      "darkMode": false,
       "goals": {
         'weight': {
           'target': 0.0,
           'current': double.tryParse(_weightController.text) ?? 0.0,
           'unit': 'kg',
-          'active': false
+          'active': false,
+          'goalType': 'maintain'
         },
         'protein': {'target': 0, 'unit': 'g', 'active': false},
         'calories': {'target': 0, 'unit': 'cal', 'active': false},
       },
     };
 
-    users.add(newUser);
-    currentUser = newUser;
+    // Save to storage
+    await addUser(newUser);
+
+    // Auto login
+    await loginUser(newUser);
+
     setState(() => _isLoading = false);
 
     _showSuccess("Account created successfully!");
@@ -91,23 +98,25 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (mounted) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
     }
   }
 
   void _showError(String message) => ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(message),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 3)),
+          content: Text(message),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+        ),
       );
 
   void _showSuccess(String message) =>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(message),
-            backgroundColor: Colors.green,
-            duration: const Duration(seconds: 2)),
+          content: Text(message),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 2),
+        ),
       );
 
   @override
@@ -125,52 +134,78 @@ class _RegisterPageState extends State<RegisterPage> {
                     subtitle: "Start your fitness journey today"),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child: Text("Create Account",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[700])),
+                  child: Text(
+                    "Create Account",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[700]),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
+                      // Username field
                       CustomTextfeild(
+                        controller: _usernameController,
                         text: "Username",
                         isObscure: false,
                         color: primaryColor,
                         icon: const Icon(Icons.person_outline),
-                        onSaved: (value) => username = value?.trim(),
+                        onSaved: (value) {},
                         validator: RegistrationValidator.validateUsername,
                         keyboard: TextInputType.text,
                         input: FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z0-9._\-]')),
                       ),
+
                       const SizedBox(height: 16),
+
+                      // Email field
                       CustomTextfeild(
+                        controller: _emailController,
                         icon: const Icon(Icons.email_outlined),
                         color: primaryColor,
-                        onSaved: (value) => email = value?.trim(),
+                        onSaved: (value) {},
                         text: "Email",
-                        validator: RegistrationValidator.validateEmail,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Email is required";
+                          }
+                          if (!value.contains('@')) {
+                            return "Enter a valid email";
+                          }
+                          if (emailExists(value.trim())) {
+                            return "Email already registered";
+                          }
+                          return null;
+                        },
                         isObscure: false,
                         keyboard: TextInputType.emailAddress,
                         input: FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z0-9@._\-]')),
                       ),
+
                       const SizedBox(height: 16),
+
+                      // Password field
                       CustomTextfeild(
+                        controller: _passwordController,
                         icon: const Icon(Icons.lock_outline),
                         color: primaryColor,
-                        onSaved: (value) => password = value,
+                        onSaved: (value) {},
                         text: "Password",
                         validator: RegistrationValidator.validatePassword,
                         isObscure: true,
                         keyboard: TextInputType.visiblePassword,
                         input: FilteringTextInputFormatter.deny(RegExp(r'\s')),
                       ),
+
                       const SizedBox(height: 24),
+
+                      // Personal Info Section
                       PersonalInfoSection(
                         ageController: _ageController,
                         weightController: _weightController,
@@ -189,20 +224,22 @@ class _RegisterPageState extends State<RegisterPage> {
                   buttonText: _isLoading ? "Creating Account..." : "Sign Up",
                   questionText: "Already have an account? ",
                   linkText: "Login",
-                  onButtonPressed: () {
-                    if (!_isLoading) register(context);
-                  },
-                  onLinkPressed: () {
-                    if (!_isLoading) {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
-                    }
-                  },
+                  onButtonPressed: _isLoading ? null : () => register(context),
+                  onLinkPressed: _isLoading
+                      ? null
+                      : () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                          );
+                        },
                 ),
                 if (_isLoading)
                   const Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: CircularProgressIndicator()),
+                    padding: EdgeInsets.only(top: 16),
+                    child: CircularProgressIndicator(),
+                  ),
               ],
             ),
           ),
@@ -211,7 +248,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  _buildRequirementsChecklist() {
+  Widget _buildRequirementsChecklist() {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -234,9 +271,9 @@ class _RegisterPageState extends State<RegisterPage> {
           _buildRequirementItem('Username (minimum 3 characters)'),
           _buildRequirementItem('Valid email address'),
           _buildRequirementItem('Password (minimum 6 characters)'),
-          _buildRequirementItem('Age ( older than 12 years)'),
-          _buildRequirementItem('Weight (in kg)'),
-          _buildRequirementItem('Height (in cm)'),
+          _buildRequirementItem('Age (older than 12 years)'),
+          _buildRequirementItem('Weight (1-300 kg)'),
+          _buildRequirementItem('Height (1-300 cm)'),
           _buildRequirementItem('Gender selection'),
         ],
       ),
@@ -260,5 +297,16 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _ageController.dispose();
+    _weightController.dispose();
+    _heightController.dispose();
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

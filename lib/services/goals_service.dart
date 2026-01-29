@@ -1,8 +1,8 @@
-// lib/services/goals_service.dart
 import 'package:myapp/utils/user_data.dart';
 
 class GoalsService {
-  static void updateGoalFromCalculator(String goalType, double target) {
+  static Future<void> updateGoalFromCalculator(
+      String goalType, double target) async {
     if (currentUser != null) {
       // Initialize goals if not exists
       if (currentUser!['goals'] == null) {
@@ -16,16 +16,13 @@ class GoalsService {
         'active': true,
       };
 
-      // Update in users list
-      final index = users.indexWhere((u) => u['id'] == currentUser!['id']);
-      if (index != -1) {
-        users[index]['goals'] = Map.from(currentUser!['goals']);
-      }
+      // Save to storage
+      await updateUser(currentUser!['id'], currentUser!);
     }
   }
 
-  static void updateWeightGoalWithTarget(
-      double currentWeight, double targetWeight, String goalType) {
+  static Future<void> updateWeightGoalWithTarget(
+      double currentWeight, double targetWeight, String goalType) async {
     if (currentUser != null) {
       // Initialize goals if not exists
       if (currentUser!['goals'] == null) {
@@ -37,11 +34,9 @@ class GoalsService {
 
       // Determine start weight based on goal type
       if (goalType == 'lose') {
-        // For lose goal, start weight is current weight (or higher if already below target)
         startWeight =
             currentWeight > targetWeight ? currentWeight : targetWeight;
       } else if (goalType == 'gain') {
-        // For gain goal, start weight is current weight (or lower if already above target)
         startWeight =
             currentWeight < targetWeight ? currentWeight : targetWeight;
       }
@@ -53,14 +48,33 @@ class GoalsService {
         'unit': 'kg',
         'active': true,
         'goalType': goalType,
-        'startWeight':
-            startWeight, // Store initial weight for progress calculation
+        'startWeight': startWeight,
       };
 
-      // Update in users list
-      final index = users.indexWhere((u) => u['id'] == currentUser!['id']);
-      if (index != -1) {
-        users[index]['goals'] = Map.from(currentUser!['goals']);
+      // Save to storage
+      await updateUser(currentUser!['id'], currentUser!);
+    }
+  }
+
+  static Future<void> updateGoal(
+      String goalType, Map<String, dynamic> updatedGoal) async {
+    if (currentUser != null) {
+      if (currentUser!['goals'] == null) {
+        currentUser!['goals'] = {};
+      }
+
+      currentUser!['goals'][goalType] = updatedGoal;
+      await updateUser(currentUser!['id'], currentUser!);
+    }
+  }
+
+  static Future<void> toggleGoalActive(String goalType, bool active) async {
+    if (currentUser != null && currentUser!['goals'] != null) {
+      final goal = currentUser!['goals'][goalType];
+      if (goal != null) {
+        goal['active'] = active;
+        currentUser!['goals'][goalType] = goal;
+        await updateUser(currentUser!['id'], currentUser!);
       }
     }
   }

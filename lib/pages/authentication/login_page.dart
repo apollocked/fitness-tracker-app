@@ -5,25 +5,45 @@ import 'package:myapp/pages/LayoutPage/layout_page.dart';
 import 'package:myapp/pages/authentication/authWidgets/auth_footer_widget.dart';
 import 'package:myapp/pages/authentication/authWidgets/auth_header_widget.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
-
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/user_data.dart';
+import 'package:myapp/utils/user_data.dart'; // Updated import
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? email;
-  String? password;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
-  void login(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+    // Initialize data
+    _initData();
+  }
+
+  Future<void> _initData() async {
+    await initUserData(); // Initialize from storage
+  }
+
+  Future<void> login(BuildContext context) async {
     if (!_formKey.currentState!.validate()) return;
-    _formKey.currentState!.save();
 
-    bool isLogin = users
-        .any((user) => user['email'] == email && user['password'] == password);
+    setState(() => _isLoading = true);
 
-    if (!isLogin) {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    // Find user in storage
+    final user = findUser(email, password);
+
+    if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content:
@@ -31,10 +51,15 @@ class LoginPage extends StatelessWidget {
           backgroundColor: Colors.red,
         ),
       );
+      setState(() => _isLoading = false);
       return;
     }
 
-    currentUser = users.firstWhere((user) => user['email'] == email);
+    // Login user
+    await loginUser(user);
+
+    setState(() => _isLoading = false);
+
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const LayoutPage()));
   }
@@ -58,9 +83,10 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomTextfeild(
+                        controller: _emailController,
                         icon: const Icon(Icons.email_outlined),
                         color: primaryColor,
-                        onSaved: (value) => email = value,
+                        onSaved: (value) {},
                         text: "Email",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -78,9 +104,10 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       CustomTextfeild(
+                        controller: _passwordController,
                         icon: const Icon(Icons.lock_outline),
                         color: primaryColor,
-                        onSaved: (value) => password = value,
+                        onSaved: (value) {},
                         text: "Password",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -100,21 +127,37 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 AuthFooter(
-                  buttonText: "Login",
+                  buttonText: _isLoading ? "Logging in..." : "Login",
                   questionText: "Don't have an account? ",
                   linkText: "Sign Up",
-                  onButtonPressed: () => login(context),
-                  onLinkPressed: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const RegisterPage()),
-                  ),
+                  onButtonPressed:
+                      _isLoading ? null : () => login(context), // Now nullable
+                  onLinkPressed: _isLoading
+                      ? null
+                      : () => Navigator.pushReplacement(
+                            // Now nullable
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterPage()),
+                          ),
                 ),
+                if (_isLoading)
+                  const Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: CircularProgressIndicator(),
+                  ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

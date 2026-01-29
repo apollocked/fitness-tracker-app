@@ -86,6 +86,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         widget.onThemeChanged?.call();
                         setState(() {});
                       },
+                      onProfileUpdated: () {
+                        // When profile is updated in Settings, rebuild this page
+                        setState(() {});
+                      },
                     ),
                   ),
                 );

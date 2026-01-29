@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
-import 'package:myapp/models/measurement_model.dart';
+import 'package:myapp/models/measurement_model.dart'; // Updated
 import 'package:myapp/pages/Cards/add_measurement_page.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
@@ -15,21 +15,18 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
+  List<Measurement> _measurements = [];
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBarr('Progress', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
-      body:
-          measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),
-      floatingActionButton: measurements.isNotEmpty
-          ? CustomElevatedButton(
-              onpressed: _navigateToAddMeasurement,
-              text: 'Add Measurement',
-              color: primaryColor,
-            )
-          : null,
-    );
+  void initState() {
+    super.initState();
+    _loadMeasurements();
+  }
+
+  void _loadMeasurements() {
+    setState(() {
+      _measurements = getMeasurements();
+    });
   }
 
   void _navigateToAddMeasurement() async {
@@ -37,9 +34,15 @@ class _ProgressPageState extends State<ProgressPage> {
       context,
       MaterialPageRoute(builder: (context) => const AddMeasurementPage()),
     );
+    
     if (result == true) {
-      setState(() {});
+      _loadMeasurements();
     }
+  }
+
+  Future<void> _deleteMeasurement(int index) async {
+    await deleteMeasurement(_measurements.length - 1 - index);
+    _loadMeasurements();
   }
 
   Widget _buildEmptyState() {
@@ -55,12 +58,8 @@ class _ProgressPageState extends State<ProgressPage> {
                   fontWeight: FontWeight.w600,
                   color: getTextColor())),
           const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Text(
-                'Start tracking your weight and waist measurements to see your progress over time.',
-                style: TextStyle(color: getSubtitleColor(), fontSize: 14)),
-          ),
+          Text('Add your weight measurements to track your progress over time.',
+              style: TextStyle(color: getSubtitleColor())),
           const SizedBox(height: 32),
           ElevatedButton.icon(
             onPressed: _navigateToAddMeasurement,
@@ -80,9 +79,9 @@ class _ProgressPageState extends State<ProgressPage> {
   Widget _buildMeasurementsList() {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: measurements.length,
+      itemCount: _measurements.length,
       itemBuilder: (context, index) {
-        final m = measurements[measurements.length - 1 - index];
+        final m = _measurements[_measurements.length - 1 - index];
         return Card(
           color: getCardColor(),
           margin: const EdgeInsets.only(bottom: 16),
@@ -133,7 +132,6 @@ class _ProgressPageState extends State<ProgressPage> {
                     ],
                   ),
                 ),
-                // REMOVED: Waist display section
               ],
             ),
           ),
@@ -142,29 +140,19 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  void _deleteMeasurement(int index) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: getCardColor(),
-        title: Text('Delete Measurement?',
-            style: TextStyle(color: getTextColor())),
-        content: Text('Are you sure you want to delete this measurement?',
-            style: TextStyle(color: getTextColor())),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
-          TextButton(
-            onPressed: () {
-              setState(
-                  () => measurements.removeAt(measurements.length - 1 - index));
-              Navigator.pop(context);
-            },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: customAppBarr('Progress', primaryColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(),
+      body: _measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),
+      floatingActionButton: _measurements.isNotEmpty
+          ? CustomElevatedButton(
+              onpressed: _navigateToAddMeasurement,
+              text: 'Add Measurement',
+              color: primaryColor,
+            )
+          : null,
     );
   }
 }

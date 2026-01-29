@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
-import 'package:myapp/models/measurement_model.dart';
+import 'package:myapp/models/measurement_model.dart'; // Updated
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
-import 'package:myapp/utils/user_data.dart';
+import 'package:myapp/utils/user_data.dart'; // Updated
 
 class AddMeasurementPage extends StatefulWidget {
   const AddMeasurementPage({super.key});
@@ -18,7 +18,6 @@ class AddMeasurementPage extends StatefulWidget {
 class _AddMeasurementPageState extends State<AddMeasurementPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _weightController = TextEditingController();
-  // REMOVED: final TextEditingController _waistController = TextEditingController();
   bool _isLoading = false;
 
   @override
@@ -28,13 +27,6 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     if (currentUser != null && currentUser!['weight'] != null) {
       _weightController.text = currentUser!['weight'].toString();
     }
-  }
-
-  @override
-  void dispose() {
-    _weightController.dispose();
-    // REMOVED: _waistController.dispose();
-    super.dispose();
   }
 
   Future<void> _saveMeasurement() async {
@@ -50,23 +42,25 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
       }
 
       setState(() => _isLoading = true);
-      await Future.delayed(const Duration(seconds: 1));
 
       // Create and add measurement
       final measurement = Measurement(
         date: DateTime.now(),
         weight: double.parse(_weightController.text),
-        // REMOVED: waist: null,
       );
 
-      measurements.add(measurement);
+      await addMeasurement(measurement);
 
       // Update user data and weight goal
       final newWeight = double.parse(_weightController.text);
-      currentUser!['weight'] = newWeight;
 
-      // Update weight goal automatically
-      _updateWeightGoal(newWeight);
+      if (currentUser != null) {
+        currentUser!['weight'] = newWeight;
+        await updateUser(currentUser!['id'], currentUser!);
+
+        // Update weight goal automatically
+        _updateWeightGoal(newWeight);
+      }
 
       setState(() {
         _isLoading = false;
@@ -83,20 +77,19 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     }
   }
 
-  void _updateWeightGoal(double newWeight) {
+  Future<void> _updateWeightGoal(double newWeight) async {
     if (currentUser != null &&
         currentUser!['goals'] != null &&
         currentUser!['goals']['weight'] != null) {
-      final weightGoal = currentUser!['goals']['weight'];
+      final weightGoal =
+          Map<String, dynamic>.from(currentUser!['goals']['weight']);
 
       // Update only the current value
       weightGoal['current'] = newWeight;
 
-      // Also update in users list
-      final index = users.indexWhere((u) => u['id'] == currentUser!['id']);
-      if (index != -1 && users[index]['goals'] != null) {
-        users[index]['goals']['weight'] = weightGoal;
-      }
+      // Update user goals
+      currentUser!['goals']['weight'] = weightGoal;
+      await updateUser(currentUser!['id'], currentUser!);
 
       // Show notification about goal update
       ScaffoldMessenger.of(context).showSnackBar(
@@ -193,5 +186,11 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
               ),
             ),
     );
+  }
+
+  @override
+  void dispose() {
+    _weightController.dispose();
+    super.dispose();
   }
 }

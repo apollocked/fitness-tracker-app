@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/authentication/login_page.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
-import 'package:myapp/utils/user_data.dart';
+import 'package:myapp/utils/user_data.dart'; // Updated
 
 class LogoutDialog {
   static void show(BuildContext context) {
@@ -20,14 +20,14 @@ class LogoutDialog {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 // Clear current user
-                currentUser = null;
+                await logoutUser();
 
                 // Navigate to login page
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                   (route) => false,
                 );
               },

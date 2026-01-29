@@ -8,8 +8,13 @@ import 'package:myapp/utils/user_data.dart';
 
 class SettingsPage extends StatefulWidget {
   final VoidCallback onThemeChanged;
+  final VoidCallback? onProfileUpdated; // Add this callback
 
-  const SettingsPage({super.key, required this.onThemeChanged});
+  const SettingsPage({
+    super.key,
+    required this.onThemeChanged,
+    this.onProfileUpdated, // Add this parameter
+  });
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -65,8 +70,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.edit,
                   'Edit Profile',
                   'Update your information',
-                  () => SettingsDialogs.showEditProfileDialog(
-                      context, () => setState(() {}))),
+                  () => SettingsDialogs.showEditProfileDialog(context, () {
+                        // When profile is saved, trigger rebuild of SettingsPage
+                        setState(() {});
+                        // Also notify parent widget (ProfilePage) to rebuild
+                        widget.onProfileUpdated?.call();
+                      })),
             ]),
             const SizedBox(height: 24),
             buildSectionTitle('Notifications'),
