@@ -32,8 +32,8 @@ class _FitAppState extends State<FitApp> {
     // Use default user if editing without logging in
     currentUser ??= users[0];
     // Initialize dark mode
-    currentUser!['darkMode'] ??= true;
-    _isDarkMode = currentUser!['darkMode'] ?? true;
+    currentUser!['darkMode'] ??= false;
+    _isDarkMode = currentUser!['darkMode'] ?? false;
   }
 
   void updateTheme(bool isDark) {

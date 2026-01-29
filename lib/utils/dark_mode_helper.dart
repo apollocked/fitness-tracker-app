@@ -5,7 +5,7 @@ import 'package:myapp/utils/user_data.dart';
 bool isDarkMode() => currentUser?['darkMode'] ?? false;
 
 Color getCardColor() {
-  return isDarkMode() ? darkCard : const Color.fromARGB(255, 248, 255, 246);
+  return isDarkMode() ? darkCard : const Color.fromARGB(255, 255, 254, 246);
 }
 
 Color getBackgroundColor() {

@@ -14,7 +14,17 @@
       "devDependencies": [
         "flutter_launcher_icons",
         "flutter_lints",
-        "flutter_test"
+        "flutter_test",
+        "rename"
+      ]
+    },
+    {
+      "name": "rename",
+      "version": "3.1.0",
+      "dependencies": [
+        "args",
+        "logger",
+        "path"
       ]
     },
     {
@@ -90,6 +100,23 @@
       ]
     },
     {
+      "name": "path",
+      "version": "1.9.1",
+      "dependencies": []
+    },
+    {
+      "name": "logger",
+      "version": "2.6.2",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "args",
+      "version": "2.7.0",
+      "dependencies": []
+    },
+    {
       "name": "yaml",
       "version": "3.1.3",
       "dependencies": [
@@ -97,11 +124,6 @@
         "source_span",
         "string_scanner"
       ]
-    },
-    {
-      "name": "path",
-      "version": "1.9.1",
-      "dependencies": []
     },
     {
       "name": "json_annotation",
@@ -135,11 +157,6 @@
         "source_span",
         "yaml"
       ]
-    },
-    {
-      "name": "args",
-      "version": "2.7.0",
-      "dependencies": []
     },
     {
       "name": "lints",

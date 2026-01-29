@@ -152,6 +152,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "logger",
+      "rootUri": "file:///C:/Users/hamab/AppData/Local/Pub/Cache/hosted/pub.dev/logger-2.6.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///C:/Users/hamab/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.17",
       "packageUri": "lib/",
@@ -216,6 +222,12 @@
       "rootUri": "file:///C:/Users/hamab/AppData/Local/Pub/Cache/hosted/pub.dev/posix-6.0.3",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "rename",
+      "rootUri": "file:///C:/Users/hamab/AppData/Local/Pub/Cache/hosted/pub.dev/rename-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences",

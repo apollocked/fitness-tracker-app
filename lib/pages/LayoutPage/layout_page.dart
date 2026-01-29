@@ -49,6 +49,10 @@ class _LayoutPageState extends State<LayoutPage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: 13,
+        unselectedFontSize: 10,
+        selectedIconTheme: const IconThemeData(size: 27),
+        unselectedIconTheme: const IconThemeData(size: 20),
         backgroundColor: getCardColor(),
         currentIndex: _selectedIndex,
         selectedItemColor: primaryColor,

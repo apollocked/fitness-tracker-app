@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     'Ideal Body Weight',
                     Icons.monitor_weight,
-                    Colors.blue,
+                    blueColor,
                     'Calculate',
                     () {
                       Navigator.pushNamed(context, '/ideal-weight');
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     'Protein Intake',
                     Icons.restaurant,
-                    Colors.orange,
+                    orangeColor,
                     'Calculate',
                     () {
                       Navigator.pushNamed(context, '/protein-intake');
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     'Daily Calorie Needs',
                     Icons.local_fire_department,
-                    Colors.red,
+                    redColor,
                     'Calculate',
                     () {
                       Navigator.pushNamed(context, '/daily-calories');
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                 title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: getTextColor()),
               ),
