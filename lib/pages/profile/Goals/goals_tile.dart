@@ -137,13 +137,13 @@ class GoalTile extends StatelessWidget {
                     completed
                         ? Icons.check_circle
                         : hasCurrent
-                            ? Icons.timelapse
+                            ? Icons.radio_button_checked
                             : Icons.remove_circle_outline,
                     size: 16,
                     color: completed
                         ? greenColor
                         : hasCurrent
-                            ? orangeColor
+                            ? greenColor
                             : Colors.grey,
                   ),
                   const SizedBox(width: 8),

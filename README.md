@@ -74,7 +74,7 @@ A comprehensive Flutter-based fitness tracking application designed to help user
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/fitness-tracker-app.git
+git clone https://github.com/apollocked/fitness-tracker-app.git
 cd fitness-tracker-app
 ```
 

@@ -134,7 +134,7 @@ class GoalsController extends ChangeNotifier {
       if (progress >= 1.0) {
         return 'Goal achieved';
       } else {
-        return 'In progress';
+        return 'Active';
       }
     }
 
@@ -146,9 +146,9 @@ class GoalsController extends ChangeNotifier {
   Color getCardColor(String key) {
     switch (key) {
       case 'calories':
-        return Colors.red;
+        return redColor;
       case 'protein':
-        return Colors.orange;
+        return orangeColor;
       case 'weight':
         return blueColor;
       default:
