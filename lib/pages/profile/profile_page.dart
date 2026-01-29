@@ -73,8 +73,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 );
               }),
-              _buildListTile(Icons.notifications, 'Reminders',
-                  'Manage notifications', () {}),
             ]),
             const SizedBox(height: 5),
             _buildProfileCard(context, [
