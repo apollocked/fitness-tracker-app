@@ -181,9 +181,7 @@ List<Map<String, dynamic>> users = [
 
 ### Future Enhancement: Database Integration
 
-- SQLite for local storage
 - Firebase for cloud sync
-- Offline-first approach
 
 ---
 
