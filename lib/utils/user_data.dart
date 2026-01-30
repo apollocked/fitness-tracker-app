@@ -107,6 +107,8 @@ Future<void> updateUser(String userId, Map<String, dynamic> updatedData) async {
 // Delete user
 Future<void> deleteUser(String userId) async {
   try {
+    print('Deleting user with ID: $userId');
+
     // Store user data before deletion for potential recovery
     final userToDelete = users.firstWhere(
       (user) => user['id'] == userId,
@@ -116,10 +118,15 @@ Future<void> deleteUser(String userId) async {
     if (userToDelete.isNotEmpty) {
       // Remove from users list
       users.removeWhere((user) => user['id'] == userId);
+
+      // IMPORTANT: Save the updated users list to storage
       await saveUsersToStorage();
+
+      print('User removed from users list. Total users now: ${users.length}');
 
       // Log out if current user is deleted
       if (currentUser != null && currentUser!['id'] == userId) {
+        print('Clearing current user session');
         currentUser = null;
         await StorageService.saveCurrentUser(null);
         await StorageService.setLoggedIn(false);
@@ -168,17 +175,40 @@ bool emailExists(String email) {
   }
 }
 
+// Check if user exists by ID
+bool userExists(String userId) {
+  try {
+    return users.any((user) => user['id'] == userId);
+  } catch (e) {
+    print('Error checking user existence: $e');
+    return false;
+  }
+}
+
 // Find user by email and password
 Map<String, dynamic>? findUser(String email, String password) {
   try {
-    return users.firstWhere(
-      (user) =>
-          user['email'].toString().toLowerCase() == email.toLowerCase() &&
-          user['password'] == password,
-      orElse: () => {},
-    );
+    print('Finding user with email: $email');
+    print('Total users in list: ${users.length}');
+
+    // Filter users by email first (case-insensitive)
+    final matchingUsers = users.where((user) =>
+        user['email'].toString().toLowerCase() == email.toLowerCase());
+
+    print('Users with matching email: ${matchingUsers.length}');
+
+    // Then check password
+    for (final user in matchingUsers) {
+      if (user['password'] == password) {
+        print('User found: ${user['username']}');
+        return user;
+      }
+    }
+
+    print('No user found with matching credentials');
+    return null;
   } catch (e) {
     print('Error finding user: $e');
-    return {};
+    return null;
   }
 }

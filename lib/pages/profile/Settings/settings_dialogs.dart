@@ -1,5 +1,7 @@
+// ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
+import 'package:myapp/services/storage_service.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
@@ -231,6 +233,13 @@ class SettingsDialogs {
 
               final userId = currentUser!['id'];
               final username = currentUser!['username'];
+              final email = currentUser!['email'];
+
+              print('Attempting to delete account:');
+              print('User ID: $userId');
+              print('Username: $username');
+              print('Email: $email');
+              print('Current users before deletion: ${users.length}');
 
               try {
                 // Close confirmation dialog first
@@ -253,15 +262,11 @@ class SettingsDialogs {
 
                 // Delete the user
                 await deleteUser(userId);
-                currentUser = null;
-                await saveCurrentUserToStorage();
-                for (var i = 0; i < users.length; i++) {
-                  if (users[i]['id'] == userId) {
-                    users.removeAt(i);
-                    break;
-                  }
-                }
-                await saveUsersToStorage();
+
+                // Verify deletion
+                print('Current users after deletion: ${users.length}');
+                print(
+                    'User still exists? ${users.any((user) => user['id'] == userId)}');
 
                 // Close loading dialog
                 if (context.mounted) {
@@ -279,8 +284,14 @@ class SettingsDialogs {
                   );
                 }
 
+                await StorageService.clearAll();
+
+                // Reload users from storage to verify
+                await initUserData();
+                print('Reloaded users after deletion: ${users.length}');
+
                 // Navigate to register page
-                await Future.delayed(const Duration(milliseconds: 500));
+                await Future.delayed(const Duration(milliseconds: 1000));
 
                 if (context.mounted) {
                   Navigator.pushAndRemoveUntil(

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:myapp/pages/LayoutPage/layout_page.dart';
 import 'package:myapp/pages/Profile/Settings/privacy_policy_page.dart';
 import 'package:myapp/pages/Profile/Settings/terms_conditions_page.dart';
-import 'package:myapp/utils/user_data.dart'; // Updated
+import 'package:myapp/utils/user_data.dart';
 import 'package:myapp/pages/Cards/ideal_bw_page.dart';
 import 'package:myapp/pages/Cards/protien_intake_page.dart';
 import 'package:myapp/pages/Cards/daily_calorie_page.dart';
 import 'package:myapp/pages/Cards/add_measurement_page.dart';
 import 'package:myapp/pages/Profile/features_page.dart';
-import 'package:myapp/pages/authentication/login_page.dart'; // Add this
-import 'package:myapp/services/storage_service.dart'; // Add this
+import 'package:myapp/pages/authentication/login_page.dart';
+import 'package:myapp/services/storage_service.dart';
 
 void main() async {
   // Initialize widgets binding
@@ -94,7 +94,7 @@ class _FitAppState extends State<FitApp> {
         '/daily-calories': (context) => const DailyCaloriePage(),
         '/add-measurement': (context) => const AddMeasurementPage(),
         '/features': (context) => const FeaturesPage(),
-        '/login': (context) => const LoginPage(), // Add login route
+        '/login': (context) => const LoginPage(),
       },
     );
   }
