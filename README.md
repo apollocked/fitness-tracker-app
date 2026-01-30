@@ -415,14 +415,13 @@ Color getCardColor() {
 
 ### Current Limitations
 
-- ⚠️ In-memory data storage (lost on app restart)
 - ⚠️ No backend integration
 - ⚠️ No data export/backup
 - ⚠️ No push notifications
 
 ### Future Enhancements
 
-- 🔄 Database integration (SQLite/Firebase)
+- 🔄 Database integration (Firebase)
 - 🔄 Cloud synchronization
 - 🔄 Push notifications
 - 🔄 Social features (sharing goals)
