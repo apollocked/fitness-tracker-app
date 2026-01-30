@@ -486,7 +486,7 @@ Color getCardColor() {
 
 - Check in-app FAQs
 - Read troubleshooting guide
-- Email: support@fitnessapp.com
+- Email: hamabarznji1990@gmail.com
 
 ### Contact
 
