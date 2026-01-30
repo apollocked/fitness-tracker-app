@@ -278,7 +278,7 @@ Profile
 - ✅ Username (minimum 3 characters)
 - ✅ Email (valid format, not registered)
 - ✅ Password (minimum 6 characters)
-- ✅ Age (1-120 years)
+- ✅ Age (13-120 years)
 - ✅ Weight (1-300 kg)
 - ✅ Height (1-300 cm)
 - ✅ Gender selection
@@ -486,7 +486,7 @@ Color getCardColor() {
 
 - Check in-app FAQs
 - Read troubleshooting guide
-- Email: hamabarznji1990@gmail.com
+- Email: mahamadbarznji712@gmail.com
 
 ### Contact
 
