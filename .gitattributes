@@ -1,0 +1,10 @@
+# Force-ignore all platform-specific build files
+android/**/* linguist-generated
+ios/**/* linguist-generated
+linux/**/* linguist-generated
+macos/**/* linguist-generated
+windows/**/* linguist-generated
+web/**/* linguist-generated
+
+# Explicitly tell GitHub that .dart files are the priority
+*.dart linguist-detectable=true
