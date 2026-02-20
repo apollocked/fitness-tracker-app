@@ -1,10 +1,19 @@
-# Force-ignore all platform-specific build files
-android/**/* linguist-generated
-ios/**/* linguist-generated
-linux/**/* linguist-generated
-macos/**/* linguist-generated
-windows/**/* linguist-generated
-web/**/* linguist-generated
+# Force-ignore all platform-specific build files from language statistics
+android/** linguist-generated=true
+ios/** linguist-generated=true
+linux/** linguist-generated=true
+macos/** linguist-generated=true
+windows/** linguist-generated=true
+web/** linguist-generated=true
+
+# Ignore other typical system/build files
+Makefile linguist-generated=true
+CMakeLists.txt linguist-generated=true
+*.c linguist-generated=true
+*.cpp linguist-generated=true
+*.cc linguist-generated=true
+*.h linguist-generated=true
+*.swift linguist-generated=true
 
 # Explicitly tell GitHub that .dart files are the priority
 *.dart linguist-detectable=true
