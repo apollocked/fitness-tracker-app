@@ -8,6 +8,8 @@ web/** linguist-vendored
 build/** linguist-vendored
 .idea/** linguist-vendored
 .vscode/** linguist-vendored
+.dart_tool/** linguist-vendored
+*.iml linguist-vendored
 
 # Also mark them as generated so they are collapsed in Pull Requests
 android/** linguist-generated=true
