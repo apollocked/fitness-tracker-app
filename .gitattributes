@@ -17,9 +17,11 @@ macos/** linguist-generated=true
 windows/** linguist-generated=true
 web/** linguist-generated=true
 
-# Ignore other typical system/build files
+# Ignore build system files (CMake, Make, Gradle, etc.)
 Makefile linguist-vendored
+*.make linguist-vendored
 CMakeLists.txt linguist-vendored
+*.cmake linguist-vendored
 *.c linguist-vendored
 *.cpp linguist-vendored
 *.cc linguist-vendored
@@ -27,7 +29,31 @@ CMakeLists.txt linguist-vendored
 *.swift linguist-vendored
 *.java linguist-vendored
 *.kt linguist-vendored
+*.kts linguist-vendored
 *.xml linguist-vendored
+*.gradle linguist-vendored
+*.gradle.kts linguist-vendored
+*.plist linguist-vendored
+*.xcodeproj/** linguist-vendored
+*.xcworkspace/** linguist-vendored
+*.pbxproj linguist-vendored
+*.storyboard linguist-vendored
+*.xib linguist-vendored
+*.entitlements linguist-vendored
+*.xcconfig linguist-vendored
 
-# Explicitly tell GitHub that .dart files are the priority
+# Shell scripts and batch files
+*.sh linguist-vendored
+*.bat linguist-vendored
+
+# Config files
+*.yaml linguist-vendored
+*.yml linguist-vendored
+*.json linguist-vendored
+*.lock linguist-vendored
+*.toml linguist-vendored
+*.ini linguist-vendored
+*.properties linguist-vendored
+
+# Explicitly tell GitHub that .dart files are the main language
 *.dart linguist-detectable=true
