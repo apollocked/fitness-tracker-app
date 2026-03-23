@@ -23,7 +23,7 @@ class ThemeProvider extends ChangeNotifier {
       currentUser!['darkMode'] = _isDarkMode;
       await updateUser(currentUser!['id'], currentUser!);
     }
-
+    await Future.delayed(Duration(seconds: 1));
     notifyListeners();
   }
 
@@ -37,6 +37,7 @@ class ThemeProvider extends ChangeNotifier {
       currentUser!['darkMode'] = _isDarkMode;
       await updateUser(currentUser!['id'], currentUser!);
     }
+    await Future.delayed(Duration(seconds: 1));
 
     notifyListeners();
   }

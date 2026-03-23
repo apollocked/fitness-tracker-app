@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/providers/loading_proveder.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/pages/LayoutPage/layout_page.dart';
 import 'package:myapp/pages/Profile/Settings/privacy_policy_page.dart';
@@ -38,6 +39,7 @@ class FitApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        ChangeNotifierProvider(create: (_) => LoadingProvider())
       ],
       child: const _FitAppBuilder(),
     );
