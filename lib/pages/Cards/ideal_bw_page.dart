@@ -97,9 +97,9 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: getBackgroundColor(),
-      appBar: customAppBarr(
-          "Ideal Body Weight Calculator", blueColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(context),
+      appBar: customAppBarr("Ideal Body Weight Calculator", blueColor,
+          getBackgroundColor(context)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(

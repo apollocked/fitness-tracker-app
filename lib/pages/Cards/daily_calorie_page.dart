@@ -130,8 +130,8 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBarr(
-          "Daily Calorie Calculator", redColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+          "Daily Calorie Calculator", redColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(

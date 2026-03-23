@@ -9,8 +9,9 @@ class PrivacyPolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('Privacy Policy', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+      appBar: customAppBarr(
+          'Privacy Policy', primaryColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -30,7 +31,6 @@ class PrivacyPolicyPage extends StatelessWidget {
               style: TextStyle(color: getSubtitleColor()),
             ),
             const SizedBox(height: 24),
-            
             _buildSection(
               '1. Information We Collect',
               'We collect the following information to provide our fitness tracking services:',
@@ -41,7 +41,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Device Information: Device type, operating system version'
               ],
             ),
-            
             _buildSection(
               '2. How We Use Your Information',
               'Your information is used exclusively to:',
@@ -52,7 +51,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Communicate important updates about the app'
               ],
             ),
-            
             _buildSection(
               '3. Data Storage & Security',
               'We prioritize the security of your data:',
@@ -63,7 +61,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'You maintain full control over your data'
               ],
             ),
-            
             _buildSection(
               '4. Your Rights',
               'You have the following rights regarding your data:',
@@ -74,7 +71,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Export your fitness data for personal use'
               ],
             ),
-            
             _buildSection(
               '5. Children\'s Privacy',
               'Our app is not intended for children under 13:',
@@ -84,7 +80,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Users under 18 should use the app under parental supervision'
               ],
             ),
-            
             _buildSection(
               '6. Changes to This Policy',
               'We may update this privacy policy periodically:',
@@ -94,7 +89,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'You can review the latest version anytime in this section'
               ],
             ),
-            
             const SizedBox(height: 32),
             Container(
               padding: const EdgeInsets.all(16),
@@ -130,7 +124,6 @@ class PrivacyPolicyPage extends StatelessWidget {
                 ],
               ),
             ),
-            
             const SizedBox(height: 32),
           ],
         ),
@@ -159,21 +152,21 @@ class PrivacyPolicyPage extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           ...points.map((point) => Padding(
-            padding: const EdgeInsets.only(bottom: 8, left: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.circle, size: 8, color: primaryColor),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    point,
-                    style: TextStyle(color: getTextColor()),
-                  ),
+                padding: const EdgeInsets.only(bottom: 8, left: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Icons.circle, size: 8, color: primaryColor),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        point,
+                        style: TextStyle(color: getTextColor()),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )),
+              )),
         ],
       ),
     );

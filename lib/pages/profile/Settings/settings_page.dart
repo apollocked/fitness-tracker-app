@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:myapp/providers/loading_proveder.dart';
 import 'package:provider/provider.dart';
@@ -14,11 +16,12 @@ class SettingsPage extends StatelessWidget {
 
   Future<void> _onDarkModeChanged(BuildContext context, bool value) async {
     context.read<LoadingProvider>().setLoading(true);
-    await context.read<ThemeProvider>().setTheme(value);
+    final _toggleTheme = context.read<ThemeProvider>().toggleTheme();
+    final _setTheme = context.read<ThemeProvider>().setTheme(value);
+    await Future.delayed(Duration(milliseconds: 500));
+    final toggleTheme = await _toggleTheme;
+    final setTheme = await _setTheme;
     context.read<LoadingProvider>().setLoading(false);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return SettingsPage();
-    }));
   }
 
   void _onNotificationsChanged(BuildContext context, bool value) {
@@ -34,8 +37,9 @@ class SettingsPage extends StatelessWidget {
     return Stack(
       children: [
         Scaffold(
-          appBar: customAppBarr('Settings', primaryColor, getBackgroundColor()),
-          backgroundColor: getBackgroundColor(),
+          appBar: customAppBarr(
+              'Settings', primaryColor, getBackgroundColor(context)),
+          backgroundColor: getBackgroundColor(context),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(

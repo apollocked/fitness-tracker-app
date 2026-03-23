@@ -80,9 +80,9 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: getBackgroundColor(),
-      appBar: customAppBarr(
-          "Protein Intake Calculator", orangeColor, getBackgroundColor()),
+      backgroundColor: getBackgroundColor(context),
+      appBar: customAppBarr("Protein Intake Calculator", orangeColor,
+          getBackgroundColor(context)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(

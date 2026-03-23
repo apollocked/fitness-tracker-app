@@ -7,9 +7,11 @@ import 'package:myapp/pages/Profile/help_support_page.dart';
 import 'package:myapp/pages/Profile/logout_dialog.dart';
 import 'package:myapp/pages/Profile/personal_info_page.dart';
 import 'package:myapp/pages/Profile/Settings/settings_page.dart';
+import 'package:myapp/providers/theme_provider.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -18,8 +20,9 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (currentUser == null) {
       return Scaffold(
-        appBar: customAppBarr('Profile', primaryColor, getBackgroundColor()),
-        backgroundColor: getBackgroundColor(),
+        appBar:
+            customAppBarr('Profile', primaryColor, getBackgroundColor(context)),
+        backgroundColor: getBackgroundColor(context),
         body: Center(
             child: Text('No user logged in',
                 style: TextStyle(color: getTextColor()))),
@@ -27,8 +30,9 @@ class ProfilePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: customAppBarr('Profile', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+      appBar:
+          customAppBarr('Profile', primaryColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -36,7 +40,8 @@ class ProfilePage extends StatelessWidget {
             CircleAvatar(
               radius: 60,
               backgroundColor: primaryColor,
-              child: Icon(Icons.person, size: 60, color: getBackgroundColor()),
+              child: Icon(Icons.person,
+                  size: 60, color: getBackgroundColor(context)),
             ),
             const SizedBox(height: 10),
             Text(
@@ -70,13 +75,15 @@ class ProfilePage extends StatelessWidget {
             ]),
             const SizedBox(height: 5),
             _buildProfileCard(context, [
-              _buildListTile(Icons.settings, 'Settings', 'App preferences', () {
-                Navigator.push(
+              _buildListTile(Icons.settings, 'Settings', 'App preferences',
+                  () async {
+                final result = await Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingsPage(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
                 );
+                if (result == true) {
+                  context.read<ThemeProvider>().updateTheme();
+                }
               }),
               _buildListTile(
                   Icons.help_outline, 'Help & Support', 'Get assistance', () {

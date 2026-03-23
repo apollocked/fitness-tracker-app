@@ -40,9 +40,9 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          customAppBarr('Help & Support', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+      appBar: customAppBarr(
+          'Help & Support', primaryColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: SingleChildScrollView(
         controller: _scrollController,
         padding: const EdgeInsets.all(16),

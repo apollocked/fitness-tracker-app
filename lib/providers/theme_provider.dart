@@ -13,6 +13,10 @@ class ThemeProvider extends ChangeNotifier {
     }
   }
 
+  void updateTheme() {
+    notifyListeners();
+  }
+
   bool get isDarkMode => _isDarkMode;
 
   Future<void> toggleTheme() async {
@@ -23,7 +27,6 @@ class ThemeProvider extends ChangeNotifier {
       currentUser!['darkMode'] = _isDarkMode;
       await updateUser(currentUser!['id'], currentUser!);
     }
-    await Future.delayed(Duration(seconds: 1));
     notifyListeners();
   }
 
@@ -37,7 +40,6 @@ class ThemeProvider extends ChangeNotifier {
       currentUser!['darkMode'] = _isDarkMode;
       await updateUser(currentUser!['id'], currentUser!);
     }
-    await Future.delayed(Duration(seconds: 1));
 
     notifyListeners();
   }

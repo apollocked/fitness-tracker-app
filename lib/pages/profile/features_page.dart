@@ -9,8 +9,9 @@ class FeaturesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('App Features', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+      appBar: customAppBarr(
+          'App Features', primaryColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

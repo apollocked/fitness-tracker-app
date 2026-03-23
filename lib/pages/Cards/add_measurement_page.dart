@@ -105,9 +105,9 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          customAppBarr('Add Measurement', greenColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+      appBar: customAppBarr(
+          'Add Measurement', greenColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(

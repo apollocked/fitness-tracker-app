@@ -16,7 +16,7 @@ class LayoutPage extends StatelessWidget {
     final selectedIndex = navProvider.selectedIndex;
 
     return Scaffold(
-      backgroundColor: getBackgroundColor(),
+      backgroundColor: getBackgroundColor(context),
       body: IndexedStack(
         index: selectedIndex,
         children: [

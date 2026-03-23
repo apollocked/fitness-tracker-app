@@ -13,9 +13,9 @@ class HomePage extends StatelessWidget {
       appBar: customAppBarr(
         'Home',
         primaryColor,
-        getBackgroundColor(),
+        getBackgroundColor(context),
       ),
-      backgroundColor: getBackgroundColor(),
+      backgroundColor: getBackgroundColor(context),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

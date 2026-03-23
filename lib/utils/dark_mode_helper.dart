@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
 bool isDarkMode() => currentUser?['darkMode'] ?? false;
 
+// void themeProvider(BuildContext context) {
+//   context.watch<ThemeProvider>();
+// }
+
 Color getCardColor() {
   return isDarkMode() ? darkCard : const Color.fromARGB(255, 255, 254, 246);
 }
 
-Color getBackgroundColor() {
-  return isDarkMode() ? Colors.black : Colors.white;
+Color getBackgroundColor(BuildContext context) {
+  return Theme.of(context).scaffoldBackgroundColor;
 }
 
 Color insideButtonsColor() {

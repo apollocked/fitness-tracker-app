@@ -10,8 +10,8 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('About', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+      appBar: customAppBarr('About', primaryColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

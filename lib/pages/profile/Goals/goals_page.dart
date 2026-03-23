@@ -42,8 +42,9 @@ class _GoalsPageState extends State<GoalsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('My Goals', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+      appBar:
+          customAppBarr('My Goals', primaryColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: Column(
         children: [
           GoalsStats(controller: _controller),
@@ -92,10 +93,10 @@ class _GoalsPageState extends State<GoalsPage> {
             onPressed: () {
               Navigator.pushNamed(context, '/ideal-weight');
             },
-            icon: Icon(Icons.calculate, color: getBackgroundColor()),
+            icon: Icon(Icons.calculate, color: getBackgroundColor(context)),
             label: Text(
               'Set Weight Goal',
-              style: TextStyle(color: getBackgroundColor()),
+              style: TextStyle(color: getBackgroundColor(context)),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,

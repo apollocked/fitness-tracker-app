@@ -16,8 +16,8 @@ class PersonalInfoPage extends StatelessWidget {
 
     return Scaffold(
       appBar: customAppBarr(
-          'Personal Information', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
+          'Personal Information', primaryColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
       body: Column(
         children: [
           const SizedBox(height: 32),

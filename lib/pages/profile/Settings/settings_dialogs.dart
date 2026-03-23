@@ -29,7 +29,7 @@ class SettingsDialogs {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(),
+                fillColor: getBackgroundColor(context),
               ),
             ),
             const SizedBox(height: 12),
@@ -43,7 +43,7 @@ class SettingsDialogs {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(),
+                fillColor: getBackgroundColor(context),
               ),
             ),
             const SizedBox(height: 12),
@@ -57,7 +57,7 @@ class SettingsDialogs {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(),
+                fillColor: getBackgroundColor(context),
               ),
             ),
           ],
@@ -127,7 +127,7 @@ class SettingsDialogs {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(),
+                fillColor: getBackgroundColor(context),
               ),
             ),
             const SizedBox(height: 12),
@@ -140,7 +140,7 @@ class SettingsDialogs {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(),
+                fillColor: getBackgroundColor(context),
               ),
             ),
           ],

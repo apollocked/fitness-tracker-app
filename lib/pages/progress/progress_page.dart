@@ -34,7 +34,7 @@ class _ProgressPageState extends State<ProgressPage> {
       context,
       MaterialPageRoute(builder: (context) => const AddMeasurementPage()),
     );
-    
+
     if (result == true) {
       _loadMeasurements();
     }
@@ -67,8 +67,8 @@ class _ProgressPageState extends State<ProgressPage> {
             label: const Text('Add weight measurement'),
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
-              iconColor: getBackgroundColor(),
-              foregroundColor: getBackgroundColor(),
+              iconColor: getBackgroundColor(context),
+              foregroundColor: getBackgroundColor(context),
             ),
           ),
         ],
@@ -143,9 +143,11 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarr('Progress', primaryColor, getBackgroundColor()),
-      backgroundColor: getBackgroundColor(),
-      body: _measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),
+      appBar:
+          customAppBarr('Progress', primaryColor, getBackgroundColor(context)),
+      backgroundColor: getBackgroundColor(context),
+      body:
+          _measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),
       floatingActionButton: _measurements.isNotEmpty
           ? CustomElevatedButton(
               onpressed: _navigateToAddMeasurement,
