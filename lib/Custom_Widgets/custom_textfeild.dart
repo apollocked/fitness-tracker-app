@@ -73,11 +73,10 @@ class _CustomTextfeildState extends State<CustomTextfeild> {
               color: widget.color, style: BorderStyle.solid, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
-        enabled: true,
-        border: OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
               color: colors.subtitleColor, style: BorderStyle.solid, width: 1),
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(8),
         ),
         label: Text(
           widget.text,

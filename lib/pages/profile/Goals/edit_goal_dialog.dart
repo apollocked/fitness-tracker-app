@@ -2,7 +2,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'package:flutter/material.dart';
-import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
+import 'package:myapp/Custom_Widgets/custom_dialog_text_field.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/app_theme.dart';
@@ -25,6 +25,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
   late final TextEditingController _targetController;
   late final TextEditingController _currentController;
   late bool _isActive;
+  String? _selectedGoalType;
 
   @override
   void initState() {
@@ -34,6 +35,20 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     _currentController =
         TextEditingController(text: goal['current'].toString());
     _isActive = goal['active'] == true;
+    _selectedGoalType = goal['goalType'];
+
+    // Default goal type for weight if not set
+    if (widget.goalKey == 'weight' && _selectedGoalType == null) {
+      double target = double.tryParse(_targetController.text) ?? 0;
+      double current = double.tryParse(_currentController.text) ?? 0;
+      if (current > target) {
+        _selectedGoalType = 'lose';
+      } else if (current < target) {
+        _selectedGoalType = 'gain';
+      } else {
+        _selectedGoalType = 'maintain';
+      }
+    }
   }
 
   @override
@@ -41,106 +56,80 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final goal = widget.controller.goals[widget.goalKey]!;
 
-    return Dialog(
+    return AlertDialog(
       backgroundColor: colors.cardColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Edit ${GoalsController.capitalize(widget.goalKey)} Goal',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: colors.textColor)),
-              const SizedBox(height: 20),
-              _buildInputField(colors, 'Current ${goal['unit']}', _currentController),
-              const SizedBox(height: 16),
-              _buildInputField(colors, 'Target ${goal['unit']}', _targetController),
-              const SizedBox(height: 16),
-              _buildActiveSwitch(colors),
-
-              // Show goal type info if it's a weight goal
-              if (widget.goalKey == 'weight' && goal['goalType'] != null) ...[
-                const SizedBox(height: 16),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: _getGoalTypeColor(goal['goalType']).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                        color: _getGoalTypeColor(goal['goalType'])
-                            .withOpacity(0.3)),
+      title: Text('Edit ${GoalsController.capitalize(widget.goalKey)} Goal',
+          style: TextStyle(color: colors.textColor)),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomDialogTextField(
+              controller: _currentController,
+              text: 'Current Weight (${goal['unit']})',
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+            ),
+            const SizedBox(height: 16),
+            CustomDialogTextField(
+              controller: _targetController,
+              text: 'Target Weight (${goal['unit']})',
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+            ),
+            const SizedBox(height: 16),
+            if (widget.goalKey == 'weight') ...[
+              DropdownButtonFormField<String>(
+                value: _selectedGoalType,
+                decoration: InputDecoration(
+                  labelText: 'Goal Type',
+                  labelStyle: TextStyle(color: colors.subtitleColor),
+                  filled: true,
+                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: colors.subtitleColor.withOpacity(0.5)),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        _getGoalTypeIcon(goal['goalType']),
-                        color: _getGoalTypeColor(goal['goalType']),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Goal Type',
-                                style: TextStyle(
-                                    fontSize: 12, color: colors.subtitleColor)),
-                            Text(
-                              goal['goalType'] == 'lose'
-                                  ? 'Lose Weight'
-                                  : goal['goalType'] == 'gain'
-                                      ? 'Gain Weight'
-                                      : 'Maintain Weight',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: _getGoalTypeColor(goal['goalType'])),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: primaryColor, width: 2),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-              ],
-
-              const SizedBox(height: 24),
-              _buildActionButtons(),
+                dropdownColor: colors.cardColor,
+                items: [
+                  DropdownMenuItem(
+                      value: 'lose',
+                      child: Text('Lose Weight',
+                          style: TextStyle(color: colors.textColor))),
+                  DropdownMenuItem(
+                      value: 'gain',
+                      child: Text('Gain Weight',
+                          style: TextStyle(color: colors.textColor))),
+                  DropdownMenuItem(
+                      value: 'maintain',
+                      child: Text('Maintain Weight',
+                          style: TextStyle(color: colors.textColor))),
+                ],
+                onChanged: (value) => setState(() => _selectedGoalType = value),
+              ),
+              const SizedBox(height: 20),
             ],
-          ),
+            _buildActiveSwitch(colors),
+          ],
         ),
       ),
-    );
-  }
-
-  Widget _buildInputField(AppColorsExtension colors, String label, TextEditingController controller) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: TextStyle(fontSize: 14, color: colors.subtitleColor)),
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            color: colors.cardColor,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey[300]!),
-          ),
-          child: TextField(
-            controller: controller,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            style: TextStyle(color: colors.textColor),
-            decoration: InputDecoration(
-              hintText: 'Enter $label',
-              hintStyle: TextStyle(color: colors.subtitleColor),
-              border: InputBorder.none,
-            ),
-          ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: _saveChanges,
+          child: const Text('Save'),
         ),
       ],
     );
@@ -148,11 +137,11 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
 
   Widget _buildActiveSwitch(AppColorsExtension colors) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       decoration: BoxDecoration(
-        color: colors.cardColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!),
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: colors.subtitleColor.withOpacity(0.5)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,35 +155,6 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildActionButtons() {
-    return Row(
-      children: [
-        Expanded(
-          child: OutlinedButton(
-            onPressed: () => Navigator.pop(context),
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(color: primaryColor),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              padding: const EdgeInsets.symmetric(vertical: 15),
-            ),
-            child: Text('Cancel',
-                style: TextStyle(
-                    color: primaryColor, fontWeight: FontWeight.w600)),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: CustomElevatedButton(
-            onpressed: _saveChanges,
-            text: 'Save Changes',
-            color: primaryColor,
-          ),
-        ),
-      ],
     );
   }
 
@@ -213,7 +173,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
         currentValue = currentValue.toInt().toDouble();
       }
 
-      // For weight goal, automatically determine new goal type
+      // Prepare updated goal map
       Map<String, dynamic> updatedGoal = {
         'target': targetValue,
         'current': currentValue,
@@ -221,54 +181,25 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
         'active': _isActive,
       };
 
-      // Preserve existing properties
-      if (goal['startWeight'] != null) {
-        updatedGoal['startWeight'] = goal['startWeight'];
-      }
-      if (goal['goalType'] != null) {
-        updatedGoal['goalType'] = goal['goalType'];
-      }
+      // Handle weight specific fields
+      if (widget.goalKey == 'weight') {
+        updatedGoal['goalType'] = _selectedGoalType;
 
-      // If it's a weight goal and goal type exists, recalculate startWeight if needed
-      if (widget.goalKey == 'weight' && goal['goalType'] != null) {
-        String goalType = goal['goalType']!;
+        // Determine if we need to update/set startWeight
+        bool goalTypeChanged = goal['goalType'] != _selectedGoalType;
+        bool targetChanged = goal['target'] != targetValue;
 
-        // If startWeight doesn't exist, create it
-        if (goal['startWeight'] == null) {
-          if (goalType == 'lose') {
-            updatedGoal['startWeight'] =
-                currentValue > targetValue ? currentValue : targetValue;
-          } else if (goalType == 'gain') {
-            updatedGoal['startWeight'] =
-                currentValue < targetValue ? currentValue : targetValue;
-          }
+        if (goal['startWeight'] == null || goalTypeChanged || targetChanged) {
+          // If goal type or target changed significantly, reset startWeight to current
+          updatedGoal['startWeight'] = currentValue;
+        } else {
+          // Keep existing startWeight
+          updatedGoal['startWeight'] = goal['startWeight'];
         }
       }
 
       widget.controller.updateGoal(widget.goalKey, updatedGoal);
       Navigator.pop(context);
-    }
-  }
-
-  Color _getGoalTypeColor(String? goalType) {
-    switch (goalType) {
-      case 'lose':
-        return greenColor;
-      case 'gain':
-        return orangeColor;
-      default:
-        return blueColor;
-    }
-  }
-
-  IconData _getGoalTypeIcon(String? goalType) {
-    switch (goalType) {
-      case 'lose':
-        return Icons.trending_down;
-      case 'gain':
-        return Icons.trending_up;
-      default:
-        return Icons.trending_flat;
     }
   }
 

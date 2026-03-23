@@ -23,8 +23,8 @@ class ProfilePage extends StatelessWidget {
 
     if (currentUser == null) {
       return Scaffold(
-        appBar:
-            customAppBarr('Profile', primaryColor, theme.scaffoldBackgroundColor),
+        appBar: customAppBarr(
+            'Profile', primaryColor, theme.scaffoldBackgroundColor),
         backgroundColor: theme.scaffoldBackgroundColor,
         body: Center(
             child: Text('No user logged in',
@@ -60,14 +60,15 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             _buildProfileCard(context, [
-              _buildListTile(context, Icons.person, 'Personal Info', 'View your info',
-                  () {
+              _buildListTile(
+                  context, Icons.person, 'Personal Info', 'View your info', () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const PersonalInfoPage()));
               }),
-              _buildListTile(context, Icons.flag, 'Goals', 'Set your fitness goals', () {
+              _buildListTile(
+                  context, Icons.flag, 'Goals', 'Set your fitness goals', () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -78,7 +79,8 @@ class ProfilePage extends StatelessWidget {
             ]),
             const SizedBox(height: 5),
             _buildProfileCard(context, [
-              _buildListTile(context, Icons.settings, 'Settings', 'App preferences',
+              _buildListTile(
+                  context, Icons.settings, 'Settings', 'App preferences',
                   () async {
                 final result = await Navigator.push(
                   context,
@@ -88,31 +90,31 @@ class ProfilePage extends StatelessWidget {
                   context.read<ThemeProvider>().updateTheme();
                 }
               }),
-              _buildListTile(context, 
-                  Icons.help_outline, 'Help & Support', 'Get assistance', () {
+              _buildListTile(context, Icons.help_outline, 'Help & Support',
+                  'Get assistance', () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const HelpAndSupportPage()));
               }),
-              _buildListTile(context, 
-                  Icons.auto_fix_high, 'App Features', 'Explore all features',
-                  () {
+              _buildListTile(context, Icons.auto_fix_high, 'App Features',
+                  'Explore all features', () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const FeaturesPage()),
                 );
               }),
-              _buildListTile(context, Icons.info_outline, 'About', 'App information',
-                  () {
+              _buildListTile(
+                  context, Icons.info_outline, 'About', 'App information', () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const AboutPage()));
               }),
             ]),
             const SizedBox(height: 5),
             _buildProfileCard(context, [
-              _buildListTile(context, 
-                  Icons.logout, 'Logout', 'Sign out from your account', () {
+              _buildListTile(
+                  context, Icons.logout, 'Logout', 'Sign out from your account',
+                  () {
                 LogoutDialog.show(context);
               }, isLogout: true),
             ]),

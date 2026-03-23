@@ -54,40 +54,58 @@ class GoalsController extends ChangeNotifier {
   }
 
   double getProgress(String key) {
-    final goal = _goals[key]!;
+    final goal = _goals[key];
+    if (goal == null || goal['current'] == null) return 0.0;
 
-    // Only weight goals have progress tracking
-    if (key != 'weight' || goal['current'] == null) return 0.0;
+    // Weight goals with progress tracking
+    if (key == 'weight') {
+      final double target =
+          (goal['target'] is int ? goal['target'].toDouble() : goal['target']) ??
+              0.0;
+      final double current = (goal['current'] is int
+              ? goal['current'].toDouble()
+              : goal['current']) ??
+          0.0;
+      final String goalType = goal['goalType'] ?? 'lose';
 
-    final target =
-        goal['target'] is int ? goal['target'].toDouble() : goal['target'];
-    final current =
-        goal['current'] is int ? goal['current'].toDouble() : goal['current'];
-
-    // For weight goals with goal type
-    if (goal['goalType'] == 'lose') {
-      double startWeight =
-          goal['startWeight'] ?? (current > target ? current : target);
-      double totalToLose = startWeight - target;
-      if (totalToLose <= 0) return 1.0;
-      double weightLost = startWeight - current;
-      if (weightLost > totalToLose) return 1.0;
-      if (weightLost < 0) return 0.0;
-      return (weightLost / totalToLose).clamp(0.0, 1.0);
-    } else if (goal['goalType'] == 'gain') {
-      double startWeight =
-          goal['startWeight'] ?? (current < target ? current : target);
-      double totalToGain = target - startWeight;
-      if (totalToGain <= 0) return 1.0;
-      double weightGained = current - startWeight;
-      if (weightGained > totalToGain) return 1.0;
-      if (weightGained < 0) return 0.0;
-      return (weightGained / totalToGain).clamp(0.0, 1.0);
+      if (goalType == 'lose') {
+        double startWeight = (goal['startWeight'] is int
+                ? goal['startWeight'].toDouble()
+                : goal['startWeight']) ??
+            (current > target ? current : target + 5.0);
+        double totalToLose = startWeight - target;
+        if (totalToLose <= 0) return 1.0;
+        double weightLost = startWeight - current;
+        return (weightLost / totalToLose).clamp(0.0, 1.0);
+      } else if (goalType == 'gain') {
+        double startWeight = (goal['startWeight'] is int
+                ? goal['startWeight'].toDouble()
+                : goal['startWeight']) ??
+            (current < target ? current : target - 5.0);
+        double totalToGain = target - startWeight;
+        if (totalToGain <= 0) return 1.0;
+        double weightGained = current - startWeight;
+        return (weightGained / totalToGain).clamp(0.0, 1.0);
+      } else if (goalType == 'maintain') {
+        if (target == 0) return 0.0;
+        double diff = (current - target).abs();
+        // Within 1% of target weight is perfect maintenance
+        if (diff <= (target * 0.01)) return 1.0;
+        // Progress drops as you deviate from target (within 5kg range)
+        return (1.0 - (diff / 5.0)).clamp(0.0, 1.0);
+      }
     }
 
-    // Default for maintain weight goals
-    if (target == 0) return 0.0;
-    return (current / target).clamp(0.0, 1.0);
+    // Default for other goals (like calories/protein)
+    final double targetValue =
+        (goal['target'] is int ? goal['target'].toDouble() : goal['target']) ??
+            0.0;
+    final double currentValue = (goal['current'] is int
+            ? goal['current'].toDouble()
+            : goal['current']) ??
+        0.0;
+    if (targetValue == 0) return 0.0;
+    return (currentValue / targetValue).clamp(0.0, 1.0);
   }
 
   int getProgressPercentage(String key) {
