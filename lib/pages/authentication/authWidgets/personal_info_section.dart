@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/utils/colors.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class PersonalInfoSection extends StatelessWidget {
   final TextEditingController ageController;
@@ -22,6 +23,7 @@ class PersonalInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,7 +31,7 @@ class PersonalInfoSection extends StatelessWidget {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.grey[700])),
+                color: colors.textColor)),
         const SizedBox(height: 16),
         CustomTextfeild(
           controller: ageController,
@@ -90,7 +92,7 @@ class PersonalInfoSection extends StatelessWidget {
         Text("Gender",
             style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey[700],
+                color: colors.textColor,
                 fontWeight: FontWeight.w600)),
         CustomGenderRatio(
           color: primaryColor,

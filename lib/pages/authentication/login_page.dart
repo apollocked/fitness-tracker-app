@@ -6,7 +6,9 @@ import 'package:myapp/pages/authentication/authWidgets/auth_footer_widget.dart';
 import 'package:myapp/pages/authentication/authWidgets/auth_header_widget.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/user_data.dart'; // Updated import
+import 'package:myapp/utils/user_data.dart';
+import 'package:myapp/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -58,6 +60,11 @@ class _LoginPageState extends State<LoginPage> {
     // Login user
     await loginUser(user);
 
+    // Sync theme with new user preferences
+    if (context.mounted) {
+      context.read<ThemeProvider>().syncWithCurrentUser();
+    }
+
     setState(() => _isLoading = false);
 
     Navigator.pushReplacement(
@@ -66,8 +73,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

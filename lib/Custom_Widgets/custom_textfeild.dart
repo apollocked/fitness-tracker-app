@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class CustomTextfeild extends StatelessWidget {
   CustomTextfeild(
@@ -26,6 +26,7 @@ class CustomTextfeild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return TextFormField(
       controller: controller,
       obscureText: isObscure,
@@ -34,7 +35,7 @@ class CustomTextfeild extends StatelessWidget {
       keyboardType: keyboard,
       enabled: true,
       inputFormatters: input != null ? [input!] : [],
-      style: TextStyle(color: getTextColor()),
+      style: TextStyle(color: colors.textColor),
       decoration: InputDecoration(
         prefixIcon: icon,
         prefixIconColor: color,
@@ -47,14 +48,14 @@ class CustomTextfeild extends StatelessWidget {
         enabled: true,
         border: OutlineInputBorder(
           borderSide: BorderSide(
-              color: getSubtitleColor(), style: BorderStyle.solid, width: 1),
+              color: colors.subtitleColor, style: BorderStyle.solid, width: 1),
           borderRadius: BorderRadius.circular(5),
         ),
         label: Text(
           text,
-          style: TextStyle(color: getTextColor()),
+          style: TextStyle(color: colors.textColor),
         ),
-        fillColor: getCardColor(),
+        fillColor: colors.cardColor,
         filled: true,
       ),
     );

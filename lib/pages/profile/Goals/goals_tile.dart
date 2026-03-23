@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/Profile/Goals/edit_goal_dialog.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/colors.dart';
 
 class GoalTile extends StatelessWidget {
@@ -16,6 +16,7 @@ class GoalTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final goal = controller.goals[goalKey];
     if (goal == null) return const SizedBox();
 
@@ -27,7 +28,7 @@ class GoalTile extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      decoration: getCardDecoration(),
+      decoration: colors.cardDecoration,
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
         leading: Container(
@@ -54,17 +55,17 @@ class GoalTile extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: getTextColor())),
+                          color: colors.textColor)),
                   Text(GoalsController.getGoalDescription(goalKey),
                       style:
-                          TextStyle(fontSize: 12, color: getSubtitleColor())),
+                          TextStyle(fontSize: 12, color: colors.subtitleColor)),
                 ],
               ),
             ),
             if (completed)
               _buildBadge('Completed', greenColor, Icons.check)
             else if (!isActive)
-              _buildBadge('Inactive', getSubtitleColor(), Icons.pause),
+              _buildBadge('Inactive', colors.subtitleColor, Icons.pause),
           ],
         ),
         subtitle: Column(
@@ -103,7 +104,7 @@ class GoalTile extends StatelessWidget {
                   hasCurrent
                       ? '${goal['current']} / ${goal['target']} ${goal['unit']}'
                       : 'Target: ${goal['target']} ${goal['unit']}',
-                  style: TextStyle(fontSize: 14, color: getSubtitleColor()),
+                  style: TextStyle(fontSize: 14, color: colors.subtitleColor),
                 ),
                 if (hasCurrent && controller.shouldShowPercentage(goalKey))
                   Text('$percent%',
@@ -156,7 +157,7 @@ class GoalTile extends StatelessWidget {
                       color: completed
                           ? greenColor
                           : hasCurrent
-                              ? getSubtitleColor()
+                              ? colors.subtitleColor
                               : Colors.grey,
                     ),
                   ),

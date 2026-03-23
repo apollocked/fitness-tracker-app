@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/Custom_Widgets/support_contact_widget.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class HelpAndSupportPage extends StatefulWidget {
   const HelpAndSupportPage({super.key});
@@ -39,10 +39,11 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Scaffold(
       appBar: customAppBarr(
-          'Help & Support', primaryColor, getBackgroundColor(context)),
-      backgroundColor: getBackgroundColor(context),
+          'Help & Support', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         controller: _scrollController,
         padding: const EdgeInsets.all(16),
@@ -54,12 +55,12 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: getTextColor()),
+                  color: colors.textColor),
             ),
             const SizedBox(height: 8),
             Text(
               'Find answers to common questions and learn how to use the app',
-              style: TextStyle(color: getSubtitleColor()),
+              style: TextStyle(color: colors.subtitleColor),
             ),
             const SizedBox(height: 28),
 
@@ -124,6 +125,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   }
 
   Widget _buildQuickNavigation() {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -139,7 +141,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
             style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: getTextColor()),
+                color: colors.textColor),
           ),
           const SizedBox(height: 12),
           Wrap(
@@ -166,19 +168,20 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   }
 
   Widget _buildQuickNavButton(String label, VoidCallback onTap) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: getCardColor(),
+          color: colors.cardColor,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: primaryColor.withOpacity(0.3)),
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: getTextColor(),
+            color: colors.textColor,
             fontSize: 13,
             fontWeight: FontWeight.w500,
           ),
@@ -188,14 +191,16 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   }
 
   Widget _buildSectionTitle(String title) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Text(
       title,
       style: TextStyle(
-          fontSize: 18, fontWeight: FontWeight.bold, color: getTextColor()),
+          fontSize: 18, fontWeight: FontWeight.bold, color: colors.textColor),
     );
   }
 
   Widget _buildFAQSection() {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final faqs = [
       {
         'question': 'How do I update my weight?',
@@ -250,7 +255,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: getCardColor(),
+            color: colors.cardColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: isExpanded ? primaryColor : Colors.grey.withOpacity(0.2),
@@ -270,7 +275,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: getTextColor(),
+                  color: colors.textColor,
                 ),
               ),
               children: [
@@ -280,7 +285,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                     faq['answer'] as String,
                     style: TextStyle(
                       fontSize: 13,
-                      color: getSubtitleColor(),
+                      color: colors.subtitleColor,
                       height: 1.5,
                     ),
                   ),
@@ -294,6 +299,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   }
 
   Widget _buildTroubleshootingSection() {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final issues = [
       {
         'issue': 'App crashes on startup',
@@ -351,7 +357,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: getCardColor(),
+            color: colors.cardColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.orange.withOpacity(0.3)),
           ),
@@ -370,7 +376,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: getTextColor(),
+                        color: colors.textColor,
                       ),
                     ),
                   ),
@@ -382,7 +388,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: getSubtitleColor(),
+                  color: colors.subtitleColor,
                 ),
               ),
               const SizedBox(height: 8),
@@ -399,7 +405,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                             '${entry.key + 1}. ',
                             style: TextStyle(
                               fontSize: 12,
-                              color: getSubtitleColor(),
+                              color: colors.subtitleColor,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -408,7 +414,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                               entry.value,
                               style: TextStyle(
                                 fontSize: 12,
-                                color: getSubtitleColor(),
+                                color: colors.subtitleColor,
                               ),
                             ),
                           ),
@@ -425,6 +431,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   }
 
   Widget _buildTipsSection() {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final tips = [
       {
         'icon': '🎯',
@@ -490,12 +498,12 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
         final tip = tips[index];
         return Container(
           decoration: BoxDecoration(
-            color: getCardColor(),
+            color: colors.cardColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: greenColor.withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
-                color: isDarkMode()
+                color: isDark
                     ? Colors.black.withOpacity(0.2)
                     : Colors.grey.withOpacity(0.1),
                 blurRadius: 4,
@@ -517,7 +525,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                  color: getTextColor(),
+                  color: colors.textColor,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -527,7 +535,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                 tip['description'] as String,
                 style: TextStyle(
                   fontSize: 11,
-                  color: getSubtitleColor(),
+                  color: colors.subtitleColor,
                   height: 1.3,
                 ),
                 maxLines: 3,

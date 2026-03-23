@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Scaffold(
       appBar: customAppBarr(
-          'Privacy Policy', primaryColor, getBackgroundColor(context)),
-      backgroundColor: getBackgroundColor(context),
+          'Privacy Policy', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -22,16 +23,16 @@ class PrivacyPolicyPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: getTextColor(),
+                color: colors.textColor,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               'Last Updated: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-              style: TextStyle(color: getSubtitleColor()),
+              style: TextStyle(color: colors.subtitleColor),
             ),
             const SizedBox(height: 24),
-            _buildSection(
+            _buildSection(context, colors,
               '1. Information We Collect',
               'We collect the following information to provide our fitness tracking services:',
               [
@@ -41,7 +42,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Device Information: Device type, operating system version'
               ],
             ),
-            _buildSection(
+            _buildSection(context, colors,
               '2. How We Use Your Information',
               'Your information is used exclusively to:',
               [
@@ -51,7 +52,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Communicate important updates about the app'
               ],
             ),
-            _buildSection(
+            _buildSection(context, colors,
               '3. Data Storage & Security',
               'We prioritize the security of your data:',
               [
@@ -61,7 +62,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'You maintain full control over your data'
               ],
             ),
-            _buildSection(
+            _buildSection(context, colors,
               '4. Your Rights',
               'You have the following rights regarding your data:',
               [
@@ -71,7 +72,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Export your fitness data for personal use'
               ],
             ),
-            _buildSection(
+            _buildSection(context, colors,
               '5. Children\'s Privacy',
               'Our app is not intended for children under 13:',
               [
@@ -80,7 +81,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Users under 18 should use the app under parental supervision'
               ],
             ),
-            _buildSection(
+            _buildSection(context, colors,
               '6. Changes to This Policy',
               'We may update this privacy policy periodically:',
               [
@@ -93,7 +94,7 @@ class PrivacyPolicyPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: getCardColor(),
+                color: colors.cardColor,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: primaryColor.withOpacity(0.3)),
               ),
@@ -105,13 +106,13 @@ class PrivacyPolicyPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: getTextColor(),
+                      color: colors.textColor,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'If you have any questions about this Privacy Policy, please contact us at:',
-                    style: TextStyle(color: getSubtitleColor()),
+                    style: TextStyle(color: colors.subtitleColor),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -131,7 +132,8 @@ class PrivacyPolicyPage extends StatelessWidget {
     );
   }
 
-  Widget _buildSection(String title, String description, List<String> points) {
+  Widget _buildSection(BuildContext context, AppColorsExtension colors,
+      String title, String description, List<String> points) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       child: Column(
@@ -142,13 +144,13 @@ class PrivacyPolicyPage extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: getTextColor(),
+              color: colors.textColor,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             description,
-            style: TextStyle(color: getSubtitleColor()),
+            style: TextStyle(color: colors.subtitleColor),
           ),
           const SizedBox(height: 12),
           ...points.map((point) => Padding(
@@ -161,7 +163,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                     Expanded(
                       child: Text(
                         point,
-                        style: TextStyle(color: getTextColor()),
+                        style: TextStyle(color: colors.textColor),
                       ),
                     ),
                   ],

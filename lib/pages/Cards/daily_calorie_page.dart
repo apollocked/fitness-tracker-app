@@ -5,7 +5,7 @@ import 'package:myapp/Custom_Widgets/daily_calorie_input_section.dart';
 import 'package:myapp/Custom_Widgets/daily_calories_dialog.dart';
 import 'package:myapp/services/goals_service.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class DailyCaloriePage extends StatefulWidget {
@@ -128,10 +128,11 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: customAppBarr(
-          "Daily Calorie Calculator", redColor, getBackgroundColor(context)),
-      backgroundColor: getBackgroundColor(context),
+      appBar: customAppBarr("Daily Calorie Calculator", redColor),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -143,10 +144,10 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: getTextColor())),
+                      color: colors.textColor)),
               const SizedBox(height: 8),
               Text('Enter your details to calculate daily calorie requirements',
-                  style: TextStyle(color: getSubtitleColor())),
+                  style: TextStyle(color: colors.subtitleColor)),
               const SizedBox(height: 24),
 
               // Basic inputs
@@ -167,7 +168,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: getCardColor(),
+                  color: colors.cardColor,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: redColor.withOpacity(0.3)),
                 ),
@@ -178,7 +179,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: getTextColor())),
+                            color: colors.textColor)),
                     const SizedBox(height: 12),
 
                     // Goal type selection
@@ -203,7 +204,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                       const SizedBox(height: 16),
                       Text('Weekly Goal: $_weeklyGoal kg per week',
                           style:
-                              TextStyle(fontSize: 14, color: getTextColor())),
+                              TextStyle(fontSize: 14, color: colors.textColor)),
                       const SizedBox(height: 8),
                       Slider(
                         value: _weeklyGoal,
@@ -244,13 +245,14 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   }
 
   Widget _buildCalorieGoalOption(String text, String value) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final isSelected = _goalType == value;
     return GestureDetector(
       onTap: () => setState(() => _goalType = value),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
-          color: isSelected ? redColor.withOpacity(0.2) : getCardColor(),
+          color: isSelected ? redColor.withOpacity(0.2) : colors.cardColor,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? redColor : Colors.grey.withOpacity(0.3),
@@ -265,7 +267,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                   : value == 'gain'
                       ? Icons.trending_up
                       : Icons.trending_flat,
-              color: isSelected ? redColor : getSubtitleColor(),
+              color: isSelected ? redColor : colors.subtitleColor,
             ),
             const SizedBox(height: 4),
             Text(text,
@@ -273,7 +275,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  color: isSelected ? redColor : getTextColor(),
+                  color: isSelected ? redColor : colors.textColor,
                 )),
           ],
         ),

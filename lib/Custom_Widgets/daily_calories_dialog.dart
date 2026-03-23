@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class DailyCaloriesResultsDialog {
   static void showResults(
@@ -13,12 +13,14 @@ class DailyCaloriesResultsDialog {
     String goalDescription = "Maintenance",
     VoidCallback? onSetGoal,
   }) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+
     showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: getCardColor(),
+          backgroundColor: colors.cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -44,7 +46,7 @@ class DailyCaloriesResultsDialog {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: getTextColor(),
+                            color: colors.textColor,
                           ),
                         ),
                       ),
@@ -62,6 +64,7 @@ class DailyCaloriesResultsDialog {
                     '${bmr.toStringAsFixed(0)} calories/day',
                     Icons.energy_savings_leaf,
                     blueColor,
+                    colors,
                   ),
 
                   if (maintenanceCalories != null) ...[
@@ -71,6 +74,7 @@ class DailyCaloriesResultsDialog {
                       '${maintenanceCalories.toStringAsFixed(0)} calories/day',
                       Icons.balance,
                       greenColor,
+                      colors,
                     ),
                   ],
 
@@ -101,7 +105,7 @@ class DailyCaloriesResultsDialog {
                                 goalDescription,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: getSubtitleColor(),
+                                  color: colors.subtitleColor,
                                 ),
                               ),
                               Text(
@@ -126,7 +130,7 @@ class DailyCaloriesResultsDialog {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: getCardColor(),
+                        color: colors.cardColor,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.grey.withOpacity(0.3)),
                       ),
@@ -145,7 +149,7 @@ class DailyCaloriesResultsDialog {
                                   : 'To gain ${weeklyGoal}kg per week, consume ${dailyCalories.toStringAsFixed(0)} calories daily',
                               style: TextStyle(
                                 fontSize: 13,
-                                color: getSubtitleColor(),
+                                color: colors.subtitleColor,
                               ),
                             ),
                           ),
@@ -212,7 +216,8 @@ class DailyCaloriesResultsDialog {
   }
 
   static Widget _buildResultRow(
-      String title, String value, IconData icon, Color color) {
+      String title, String value, IconData icon, Color color,
+      AppColorsExtension colors) {
     return Row(
       children: [
         Icon(icon, color: color, size: 24),
@@ -225,7 +230,7 @@ class DailyCaloriesResultsDialog {
                 title,
                 style: TextStyle(
                   fontSize: 13,
-                  color: getSubtitleColor(),
+                  color: colors.subtitleColor,
                 ),
               ),
               Text(
@@ -233,7 +238,7 @@ class DailyCaloriesResultsDialog {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: getTextColor(),
+                  color: colors.textColor,
                 ),
               ),
             ],

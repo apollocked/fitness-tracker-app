@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Cards/add_measurement_page.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: customAppBarr(
         'Home',
         primaryColor,
-        getBackgroundColor(context),
+        theme.scaffoldBackgroundColor,
       ),
-      backgroundColor: getBackgroundColor(context),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -26,12 +29,12 @@ class HomePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: getTextColor()),
+                  color: colors.textColor),
             ),
             const SizedBox(height: 8),
             Text(
               'Track your fitness journey',
-              style: TextStyle(fontSize: 16, color: getSubtitleColor()),
+              style: TextStyle(fontSize: 16, color: colors.subtitleColor),
             ),
             const SizedBox(height: 24),
             Expanded(
@@ -104,8 +107,9 @@ class HomePage extends StatelessWidget {
     String value,
     VoidCallback onTap,
   ) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Card(
-      color: getCardColor(),
+      color: colors.cardColor,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: InkWell(
@@ -124,7 +128,7 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: getTextColor()),
+                    color: colors.textColor),
               ),
               const SizedBox(height: 8),
               Center(

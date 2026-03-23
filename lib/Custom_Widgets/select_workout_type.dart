@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
 
 class CustomBodyTypeRatio extends StatelessWidget {
   final bool isBodybuilder;
@@ -14,11 +14,12 @@ class CustomBodyTypeRatio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Column(
       children: [
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(orangeColor),
-          title: Text("No", style: TextStyle(color: getTextColor())),
+          title: Text("No", style: TextStyle(color: colors.textColor)),
           value: false.toString(),
           groupValue: isBodybuilder.toString(),
           onChanged: (value) {
@@ -29,7 +30,7 @@ class CustomBodyTypeRatio extends StatelessWidget {
           fillColor: WidgetStatePropertyAll(orangeColor),
           title: Text(
             "Yes",
-            style: TextStyle(color: getTextColor()),
+            style: TextStyle(color: colors.textColor),
           ),
           value: true.toString(),
           groupValue: isBodybuilder.toString(),

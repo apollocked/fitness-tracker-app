@@ -5,7 +5,7 @@ import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/models/measurement_model.dart'; // Updated
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/user_data.dart'; // Updated
 
 class AddMeasurementPage extends StatefulWidget {
@@ -104,10 +104,11 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: customAppBarr(
-          'Add Measurement', greenColor, getBackgroundColor(context)),
-      backgroundColor: getBackgroundColor(context),
+      appBar: customAppBarr('Add Measurement', greenColor),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -121,11 +122,11 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: getTextColor())),
+                            color: colors.textColor)),
                     const SizedBox(height: 8),
                     Text(
                         'This will update your weight goal progress automatically',
-                        style: TextStyle(color: getSubtitleColor())),
+                        style: TextStyle(color: colors.subtitleColor)),
                     const SizedBox(height: 24),
                     CustomTextfeild(
                       controller: _weightController,
@@ -164,7 +165,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                               'Your weight goal will be automatically updated with this measurement',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: getTextColor(),
+                                color: colors.textColor,
                               ),
                             ),
                           ),

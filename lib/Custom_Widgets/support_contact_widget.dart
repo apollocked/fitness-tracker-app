@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
 
 class SupportContactWidget extends StatelessWidget {
   final String email;
@@ -14,12 +14,13 @@ class SupportContactWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color:
-            isDarkMode() ? Colors.blue[900]!.withOpacity(0.3) : Colors.blue[50],
+        color: isDark ? Colors.blue[900]!.withOpacity(0.3) : Colors.blue[50],
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: primaryColor),
       ),
@@ -31,12 +32,12 @@ class SupportContactWidget extends StatelessWidget {
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: getTextColor()),
+                color: colors.textColor),
           ),
           const SizedBox(height: 12),
           Text(
             'Contact our support team:',
-            style: TextStyle(fontSize: 14, color: getSubtitleColor()),
+            style: TextStyle(fontSize: 14, color: colors.subtitleColor),
           ),
           const SizedBox(height: 8),
           Row(
@@ -49,7 +50,8 @@ class SupportContactWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Support Email',
-                      style: TextStyle(fontSize: 12, color: getSubtitleColor()),
+                      style:
+                          TextStyle(fontSize: 12, color: colors.subtitleColor),
                     ),
                     const SizedBox(height: 4),
                     Text(

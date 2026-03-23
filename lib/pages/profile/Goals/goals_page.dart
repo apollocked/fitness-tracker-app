@@ -5,7 +5,7 @@ import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
 import 'package:myapp/pages/Profile/Goals/goals_list.dart';
 import 'package:myapp/pages/Profile/Goals/goals_square_row.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class GoalsPage extends StatefulWidget {
   const GoalsPage({super.key});
@@ -41,10 +41,11 @@ class _GoalsPageState extends State<GoalsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Scaffold(
       appBar:
-          customAppBarr('My Goals', primaryColor, getBackgroundColor(context)),
-      backgroundColor: getBackgroundColor(context),
+          customAppBarr('My Goals', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           GoalsStats(controller: _controller),
@@ -54,14 +55,14 @@ class _GoalsPageState extends State<GoalsPage> {
           Expanded(
             child: _controller.goals.containsKey('weight')
                 ? GoalsList(controller: _controller)
-                : _buildNoWeightGoalState(),
+                : _buildNoWeightGoalState(colors),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildNoWeightGoalState() {
+  Widget _buildNoWeightGoalState(AppColorsExtension colors) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +74,7 @@ class _GoalsPageState extends State<GoalsPage> {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: getTextColor(),
+              color: colors.textColor,
             ),
           ),
           const SizedBox(height: 8),
@@ -84,7 +85,7 @@ class _GoalsPageState extends State<GoalsPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: getSubtitleColor(),
+                color: colors.subtitleColor,
               ),
             ),
           ),
@@ -93,10 +94,10 @@ class _GoalsPageState extends State<GoalsPage> {
             onPressed: () {
               Navigator.pushNamed(context, '/ideal-weight');
             },
-            icon: Icon(Icons.calculate, color: getBackgroundColor(context)),
+            icon: Icon(Icons.calculate, color: Theme.of(context).scaffoldBackgroundColor),
             label: Text(
               'Set Weight Goal',
-              style: TextStyle(color: getBackgroundColor(context)),
+              style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,

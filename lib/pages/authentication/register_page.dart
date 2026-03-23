@@ -8,6 +8,9 @@ import 'package:myapp/pages/authentication/login_page.dart';
 import 'package:myapp/services/registration_validator.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
+import 'package:myapp/utils/app_theme.dart';
+import 'package:myapp/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -91,6 +94,11 @@ class _RegisterPageState extends State<RegisterPage> {
     // Auto login
     await loginUser(newUser);
 
+    // Sync theme with new user preferences (default to false initially in registration)
+    if (context.mounted) {
+      context.read<ThemeProvider>().syncWithCurrentUser();
+    }
+
     setState(() => _isLoading = false);
 
     _showSuccess("Account created successfully!");
@@ -121,8 +129,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.extension<AppColorsExtension>()!;
+
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -139,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.grey[700]),
+                        color: colors.textColor),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -218,7 +229,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                _buildRequirementsChecklist(),
+                _buildRequirementsChecklist(context, colors),
                 const SizedBox(height: 24),
                 AuthFooter(
                   buttonText: _isLoading ? "Creating Account..." : "Sign Up",
@@ -248,13 +259,14 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _buildRequirementsChecklist() {
+  Widget _buildRequirementsChecklist(BuildContext context, AppColorsExtension colors) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blue[50],
+        color: isDark ? colors.cardColor : Colors.blue[50],
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue[200]!),
+        border: Border.all(color: isDark ? colors.subtitleColor : Colors.blue[200]!),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,34 +276,35 @@ class _RegisterPageState extends State<RegisterPage> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: Colors.blue[900],
+              color: isDark ? colors.textColor : Colors.blue[900],
             ),
           ),
           const SizedBox(height: 12),
-          _buildRequirementItem('Username (minimum 3 characters)'),
-          _buildRequirementItem('Valid email address'),
-          _buildRequirementItem('Password (minimum 6 characters)'),
-          _buildRequirementItem('Age (older than 12 years)'),
-          _buildRequirementItem('Weight (in kg)'),
-          _buildRequirementItem('Height (in cm)'),
-          _buildRequirementItem('Gender selection'),
+          _buildRequirementItem(context, colors, 'Username (minimum 3 characters)'),
+          _buildRequirementItem(context, colors, 'Valid email address'),
+          _buildRequirementItem(context, colors, 'Password (minimum 6 characters)'),
+          _buildRequirementItem(context, colors, 'Age (older than 12 years)'),
+          _buildRequirementItem(context, colors, 'Weight (in kg)'),
+          _buildRequirementItem(context, colors, 'Height (in cm)'),
+          _buildRequirementItem(context, colors, 'Gender selection'),
         ],
       ),
     );
   }
 
-  Widget _buildRequirementItem(String requirement) {
+  Widget _buildRequirementItem(BuildContext context, AppColorsExtension colors, String requirement) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
-          Icon(Icons.check_circle_outline, size: 18, color: Colors.blue[700]),
+          Icon(Icons.check_circle_outline, size: 18, color: isDark ? colors.textColor : Colors.blue[700]),
           const SizedBox(width: 8),
           Text(
             requirement,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.blue[900],
+              color: isDark ? colors.subtitleColor : Colors.blue[900],
             ),
           ),
         ],

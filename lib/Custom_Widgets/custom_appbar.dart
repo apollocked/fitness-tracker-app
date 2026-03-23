@@ -4,11 +4,10 @@ AppBar customAppBarr(
     [String title = "Ideal Body Weight Calculator",
     Color? backgroundColor,
     Color? foregroundColor]) {
-  {
-    return AppBar(
-      title: Text(title),
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-    );
-  }
+  return AppBar(
+    title: Text(title),
+    backgroundColor: backgroundColor,
+    foregroundColor: foregroundColor ??
+        (backgroundColor != null ? Colors.white : null),
+  );
 }

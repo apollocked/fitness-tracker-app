@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   CustomElevatedButton(
@@ -14,6 +14,7 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
@@ -28,7 +29,7 @@ class CustomElevatedButton extends StatelessWidget {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: insideButtonsColor(),
+            color: colors.insideButtonColor,
           ),
         ));
   }

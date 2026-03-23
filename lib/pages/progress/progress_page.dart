@@ -5,7 +5,7 @@ import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/models/measurement_model.dart'; // Updated
 import 'package:myapp/pages/Cards/add_measurement_page.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -46,6 +46,7 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 
   Widget _buildEmptyState() {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -56,13 +57,13 @@ class _ProgressPageState extends State<ProgressPage> {
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: getTextColor())),
+                  color: colors.textColor)),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Text(
                 'Add your weight measurements to track your progress over time.',
-                style: TextStyle(color: getSubtitleColor())),
+                style: TextStyle(color: colors.subtitleColor)),
           ),
           const SizedBox(height: 32),
           ElevatedButton.icon(
@@ -71,8 +72,8 @@ class _ProgressPageState extends State<ProgressPage> {
             label: const Text('Add weight measurement'),
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,
-              iconColor: getBackgroundColor(context),
-              foregroundColor: getBackgroundColor(context),
+              iconColor: Theme.of(context).scaffoldBackgroundColor,
+              foregroundColor: Theme.of(context).scaffoldBackgroundColor,
             ),
           ),
         ],
@@ -81,13 +82,14 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 
   Widget _buildMeasurementsList() {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: _measurements.length,
       itemBuilder: (context, index) {
         final m = _measurements[_measurements.length - 1 - index];
         return Card(
-          color: getCardColor(),
+          color: colors.cardColor,
           margin: const EdgeInsets.only(bottom: 16),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -107,7 +109,7 @@ class _ProgressPageState extends State<ProgressPage> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: getTextColor(),
+                              color: colors.textColor,
                             ),
                           ),
                         ],
@@ -127,7 +129,7 @@ class _ProgressPageState extends State<ProgressPage> {
                     children: [
                       Text('Weight:',
                           style:
-                              TextStyle(fontSize: 14, color: getTextColor())),
+                              TextStyle(fontSize: 14, color: colors.textColor)),
                       Text('${m.weight} kg',
                           style: TextStyle(
                               fontSize: 14,
@@ -148,8 +150,8 @@ class _ProgressPageState extends State<ProgressPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:
-          customAppBarr('Progress', primaryColor, getBackgroundColor(context)),
-      backgroundColor: getBackgroundColor(context),
+          customAppBarr('Progress', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body:
           _measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),
       floatingActionButton: _measurements.isNotEmpty

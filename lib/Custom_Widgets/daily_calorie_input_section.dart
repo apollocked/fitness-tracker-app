@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class DailyCalorieInputSection extends StatelessWidget {
   final TextEditingController ageController;
@@ -27,6 +27,7 @@ class DailyCalorieInputSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,7 +35,7 @@ class DailyCalorieInputSection extends StatelessWidget {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: getTextColor())),
+                color: colors.textColor)),
         const SizedBox(height: 8),
         CustomGenderRatio(
           color: redColor,
@@ -94,21 +95,21 @@ class DailyCalorieInputSection extends StatelessWidget {
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: getTextColor())),
+                color: colors.textColor)),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: getCardColor(),
+            color: colors.cardColor,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey[300]!),
+            border: Border.all(color: colors.subtitleColor.withOpacity(0.3)),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: activityLevel,
-              dropdownColor: getCardColor(),
+              dropdownColor: colors.cardColor,
               style: TextStyle(
-                  color: getTextColor(),
+                  color: colors.textColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w500),
               isExpanded: true,

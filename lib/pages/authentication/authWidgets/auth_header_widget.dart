@@ -14,6 +14,11 @@ class AuthHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : Colors.black87;
+    final subtitleColor = isDark ? Colors.grey[400] : Colors.grey[600];
+
     return Column(
       children: [
         logoWidget,
@@ -23,13 +28,13 @@ class AuthHeader extends StatelessWidget {
           style: TextStyle(
             fontSize: title.length > 15 ? 24 : 32,
             fontWeight: FontWeight.bold,
-            color: title.length > 15 ? primaryColor : Colors.black87,
+            color: title.length > 15 ? primaryColor : textColor,
           ),
         ),
         const SizedBox(height: 8),
         Text(
           subtitle,
-          style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+          style: TextStyle(fontSize: 16, color: subtitleColor),
         ),
         const SizedBox(height: 40),
       ],

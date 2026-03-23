@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_elevated_button.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class EditGoalDialog extends StatefulWidget {
   final String goalKey;
@@ -38,10 +38,11 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final goal = widget.controller.goals[widget.goalKey]!;
 
     return Dialog(
-      backgroundColor: getCardColor(),
+      backgroundColor: colors.cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: SingleChildScrollView(
         child: Padding(
@@ -54,13 +55,13 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: getTextColor())),
+                      color: colors.textColor)),
               const SizedBox(height: 20),
-              _buildInputField('Current ${goal['unit']}', _currentController),
+              _buildInputField(colors, 'Current ${goal['unit']}', _currentController),
               const SizedBox(height: 16),
-              _buildInputField('Target ${goal['unit']}', _targetController),
+              _buildInputField(colors, 'Target ${goal['unit']}', _targetController),
               const SizedBox(height: 16),
-              _buildActiveSwitch(),
+              _buildActiveSwitch(colors),
 
               // Show goal type info if it's a weight goal
               if (widget.goalKey == 'weight' && goal['goalType'] != null) ...[
@@ -88,7 +89,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
                           children: [
                             Text('Goal Type',
                                 style: TextStyle(
-                                    fontSize: 12, color: getSubtitleColor())),
+                                    fontSize: 12, color: colors.subtitleColor)),
                             Text(
                               goal['goalType'] == 'lose'
                                   ? 'Lose Weight'
@@ -117,26 +118,26 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     );
   }
 
-  Widget _buildInputField(String label, TextEditingController controller) {
+  Widget _buildInputField(AppColorsExtension colors, String label, TextEditingController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyle(fontSize: 14, color: getSubtitleColor())),
+        Text(label, style: TextStyle(fontSize: 14, color: colors.subtitleColor)),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            color: getCardColor(),
+            color: colors.cardColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.grey[300]!),
           ),
           child: TextField(
             controller: controller,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            style: TextStyle(color: getTextColor()),
+            style: TextStyle(color: colors.textColor),
             decoration: InputDecoration(
               hintText: 'Enter $label',
-              hintStyle: TextStyle(color: getSubtitleColor()),
+              hintStyle: TextStyle(color: colors.subtitleColor),
               border: InputBorder.none,
             ),
           ),
@@ -145,11 +146,11 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     );
   }
 
-  Widget _buildActiveSwitch() {
+  Widget _buildActiveSwitch(AppColorsExtension colors) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
-        color: getCardColor(),
+        color: colors.cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey[300]!),
       ),
@@ -157,7 +158,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('Active Goal',
-              style: TextStyle(fontSize: 16, color: getTextColor())),
+              style: TextStyle(fontSize: 16, color: colors.textColor)),
           Switch(
             value: _isActive,
             activeColor: primaryColor,

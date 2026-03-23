@@ -9,7 +9,7 @@ import 'package:myapp/pages/Profile/personal_info_page.dart';
 import 'package:myapp/pages/Profile/Settings/settings_page.dart';
 import 'package:myapp/providers/theme_provider.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/user_data.dart';
 import 'package:provider/provider.dart';
 
@@ -18,21 +18,24 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final theme = Theme.of(context);
+
     if (currentUser == null) {
       return Scaffold(
         appBar:
-            customAppBarr('Profile', primaryColor, getBackgroundColor(context)),
-        backgroundColor: getBackgroundColor(context),
+            customAppBarr('Profile', primaryColor, theme.scaffoldBackgroundColor),
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: Center(
             child: Text('No user logged in',
-                style: TextStyle(color: getTextColor()))),
+                style: TextStyle(color: colors.textColor))),
       );
     }
 
     return Scaffold(
       appBar:
-          customAppBarr('Profile', primaryColor, getBackgroundColor(context)),
-      backgroundColor: getBackgroundColor(context),
+          customAppBarr('Profile', primaryColor, theme.scaffoldBackgroundColor),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -41,7 +44,7 @@ class ProfilePage extends StatelessWidget {
               radius: 60,
               backgroundColor: primaryColor,
               child: Icon(Icons.person,
-                  size: 60, color: getBackgroundColor(context)),
+                  size: 60, color: theme.scaffoldBackgroundColor),
             ),
             const SizedBox(height: 10),
             Text(
@@ -49,22 +52,22 @@ class ProfilePage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: getTextColor()),
+                  color: colors.textColor),
             ),
             Text(
               currentUser?['email'] ?? 'Email',
-              style: TextStyle(fontSize: 14, color: getSubtitleColor()),
+              style: TextStyle(fontSize: 14, color: colors.subtitleColor),
             ),
             const SizedBox(height: 20),
             _buildProfileCard(context, [
-              _buildListTile(Icons.person, 'Personal Info', 'View your info',
+              _buildListTile(context, Icons.person, 'Personal Info', 'View your info',
                   () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const PersonalInfoPage()));
               }),
-              _buildListTile(Icons.flag, 'Goals', 'Set your fitness goals', () {
+              _buildListTile(context, Icons.flag, 'Goals', 'Set your fitness goals', () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -75,7 +78,7 @@ class ProfilePage extends StatelessWidget {
             ]),
             const SizedBox(height: 5),
             _buildProfileCard(context, [
-              _buildListTile(Icons.settings, 'Settings', 'App preferences',
+              _buildListTile(context, Icons.settings, 'Settings', 'App preferences',
                   () async {
                 final result = await Navigator.push(
                   context,
@@ -85,14 +88,14 @@ class ProfilePage extends StatelessWidget {
                   context.read<ThemeProvider>().updateTheme();
                 }
               }),
-              _buildListTile(
+              _buildListTile(context, 
                   Icons.help_outline, 'Help & Support', 'Get assistance', () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const HelpAndSupportPage()));
               }),
-              _buildListTile(
+              _buildListTile(context, 
                   Icons.auto_fix_high, 'App Features', 'Explore all features',
                   () {
                 Navigator.push(
@@ -100,7 +103,7 @@ class ProfilePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const FeaturesPage()),
                 );
               }),
-              _buildListTile(Icons.info_outline, 'About', 'App information',
+              _buildListTile(context, Icons.info_outline, 'About', 'App information',
                   () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const AboutPage()));
@@ -108,7 +111,7 @@ class ProfilePage extends StatelessWidget {
             ]),
             const SizedBox(height: 5),
             _buildProfileCard(context, [
-              _buildListTile(
+              _buildListTile(context, 
                   Icons.logout, 'Logout', 'Sign out from your account', () {
                 LogoutDialog.show(context);
               }, isLogout: true),
@@ -121,14 +124,16 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildProfileCard(BuildContext context, List<Widget> children) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: getCardColor(),
+        color: colors.cardColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: isDarkMode()
+              color: isDark
                   ? Colors.black.withOpacity(0.3)
                   : Colors.grey.withOpacity(0.1),
               spreadRadius: 1,
@@ -140,19 +145,21 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildListTile(
+    BuildContext context,
     IconData icon,
     String title,
     String subtitle,
     VoidCallback onTap, {
     bool isLogout = false,
   }) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return ListTile(
       leading: Icon(icon, color: isLogout ? Colors.red : primaryColor),
       title: Text(title,
           style: TextStyle(
-              color: isLogout ? Colors.red : getTextColor(),
+              color: isLogout ? Colors.red : colors.textColor,
               fontWeight: FontWeight.w500)),
-      subtitle: Text(subtitle, style: TextStyle(color: getSubtitleColor())),
+      subtitle: Text(subtitle, style: TextStyle(color: colors.subtitleColor)),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );

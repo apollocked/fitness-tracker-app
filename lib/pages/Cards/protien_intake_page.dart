@@ -6,7 +6,7 @@ import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/protein_dialog.dart';
 import 'package:myapp/Custom_Widgets/select_workout_type.dart';
 import 'package:myapp/services/goals_service.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/user_data.dart';
 
@@ -79,10 +79,11 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: getBackgroundColor(context),
-      appBar: customAppBarr("Protein Intake Calculator", orangeColor,
-          getBackgroundColor(context)),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: customAppBarr("Protein Intake Calculator", orangeColor),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
@@ -95,7 +96,7 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                   children: [
                     const SizedBox(height: 10),
                     Text('Are You a BodyBuilder ?',
-                        style: TextStyle(fontSize: 16, color: getTextColor())),
+                        style: TextStyle(fontSize: 16, color: colors.textColor)),
                     CustomBodyTypeRatio(
                       isBodybuilder: currentUser!["isBodybuilder"] ?? false,
                       onChanged: (value) {

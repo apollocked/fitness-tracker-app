@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
 import 'package:myapp/services/storage_service.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class SettingsDialogs {
@@ -10,54 +10,55 @@ class SettingsDialogs {
     final oldPasswordController = TextEditingController();
     final newPasswordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: getCardColor(),
-        title: Text('Change Password', style: TextStyle(color: getTextColor())),
+        backgroundColor: colors.cardColor,
+        title: Text('Change Password', style: TextStyle(color: colors.textColor)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: oldPasswordController,
               obscureText: true,
-              style: TextStyle(color: getTextColor()),
+              style: TextStyle(color: colors.textColor),
               decoration: InputDecoration(
                 labelText: 'Old Password',
-                labelStyle: TextStyle(color: getSubtitleColor()),
+                labelStyle: TextStyle(color: colors.subtitleColor),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(context),
+                fillColor: Theme.of(context).scaffoldBackgroundColor,
               ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: newPasswordController,
               obscureText: true,
-              style: TextStyle(color: getTextColor()),
+              style: TextStyle(color: colors.textColor),
               decoration: InputDecoration(
                 labelText: 'New Password',
-                labelStyle: TextStyle(color: getSubtitleColor()),
+                labelStyle: TextStyle(color: colors.subtitleColor),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(context),
+                fillColor: Theme.of(context).scaffoldBackgroundColor,
               ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: confirmPasswordController,
               obscureText: true,
-              style: TextStyle(color: getTextColor()),
+              style: TextStyle(color: colors.textColor),
               decoration: InputDecoration(
                 labelText: 'Confirm Password',
-                labelStyle: TextStyle(color: getSubtitleColor()),
+                labelStyle: TextStyle(color: colors.subtitleColor),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(context),
+                fillColor: Theme.of(context).scaffoldBackgroundColor,
               ),
             ),
           ],
@@ -109,38 +110,39 @@ class SettingsDialogs {
     final usernameController =
         TextEditingController(text: currentUser?['username']);
     final emailController = TextEditingController(text: currentUser?['email']);
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: getCardColor(),
-        title: Text('Edit Profile', style: TextStyle(color: getTextColor())),
+        backgroundColor: colors.cardColor,
+        title: Text('Edit Profile', style: TextStyle(color: colors.textColor)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: usernameController,
-              style: TextStyle(color: getTextColor()),
+              style: TextStyle(color: colors.textColor),
               decoration: InputDecoration(
                 labelText: 'Username',
-                labelStyle: TextStyle(color: getSubtitleColor()),
+                labelStyle: TextStyle(color: colors.subtitleColor),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(context),
+                fillColor: Theme.of(context).scaffoldBackgroundColor,
               ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: emailController,
-              style: TextStyle(color: getTextColor()),
+              style: TextStyle(color: colors.textColor),
               decoration: InputDecoration(
                 labelText: 'Email',
-                labelStyle: TextStyle(color: getSubtitleColor()),
+                labelStyle: TextStyle(color: colors.subtitleColor),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 filled: true,
-                fillColor: getBackgroundColor(context),
+                fillColor: Theme.of(context).scaffoldBackgroundColor,
               ),
             ),
           ],
@@ -209,15 +211,17 @@ class SettingsDialogs {
   }
 
   static void showDeleteAccountDialog(BuildContext context) async {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: getCardColor(),
-        title: Text('Delete Account', style: TextStyle(color: getTextColor())),
+        backgroundColor: colors.cardColor,
+        title: Text('Delete Account', style: TextStyle(color: colors.textColor)),
         content: Text(
           'Are you sure you want to delete your account? This action cannot be undone.',
-          style: TextStyle(color: getTextColor()),
+          style: TextStyle(color: colors.textColor),
         ),
         actions: [
           TextButton(
@@ -328,12 +332,14 @@ class SettingsDialogs {
 
   static void showInfoDialog(
       BuildContext context, String title, String content) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: getCardColor(),
-        title: Text(title, style: TextStyle(color: getTextColor())),
-        content: Text(content, style: TextStyle(color: getTextColor())),
+        backgroundColor: colors.cardColor,
+        title: Text(title, style: TextStyle(color: colors.textColor)),
+        content: Text(content, style: TextStyle(color: colors.textColor)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),

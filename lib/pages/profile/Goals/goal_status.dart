@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/colors.dart';
 
 class GoalsStats extends StatelessWidget {
@@ -11,6 +11,7 @@ class GoalsStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     // Count only active goals
     final activeGoals =
         controller.goals.values.where((g) => g['active'] == true).length;
@@ -19,21 +20,21 @@ class GoalsStats extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
-      decoration: getCardDecoration(),
+      decoration: colors.cardDecoration,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem(
+          _buildStatItem(colors,
               'Total', controller.goals.length.toString(), Icons.list),
-          _buildStatItem('Active', activeGoals.toString(), Icons.flag),
-          _buildStatItem(
+          _buildStatItem(colors, 'Active', activeGoals.toString(), Icons.flag),
+          _buildStatItem(colors,
               'Completed', completedGoals.toString(), Icons.check_circle),
         ],
       ),
     );
   }
 
-  Widget _buildStatItem(String title, String value, IconData icon) {
+  Widget _buildStatItem(AppColorsExtension colors, String title, String value, IconData icon) {
     return Column(
       children: [
         Container(
@@ -50,8 +51,8 @@ class GoalsStats extends StatelessWidget {
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: getTextColor())),
-        Text(title, style: TextStyle(fontSize: 12, color: getSubtitleColor())),
+                color: colors.textColor)),
+        Text(title, style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
       ],
     );
   }

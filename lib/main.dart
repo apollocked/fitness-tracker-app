@@ -15,6 +15,7 @@ import 'package:myapp/pages/Cards/add_measurement_page.dart';
 import 'package:myapp/pages/Profile/features_page.dart';
 import 'package:myapp/pages/authentication/login_page.dart';
 import 'package:myapp/services/storage_service.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 void main() async {
   // Initialize widgets binding
@@ -56,19 +57,9 @@ class _FitAppBuilder extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Fitness Tracker",
-      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: Colors.grey[100],
-      ),
-      darkTheme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF121212),
-      ),
+      themeMode: themeProvider.themeMode,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       // Check if user is logged in
       home: currentUser != null ? const LayoutPage() : const LoginPage(),
       routes: {

@@ -19,6 +19,10 @@ class AuthFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final subtitleColor = isDark ? Colors.grey[400] : Colors.grey[600];
+
     return Column(
       children: [
         const SizedBox(height: 30),
@@ -45,7 +49,7 @@ class AuthFooter extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(questionText, style: TextStyle(color: Colors.grey[600])),
+            Text(questionText, style: TextStyle(color: subtitleColor)),
             TextButton(
               onPressed: onLinkPressed, // Can be null
               child: Text(

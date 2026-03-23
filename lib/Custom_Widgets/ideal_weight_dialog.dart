@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class IdealWeightResultsDialog {
   static void showResults(
@@ -11,13 +11,15 @@ class IdealWeightResultsDialog {
     required String goalType,
     required double weightDifference,
   }) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final difference = currentWeight - idealWeight;
     final isOverweight = difference > 0;
 
     showDialog(
       context: context,
       builder: (context) => Dialog(
-        backgroundColor: getCardColor(),
+        backgroundColor: colors.cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: SingleChildScrollView(
           child: Padding(
@@ -38,7 +40,7 @@ class IdealWeightResultsDialog {
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: getTextColor())),
+                        color: colors.textColor)),
                 const SizedBox(height: 24),
                 Container(
                   padding: const EdgeInsets.all(20),
@@ -52,7 +54,7 @@ class IdealWeightResultsDialog {
                     children: [
                       Text('Ideal Weight',
                           style: TextStyle(
-                              fontSize: 14, color: getSubtitleColor())),
+                              fontSize: 14, color: colors.subtitleColor)),
                       const SizedBox(height: 8),
                       Text('${idealWeight.toStringAsFixed(1)} kg',
                           style: TextStyle(
@@ -66,7 +68,7 @@ class IdealWeightResultsDialog {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                      color: isDarkMode() ? Colors.grey[800] : Colors.grey[100],
+                      color: isDark ? Colors.grey[800] : Colors.grey[100],
                       borderRadius: BorderRadius.circular(12)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -75,19 +77,19 @@ class IdealWeightResultsDialog {
                         children: [
                           Text('Current Weight',
                               style: TextStyle(
-                                  fontSize: 12, color: getSubtitleColor())),
+                                  fontSize: 12, color: colors.subtitleColor)),
                           const SizedBox(height: 8),
                           Text('${currentWeight.toStringAsFixed(1)} kg',
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: getTextColor())),
+                                  color: colors.textColor)),
                         ],
                       ),
                       Container(
                           width: 2,
                           height: 60,
-                          color: isDarkMode()
+                          color: isDark
                               ? Colors.grey[700]
                               : Colors.grey[300]),
                       Column(
@@ -115,8 +117,8 @@ class IdealWeightResultsDialog {
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: isOverweight
-                        ? Colors.red[isDarkMode() ? 900 : 50]
-                        : Colors.green[isDarkMode() ? 900 : 50],
+                        ? Colors.red[isDark ? 900 : 50]
+                        : Colors.green[isDark ? 900 : 50],
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -126,8 +128,8 @@ class IdealWeightResultsDialog {
                     style: TextStyle(
                         fontSize: 12,
                         color: isOverweight
-                            ? Colors.red[isDarkMode() ? 300 : 700]
-                            : Colors.green[isDarkMode() ? 300 : 700]),
+                            ? Colors.red[isDark ? 300 : 700]
+                            : Colors.green[isDark ? 300 : 700]),
                     textAlign: TextAlign.center,
                   ),
                 ),

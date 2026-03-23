@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/Profile/Goals/goals_controller.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/colors.dart';
 
 class GoalsSquareCard extends StatelessWidget {
@@ -18,6 +18,7 @@ class GoalsSquareCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final goal = controller.goals[goalKey];
     if (goal == null) return const SizedBox();
 
@@ -49,7 +50,7 @@ class GoalsSquareCard extends StatelessWidget {
     return Container(
       height: 120,
       decoration: BoxDecoration(
-        color: getCardColor(),
+        color: colors.cardColor,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: cardColor.withOpacity(0.3), width: 2),
         boxShadow: [
@@ -84,7 +85,7 @@ class GoalsSquareCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: getTextColor(),
+                    color: colors.textColor,
                   ),
                 ),
               ],
@@ -98,7 +99,7 @@ class GoalsSquareCard extends StatelessWidget {
                   'Daily Goal',
                   style: TextStyle(
                     fontSize: 11,
-                    color: getSubtitleColor(),
+                    color: colors.subtitleColor,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -107,7 +108,7 @@ class GoalsSquareCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: getTextColor(),
+                    color: colors.textColor,
                     height: 1,
                   ),
                 ),

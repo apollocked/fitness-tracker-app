@@ -6,7 +6,7 @@ import 'package:myapp/Custom_Widgets/custom_textfeild.dart';
 import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/Custom_Widgets/ideal_weight_dialog.dart';
 import 'package:myapp/services/goals_service.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 import 'package:myapp/utils/colors.dart';
 
 class IdealBodyWeightPage extends StatefulWidget {
@@ -96,10 +96,11 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: getBackgroundColor(context),
-      appBar: customAppBarr("Ideal Body Weight Calculator", blueColor,
-          getBackgroundColor(context)),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: customAppBarr("Ideal Body Weight Calculator", blueColor),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
@@ -112,7 +113,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     const SizedBox(height: 10),
                     Text('Select Your Gender',
                         style:
-                            TextStyle(color: getSubtitleColor(), fontSize: 16)),
+                            TextStyle(color: colors.subtitleColor, fontSize: 16)),
                     CustomGenderRatio(
                       color: blueColor,
                       selectedGender: _gender,
@@ -207,7 +208,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                               'Goal type (Lose/Gain/Maintain) will be automatically determined based on your current vs target weight',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: getTextColor(),
+                                color: colors.textColor,
                               ),
                             ),
                           ),

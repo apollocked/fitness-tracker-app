@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/utils/colors.dart';
-import 'package:myapp/utils/dark_mode_helper.dart';
+import 'package:myapp/utils/app_theme.dart';
 
 class FeaturesPage extends StatelessWidget {
   const FeaturesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: customAppBarr(
-          'App Features', primaryColor, getBackgroundColor(context)),
-      backgroundColor: getBackgroundColor(context),
+          'App Features', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -22,15 +24,15 @@ class FeaturesPage extends StatelessWidget {
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: getTextColor()),
+                  color: colors.textColor),
             ),
             const SizedBox(height: 8),
             Text(
               'Explore all the tools and capabilities available in our fitness app',
-              style: TextStyle(color: getSubtitleColor()),
+              style: TextStyle(color: colors.subtitleColor),
             ),
             const SizedBox(height: 24),
-            _buildFeatureCard(
+            _buildFeatureCard(colors, isDark,
               icon: Icons.calculate,
               title: 'Daily Calorie Calculator',
               description:
@@ -43,7 +45,7 @@ class FeaturesPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildFeatureCard(
+            _buildFeatureCard(colors, isDark,
               icon: Icons.trending_up,
               title: 'Progress Tracking',
               description:
@@ -56,7 +58,7 @@ class FeaturesPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildFeatureCard(
+            _buildFeatureCard(colors, isDark,
               icon: Icons.person,
               title: 'Personal Information',
               description:
@@ -69,7 +71,7 @@ class FeaturesPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildFeatureCard(
+            _buildFeatureCard(colors, isDark,
               icon: Icons.flag,
               title: 'Fitness Goals',
               description:
@@ -84,7 +86,7 @@ class FeaturesPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildFeatureCard(
+            _buildFeatureCard(colors, isDark,
               icon: Icons.monitor_weight,
               title: 'Ideal Body Weight Calculator',
               description:
@@ -97,7 +99,7 @@ class FeaturesPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildFeatureCard(
+            _buildFeatureCard(colors, isDark,
               icon: Icons.restaurant,
               title: 'Protein Intake Calculator',
               description:
@@ -110,7 +112,7 @@ class FeaturesPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildFeatureCard(
+            _buildFeatureCard(colors, isDark,
               icon: Icons.dark_mode,
               title: 'Dark Mode',
               description:
@@ -125,7 +127,7 @@ class FeaturesPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            _buildFeatureCard(
+            _buildFeatureCard(colors, isDark,
               icon: Icons.psychology,
               title: 'Smart Goal Management',
               description:
@@ -160,7 +162,7 @@ class FeaturesPage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: getTextColor(),
+                            color: colors.textColor,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -168,7 +170,7 @@ class FeaturesPage extends StatelessWidget {
                           'Visit Help & Support for FAQs and troubleshooting',
                           style: TextStyle(
                             fontSize: 12,
-                            color: getSubtitleColor(),
+                            color: colors.subtitleColor,
                           ),
                         ),
                       ],
@@ -184,7 +186,7 @@ class FeaturesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureCard({
+  Widget _buildFeatureCard(AppColorsExtension colors, bool isDark, {
     required IconData icon,
     required String title,
     required String description,
@@ -192,11 +194,11 @@ class FeaturesPage extends StatelessWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: getCardColor(),
+        color: colors.cardColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: isDarkMode()
+            color: isDark
                 ? Colors.black.withOpacity(0.3)
                 : Colors.grey.withOpacity(0.1),
             spreadRadius: 1,
@@ -218,7 +220,7 @@ class FeaturesPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: getTextColor(),
+                    color: colors.textColor,
                   ),
                 ),
               ),
@@ -227,7 +229,7 @@ class FeaturesPage extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             description,
-            style: TextStyle(color: getSubtitleColor(), fontSize: 14),
+            style: TextStyle(color: colors.subtitleColor, fontSize: 14),
           ),
           const SizedBox(height: 16),
           Text(
@@ -235,7 +237,7 @@ class FeaturesPage extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
-                color: getTextColor()),
+                color: colors.textColor),
           ),
           const SizedBox(height: 8),
           ...benefits.map((benefit) => Padding(
@@ -249,7 +251,7 @@ class FeaturesPage extends StatelessWidget {
                     Expanded(
                       child: Text(
                         benefit,
-                        style: TextStyle(color: getSubtitleColor()),
+                        style: TextStyle(color: colors.subtitleColor),
                       ),
                     ),
                   ],
