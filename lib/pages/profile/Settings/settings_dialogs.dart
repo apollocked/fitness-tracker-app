@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
+import 'package:myapp/Custom_Widgets/custom_dialog_text_field.dart';
 import 'package:myapp/pages/authentication/register_page.dart';
 import 'package:myapp/services/storage_service.dart';
 import 'package:myapp/utils/app_theme.dart';
@@ -7,6 +8,7 @@ import 'package:myapp/utils/user_data.dart';
 
 class SettingsDialogs {
   static void showChangePasswordDialog(BuildContext context) {
+    if (currentUser == null) return;
     final oldPasswordController = TextEditingController();
     final newPasswordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
@@ -16,50 +18,27 @@ class SettingsDialogs {
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: colors.cardColor,
-        title: Text('Change Password', style: TextStyle(color: colors.textColor)),
+        title:
+            Text('Change Password', style: TextStyle(color: colors.textColor)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            CustomDialogTextField(
               controller: oldPasswordController,
-              obscureText: true,
-              style: TextStyle(color: colors.textColor),
-              decoration: InputDecoration(
-                labelText: 'Old Password',
-                labelStyle: TextStyle(color: colors.subtitleColor),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                filled: true,
-                fillColor: Theme.of(context).scaffoldBackgroundColor,
-              ),
+              text: 'Old Password',
+              isPassword: true,
             ),
             const SizedBox(height: 12),
-            TextField(
+            CustomDialogTextField(
               controller: newPasswordController,
-              obscureText: true,
-              style: TextStyle(color: colors.textColor),
-              decoration: InputDecoration(
-                labelText: 'New Password',
-                labelStyle: TextStyle(color: colors.subtitleColor),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                filled: true,
-                fillColor: Theme.of(context).scaffoldBackgroundColor,
-              ),
+              text: 'New Password',
+              isPassword: true,
             ),
             const SizedBox(height: 12),
-            TextField(
+            CustomDialogTextField(
               controller: confirmPasswordController,
-              obscureText: true,
-              style: TextStyle(color: colors.textColor),
-              decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                labelStyle: TextStyle(color: colors.subtitleColor),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                filled: true,
-                fillColor: Theme.of(context).scaffoldBackgroundColor,
-              ),
+              text: 'Confirm Password',
+              isPassword: true,
             ),
           ],
         ),
@@ -107,9 +86,11 @@ class SettingsDialogs {
   }
 
   static void showEditProfileDialog(BuildContext context, Function onSave) {
+    if (currentUser == null) return;
+
     final usernameController =
-        TextEditingController(text: currentUser?['username']);
-    final emailController = TextEditingController(text: currentUser?['email']);
+        TextEditingController(text: currentUser!['username']);
+    final emailController = TextEditingController(text: currentUser!['email']);
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     showDialog(
@@ -120,30 +101,14 @@ class SettingsDialogs {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            CustomDialogTextField(
               controller: usernameController,
-              style: TextStyle(color: colors.textColor),
-              decoration: InputDecoration(
-                labelText: 'Username',
-                labelStyle: TextStyle(color: colors.subtitleColor),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                filled: true,
-                fillColor: Theme.of(context).scaffoldBackgroundColor,
-              ),
+              text: 'Username',
             ),
             const SizedBox(height: 12),
-            TextField(
+            CustomDialogTextField(
               controller: emailController,
-              style: TextStyle(color: colors.textColor),
-              decoration: InputDecoration(
-                labelText: 'Email',
-                labelStyle: TextStyle(color: colors.subtitleColor),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                filled: true,
-                fillColor: Theme.of(context).scaffoldBackgroundColor,
-              ),
+              text: 'Email',
             ),
           ],
         ),
@@ -153,57 +118,30 @@ class SettingsDialogs {
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () async {
-              final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-              if (!emailRegex.hasMatch(emailController.text)) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Enter valid email'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                return;
-              }
-
-              // Check if email is already taken by another user
-              final emailTaken = users.any((user) =>
-                  user['email'].toLowerCase() ==
-                      emailController.text.toLowerCase() &&
-                  user['id'] != currentUser!['id']);
-
-              if (emailTaken) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Email already taken by another user'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                return;
-              }
-
-              try {
+            onPressed: () {
+              if (usernameController.text.isNotEmpty &&
+                  emailController.text.isNotEmpty) {
                 currentUser!['username'] = usernameController.text;
                 currentUser!['email'] = emailController.text;
-                await updateUser(currentUser!['id'], currentUser!);
-
-                Navigator.pop(dialogContext);
+                updateUser(currentUser!['id'], currentUser!);
                 onSave();
+                Navigator.pop(dialogContext);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Profile updated!'),
+                    content: Text('Profile updated successfully!'),
                     backgroundColor: Colors.green,
                   ),
                 );
-              } catch (e) {
+              } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Error updating profile: $e'),
+                  const SnackBar(
+                    content: Text('Please fill all fields'),
                     backgroundColor: Colors.red,
                   ),
                 );
               }
             },
-            child: const Text('Save'),
+            child: const Text('Update'),
           ),
         ],
       ),
@@ -218,7 +156,8 @@ class SettingsDialogs {
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: colors.cardColor,
-        title: Text('Delete Account', style: TextStyle(color: colors.textColor)),
+        title:
+            Text('Delete Account', style: TextStyle(color: colors.textColor)),
         content: Text(
           'Are you sure you want to delete your account? This action cannot be undone.',
           style: TextStyle(color: colors.textColor),

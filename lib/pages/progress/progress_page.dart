@@ -149,8 +149,8 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          customAppBarr('Progress', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          'Progress', primaryColor, Theme.of(context).scaffoldBackgroundColor),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body:
           _measurements.isEmpty ? _buildEmptyState() : _buildMeasurementsList(),

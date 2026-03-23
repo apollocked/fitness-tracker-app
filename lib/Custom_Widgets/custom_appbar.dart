@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
 AppBar customAppBarr(
-    [String title = "Ideal Body Weight Calculator",
-    Color? backgroundColor,
-    Color? foregroundColor]) {
+    [String title = "", Color? backgroundColor, Color? foregroundColor]) {
   return AppBar(
-    title: Text(title),
+    title: Text(title, style: TextStyle(color: foregroundColor)),
     backgroundColor: backgroundColor,
-    foregroundColor: foregroundColor ??
-        (backgroundColor != null ? Colors.white : null),
+    foregroundColor: foregroundColor,
   );
 }
