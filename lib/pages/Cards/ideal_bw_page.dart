@@ -100,7 +100,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: customAppBarr("Ideal Body Weight Calculator", blueColor),
+      appBar: customAppBarr("Ideal Body Weight Calculator", blueColor, theme.scaffoldBackgroundColor),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(

@@ -107,7 +107,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: customAppBarr('Add Measurement', greenColor),
+      appBar: customAppBarr('Add Measurement', greenColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

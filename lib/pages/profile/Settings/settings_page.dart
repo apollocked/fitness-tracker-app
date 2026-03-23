@@ -33,7 +33,7 @@ class SettingsPage extends StatelessWidget {
     return Stack(
       children: [
         Scaffold(
-          appBar: customAppBarr('Settings', primaryColor),
+          appBar: customAppBarr('Settings', primaryColor, Theme.of(context).scaffoldBackgroundColor),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),

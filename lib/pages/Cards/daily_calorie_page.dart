@@ -131,7 +131,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: customAppBarr("Daily Calorie Calculator", redColor),
+      appBar: customAppBarr("Daily Calorie Calculator", redColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

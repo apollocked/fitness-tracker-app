@@ -43,8 +43,8 @@ class _GoalsPageState extends State<GoalsPage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Scaffold(
-      appBar:
-          customAppBarr('My Goals', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          'My Goals', primaryColor, Theme.of(context).scaffoldBackgroundColor),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
@@ -94,10 +94,12 @@ class _GoalsPageState extends State<GoalsPage> {
             onPressed: () {
               Navigator.pushNamed(context, '/ideal-weight');
             },
-            icon: Icon(Icons.calculate, color: Theme.of(context).scaffoldBackgroundColor),
+            icon: Icon(Icons.calculate,
+                color: Theme.of(context).scaffoldBackgroundColor),
             label: Text(
               'Set Weight Goal',
-              style: TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
+              style:
+                  TextStyle(color: Theme.of(context).scaffoldBackgroundColor),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: primaryColor,

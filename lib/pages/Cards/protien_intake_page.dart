@@ -83,7 +83,7 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: customAppBarr("Protein Intake Calculator", orangeColor),
+      appBar: customAppBarr("Protein Intake Calculator", orangeColor, theme.scaffoldBackgroundColor),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
