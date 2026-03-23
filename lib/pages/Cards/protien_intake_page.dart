@@ -96,7 +96,12 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                     const SizedBox(height: 10),
                     Text('Are You a BodyBuilder ?',
                         style: TextStyle(fontSize: 16, color: getTextColor())),
-                    const CustomBodyTypeRatio(),
+                    CustomBodyTypeRatio(
+                      isBodybuilder: currentUser!["isBodybuilder"] ?? false,
+                      onChanged: (value) {
+                        // This might need to update state if needed
+                      },
+                    ),
                     const SizedBox(height: 15),
                     CustomTextfeild(
                       controller: _weightController,

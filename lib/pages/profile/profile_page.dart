@@ -11,14 +11,9 @@ import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     if (currentUser == null) {
@@ -79,12 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SettingsPage(
-                      onProfileUpdated: () {
-                        // When profile is updated in Settings, rebuild this page
-                        setState(() {});
-                      },
-                    ),
+                    builder: (context) => const SettingsPage(),
                   ),
                 );
               }),

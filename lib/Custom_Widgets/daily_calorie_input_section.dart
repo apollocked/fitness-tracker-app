@@ -5,7 +5,7 @@ import 'package:myapp/Custom_Widgets/select_gender_radio.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 
-class DailyCalorieInputSection extends StatefulWidget {
+class DailyCalorieInputSection extends StatelessWidget {
   final TextEditingController ageController;
   final TextEditingController weightController;
   final TextEditingController heightController;
@@ -26,12 +26,6 @@ class DailyCalorieInputSection extends StatefulWidget {
   });
 
   @override
-  State<DailyCalorieInputSection> createState() =>
-      _DailyCalorieInputSectionState();
-}
-
-class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
-  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,12 +38,12 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
         const SizedBox(height: 8),
         CustomGenderRatio(
           color: redColor,
-          initialGender: widget.gender,
-          onGenderChanged: widget.onGenderChanged,
+          selectedGender: gender,
+          onGenderChanged: onGenderChanged,
         ),
         const SizedBox(height: 16),
         CustomTextfeild(
-          controller: widget.ageController,
+          controller: ageController,
           isObscure: false,
           keyboard: TextInputType.number,
           icon: const Icon(Icons.cake),
@@ -65,7 +59,7 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
         ),
         const SizedBox(height: 16),
         CustomTextfeild(
-          controller: widget.weightController,
+          controller: weightController,
           isObscure: false,
           keyboard: TextInputType.number,
           icon: const Icon(Icons.monitor_weight),
@@ -81,7 +75,7 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
         ),
         const SizedBox(height: 16),
         CustomTextfeild(
-          controller: widget.heightController,
+          controller: heightController,
           isObscure: false,
           keyboard: TextInputType.number,
           icon: const Icon(Icons.height),
@@ -111,7 +105,7 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              value: widget.activityLevel,
+              value: activityLevel,
               dropdownColor: getCardColor(),
               style: TextStyle(
                   color: getTextColor(),
@@ -135,7 +129,7 @@ class _DailyCalorieInputSectionState extends State<DailyCalorieInputSection> {
                     value: 'Extra Active',
                     child: Text('Extra Active (athlete/physical job)')),
               ],
-              onChanged: (value) => widget.onActivityChanged(value!),
+              onChanged: (value) => onActivityChanged(value!),
             ),
           ),
         ),

@@ -94,7 +94,7 @@ class PersonalInfoSection extends StatelessWidget {
                 fontWeight: FontWeight.w600)),
         CustomGenderRatio(
           color: primaryColor,
-          initialGender: "Male",
+          selectedGender: gender,
           onGenderChanged: onGenderChanged,
         ),
       ],

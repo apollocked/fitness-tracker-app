@@ -4,44 +4,24 @@ import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Profile/Settings/settings_dialogs.dart';
 import 'package:myapp/pages/Profile/Settings/settings_section_widget.dart';
 import 'package:myapp/providers/theme_provider.dart';
+import 'package:myapp/providers/notification_provider.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
-import 'package:myapp/utils/user_data.dart';
 
-class SettingsPage extends StatefulWidget {
-  final VoidCallback? onProfileUpdated; // Add this parameter
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
 
-  const SettingsPage({
-    super.key,
-    this.onProfileUpdated, // Add this parameter
-  });
-
-  @override
-  State<SettingsPage> createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends State<SettingsPage> {
-  bool _notificationsEnabled = true;
-  late bool _darkModeValue;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize with current theme value
-    _darkModeValue = currentUser!['darkMode'] ?? false;
+  void _onDarkModeChanged(BuildContext context, bool value) {
+    context.read<ThemeProvider>().setTheme(value);
   }
 
-  void _onDarkModeChanged(bool value) {
-    // Use provider to update theme
-    Provider.of<ThemeProvider>(context, listen: false).setTheme(value);
-
-    setState(() {
-      _darkModeValue = value;
-    });
+  void _onNotificationsChanged(BuildContext context, bool value) {
+    context.read<NotificationProvider>().setNotifications(value);
   }
 
   @override
   Widget build(BuildContext context) {
+    final notificationProvider = context.watch<NotificationProvider>();
     return Scaffold(
       appBar: customAppBarr('Settings', primaryColor, getBackgroundColor()),
       backgroundColor: getBackgroundColor(),
@@ -62,12 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.edit,
                   'Edit Profile',
                   'Update your information',
-                  () => SettingsDialogs.showEditProfileDialog(context, () {
-                        // When profile is saved, trigger rebuild of SettingsPage
-                        setState(() {});
-                        // Also notify parent widget (ProfilePage) to rebuild
-                        widget.onProfileUpdated?.call();
-                      })),
+                  () => SettingsDialogs.showEditProfileDialog(context, () {})),
             ]),
             const SizedBox(height: 24),
             buildSectionTitle('Notifications'),
@@ -76,18 +51,22 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.notifications,
                   'All Notifications',
                   'Enable/disable notifications',
-                  _notificationsEnabled,
-                  (value) => setState(() => _notificationsEnabled = value)),
+                  notificationProvider.notificationsEnabled,
+                  (value) => _onNotificationsChanged(context, value)),
             ]),
             const SizedBox(height: 24),
             buildSectionTitle('Appearance'),
             buildCardSection([
-              buildSwitchTile(
-                  Icons.dark_mode,
-                  'Dark Mode',
-                  'Toggle dark/light theme',
-                  _darkModeValue,
-                  _onDarkModeChanged),
+              Consumer<ThemeProvider>(
+                builder: (context, themeProvider, _) {
+                  return buildSwitchTile(
+                      Icons.dark_mode,
+                      'Dark Mode',
+                      'Toggle dark/light theme',
+                      themeProvider.isDarkMode,
+                      (value) => _onDarkModeChanged(context, value));
+                },
+              ),
             ]),
             const SizedBox(height: 24),
             buildSectionTitle('More'),

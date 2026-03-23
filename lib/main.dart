@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/pages/LayoutPage/layout_page.dart';
@@ -45,7 +43,6 @@ class FitApp extends StatelessWidget {
     );
   }
 }
-}
 
 class _FitAppBuilder extends StatelessWidget {
   const _FitAppBuilder();
@@ -57,8 +54,7 @@ class _FitAppBuilder extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Fitness Tracker",
-      themeMode:
-          themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,

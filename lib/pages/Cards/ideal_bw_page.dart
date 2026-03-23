@@ -115,7 +115,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                             TextStyle(color: getSubtitleColor(), fontSize: 16)),
                     CustomGenderRatio(
                       color: blueColor,
-                      initialGender: "Male",
+                      selectedGender: _gender,
                       onGenderChanged: (value) {
                         setState(() => _gender = value);
                       },

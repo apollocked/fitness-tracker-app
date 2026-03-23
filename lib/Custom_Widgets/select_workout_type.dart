@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
-import 'package:myapp/utils/user_data.dart';
 
-class CustomBodyTypeRatio extends StatefulWidget {
+class CustomBodyTypeRatio extends StatelessWidget {
+  final bool isBodybuilder;
+  final Function(bool) onChanged;
+
   const CustomBodyTypeRatio({
     super.key,
+    required this.isBodybuilder,
+    required this.onChanged,
   });
 
   @override
-  State<CustomBodyTypeRatio> createState() => _CustomBodyTypeRatio();
-}
-
-class _CustomBodyTypeRatio extends State<CustomBodyTypeRatio> {
-  @override
   Widget build(BuildContext context) {
-    var user = currentUser!;
     return Column(
       children: [
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(orangeColor),
           title: Text("No", style: TextStyle(color: getTextColor())),
           value: false.toString(),
-          groupValue: user["isBodybuilder"].toString(),
+          groupValue: isBodybuilder.toString(),
           onChanged: (value) {
-            setState(() {
-              user["isBodybuilder"] = false;
-            });
+            onChanged(false);
           },
         ),
         RadioListTile<String>(
@@ -36,11 +32,9 @@ class _CustomBodyTypeRatio extends State<CustomBodyTypeRatio> {
             style: TextStyle(color: getTextColor()),
           ),
           value: true.toString(),
-          groupValue: user["isBodybuilder"].toString(),
+          groupValue: isBodybuilder.toString(),
           onChanged: (value) {
-            setState(() {
-              user["isBodybuilder"] = true;
-            });
+            onChanged(true);
           },
         ),
       ],

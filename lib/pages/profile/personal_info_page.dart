@@ -4,14 +4,9 @@ import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
-class PersonalInfoPage extends StatefulWidget {
+class PersonalInfoPage extends StatelessWidget {
   const PersonalInfoPage({super.key});
 
-  @override
-  State<PersonalInfoPage> createState() => _PersonalInfoPageState();
-}
-
-class _PersonalInfoPageState extends State<PersonalInfoPage> {
   @override
   Widget build(BuildContext context) {
     final age = currentUser?['age'] ?? 'N/A';
