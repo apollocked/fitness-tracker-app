@@ -12,9 +12,7 @@ import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class ProfilePage extends StatefulWidget {
-  final VoidCallback? onThemeChanged;
-
-  const ProfilePage({super.key, this.onThemeChanged});
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -82,10 +80,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SettingsPage(
-                      onThemeChanged: () {
-                        widget.onThemeChanged?.call();
-                        setState(() {});
-                      },
                       onProfileUpdated: () {
                         // When profile is updated in Settings, rebuild this page
                         setState(() {});

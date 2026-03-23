@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Profile/Settings/settings_dialogs.dart';
 import 'package:myapp/pages/Profile/Settings/settings_section_widget.dart';
+import 'package:myapp/providers/theme_provider.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/utils/dark_mode_helper.dart';
 import 'package:myapp/utils/user_data.dart';
 
 class SettingsPage extends StatefulWidget {
-  final VoidCallback onThemeChanged;
-  final VoidCallback? onProfileUpdated; // Add this callback
+  final VoidCallback? onProfileUpdated; // Add this parameter
 
   const SettingsPage({
     super.key,
-    required this.onThemeChanged,
     this.onProfileUpdated, // Add this parameter
   });
 
@@ -22,7 +22,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _notificationsEnabled = true;
-  bool _darkModeValue = false;
+  late bool _darkModeValue;
 
   @override
   void initState() {
@@ -31,21 +31,13 @@ class _SettingsPageState extends State<SettingsPage> {
     _darkModeValue = currentUser!['darkMode'] ?? false;
   }
 
-  void _updateDarkMode(bool value) {
+  void _onDarkModeChanged(bool value) {
+    // Use provider to update theme
+    Provider.of<ThemeProvider>(context, listen: false).setTheme(value);
+
     setState(() {
       _darkModeValue = value;
     });
-
-    // Update user data
-    currentUser!['darkMode'] = value;
-    final userIndex =
-        users.indexWhere((user) => user['id'] == currentUser!['id']);
-    if (userIndex != -1) {
-      users[userIndex]['darkMode'] = value;
-    }
-
-    // Notify theme change
-    widget.onThemeChanged();
   }
 
   @override
@@ -90,8 +82,12 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 24),
             buildSectionTitle('Appearance'),
             buildCardSection([
-              buildSwitchTile(Icons.dark_mode, 'Dark Mode',
-                  'Toggle dark/light theme', _darkModeValue, _updateDarkMode),
+              buildSwitchTile(
+                  Icons.dark_mode,
+                  'Dark Mode',
+                  'Toggle dark/light theme',
+                  _darkModeValue,
+                  _onDarkModeChanged),
             ]),
             const SizedBox(height: 24),
             buildSectionTitle('More'),
