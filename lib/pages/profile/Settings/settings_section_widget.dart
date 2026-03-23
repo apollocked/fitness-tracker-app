@@ -9,7 +9,9 @@ Widget buildSectionTitle(BuildContext context, String title) {
     child: Text(
       title,
       style: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.bold, color: colors.subtitleColor),
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: colors.subtitleColor),
     ),
   );
 }
@@ -70,7 +72,13 @@ Widget buildSwitchTile(
     title: Text(title, style: TextStyle(color: colors.textColor)),
     subtitle: Text(subtitle,
         style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
-    trailing:
-        Switch(value: value, onChanged: onChanged, activeColor: primaryColor),
+    trailing: Switch(
+      value: value,
+      onChanged: onChanged,
+      activeColor: primaryColor,
+      inactiveThumbColor: colors.subtitleColor,
+      inactiveTrackColor: colors.cardColor,
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
+    ),
   );
 }
