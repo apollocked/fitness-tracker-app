@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/LayoutPage/layout_page.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/Custom_Widgets/custom_appbar.dart';
 import 'package:myapp/pages/Profile/Settings/settings_dialogs.dart';
@@ -11,8 +12,11 @@ import 'package:myapp/utils/dark_mode_helper.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
-  void _onDarkModeChanged(BuildContext context, bool value) {
-    context.read<ThemeProvider>().setTheme(value);
+  void _onDarkModeChanged(BuildContext context, bool value) async {
+    await context.read<ThemeProvider>().setTheme(value);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return SettingsPage();
+    }));
   }
 
   void _onNotificationsChanged(BuildContext context, bool value) {
@@ -21,6 +25,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ThemeProvider>(context);
     final notificationProvider = context.watch<NotificationProvider>();
     return Scaffold(
       appBar: customAppBarr('Settings', primaryColor, getBackgroundColor()),
