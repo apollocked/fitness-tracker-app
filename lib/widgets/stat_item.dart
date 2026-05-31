@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
 
 class StatItem extends StatelessWidget {
   final IconData icon;

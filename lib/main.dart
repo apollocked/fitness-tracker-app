@@ -6,7 +6,7 @@ import 'package:fit_tracker/features/profile/settings/terms_conditions_page.dart
 import 'package:fit_tracker/app/cubits/theme_cubit.dart';
 import 'package:fit_tracker/app/cubits/navigation_cubit.dart';
 import 'package:fit_tracker/features/calculators/ideal_bw_page.dart';
-import 'package:fit_tracker/features/calculators/protein_intake_page.dart';
+import 'package:fit_tracker/features/calculators/protien_intake_page.dart';
 import 'package:fit_tracker/features/calculators/daily_calorie_page.dart';
 import 'package:fit_tracker/features/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/features/profile/features_page.dart';
@@ -70,7 +70,7 @@ class _FitAppBuilder extends StatelessWidget {
     final themeCubit = context.watch<ThemeCubit>();
     final authState = context.watch<AuthCubit>().state;
     if (authState.user?.darkMode != null) {
-      themeCubit.setDarkMode(authState.user!.darkMode!);
+      themeCubit.setDarkMode(authState.user!.darkMode);
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -83,7 +83,7 @@ class _FitAppBuilder extends StatelessWidget {
         '/terms-conditions': (context) => const TermsConditionsPage(),
         '/privacy-policy': (context) => const PrivacyPolicyPage(),
         '/ideal-weight': (context) => const IdealBodyWeightPage(),
-        '/protein-intake': (context) => const ProteinIntakePage(),
+        '/protein-intake': (context) => const ProtienIntakePage(),
         '/daily-calories': (context) => const DailyCaloriePage(),
         '/add-measurement': (context) => const AddMeasurementPage(),
         '/features': (context) => const FeaturesPage(),

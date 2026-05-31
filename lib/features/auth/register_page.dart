@@ -7,6 +7,7 @@ import 'package:fit_tracker/features/auth/widgets/auth_header_widget.dart';
 import 'package:fit_tracker/features/auth/widgets/personal_info_section.dart';
 import 'package:fit_tracker/features/auth/login_page.dart';
 import 'package:fit_tracker/app/services/registration_validator.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/colors.dart';
 import 'package:fit_tracker/app/cubits/auth_cubit.dart';
 import 'package:fit_tracker/app/models/user_model.dart';

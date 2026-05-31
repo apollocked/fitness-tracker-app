@@ -3,10 +3,10 @@ import 'package:fit_tracker/widgets/custom_appbar.dart';
 import 'package:fit_tracker/widgets/custom_elevated_button.dart';
 import 'package:fit_tracker/widgets/daily_calorie_input_section.dart';
 import 'package:fit_tracker/widgets/daily_calories_dialog.dart';
-import 'package:fit_tracker/app/services/goals_service.dart';
 import 'package:fit_tracker/core/theme/colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import '';
+import 'package:fit_tracker/app/cubits/auth_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DailyCaloriePage extends StatefulWidget {
   final VoidCallback? onGoalsUpdated;
@@ -31,17 +31,11 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   @override
   void initState() {
     super.initState();
-    // Initialize with current user's gender if available
-    if (currentUser != null && currentUser!["gender"] != null) {
-      _gender = currentUser!["gender"];
-    }
-
-    // Check if user has weight goal
-    if (currentUser != null &&
-        currentUser!['goals'] != null &&
-        currentUser!['goals']['weight'] != null) {
-      final weightGoal = currentUser!['goals']['weight'];
-      if (weightGoal['goalType'] != null) {
+    final user = context.read<AuthCubit>().state.user;
+    if (user != null) {
+      _gender = user.gender;
+      final weightGoal = user.goals['weight'];
+      if (weightGoal != null && weightGoal['goalType'] != null) {
         _goalType = weightGoal['goalType'];
       }
     }

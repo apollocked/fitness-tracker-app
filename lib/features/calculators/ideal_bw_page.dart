@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fit_tracker/widgets/custom_appbar.dart';
 import 'package:fit_tracker/widgets/custom_elevated_button.dart';
-import 'package:fit_tracker/widgets/custom_textfeild.dart';
+import 'package:fit_tracker/widgets/custom_textfield.dart';
 import 'package:fit_tracker/widgets/select_gender_radio.dart';
 import 'package:fit_tracker/widgets/ideal_weight_dialog.dart';
 import 'package:fit_tracker/app/services/goals_service.dart';
@@ -83,9 +83,11 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
         goalType: goalType,
         weightDifference: weightDifference,
         onSetGoal: () {
+          final capitalizedGoal =
+              goalType[0].toUpperCase() + goalType.substring(1);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${goalType.capitalize()} weight goal saved!'),
+              content: Text('$capitalizedGoal weight goal saved!'),
               backgroundColor: greenColor,
             ),
           );
@@ -125,7 +127,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     const SizedBox(height: 15),
 
                     // Height input
-                    CustomTextfeild(
+                    CustomTextfield(
                       controller: _heightController,
                       isObscure: false,
                       keyboard: TextInputType.number,
@@ -148,7 +150,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     const SizedBox(height: 15),
 
                     // Current weight input
-                    CustomTextfeild(
+                    CustomTextfield(
                       controller: _weightController,
                       isObscure: false,
                       keyboard: TextInputType.number,
@@ -171,7 +173,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
                     const SizedBox(height: 15),
 
                     // Target weight input (optional)
-                    CustomTextfeild(
+                    CustomTextfield(
                       controller: _targetWeightController,
                       isObscure: false,
                       keyboard: TextInputType.number,
@@ -245,4 +247,3 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }
-

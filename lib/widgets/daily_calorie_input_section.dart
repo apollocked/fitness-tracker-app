@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fit_tracker/widgets/custom_textfeild.dart';
+import 'package:fit_tracker/widgets/custom_textfield.dart';
 import 'package:fit_tracker/widgets/select_gender_radio.dart';
 import 'package:fit_tracker/core/theme/colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
@@ -41,7 +41,7 @@ class DailyCalorieInputSection extends StatelessWidget {
           onGenderChanged: onGenderChanged,
         ),
         const SizedBox(height: 16),
-        CustomTextfeild(
+        CustomTextfield(
           controller: ageController,
           isObscure: false,
           keyboard: TextInputType.number,
@@ -57,7 +57,7 @@ class DailyCalorieInputSection extends StatelessWidget {
           input: FilteringTextInputFormatter.digitsOnly,
         ),
         const SizedBox(height: 16),
-        CustomTextfeild(
+        CustomTextfield(
           controller: weightController,
           isObscure: false,
           keyboard: TextInputType.number,
@@ -73,7 +73,7 @@ class DailyCalorieInputSection extends StatelessWidget {
           input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
         ),
         const SizedBox(height: 16),
-        CustomTextfeild(
+        CustomTextfield(
           controller: heightController,
           isObscure: false,
           keyboard: TextInputType.number,

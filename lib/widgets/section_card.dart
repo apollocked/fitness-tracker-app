@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
 
 class SectionCard extends StatelessWidget {
   final List<Widget> children;

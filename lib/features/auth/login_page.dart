@@ -76,10 +76,12 @@ class _LoginPageState extends State<LoginPage> {
                         onSaved: (value) {},
                         text: "Email",
                         validator: (value) {
-                          if (value == null || value.isEmpty)
+                          if (value == null || value.isEmpty) {
                             return "Email is required";
-                          if (!value.contains('@'))
+                          }
+                          if (!value.contains('@')) {
                             return "Enter a valid email";
+                          }
                           return null;
                         },
                         isObscure: false,
@@ -95,10 +97,12 @@ class _LoginPageState extends State<LoginPage> {
                         onSaved: (value) {},
                         text: "Password",
                         validator: (value) {
-                          if (value == null || value.isEmpty)
+                          if (value == null || value.isEmpty) {
                             return "Password is required";
-                          if (value.length < 6)
+                          }
+                          if (value.length < 6) {
                             return "Password must be at least 6 characters";
+                          }
                           return null;
                         },
                         isObscure: true,
@@ -135,4 +139,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

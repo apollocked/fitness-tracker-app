@@ -27,14 +27,14 @@ class GoalsPage extends StatelessWidget {
           Expanded(
             child: goalsState.goals.containsKey('weight')
                 ? const GoalsList()
-                : _buildNoWeightGoalState(colors),
+                : _buildNoWeightGoalState(colors, context),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildNoWeightGoalState(AppColorsExtension colors) {
+  Widget _buildNoWeightGoalState(AppColorsExtension colors, BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

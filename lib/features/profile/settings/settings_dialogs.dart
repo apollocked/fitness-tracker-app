@@ -4,7 +4,6 @@ import 'package:fit_tracker/widgets/custom_dialog_text_field.dart';
 import 'package:fit_tracker/features/auth/register_page.dart';
 import 'package:fit_tracker/app/services/storage_service.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import '';
 import 'package:fit_tracker/app/cubits/auth_cubit.dart';
 import 'package:fit_tracker/app/cubits/settings_cubit.dart';
 
@@ -159,7 +158,6 @@ class SettingsDialogs {
                 Navigator.pop(dialogContext);
                 await context.read<AuthCubit>().deleteAccount();
                 await StorageService.clearAll();
-                await initUserData();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Account deleted successfully'),

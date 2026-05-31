@@ -5,7 +5,7 @@ import 'package:fit_tracker/app/services/storage_service.dart';
 class LocalUserRepository implements UserRepository {
   List<UserModel> _cachedUsers = [];
   @override
-  List<UserModel> getAllUsers() {
+  Future<List<UserModel>> getAllUsers() async {
     if (_cachedUsers.isEmpty) {
       final stored = StorageService.getUsers();
       _cachedUsers = stored.map((m) => UserModel.fromMap(m)).toList();
@@ -90,4 +90,3 @@ class LocalUserRepository implements UserRepository {
     }
   }
 }
-

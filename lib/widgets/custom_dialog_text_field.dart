@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/colors.dart';
 
 class CustomDialogTextField extends StatefulWidget {

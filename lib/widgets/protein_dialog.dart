@@ -103,7 +103,7 @@ class ProteinResultsDialog {
                         color: Colors.blue[isDark ? 900 : 50],
                         borderRadius: BorderRadius.circular(8)),
                     child: Text(
-                      '💪 As a bodybuilder, consume protein throughout the day for optimal muscle growth',
+                      'ðŸ’ª As a bodybuilder, consume protein throughout the day for optimal muscle growth',
                       style: TextStyle(
                           fontSize: 12, color: Colors.blue[isDark ? 300 : 600]),
                       textAlign: TextAlign.center,
@@ -138,7 +138,7 @@ class ProteinResultsDialog {
                         color: Colors.green[isDark ? 900 : 50],
                         borderRadius: BorderRadius.circular(8)),
                     child: Text(
-                      '✓ This is the recommended daily protein intake for a healthy lifestyle',
+                      'âœ“ This is the recommended daily protein intake for a healthy lifestyle',
                       style: TextStyle(
                           fontSize: 12,
                           color: Colors.green[isDark ? 300 : 600]),

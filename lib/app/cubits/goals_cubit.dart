@@ -1,5 +1,6 @@
 import 'package:fit_tracker/app/repositories/auth_repository.dart';
 import 'package:fit_tracker/app/repositories/user_repository.dart';
+import 'package:fit_tracker/core/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -210,4 +211,3 @@ class GoalsCubit extends Cubit<GoalsState> {
     }
   }
 }
-

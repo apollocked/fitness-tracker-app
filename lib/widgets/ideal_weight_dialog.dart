@@ -120,8 +120,8 @@ class IdealWeightResultsDialog {
                   ),
                   child: Text(
                     isOverweight
-                        ? '⚠️ You need to lose ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight'
-                        : '✓ You need to gain ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight',
+                        ? 'âš ï¸ You need to lose ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight'
+                        : 'âœ“ You need to gain ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight',
                     style: TextStyle(
                         fontSize: 12,
                         color: isOverweight

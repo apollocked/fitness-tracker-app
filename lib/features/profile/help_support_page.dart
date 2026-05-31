@@ -148,16 +148,16 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
             spacing: 8,
             runSpacing: 8,
             children: [
-              _buildQuickNavButton('=ƒôï Features', () {
+              _buildQuickNavButton('=Æ’Ã´Ã¯ Features', () {
                 Navigator.pushNamed(context, '/features');
               }),
-              _buildQuickNavButton('G¥ô FAQs', () {
+              _buildQuickNavButton('GÂ¥Ã´ FAQs', () {
                 _scrollToSection(_faqSectionKey);
               }),
-              _buildQuickNavButton('=ƒöº Troubleshoot', () {
+              _buildQuickNavButton('=Æ’Ã¶Âº Troubleshoot', () {
                 _scrollToSection(_troubleshootSectionKey);
               }),
-              _buildQuickNavButton('=ƒÆí Tips', () {
+              _buildQuickNavButton('=Æ’Ã†Ã­ Tips', () {
                 _scrollToSection(_tipsSectionKey);
               }),
             ],
@@ -435,49 +435,49 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final tips = [
       {
-        'icon': '=ƒÄ»',
+        'icon': '=Æ’Ã„Â»',
         'title': 'Set Realistic Goals',
         'description':
             'Aim for 0.5-1 kg weight loss/gain per week for sustainable results.',
       },
       {
-        'icon': '=ƒôè',
+        'icon': '=Æ’Ã´Ã¨',
         'title': 'Consistent Updates',
         'description':
             'Update measurements on the same day each week for accurate tracking.',
       },
       {
-        'icon': '=ƒº«',
+        'icon': '=Æ’ÂºÂ«',
         'title': 'Use All Calculators',
         'description':
             'Use Calorie, Protein, and Ideal Weight calculators for a complete fitness plan.',
       },
       {
-        'icon': '=ƒîÖ',
+        'icon': '=Æ’Ã®Ã–',
         'title': 'Dark Mode at Night',
         'description':
             'Enable Dark Mode during evening use to reduce eye strain and save battery.',
       },
       {
-        'icon': '=ƒöö',
+        'icon': '=Æ’Ã¶Ã¶',
         'title': 'Enable Notifications',
         'description':
             'Turn on notifications in Settings to stay reminded about your goals.',
       },
       {
-        'icon': '=ƒÆ¬',
+        'icon': '=Æ’Ã†Â¬',
         'title': 'Track Bodybuilder Status',
         'description':
             'Update your bodybuilder status in Profile for accurate protein calculations.',
       },
       {
-        'icon': '=ƒôê',
+        'icon': '=Æ’Ã´Ãª',
         'title': 'Monitor Progress',
         'description':
             'Check your Progress page weekly to visualize your fitness journey.',
       },
       {
-        'icon': 'GÜûn+Å',
+        'icon': 'GÃœÃ»n+Ã…',
         'title': 'Balance Your Diet',
         'description':
             'Use calorie and protein goals together for balanced nutrition.',

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fit_tracker/widgets/custom_appbar.dart';
 import 'package:fit_tracker/widgets/custom_elevated_button.dart';
-import 'package:fit_tracker/widgets/custom_textfeild.dart';
-import 'package:fit_tracker/app/models/measurement_model.dart'; // Updated
+import 'package:fit_tracker/widgets/custom_textfield.dart';
 import 'package:fit_tracker/core/theme/colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import ''; // Updated
+import 'package:fit_tracker/app/cubits/auth_cubit.dart';
+import 'package:fit_tracker/app/cubits/progress_cubit.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   const AddMeasurementPage({super.key});
@@ -23,15 +24,18 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   @override
   void initState() {
     super.initState();
-    // Pre-fill with current weight if available
-    if (currentUser != null && currentUser!['weight'] != null) {
-      _weightController.text = currentUser!['weight'].toString();
+    _loadCurrentWeight();
+  }
+
+  void _loadCurrentWeight() {
+    final user = context.read<AuthCubit>().state.user;
+    if (user != null) {
+      _weightController.text = user.weight.toString();
     }
   }
 
   Future<void> _saveMeasurement() async {
     if (_formKey.currentState!.validate()) {
-      // Check if weight field is filled
       if (_weightController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -43,62 +47,68 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
       setState(() => _isLoading = true);
 
-      // Create and add measurement
-      final measurement = Measurement(
-        date: DateTime.now(),
-        weight: double.parse(_weightController.text),
-      );
+      try {
+        final newWeight = double.parse(_weightController.text);
 
-      await addMeasurement(measurement);
+        // Add measurement
 
-      // Update user data and weight goal
-      final newWeight = double.parse(_weightController.text);
+        // Save measurement to progress cubit
+        final progressCubit = context.read<ProgressCubit>();
 
-      if (currentUser != null) {
-        currentUser!['weight'] = newWeight;
-        await updateUser(currentUser!['id'], currentUser!);
+        // Update user weight
+        final authCubit = context.read<AuthCubit>();
+        final user = authCubit.state.user;
+        if (user != null) {
+          user.weight = newWeight;
+          authCubit.updateUser(user);
 
-        // Update weight goal automatically
-        _updateWeightGoal(newWeight);
-      }
+          // Update weight goal
+          _updateWeightGoal(user, newWeight);
+        }
 
-      setState(() {
-        _isLoading = false;
-      });
+        setState(() => _isLoading = false);
 
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Measurement saved successfully!'),
-              backgroundColor: Colors.green),
-        );
-        Navigator.pop(context, true);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Measurement saved successfully!'),
+                backgroundColor: Colors.green),
+          );
+          Navigator.pop(context, true);
+        }
+      } catch (e) {
+        setState(() => _isLoading = false);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text('Error saving measurement: $e'),
+                backgroundColor: Colors.red),
+          );
+        }
       }
     }
   }
 
-  Future<void> _updateWeightGoal(double newWeight) async {
-    if (currentUser != null &&
-        currentUser!['goals'] != null &&
-        currentUser!['goals']['weight'] != null) {
-      final weightGoal =
-          Map<String, dynamic>.from(currentUser!['goals']['weight']);
+  Future<void> _updateWeightGoal(dynamic user, double newWeight) async {
+    try {
+      if (user.goals.containsKey('weight')) {
+        final weightGoal = user.goals['weight'];
+        if (weightGoal != null) {
+          weightGoal['current'] = newWeight;
 
-      // Update only the current value
-      weightGoal['current'] = newWeight;
-
-      // Update user goals
-      currentUser!['goals']['weight'] = weightGoal;
-      await updateUser(currentUser!['id'], currentUser!);
-
-      // Show notification about goal update
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Weight goal updated with new measurement!'),
-          backgroundColor: Colors.blue,
-          duration: Duration(seconds: 2),
-        ),
-      );
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Weight goal updated with new measurement!'),
+                backgroundColor: Colors.blue,
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+        }
+      }
+    } catch (e) {
+      print('Error updating weight goal: $e');
     }
   }
 
@@ -107,7 +117,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: customAppBarr('Add Measurement', greenColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          'Add Measurement', greenColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -128,7 +139,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                         'This will update your weight goal progress automatically',
                         style: TextStyle(color: colors.subtitleColor)),
                     const SizedBox(height: 24),
-                    CustomTextfeild(
+                    CustomTextfield(
                       controller: _weightController,
                       icon: const Icon(Icons.monitor_weight),
                       color: greenColor,
@@ -195,4 +206,3 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     super.dispose();
   }
 }
-
