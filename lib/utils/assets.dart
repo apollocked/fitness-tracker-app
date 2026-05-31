@@ -20,27 +20,14 @@ Widget logoWidget = Column(
         color: Colors.white,
       ),
     ),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          " 2 + 2 = 1",
-          style: TextStyle(
-            color: primaryColor,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(4),
-          child: Image.asset(
-            'assets/images/kurdistan_flaag.png',
-            height: 35,
-            width: 50,
-            fit: BoxFit.contain,
-          ),
-        ),
-      ],
+    const SizedBox(height: 20),
+    Text(
+      'Fit Tracker',
+      style: TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        color: primaryColor,
+      ),
     ),
   ],
 );

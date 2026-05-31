@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:myapp/models/user_model.dart';
+import 'package:myapp/repositories/user_repository.dart';
+
+class ProfileViewModel extends ChangeNotifier {
+  final UserRepository _userRepository;
+
+  ProfileViewModel(this._userRepository);
+
+  UserModel? get currentUser => _currentUser;
+  UserModel? _currentUser;
+
+  void setUser(UserModel? user) {
+    _currentUser = user;
+    notifyListeners();
+  }
+
+  Future<void> updateUser(UserModel user) async {
+    await _userRepository.updateUser(user);
+    _currentUser = user;
+    notifyListeners();
+  }
+
+  bool emailExists(String email) => _userRepository.emailExists(email);
+}

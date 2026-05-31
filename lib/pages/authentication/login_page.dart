@@ -26,12 +26,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // Initialize data
+
     _initData();
   }
 
   Future<void> _initData() async {
-    await initUserData(); // Initialize from storage
+    await initUserData();
   }
 
   Future<void> login(BuildContext context) async {
@@ -42,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
 
-    // Find user in storage
     final user = findUser(email, password);
 
     if (user == null) {
@@ -57,10 +56,7 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // Login user
     await loginUser(user);
-
-    // Sync theme with new user preferences
     if (context.mounted) {
       context.read<ThemeProvider>().syncWithCurrentUser();
     }

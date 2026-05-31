@@ -10,8 +10,8 @@ class PrivacyPolicyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Scaffold(
-      appBar: customAppBarr(
-          'Privacy Policy', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      appBar: customAppBarr('Privacy Policy', primaryColor,
+          Theme.of(context).scaffoldBackgroundColor),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -28,11 +28,13 @@ class PrivacyPolicyPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Last Updated: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+              'Last Updated: May 1, 2026',
               style: TextStyle(color: colors.subtitleColor),
             ),
             const SizedBox(height: 24),
-            _buildSection(context, colors,
+            _buildSection(
+              context,
+              colors,
               '1. Information We Collect',
               'We collect the following information to provide our fitness tracking services:',
               [
@@ -42,7 +44,9 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Device Information: Device type, operating system version'
               ],
             ),
-            _buildSection(context, colors,
+            _buildSection(
+              context,
+              colors,
               '2. How We Use Your Information',
               'Your information is used exclusively to:',
               [
@@ -52,7 +56,9 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Communicate important updates about the app'
               ],
             ),
-            _buildSection(context, colors,
+            _buildSection(
+              context,
+              colors,
               '3. Data Storage & Security',
               'We prioritize the security of your data:',
               [
@@ -62,7 +68,9 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'You maintain full control over your data'
               ],
             ),
-            _buildSection(context, colors,
+            _buildSection(
+              context,
+              colors,
               '4. Your Rights',
               'You have the following rights regarding your data:',
               [
@@ -72,7 +80,9 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Export your fitness data for personal use'
               ],
             ),
-            _buildSection(context, colors,
+            _buildSection(
+              context,
+              colors,
               '5. Children\'s Privacy',
               'Our app is not intended for children under 13:',
               [
@@ -81,7 +91,9 @@ class PrivacyPolicyPage extends StatelessWidget {
                 'Users under 18 should use the app under parental supervision'
               ],
             ),
-            _buildSection(context, colors,
+            _buildSection(
+              context,
+              colors,
               '6. Changes to This Policy',
               'We may update this privacy policy periodically:',
               [
