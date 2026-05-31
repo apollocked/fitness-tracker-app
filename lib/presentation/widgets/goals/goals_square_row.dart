@@ -13,14 +13,17 @@ class GoalsSquareRow extends StatelessWidget {
     if (!hasCalorieGoal && !hasProteinGoal) return const SizedBox();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          if (hasCalorieGoal)
-            Expanded(child: GoalsSquareCard(goalKey: 'calories')),
-          if (hasCalorieGoal && hasProteinGoal) const SizedBox(width: 12),
-          if (hasProteinGoal)
-            Expanded(child: GoalsSquareCard(goalKey: 'protein')),
-        ],
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (hasCalorieGoal)
+              const Expanded(child: GoalsSquareCard(goalKey: 'calories')),
+            if (hasCalorieGoal && hasProteinGoal) const SizedBox(width: 14),
+            if (hasProteinGoal)
+              const Expanded(child: GoalsSquareCard(goalKey: 'protein')),
+          ],
+        ),
       ),
     );
   }

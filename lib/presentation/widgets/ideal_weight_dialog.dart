@@ -46,14 +46,12 @@ class IdealWeightResultsDialog {
                   decoration: BoxDecoration(
                     color: blueColor.withOpacity(0.05),
                     borderRadius: BorderRadius.circular(12),
-                    border:
-                        Border.all(color: blueColor.withOpacity(0.3), width: 2),
+                    border: Border.all(color: blueColor.withOpacity(0.3), width: 2),
                   ),
                   child: Column(
                     children: [
                       Text('Ideal Weight',
-                          style: TextStyle(
-                              fontSize: 14, color: colors.subtitleColor)),
+                          style: TextStyle(fontSize: 14, color: colors.subtitleColor)),
                       const SizedBox(height: 8),
                       Text('${idealWeight.toStringAsFixed(1)} kg',
                           style: TextStyle(
@@ -75,8 +73,7 @@ class IdealWeightResultsDialog {
                       Column(
                         children: [
                           Text('Current Weight',
-                              style: TextStyle(
-                                  fontSize: 12, color: colors.subtitleColor)),
+                              style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
                           const SizedBox(height: 8),
                           Text('${currentWeight.toStringAsFixed(1)} kg',
                               style: TextStyle(
@@ -94,9 +91,7 @@ class IdealWeightResultsDialog {
                           Text(isOverweight ? 'To Lose' : 'To Gain',
                               style: TextStyle(
                                   fontSize: 12,
-                                  color: isOverweight
-                                      ? Colors.red
-                                      : Colors.green)),
+                                  color: isOverweight ? Colors.red : Colors.green)),
                           const SizedBox(height: 8),
                           Text('${difference.abs().toStringAsFixed(1)} kg',
                               style: TextStyle(
@@ -118,16 +113,29 @@ class IdealWeightResultsDialog {
                         : Colors.green[isDark ? 900 : 50],
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
-                    isOverweight
-                        ? 'Ã¢Å¡Â Ã¯Â¸Â You need to lose ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight'
-                        : 'Ã¢Å“â€œ You need to gain ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight',
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: isOverweight
-                            ? Colors.red[isDark ? 300 : 700]
-                            : Colors.green[isDark ? 300 : 700]),
-                    textAlign: TextAlign.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        isOverweight ? Icons.warning_rounded : Icons.check_circle_rounded,
+                        size: 16,
+                        color: isOverweight ? Colors.red[isDark ? 300 : 700] : Colors.green[isDark ? 300 : 700],
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          isOverweight
+                              ? 'You need to lose ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight'
+                              : 'You need to gain ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: isOverweight
+                                  ? Colors.red[isDark ? 300 : 700]
+                                  : Colors.green[isDark ? 300 : 700]),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -138,8 +146,7 @@ class IdealWeightResultsDialog {
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: blueColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
                     child: const Text('Got it!',
                         style: TextStyle(
@@ -156,4 +163,3 @@ class IdealWeightResultsDialog {
     );
   }
 }
-

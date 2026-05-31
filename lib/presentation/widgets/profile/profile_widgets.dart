@@ -17,26 +17,44 @@ class ProfileHero extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 20, 24, 28),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [primaryColor.withOpacity(isDark ? 0.3 : 0.18), primaryColor.withOpacity(isDark ? 0.05 : 0.04)],
-          begin: Alignment.topCenter, end: Alignment.bottomCenter,
+          colors: [
+            primaryColor.withOpacity(isDark ? 0.3 : 0.18),
+            primaryColor.withOpacity(isDark ? 0.05 : 0.04)
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
       ),
       child: Column(
         children: [
           Container(
-            width: 88, height: 88,
+            width: 88,
+            height: 88,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: LinearGradient(colors: [primaryColor, primaryColor.withOpacity(0.7)],
-                  begin: Alignment.topLeft, end: Alignment.bottomRight),
-              boxShadow: [BoxShadow(color: primaryColor.withOpacity(0.35), blurRadius: 16, offset: const Offset(0, 6))],
+              gradient: LinearGradient(
+                  colors: [primaryColor, primaryColor.withOpacity(0.7)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight),
+              boxShadow: [
+                BoxShadow(
+                    color: primaryColor.withOpacity(0.35),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6))
+              ],
             ),
-            child: const Icon(Icons.person_rounded, size: 46, color: Colors.white),
+            child:
+                const Icon(Icons.person_rounded, size: 46, color: Colors.white),
           ),
           const SizedBox(height: 14),
-          Text(username, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: colors.textColor)),
+          Text(username,
+              style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor)),
           const SizedBox(height: 4),
-          Text(email, style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
+          Text(email,
+              style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
         ],
       ),
     );
@@ -74,21 +92,31 @@ class ProfileMenuTile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(children: [
             Container(
-              width: 40, height: 40,
-              decoration: BoxDecoration(color: accentColor.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: accentColor.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(12)),
               child: Icon(icon, size: 20, color: accentColor),
             ),
             const SizedBox(width: 14),
             Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(title,
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600,
-                        color: isDanger ? Colors.red : colors.textColor)),
-                const SizedBox(height: 2),
-                Text(subtitle, style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: isDanger ? Colors.red : colors.textColor)),
+                    const SizedBox(height: 2),
+                    Text(subtitle,
+                        style: TextStyle(
+                            fontSize: 12, color: colors.subtitleColor)),
+                  ]),
             ),
-            Icon(Icons.chevron_right_rounded, size: 20, color: colors.subtitleColor),
+            Icon(Icons.chevron_right_rounded,
+                size: 20, color: colors.subtitleColor),
           ]),
         ),
       ),

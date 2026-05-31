@@ -42,9 +42,7 @@ class UserModel {
       createdAt:
           map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
       darkMode: map['darkMode'] ?? false,
-      goals: map['goals'] is Map
-          ? Map<String, dynamic>.from(map['goals'])
-          : {},
+      goals: map['goals'] is Map ? Map<String, dynamic>.from(map['goals']) : {},
     );
   }
 

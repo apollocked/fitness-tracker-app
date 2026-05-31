@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
-import 'package:fit_tracker/presentation/widgets/shared/custom_elevated_button.dart';
 import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
@@ -18,135 +17,145 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   void initState() {
     super.initState();
-    context.read<ProgressViewModel>().loadMeasurements();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<ProgressViewModel>().loadMeasurements();
+    });
   }
 
-  void _navigateToAddMeasurement() async {
-    final result = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const AddMeasurementPage()));
+  Future<void> _addMeasurement() async {
+    final result = await Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const AddMeasurementPage()));
     if (result == true && context.mounted) {
       context.read<ProgressViewModel>().loadMeasurements();
     }
   }
 
-  Widget _buildEmptyState() {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.show_chart, size: 80, color: primaryColor),
-          const SizedBox(height: 16),
-          Text('No measurements yet',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: colors.textColor)),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Text(
-                'Add your weight measurements to track your progress over time.',
-                style: TextStyle(color: colors.subtitleColor)),
-          ),
-          const SizedBox(height: 32),
-          ElevatedButton.icon(
-            onPressed: _navigateToAddMeasurement,
-            icon: const Icon(Icons.add),
-            label: const Text('Add weight measurement'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: primaryColor,
-              iconColor: Theme.of(context).scaffoldBackgroundColor,
-              foregroundColor: Theme.of(context).scaffoldBackgroundColor,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMeasurementsList(List measurements) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: measurements.length,
-      itemBuilder: (context, index) {
-        final m = measurements[measurements.length - 1 - index];
-        return Card(
-          color: colors.cardColor,
-          margin: const EdgeInsets.only(bottom: 16),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 280,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            DateFormat('EEEE, d/M/y, h:m:s a').format(m.date),
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: colors.textColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => context
-                          .read<ProgressViewModel>()
-                          .deleteMeasurement(index),
-                    ),
-                  ],
-                ),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Weight:',
-                          style:
-                              TextStyle(fontSize: 14, color: colors.textColor)),
-                      Text('${m.weight} kg',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: primaryColor)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final measurements = context.watch<ProgressViewModel>().measurements;
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: customAppBarr(
-          'Progress', primaryColor, Theme.of(context).scaffoldBackgroundColor),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          'Progress', primaryColor, theme.scaffoldBackgroundColor),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: measurements.isEmpty
-          ? _buildEmptyState()
-          : _buildMeasurementsList(measurements),
+          ? _EmptyState(onAdd: _addMeasurement)
+          : _MeasurementList(measurements: measurements),
       floatingActionButton: measurements.isNotEmpty
-          ? CustomElevatedButton(
-              onpressed: _navigateToAddMeasurement,
-              text: 'Add Measurement',
-              color: primaryColor)
+          ? FloatingActionButton.extended(
+              onPressed: _addMeasurement,
+              backgroundColor: primaryColor,
+              foregroundColor: Colors.white,
+              icon: const Icon(Icons.add),
+              label: const Text('Add Measurement',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
+            )
           : null,
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState({required this.onAdd});
+  final VoidCallback onAdd;
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+                color: primaryColor.withOpacity(0.1), shape: BoxShape.circle),
+            child:
+                Icon(Icons.show_chart_rounded, size: 64, color: primaryColor),
+          ),
+          const SizedBox(height: 24),
+          Text('No Measurements Yet',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor)),
+          const SizedBox(height: 8),
+          Text('Start logging your weight to track your progress over time.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: colors.subtitleColor)),
+          const SizedBox(height: 32),
+          ElevatedButton.icon(
+            onPressed: onAdd,
+            icon: const Icon(Icons.add),
+            label: const Text('Log First Measurement'),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+class _MeasurementList extends StatelessWidget {
+  const _MeasurementList({required this.measurements});
+  final List measurements;
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+      physics: const BouncingScrollPhysics(),
+      itemCount: measurements.length,
+      itemBuilder: (context, index) {
+        final m = measurements[measurements.length - 1 - index];
+        final reversedIndex = measurements.length - 1 - index;
+        return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: colors.cardColor,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                  color: colors.shadowColor,
+                  blurRadius: 10,
+                  offset: const Offset(0, 3))
+            ],
+          ),
+          child: Row(children: [
+            Container(
+                width: 5,
+                height: 72,
+                decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(16)))),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(DateFormat('EEE, d MMM y').format(m.date),
+                          style: TextStyle(
+                              fontSize: 13, color: colors.subtitleColor)),
+                      const SizedBox(height: 4),
+                      Text('${m.weight} kg',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: colors.textColor)),
+                    ]),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete_outline_rounded,
+                  color: Colors.red, size: 20),
+              onPressed: () => context
+                  .read<ProgressViewModel>()
+                  .deleteMeasurement(reversedIndex),
+            ),
+          ]),
+        );
+      },
     );
   }
 }

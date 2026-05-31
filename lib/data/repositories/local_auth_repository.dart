@@ -49,4 +49,3 @@ class LocalAuthRepository implements AuthRepository {
     }
   }
 }
-

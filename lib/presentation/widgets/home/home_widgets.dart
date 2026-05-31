@@ -29,8 +29,14 @@ class DashboardCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.cardColor,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: accentColor.withOpacity(isDark ? 0.25 : 0.15)),
-          boxShadow: [BoxShadow(color: colors.shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
+          border:
+              Border.all(color: accentColor.withOpacity(isDark ? 0.25 : 0.15)),
+          boxShadow: [
+            BoxShadow(
+                color: colors.shadowColor,
+                blurRadius: 12,
+                offset: const Offset(0, 4))
+          ],
         ),
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -47,12 +53,22 @@ class DashboardCard extends StatelessWidget {
             ),
             const Spacer(),
             Text(title,
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colors.textColor, height: 1.3)),
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textColor,
+                    height: 1.3)),
             const SizedBox(height: 6),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(color: accentColor.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
-              child: Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: accentColor)),
+              decoration: BoxDecoration(
+                  color: accentColor.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Text(label,
+                  style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: accentColor)),
             ),
           ],
         ),
@@ -75,8 +91,12 @@ class GreetingBanner extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [primaryColor.withOpacity(isDark ? 0.25 : 0.15), primaryColor.withOpacity(isDark ? 0.08 : 0.04)],
-          begin: Alignment.topLeft, end: Alignment.bottomRight,
+          colors: [
+            primaryColor.withOpacity(isDark ? 0.25 : 0.15),
+            primaryColor.withOpacity(isDark ? 0.08 : 0.04)
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: primaryColor.withOpacity(isDark ? 0.3 : 0.2)),
@@ -84,17 +104,23 @@ class GreetingBanner extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Hello, ${username ?? 'Athlete'}! 👋',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: colors.textColor)),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: colors.textColor)),
               const SizedBox(height: 4),
               Text('Track your fitness journey today',
                   style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
             ]),
           ),
           Container(
-            width: 50, height: 50,
-            decoration: BoxDecoration(color: primaryColor.withOpacity(0.15), shape: BoxShape.circle),
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+                color: primaryColor.withOpacity(0.15), shape: BoxShape.circle),
             child: Icon(Icons.fitness_center, color: primaryColor, size: 24),
           ),
         ],

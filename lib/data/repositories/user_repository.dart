@@ -8,4 +8,3 @@ abstract class UserRepository {
   bool emailExists(String email);
   UserModel? findUserByEmailAndPassword(String email, String password);
 }
-

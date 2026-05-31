@@ -71,7 +71,8 @@ class LayoutPage extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? primaryColor.withOpacity(0.12) : Colors.transparent,
+          color:
+              isSelected ? primaryColor.withOpacity(0.12) : Colors.transparent,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Column(
@@ -79,7 +80,11 @@ class LayoutPage extends StatelessWidget {
           children: [
             Icon(
               isSelected ? activeIcon : inactiveIcon,
-              color: isSelected ? primaryColor : Theme.of(context).extension<AppColorsExtension>()!.subtitleColor,
+              color: isSelected
+                  ? primaryColor
+                  : Theme.of(context)
+                      .extension<AppColorsExtension>()!
+                      .subtitleColor,
               size: isSelected ? 26 : 22,
             ),
             const SizedBox(height: 3),
@@ -88,7 +93,11 @@ class LayoutPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
-                color: isSelected ? primaryColor : Theme.of(context).extension<AppColorsExtension>()!.subtitleColor,
+                color: isSelected
+                    ? primaryColor
+                    : Theme.of(context)
+                        .extension<AppColorsExtension>()!
+                        .subtitleColor,
               ),
             ),
           ],

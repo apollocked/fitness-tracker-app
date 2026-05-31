@@ -70,8 +70,11 @@ class _FitAppBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     final appVM = context.watch<AppViewModel>();
     final authVM = context.watch<AuthViewModel>();
-    if (authVM.currentUser?.darkMode != null) {
-      appVM.setDarkMode(authVM.currentUser!.darkMode);
+    if (authVM.currentUser?.darkMode != null &&
+        appVM.isDarkMode != authVM.currentUser!.darkMode) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        appVM.setDarkMode(authVM.currentUser!.darkMode);
+      });
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,

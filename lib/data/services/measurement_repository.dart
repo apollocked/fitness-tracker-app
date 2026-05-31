@@ -7,4 +7,3 @@ abstract class MeasurementRepository {
   Future<void> deleteMeasurement(int index);
   Future<void> clearMeasurements();
 }
-

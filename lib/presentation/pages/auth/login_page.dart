@@ -16,37 +16,31 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _emailCtrl = TextEditingController();
+  final _passCtrl = TextEditingController();
+
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _emailCtrl.dispose();
+    _passCtrl.dispose();
     super.dispose();
   }
 
-  Future<void> login(BuildContext context) async {
+  Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    final email = _emailController.text.trim();
-    final password = _passwordController.text;
     final authVM = context.read<AuthViewModel>();
-    await authVM.login(email, password);
+    await authVM.login(_emailCtrl.text.trim(), _passCtrl.text);
     if (!context.mounted) return;
     if (authVM.currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:
-              Text("Invalid email or password", textAlign: TextAlign.center),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Invalid email or password', textAlign: TextAlign.center),
+        backgroundColor: Colors.red,
+      ));
       return;
     }
-    if (context.mounted) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const LayoutPage()));
-    }
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (_) => const LayoutPage()));
   }
 
   @override
@@ -59,80 +53,66 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const AuthHeader(
-                    title: "Welcome Back!",
-                    subtitle: "Login to continue your fitness journey"),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      CustomTextfield(
-                        controller: _emailController,
-                        icon: const Icon(Icons.email_outlined),
-                        color: primaryColor,
-                        onSaved: (value) {},
-                        text: "Email",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Email is required";
-                          }
-                          if (!value.contains('@')) {
-                            return "Enter a valid email";
-                          }
-                          return null;
-                        },
-                        isObscure: false,
-                        keyboard: TextInputType.emailAddress,
-                        input: FilteringTextInputFormatter.allow(
-                            RegExp(r'[a-zA-Z0-9@._\-]')),
-                      ),
-                      const SizedBox(height: 16),
-                      CustomTextfield(
-                        controller: _passwordController,
-                        icon: const Icon(Icons.lock_outline),
-                        color: primaryColor,
-                        onSaved: (value) {},
-                        text: "Password",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Password is required";
-                          }
-                          if (value.length < 6) {
-                            return "Password must be at least 6 characters";
-                          }
-                          return null;
-                        },
-                        isObscure: true,
-                        keyboard: TextInputType.text,
-                        input: FilteringTextInputFormatter.allow(
-                            RegExp(r'[a-zA-Z0-9@._\-]')),
-                      ),
-                    ],
+            child: Column(children: [
+              const AuthHeader(
+                title: 'Welcome Back!',
+                subtitle: 'Login to continue your fitness journey',
+              ),
+              Form(
+                key: _formKey,
+                child: Column(children: [
+                  CustomTextfield(
+                    controller: _emailCtrl,
+                    color: primaryColor,
+                    icon: const Icon(Icons.email_outlined),
+                    text: 'Email',
+                    isObscure: false,
+                    keyboard: TextInputType.emailAddress,
+                    onSaved: (_) {},
+                    input: FilteringTextInputFormatter.allow(
+                        RegExp(r'[a-zA-Z0-9@._\-]')),
+                    validator: (v) {
+                      if (v == null || v.isEmpty) return 'Email is required';
+                      if (!v.contains('@')) return 'Enter a valid email';
+                      return null;
+                    },
                   ),
-                ),
-                AuthFooter(
-                  buttonText: isLoading ? "Logging in..." : "Login",
-                  questionText: "Don't have an account? ",
-                  linkText: "Sign Up",
-                  onButtonPressed: isLoading ? null : () => login(context),
-                  onLinkPressed: isLoading
-                      ? null
-                      : () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RegisterPage()),
-                          ),
-                ),
-                if (isLoading)
-                  const Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  CustomTextfield(
+                    controller: _passCtrl,
+                    color: primaryColor,
+                    icon: const Icon(Icons.lock_outline),
+                    text: 'Password',
+                    isObscure: true,
+                    keyboard: TextInputType.text,
+                    onSaved: (_) {},
+                    input: FilteringTextInputFormatter.allow(
+                        RegExp(r'[a-zA-Z0-9@._\-]')),
+                    validator: (v) {
+                      if (v == null || v.isEmpty) return 'Password is required';
+                      if (v.length < 6) return 'Minimum 6 characters';
+                      return null;
+                    },
                   ),
+                ]),
+              ),
+              AuthFooter(
+                buttonText: isLoading ? 'Logging in...' : 'Login',
+                questionText: "Don't have an account? ",
+                linkText: 'Sign Up',
+                onButtonPressed: isLoading ? null : _login,
+                onLinkPressed: isLoading
+                    ? null
+                    : () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const RegisterPage())),
+              ),
+              if (isLoading) ...[
+                const SizedBox(height: 16),
+                CircularProgressIndicator(color: primaryColor),
               ],
-            ),
+            ]),
           ),
         ),
       ),

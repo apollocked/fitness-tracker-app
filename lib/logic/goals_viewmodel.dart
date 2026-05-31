@@ -54,8 +54,7 @@ class GoalsViewModel extends ChangeNotifier {
     }
   }
 
-  int get activeCount =>
-      _goals.values.where((g) => g['active'] == true).length;
+  int get activeCount => _goals.values.where((g) => g['active'] == true).length;
 
   int get completedCount {
     int count = 0;

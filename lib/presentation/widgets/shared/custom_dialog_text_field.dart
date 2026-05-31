@@ -72,4 +72,3 @@ class _CustomDialogTextFieldState extends State<CustomDialogTextField> {
     );
   }
 }
-

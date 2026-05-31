@@ -1,87 +1,67 @@
-// ignore_for_file: empty_catches
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
-import 'package:fit_tracker/presentation/widgets/shared/custom_elevated_button.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_textfield.dart';
+import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/porviders/progress_viewmodel.dart';
+import 'package:fit_tracker/data/model/measurement_model.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   const AddMeasurementPage({super.key});
-
   @override
   State<AddMeasurementPage> createState() => _AddMeasurementPageState();
 }
 
 class _AddMeasurementPageState extends State<AddMeasurementPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _weightController = TextEditingController();
+  final _weightCtrl = TextEditingController();
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _loadCurrentWeight();
-  }
-
-  void _loadCurrentWeight() {
     final user = context.read<AuthViewModel>().currentUser;
-    if (user != null) {
-      _weightController.text = user.weight.toString();
+    if (user != null) _weightCtrl.text = user.weight.toString();
+  }
+
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _isLoading = true);
+    try {
+      final newWeight = double.parse(_weightCtrl.text);
+      final authVM = context.read<AuthViewModel>();
+      final user = authVM.currentUser;
+      if (user != null) {
+        user.weight = newWeight;
+        authVM.updateUser(user);
+      }
+      final progressVM = context.read<ProgressViewModel>();
+      progressVM
+          .addMeasurement(Measurement(weight: newWeight, date: DateTime.now()));
+      setState(() => _isLoading = false);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Measurement saved!'),
+            backgroundColor: Colors.green));
+        Navigator.pop(context, true);
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+      }
     }
   }
 
-  Future<void> _saveMeasurement() async {
-    if (_formKey.currentState!.validate()) {
-      if (_weightController.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Please enter your weight'),
-              backgroundColor: Colors.red),
-        );
-        return;
-      }
-
-      setState(() => _isLoading = true);
-
-      try {
-        final newWeight = double.parse(_weightController.text);
-
-        // Add measurement
-
-        // Update user weight
-        final authVM = context.read<AuthViewModel>();
-        final user = authVM.currentUser;
-        if (user != null) {
-          user.weight = newWeight;
-          authVM.updateUser(user);
-        }
-
-        setState(() => _isLoading = false);
-
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Measurement saved successfully!'),
-                backgroundColor: Colors.green),
-          );
-          Navigator.pop(context, true);
-        }
-      } catch (e) {
-        setState(() => _isLoading = false);
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text('Error saving measurement: $e'),
-                backgroundColor: Colors.red),
-          );
-        }
-      }
-    }
+  @override
+  void dispose() {
+    _weightCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,88 +73,52 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           'Add Measurement', greenColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: primaryColor))
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
               child: Form(
                 key: _formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Update Your Weight',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: colors.textColor)),
-                    const SizedBox(height: 8),
-                    Text(
-                        'This will update your weight goal progress automatically',
-                        style: TextStyle(color: colors.subtitleColor)),
-                    const SizedBox(height: 24),
-                    CustomTextfield(
-                      controller: _weightController,
-                      icon: const Icon(Icons.monitor_weight),
-                      color: greenColor,
-                      onSaved: (value) {},
-                      text: 'Current Weight (kg)',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your weight';
-                        }
-                        if (double.tryParse(value) == null) {
-                          return 'Please enter a valid number';
-                        }
-                        return null;
-                      },
-                      isObscure: false,
-                      keyboard: TextInputType.number,
-                      input: FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d*\.?\d*')),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: blueColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: blueColor.withOpacity(0.3)),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.info, color: blueColor, size: 20),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              'Your weight goal will be automatically updated with this measurement',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: colors.textColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: CustomElevatedButton(
-                        onpressed: _saveMeasurement,
-                        text: 'Save Weight Measurement',
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Update Your Weight',
+                          style: theme.textTheme.titleLarge),
+                      const SizedBox(height: 6),
+                      Text('Updates your weight goal progress automatically',
+                          style: TextStyle(
+                              color: colors.subtitleColor, fontSize: 13)),
+                      const SizedBox(height: 24),
+                      CustomTextfield(
+                        controller: _weightCtrl,
+                        icon: const Icon(Icons.monitor_weight_outlined),
                         color: greenColor,
+                        onSaved: (_) {},
+                        text: 'Current Weight (kg)',
+                        isObscure: false,
+                        keyboard: TextInputType.number,
+                        input: FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d*\.?\d*')),
+                        validator: (v) {
+                          if (v == null || v.isEmpty) return 'Required';
+                          if (double.tryParse(v) == null) {
+                            return 'Invalid number';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(height: 16),
+                      InfoBox(
+                          message:
+                              'Your weight goal will be automatically updated with this measurement.',
+                          accentColor: greenColor),
+                      const SizedBox(height: 28),
+                      CalcButton(
+                          label: 'Save Measurement',
+                          color: greenColor,
+                          onPressed: _save),
+                    ]),
               ),
             ),
     );
-  }
-
-  @override
-  void dispose() {
-    _weightController.dispose();
-    super.dispose();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
 
 class SupportContactWidget extends StatelessWidget {
   final String email;
@@ -13,15 +14,11 @@ class SupportContactWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Container(
+    
+    return AppCard(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: isDark ? Colors.blue[900]!.withOpacity(0.3) : Colors.blue[50],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: primaryColor),
-      ),
+      borderColor: primaryColor.withOpacity(0.3),
+      elevation: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -40,7 +37,7 @@ class SupportContactWidget extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              Icon(Icons.email, color: primaryColor, size: 20),
+              Icon(Icons.email_outlined, color: primaryColor, size: 22),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

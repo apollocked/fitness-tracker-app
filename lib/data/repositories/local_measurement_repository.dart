@@ -36,4 +36,3 @@ class LocalMeasurementRepository implements MeasurementRepository {
     await StorageService.saveMeasurements([]);
   }
 }
-

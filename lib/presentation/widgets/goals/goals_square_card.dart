@@ -34,16 +34,16 @@ class GoalsSquareCard extends StatelessWidget {
         title = goalKey;
     }
     return Container(
-      height: 120,
       decoration: BoxDecoration(
         color: colors.cardColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: cardColor.withOpacity(0.3), width: 2),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: cardColor.withOpacity(0.25), width: 1.5),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 6,
-              offset: const Offset(0, 2))
+            color: colors.shadowColor,
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          )
         ],
       ),
       child: Padding(
@@ -55,12 +55,12 @@ class GoalsSquareCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 32,
-                  height: 32,
+                  width: 38,
+                  height: 38,
                   decoration: BoxDecoration(
-                      color: cardColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(6)),
-                  child: Icon(icon, color: cardColor, size: 16),
+                      color: cardColor.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Icon(icon, color: cardColor, size: 18),
                 ),
                 const SizedBox(width: 8),
                 Text(title,
@@ -79,10 +79,10 @@ class GoalsSquareCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text('${target.toStringAsFixed(0)} $unit',
                     style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: colors.textColor,
-                        height: 1)),
+                        height: 1.1)),
               ],
             ),
             const Row(

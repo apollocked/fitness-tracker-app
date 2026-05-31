@@ -8,4 +8,3 @@ abstract class AuthRepository {
   UserModel? getCurrentUser();
   Future<void> setCurrentUser(UserModel? user);
 }
-

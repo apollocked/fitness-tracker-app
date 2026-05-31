@@ -1,253 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
+import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
+import 'package:fit_tracker/presentation/widgets/ideal_weight/ideal_bw_form.dart';
+import 'package:fit_tracker/presentation/widgets/ideal_weight_dialog.dart';
 import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/porviders/calculators_viewmodel.dart';
-import 'package:fit_tracker/presentation/widgets/shared/custom_elevated_button.dart';
-import 'package:fit_tracker/presentation/widgets/shared/custom_textfield.dart';
-import 'package:fit_tracker/presentation/widgets/shared/select_gender_radio.dart';
-import 'package:fit_tracker/presentation/widgets/ideal_weight_dialog.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 
 class IdealBodyWeightPage extends StatefulWidget {
   final VoidCallback? onGoalsUpdated;
-
   const IdealBodyWeightPage({super.key, this.onGoalsUpdated});
-
   @override
   State<IdealBodyWeightPage> createState() => _IdealBodyWeightPageState();
 }
 
 class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
-  final GlobalKey<FormState> _form1 = GlobalKey<FormState>();
-  final TextEditingController _heightController = TextEditingController();
-  final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _targetWeightController = TextEditingController();
-
-  String _gender = "Male";
+  final _formKey = GlobalKey<FormState>();
+  final _heightCtrl = TextEditingController();
+  final _weightCtrl = TextEditingController();
+  final _targetCtrl = TextEditingController();
+  String _gender = 'Male';
 
   @override
   void dispose() {
-    _heightController.dispose();
-    _weightController.dispose();
-    _targetWeightController.dispose();
+    _heightCtrl.dispose();
+    _weightCtrl.dispose();
+    _targetCtrl.dispose();
     super.dispose();
   }
 
-  void _calculateIdealWeight() {
-    if (_form1.currentState!.validate()) {
-      final height = double.parse(_heightController.text);
-      final currentWeight = double.parse(_weightController.text);
-
-      // If target weight is provided, use it. Otherwise calculate ideal weight
-      double targetWeight;
-
-      if (_targetWeightController.text.isNotEmpty) {
-        targetWeight = double.parse(_targetWeightController.text);
-      } else {
-        targetWeight = context
-            .read<CalculatorsViewModel>()
-            .calculateIdealWeight(height, _gender);
-        targetWeight = (targetWeight * 100).round() / 100;
-      }
-
-      // Automatically determine goal type based on comparison
-      String goalType;
-      if (targetWeight < currentWeight) {
-        goalType = "lose";
-      } else if (targetWeight > currentWeight) {
-        goalType = "gain";
-      } else {
-        goalType = "maintain";
-      }
-
-      // Calculate weight difference
-      double weightDifference = (targetWeight - currentWeight).abs();
-      weightDifference = (weightDifference * 100).round() / 100;
-
-      // Save as weight goal with automatically determined goal type
-      context.read<GoalsViewModel>().updateGoal('weight', {
-        'target': targetWeight,
-        'current': currentWeight,
-        'startWeight': currentWeight,
-        'goalType': goalType,
-        'active': true,
-      });
-
-      // Notify parent if callback exists
-      widget.onGoalsUpdated?.call();
-
-      // Show the dialog
-      IdealWeightResultsDialog.showResults(
-        context,
-        idealWeight: targetWeight,
-        currentWeight: currentWeight,
+  void _calculate() {
+    if (!_formKey.currentState!.validate()) return;
+    final height = double.parse(_heightCtrl.text);
+    final current = double.parse(_weightCtrl.text);
+    double target = _targetCtrl.text.isNotEmpty
+        ? double.parse(_targetCtrl.text)
+        : (context
+                        .read<CalculatorsViewModel>()
+                        .calculateIdealWeight(height, _gender) *
+                    100)
+                .round() /
+            100;
+    final goalType = target < current
+        ? 'lose'
+        : target > current
+            ? 'gain'
+            : 'maintain';
+    final diff = ((target - current).abs() * 100).round() / 100;
+    context.read<GoalsViewModel>().updateGoal('weight', {
+      'target': target,
+      'current': current,
+      'startWeight': current,
+      'goalType': goalType,
+      'active': true,
+    });
+    widget.onGoalsUpdated?.call();
+    IdealWeightResultsDialog.showResults(context,
+        idealWeight: target,
+        currentWeight: current,
         goalType: goalType,
-        weightDifference: weightDifference,
-        onSetGoal: () {
-          final capitalizedGoal =
-              goalType[0].toUpperCase() + goalType.substring(1);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('$capitalizedGoal weight goal saved!'),
-              backgroundColor: greenColor,
-            ),
-          );
-        },
-      );
-    }
+        weightDifference: diff, onSetGoal: () {
+      final label = '${goalType[0].toUpperCase()}${goalType.substring(1)}';
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('$label weight goal saved!'),
+          backgroundColor: greenColor));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
     return Scaffold(
+      appBar: customAppBarr(
+          'Ideal Body Weight', blueColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: customAppBarr("Ideal Body Weight Calculator", blueColor,
-          theme.scaffoldBackgroundColor),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Form(
-                key: _form1,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    Text('Select Your Gender',
-                        style: TextStyle(
-                            color: colors.subtitleColor, fontSize: 16)),
-                    CustomGenderRatio(
-                      color: blueColor,
-                      selectedGender: _gender,
-                      onGenderChanged: (value) {
-                        setState(() => _gender = value);
-                      },
-                    ),
-                    const SizedBox(height: 15),
-
-                    // Height input
-                    CustomTextfield(
-                      controller: _heightController,
-                      isObscure: false,
-                      keyboard: TextInputType.number,
-                      color: blueColor,
-                      onSaved: (value) {},
-                      text: "Height (cm)",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Enter your height please";
-                        }
-                        if (double.tryParse(value) == null) {
-                          return "Enter a valid number";
-                        }
-                        return null;
-                      },
-                      icon: const Icon(Icons.height),
-                      input: FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d*\.?\d*')),
-                    ),
-                    const SizedBox(height: 15),
-
-                    // Current weight input
-                    CustomTextfield(
-                      controller: _weightController,
-                      isObscure: false,
-                      keyboard: TextInputType.number,
-                      color: blueColor,
-                      onSaved: (value) {},
-                      text: "Current Weight (kg)",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Enter your weight please";
-                        }
-                        if (double.tryParse(value) == null) {
-                          return "Enter a valid number";
-                        }
-                        return null;
-                      },
-                      icon: const Icon(Icons.monitor_weight),
-                      input: FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d*\.?\d*')),
-                    ),
-                    const SizedBox(height: 15),
-
-                    // Target weight input (optional)
-                    CustomTextfield(
-                      controller: _targetWeightController,
-                      isObscure: false,
-                      keyboard: TextInputType.number,
-                      color: blueColor,
-                      onSaved: (value) {},
-                      text: "Target Weight (kg) - Optional",
-                      validator: (value) {
-                        if (value != null &&
-                            value.isNotEmpty &&
-                            double.tryParse(value) == null) {
-                          return "Enter a valid number";
-                        }
-                        return null;
-                      },
-                      icon: const Icon(Icons.flag),
-                      input: FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d*\.?\d*')),
-                    ),
-                    const SizedBox(height: 10),
-
-                    // Information text
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: blueColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: blueColor.withOpacity(0.3)),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.info, color: blueColor, size: 20),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              'Goal type (Lose/Gain/Maintain) will be automatically determined based on your current vs target weight',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: colors.textColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 22),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: CustomElevatedButton(
-                        onpressed: _calculateIdealWeight,
-                        text: "Calculate",
-                        color: blueColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        physics: const BouncingScrollPhysics(),
+        child: Column(children: [
+          IdealBwForm(
+            formKey: _formKey,
+            heightController: _heightCtrl,
+            weightController: _weightCtrl,
+            targetWeightController: _targetCtrl,
+            gender: _gender,
+            onGenderChanged: (v) => setState(() => _gender = v),
           ),
-        ),
+          const SizedBox(height: 14),
+          InfoBox(
+            message:
+                'Goal type (Lose/Gain/Maintain) is auto-determined from your current vs target weight.',
+            accentColor: blueColor,
+          ),
+          const SizedBox(height: 24),
+          CalcButton(
+              label: 'Calculate', color: blueColor, onPressed: _calculate),
+        ]),
       ),
     );
   }
 }
 
-// Helper extension for string capitalization
 extension StringExtension on String {
-  String capitalize() {
-    if (isEmpty) return this;
-    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
-  }
+  String capitalize() =>
+      isEmpty ? this : '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
 }

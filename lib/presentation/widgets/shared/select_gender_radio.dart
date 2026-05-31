@@ -45,4 +45,3 @@ class CustomGenderRatio extends StatelessWidget {
     );
   }
 }
-

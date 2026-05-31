@@ -52,7 +52,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       cardColor: Color.lerp(cardColor, other.cardColor, t)!,
       textColor: Color.lerp(textColor, other.textColor, t)!,
       subtitleColor: Color.lerp(subtitleColor, other.subtitleColor, t)!,
-      insideButtonColor: Color.lerp(insideButtonColor, other.insideButtonColor, t)!,
+      insideButtonColor:
+          Color.lerp(insideButtonColor, other.insideButtonColor, t)!,
       shadowColor: Color.lerp(shadowColor, other.shadowColor, t)!,
     );
   }

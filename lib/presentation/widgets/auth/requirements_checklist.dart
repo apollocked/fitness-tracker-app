@@ -29,14 +29,21 @@ class RequirementsChecklist extends StatelessWidget {
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text('Account Requirements',
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: primaryColor)),
+            style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: primaryColor)),
         const SizedBox(height: 10),
         ..._items.map((item) => Padding(
               padding: const EdgeInsets.only(bottom: 7),
               child: Row(children: [
-                Icon(Icons.check_circle_outline_rounded, size: 16, color: primaryColor),
+                Icon(Icons.check_circle_outline_rounded,
+                    size: 16, color: primaryColor),
                 const SizedBox(width: 8),
-                Expanded(child: Text(item, style: TextStyle(fontSize: 12, color: colors.subtitleColor))),
+                Expanded(
+                    child: Text(item,
+                        style: TextStyle(
+                            fontSize: 12, color: colors.subtitleColor))),
               ]),
             )),
       ]),

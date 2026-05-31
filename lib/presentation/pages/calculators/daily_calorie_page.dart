@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
-import 'package:fit_tracker/presentation/widgets/shared/custom_elevated_button.dart';
+import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/presentation/widgets/daily_calories/daily_calorie_input_section.dart';
 import 'package:fit_tracker/presentation/widgets/daily_calories/daily_calories_dialog.dart';
+import 'package:fit_tracker/presentation/widgets/daily_calories/calorie_goal_option.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:provider/provider.dart';
 import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/porviders/calculators_viewmodel.dart';
 
 class DailyCaloriePage extends StatefulWidget {
   final VoidCallback? onGoalsUpdated;
-
   const DailyCaloriePage({super.key, this.onGoalsUpdated});
-
   @override
   State<DailyCaloriePage> createState() => _DailyCaloriePageState();
 }
 
 class _DailyCaloriePageState extends State<DailyCaloriePage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _heightController = TextEditingController();
-
+  final _ageCtrl = TextEditingController();
+  final _weightCtrl = TextEditingController();
+  final _heightCtrl = TextEditingController();
   String _activityLevel = 'Sedentary';
   String _gender = 'Male';
-  String _goalType = 'maintain'; // 'lose', 'maintain', 'gain'
-  double _weeklyGoal = 0.5; // kg per week
+  String _goalType = 'maintain';
+  double _weeklyGoal = 0.5;
 
   @override
   void initState() {
@@ -36,76 +34,48 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     final user = context.read<AuthViewModel>().currentUser;
     if (user != null) {
       _gender = user.gender;
-      final weightGoal = user.goals['weight'];
-      if (weightGoal != null && weightGoal['goalType'] != null) {
-        _goalType = weightGoal['goalType'];
-      }
+      final wg = user.goals['weight'];
+      if (wg?['goalType'] != null) _goalType = wg!['goalType'];
     }
   }
 
   @override
   void dispose() {
-    _ageController.dispose();
-    _weightController.dispose();
-    _heightController.dispose();
+    _ageCtrl.dispose();
+    _weightCtrl.dispose();
+    _heightCtrl.dispose();
     super.dispose();
   }
 
-  void _calculateCalories() {
-    if (_formKey.currentState!.validate()) {
-      final age = int.parse(_ageController.text);
-      final weight = double.parse(_weightController.text);
-      final height = double.parse(_heightController.text);
-
-      final calcVM = context.read<CalculatorsViewModel>();
-
-      double bmr = calcVM.calculateBMR(weight, height, age, _gender);
-      double maintenanceCalories = calcVM.calculateTDEE(bmr, _activityLevel);
-      double calorieAdjustment =
-          calcVM.getCalorieAdjustment(_goalType, _weeklyGoal);
-
-      String goalDescription = "Maintenance";
-      if (_goalType == 'lose') {
-        goalDescription = "Weight Loss ($_weeklyGoal kg/week)";
-      } else if (_goalType == 'gain') {
-        goalDescription = "Weight Gain ($_weeklyGoal kg/week)";
-      }
-
-      double dailyCalories = maintenanceCalories + calorieAdjustment;
-
-      // Round to nearest 10
-      dailyCalories = (dailyCalories / 10).round() * 10;
-
-      // Save calorie goal WITHOUT current value (only target)
-      context.read<GoalsViewModel>().updateGoal('calories', {
-        'target': dailyCalories,
-        'active': true,
-      });
-
-      // Notify parent if callback exists
-      widget.onGoalsUpdated?.call();
-
-      // FIXED: Make sure the dialog shows
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        DailyCaloriesResultsDialog.showResults(
-          context,
-          bmr: bmr,
-          maintenanceCalories: maintenanceCalories,
-          dailyCalories: dailyCalories,
-          goalType: _goalType,
-          weeklyGoal: _weeklyGoal,
-          goalDescription: goalDescription,
-          onSetGoal: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('$goalDescription calorie goal saved!'),
-                backgroundColor: greenColor,
-              ),
-            );
-          },
-        );
-      });
-    }
+  void _calculate() {
+    if (!_formKey.currentState!.validate()) return;
+    final calcVM = context.read<CalculatorsViewModel>();
+    final bmr = calcVM.calculateBMR(double.parse(_weightCtrl.text),
+        double.parse(_heightCtrl.text), int.parse(_ageCtrl.text), _gender);
+    final maintenance = calcVM.calculateTDEE(bmr, _activityLevel);
+    final adj = calcVM.getCalorieAdjustment(_goalType, _weeklyGoal);
+    final daily = ((maintenance + adj) / 10).round() * 10.0;
+    final desc = _goalType == 'maintain'
+        ? 'Maintenance'
+        : _goalType == 'lose'
+            ? 'Weight Loss ($_weeklyGoal kg/week)'
+            : 'Weight Gain ($_weeklyGoal kg/week)';
+    context
+        .read<GoalsViewModel>()
+        .updateGoal('calories', {'target': daily, 'active': true});
+    widget.onGoalsUpdated?.call();
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+        DailyCaloriesResultsDialog.showResults(context,
+            bmr: bmr,
+            maintenanceCalories: maintenance,
+            dailyCalories: daily,
+            goalType: _goalType,
+            weeklyGoal: _weeklyGoal,
+            goalDescription: desc,
+            onSetGoal: () => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text('$desc goal saved!'),
+                    backgroundColor: greenColor))));
   }
 
   @override
@@ -114,154 +84,89 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: customAppBarr(
-          "Daily Calorie Calculator", redColor, theme.scaffoldBackgroundColor),
+          'Daily Calories', redColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
+        physics: const BouncingScrollPhysics(),
         child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Calculate Your Daily Calorie Needs',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: colors.textColor)),
-              const SizedBox(height: 8),
-              Text('Enter your details to calculate daily calorie requirements',
-                  style: TextStyle(color: colors.subtitleColor)),
-              const SizedBox(height: 24),
-
-              // Basic inputs
-              DailyCalorieInputSection(
-                ageController: _ageController,
-                weightController: _weightController,
-                heightController: _heightController,
-                activityLevel: _activityLevel,
-                gender: _gender,
-                onActivityChanged: (value) =>
-                    setState(() => _activityLevel = value),
-                onGenderChanged: (value) => setState(() => _gender = value),
-              ),
-
+            key: _formKey,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('Daily Calorie Calculator',
+                  style: theme.textTheme.titleLarge),
+              const SizedBox(height: 6),
+              Text('Enter your details to calculate your daily requirements',
+                  style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
               const SizedBox(height: 20),
-
-              // Weight goal section
+              DailyCalorieInputSection(
+                  ageController: _ageCtrl,
+                  weightController: _weightCtrl,
+                  heightController: _heightCtrl,
+                  activityLevel: _activityLevel,
+                  gender: _gender,
+                  onActivityChanged: (v) => setState(() => _activityLevel = v),
+                  onGenderChanged: (v) => setState(() => _gender = v)),
+              const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: colors.cardColor,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: redColor.withOpacity(0.3)),
-                ),
+                    color: colors.cardColor,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: redColor.withOpacity(0.25))),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Weight Goal',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: colors.textColor)),
-                    const SizedBox(height: 12),
-
-                    // Goal type selection
-                    Row(
-                      children: [
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Weight Goal', style: theme.textTheme.titleMedium),
+                      const SizedBox(height: 12),
+                      Row(children: [
                         Expanded(
-                          child: _buildCalorieGoalOption('Lose Weight', 'lose'),
-                        ),
+                            child: CalorieGoalOption(
+                                label: 'Lose',
+                                value: 'lose',
+                                selectedValue: _goalType,
+                                onTap: () =>
+                                    setState(() => _goalType = 'lose'))),
                         const SizedBox(width: 8),
                         Expanded(
-                          child:
-                              _buildCalorieGoalOption('Maintain', 'maintain'),
-                        ),
+                            child: CalorieGoalOption(
+                                label: 'Maintain',
+                                value: 'maintain',
+                                selectedValue: _goalType,
+                                onTap: () =>
+                                    setState(() => _goalType = 'maintain'))),
                         const SizedBox(width: 8),
                         Expanded(
-                          child: _buildCalorieGoalOption('Gain Weight', 'gain'),
-                        ),
+                            child: CalorieGoalOption(
+                                label: 'Gain',
+                                value: 'gain',
+                                selectedValue: _goalType,
+                                onTap: () =>
+                                    setState(() => _goalType = 'gain'))),
+                      ]),
+                      if (_goalType != 'maintain') ...[
+                        const SizedBox(height: 14),
+                        Text('Weekly goal: $_weeklyGoal kg/week',
+                            style: TextStyle(
+                                fontSize: 13, color: colors.textColor)),
+                        Slider(
+                            value: _weeklyGoal,
+                            min: 0.1,
+                            max: 1.0,
+                            divisions: 9,
+                            activeColor: redColor,
+                            inactiveColor: redColor.withOpacity(0.2),
+                            label: '$_weeklyGoal kg/week',
+                            onChanged: (v) => setState(() => _weeklyGoal =
+                                double.parse(v.toStringAsFixed(1)))),
                       ],
-                    ),
-
-                    if (_goalType != 'maintain') ...[
-                      const SizedBox(height: 16),
-                      Text('Weekly Goal: $_weeklyGoal kg per week',
-                          style:
-                              TextStyle(fontSize: 14, color: colors.textColor)),
-                      const SizedBox(height: 8),
-                      Slider(
-                        value: _weeklyGoal,
-                        min: 0.1,
-                        max: 1.0,
-                        divisions: 9,
-                        label: '$_weeklyGoal kg/week',
-                        activeColor: redColor,
-                        inactiveColor: redColor.withOpacity(0.3),
-                        onChanged: (value) {
-                          setState(() {
-                            _weeklyGoal =
-                                double.parse(value.toStringAsFixed(1));
-                          });
-                        },
-                      ),
-                    ],
-                  ],
-                ),
+                    ]),
               ),
-
+              const SizedBox(height: 24),
+              CalcButton(
+                  label: 'Calculate', color: redColor, onPressed: _calculate),
               const SizedBox(height: 32),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: CustomElevatedButton(
-                  onpressed: _calculateCalories,
-                  text: "Calculate",
-                  color: redColor,
-                ),
-              ),
-              const SizedBox(height: 32),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCalorieGoalOption(String text, String value) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final isSelected = _goalType == value;
-    return GestureDetector(
-      onTap: () => setState(() => _goalType = value),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? redColor.withOpacity(0.2) : colors.cardColor,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: isSelected ? redColor : Colors.grey.withOpacity(0.3),
-            width: isSelected ? 2 : 1,
-          ),
-        ),
-        child: Column(
-          children: [
-            Icon(
-              value == 'lose'
-                  ? Icons.trending_down
-                  : value == 'gain'
-                      ? Icons.trending_up
-                      : Icons.trending_flat,
-              color: isSelected ? redColor : colors.subtitleColor,
-            ),
-            const SizedBox(height: 4),
-            Text(text,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  color: isSelected ? redColor : colors.textColor,
-                )),
-          ],
-        ),
+            ])),
       ),
     );
   }

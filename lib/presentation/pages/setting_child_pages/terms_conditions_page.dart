@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
+import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
+import 'package:fit_tracker/presentation/widgets/profile/static_page_data.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 
@@ -8,178 +10,77 @@ class TermsConditionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: customAppBarr('Terms & Conditions', primaryColor,
-          Theme.of(context).scaffoldBackgroundColor),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: customAppBarr('Terms & Conditions', primaryColor, theme.scaffoldBackgroundColor),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Terms & Conditions',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: colors.textColor,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Last Updated: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-              style: TextStyle(color: colors.subtitleColor),
-            ),
+            Text('Terms & Conditions', style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 6),
+            Text('Last Updated: May 1, 2026', style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
             const SizedBox(height: 24),
-            _buildSection(
-              context,
-              colors,
-              '1. Acceptance of Terms',
-              'By downloading, installing, or using the Fitness Tracker app, you agree to be bound by these Terms & Conditions. If you do not agree, please do not use the app.',
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: termsSections.length,
+              itemBuilder: (context, index) {
+                final section = termsSections[index];
+                final points = section['points'] as List<String>?;
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: AppCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(section['title'], style: theme.textTheme.titleMedium),
+                        const SizedBox(height: 10),
+                        Text(section['desc'], style: TextStyle(color: colors.subtitleColor, fontSize: 13, height: 1.4)),
+                        if (points != null) ...[
+                          const SizedBox(height: 12),
+                          ...points.map((point) => Padding(
+                            padding: const EdgeInsets.only(bottom: 6),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 6),
+                                  child: Icon(Icons.circle, size: 6, color: primaryColor),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(child: Text(point, style: TextStyle(color: colors.textColor, fontSize: 13))),
+                              ],
+                            ),
+                          )),
+                        ],
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
-            _buildSection(
-              context,
-              colors,
-              '2. Eligibility',
-              'You must be at least 13 years old to use this app. By using the app, you represent that you meet this age requirement.',
-            ),
-            _buildSection(
-              context,
-              colors,
-              '3. App Usage',
-              'The Fitness Tracker app is intended for personal fitness tracking and educational purposes only. It is not a substitute for professional medical advice.',
-            ),
-            _buildSection(
-              context,
-              colors,
-              '4. Health Disclaimer',
-              'The fitness calculations and recommendations provided are for informational purposes only. Consult with a healthcare professional before starting any fitness or nutrition program.',
-            ),
-            _buildSection(
-              context,
-              colors,
-              '5. User Responsibilities',
-              'You are responsible for:',
-              [
-                'Providing accurate and truthful information',
-                'Maintaining the confidentiality of your account',
-                'Using the app in compliance with all applicable laws',
-                'Not using the app for any unlawful purpose'
-              ],
-            ),
-            _buildSection(
-              context,
-              colors,
-              '6. Intellectual Property',
-              'All content, features, and functionality of the app are owned by Fitness Tracker and are protected by international copyright, trademark, and other intellectual property laws.',
-            ),
-            _buildSection(
-              context,
-              colors,
-              '7. Limitation of Liability',
-              'Fitness Tracker shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the app.',
-            ),
-            _buildSection(
-              context,
-              colors,
-              '8. Termination',
-              'We reserve the right to terminate or suspend your access to the app at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users.',
-            ),
-            _buildSection(
-              context,
-              colors,
-              '9. Changes to Terms',
-              'We may modify these Terms at any time. We will provide notice of significant changes. Your continued use of the app constitutes acceptance of the modified Terms.',
-            ),
-            _buildSection(
-              context,
-              colors,
-              '10. Governing Law',
-              'These Terms shall be governed by and construed in accordance with the laws of [Your Country/Region], without regard to its conflict of law provisions.',
-            ),
-            const SizedBox(height: 32),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: colors.cardColor,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: primaryColor.withOpacity(0.3)),
-              ),
+            const SizedBox(height: 16),
+            AppCard(
+              borderColor: primaryColor.withOpacity(0.3),
+              elevation: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Contact Information',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: colors.textColor,
-                    ),
-                  ),
+                  Text('Contact Information', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textColor)),
                   const SizedBox(height: 8),
-                  Text(
-                    'For questions about these Terms & Conditions:',
-                    style: TextStyle(color: colors.subtitleColor),
-                  ),
+                  Text('For questions about these Terms & Conditions:', style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
                   const SizedBox(height: 8),
-                  Text(
-                    'support@fitnessapp.com',
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text('support@fitnessapp.com', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold, fontSize: 14)),
                 ],
               ),
             ),
             const SizedBox(height: 32),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildSection(BuildContext context, AppColorsExtension colors,
-      String title, String content,
-      [List<String>? bulletPoints]) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: colors.textColor,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            content,
-            style: TextStyle(color: colors.subtitleColor),
-          ),
-          if (bulletPoints != null) ...[
-            const SizedBox(height: 12),
-            ...bulletPoints.map((point) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8, left: 8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.circle, size: 8, color: primaryColor),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          point,
-                          style: TextStyle(color: colors.textColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
-          ],
-        ],
       ),
     );
   }
