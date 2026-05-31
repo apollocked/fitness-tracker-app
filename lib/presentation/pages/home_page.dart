@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/presentation/widgets/home/home_widgets.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

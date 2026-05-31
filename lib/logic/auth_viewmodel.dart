@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fit_tracker/data/model/user_model.dart';
-import 'package:fit_tracker/data/services/auth_repository.dart';
-import 'package:fit_tracker/data/services/user_repository.dart';
+import 'package:fit_tracker/data/repositories/auth_repository.dart';
+import 'package:fit_tracker/data/repositories/user_repository.dart';
 
 class AuthViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;

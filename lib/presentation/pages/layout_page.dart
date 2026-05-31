@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/pages/home_page.dart';
 import 'package:fit_tracker/presentation/pages/progress_page.dart';
 import 'package:fit_tracker/presentation/pages/profile_page.dart';
-import 'package:fit_tracker/logic/porviders/app_viewmodel.dart';
+import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 

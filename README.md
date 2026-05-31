@@ -54,13 +54,6 @@ A comprehensive Flutter-based fitness tracking application designed to help user
 
 ## Getting Started
 
-### Prerequisites
-
-- Flutter SDK (3.0 or higher)
-- Dart SDK (3.0 or higher)
-- Android Studio / VS Code
-- Git
-
 ### Installation
 
 1. **Clone the repository**
@@ -100,70 +93,14 @@ lib/
 ├── main.dart                              # App entry point with DI setup
 ├── core/
 │   └── theme/                             # Light/dark theme definitions
-│       ├── app_colors.dart                # Color palette constants
-│       └── app_theme.dart                 # ThemeData + AppColorsExtension
 ├── data/
 │   ├── model/                             # Data models
-│   │   ├── user_model.dart                # User data model
-│   │   └── measurement_model.dart         # Weight measurement model
-│   └── services/                          # Repositories & services
-│       ├── auth_repository.dart           # Auth interface
-│       ├── local_auth_repository.dart     # Local auth implementation
-│       ├── user_repository.dart           # User CRUD interface
-│       ├── local_user_repository.dart     # Local user storage
-│       ├── measurement_repository.dart    # Measurement interface
-│       ├── local_measurement_repository.dart
-│       ├── storage_service.dart           # SharedPreferences wrapper
-│       ├── calculation_service.dart       # Fitness calculation utils
-│       └── registration_validator.dart    # Input validation rules
-├── logic/
-│   └── porviders/                         # ViewModels (ChangeNotifier)
-│       ├── app_viewmodel.dart             # Theme & navigation state
-│       ├── auth_viewmodel.dart            # Auth state & methods
-│       ├── goals_viewmodel.dart           # Goal CRUD & progress
-│       ├── progress_viewmodel.dart        # Measurement tracking
-│       └── calculators_viewmodel.dart     # Calculator logic
+│   ├── repositories/                      # Repositories 
+│   └── services/                          # Services 
+├── logic/                                 # ViewModels (State Management)  
 ├── presentation/
-│   ├── pages/                             # All screen pages
-│   │   ├── auth/
-│   │   │   ├── login_page.dart
-│   │   │   └── register_page.dart
-│   │   ├── calculators/
-│   │   │   ├── daily_calorie_page.dart
-│   │   │   ├── ideal_bw_page.dart
-│   │   │   ├── protien_intake_page.dart
-│   │   │   └── add_measurement_page.dart
-│   │   ├── profile_child_pages/
-│   │   │   ├── about_page.dart
-│   │   │   ├── features_page.dart
-│   │   │   ├── goals_page.dart
-│   │   │   ├── help_support_page.dart
-│   │   │   ├── personal_info_page.dart
-│   │   │   └── settings_page.dart
-│   │   ├── setting_child_pages/
-│   │   │   ├── privacy_policy_page.dart
-│   │   │   └── terms_conditions_page.dart
-│   │   ├── home_page.dart
-│   │   ├── layout_page.dart              # Bottom nav scaffold
-│   │   ├── profile_page.dart
-│   │   └── progress_page.dart
-│   └── widgets/                           # Reusable UI components
-│       ├── auth/                          # Auth-specific widgets
-│       ├── daily_calories/                # Calorie calculator dialogs
-│       ├── goals/                         # Goal card & list widgets
-│       ├── profile/                       # Profile & settings widgets
-│       ├── protien_intake/                # Protein dialog
-│       ├── shared/                        # Generic reusable widgets
-│       │   ├── custom_appbar.dart
-│       │   ├── custom_textfield.dart
-│       │   ├── custom_elevated_button.dart
-│       │   ├── custom_dialog_text_field.dart
-│       │   ├── loading_overlay.dart
-│       │   ├── section_card.dart
-│       │   └── select_gender_radio.dart
-│       ├── ideal_weight_dialog.dart
-│       ├── select_workout_type.dart
-│       └── stat_item.dart
+│   ├── pages/                             # All screen pages 
+│   └── widgets/                           # Reusable UI 
 ```
 
 ---
@@ -186,21 +123,6 @@ User Action → View (Page) → ViewModel (ChangeNotifier) → Service/Repositor
 - **Pages** (`presentation/pages/`) - StatelessWidget/StatefulWidget screens consuming ViewModels via `context.watch<>()` and `context.read<>()`
 - **Widgets** (`presentation/widgets/`) - Reusable UI components
 
-### Dependency Injection
-
-Dependencies are wired manually in `main.dart` via constructor injection and provided through `MultiProvider`:
-
-```dart
-MultiProvider(
-  providers: [
-    ChangeNotifierProvider(create: (_) => AuthViewModel(authRepo, userRepo)),
-    ChangeNotifierProvider(create: (_) => GoalsViewModel(userRepo, authRepo)),
-    ChangeNotifierProvider(create: (_) => AppViewModel(authRepo, userRepo)),
-    ChangeNotifierProvider(create: (_) => ProgressViewModel(measurementRepo)),
-    ChangeNotifierProvider(create: (_) => CalculatorsViewModel()),
-  ],
-)
-```
 
 ---
 
@@ -347,18 +269,6 @@ Profile
 
 ---
 
-## Customization
-
-### Colors
-
-Edit `lib/core/theme/app_colors.dart`:
-
-```dart
-Color primaryColor = const Color(0xFFD4AF37);  // Gold
-Color redColor = Colors.red;
-Color greenColor = Colors.green;
-Color blueColor = const Color(0xFF2962FF);
-```
 
 ### Theme
 
@@ -390,9 +300,6 @@ Edit `lib/core/theme/app_theme.dart` to customize light/dark theme properties.
 - Cloud synchronization
 - Push notifications
 - Social features (sharing goals)
-- Workout plans
-- Nutrition tracking
-- Integration with wearables
 - Analytics and reports
 
 ---
@@ -431,7 +338,7 @@ Contributions are welcome! Please follow these steps:
 
 ## Contact
 
-- **Developer**: muhammed jameel barznji
+- **Developer**: muhammed jameel 
 - **Email**: mahamadbarznji712@gmail.com
 - **GitHub**: [@apollocked](https://github.com/apollocked)
 - **LinkedIn**: [muhammed jameel](https://www.linkedin.com/in/apollocked)
@@ -450,7 +357,7 @@ Contributions are welcome! Please follow these steps:
 
 ## Version History
 
-### v1.0.0 (Current)
+### v2.0.0 (Current)
 - User Authentication
 - Fitness Calculators
 - Goal Management
@@ -459,7 +366,7 @@ Contributions are welcome! Please follow these steps:
 - Help & Support
 - MVVM architecture with Provider
 
-### v1.1.0 (Upcoming)
+### v2.1.0 (Upcoming)
 - Database Integration
 - Cloud Sync
 - Push Notifications
@@ -467,6 +374,6 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-**Made with for fitness enthusiasts**
+**Made with ❤️ in Kurdistan ⛰️ for fitness enthusiasts 💪**
 
 Star this repo if you find it helpful!

@@ -8,8 +8,8 @@ import 'package:fit_tracker/presentation/widgets/select_workout_type.dart';
 import 'package:fit_tracker/presentation/widgets/protien_intake/protein_dialog.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/calculators_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 class ProtienIntakePage extends StatefulWidget {
   final VoidCallback? onGoalsUpdated;

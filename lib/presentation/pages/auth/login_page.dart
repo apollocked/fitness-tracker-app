@@ -7,7 +7,7 @@ import 'package:fit_tracker/presentation/widgets/auth/auth_footer_widget.dart';
 import 'package:fit_tracker/presentation/widgets/auth/auth_header_widget.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

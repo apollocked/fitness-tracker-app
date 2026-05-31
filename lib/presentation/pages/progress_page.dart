@@ -1,4 +1,4 @@
-import 'package:fit_tracker/logic/porviders/progress_viewmodel.dart';
+import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/goals/goals_square_card.dart';
-import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
 
 class GoalsSquareRow extends StatelessWidget {
   const GoalsSquareRow({super.key});

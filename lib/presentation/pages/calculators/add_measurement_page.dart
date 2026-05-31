@@ -6,8 +6,8 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_textfield.dart';
 import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/progress_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 
 class AddMeasurementPage extends StatefulWidget {

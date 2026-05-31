@@ -1,4 +1,4 @@
-import 'package:fit_tracker/logic/porviders/progress_viewmodel.dart';
+import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/pages/layout_page.dart';
@@ -12,13 +12,13 @@ import 'package:fit_tracker/presentation/pages/profile_child_pages/features_page
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/data/services/storage_service.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/data/services/local_auth_repository.dart';
-import 'package:fit_tracker/data/services/local_user_repository.dart';
-import 'package:fit_tracker/data/services/local_measurement_repository.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/app_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/calculators_viewmodel.dart';
+import 'package:fit_tracker/data/repositories/local_auth_repository.dart';
+import 'package:fit_tracker/data/repositories/local_user_repository.dart';
+import 'package:fit_tracker/data/repositories/local_measurement_repository.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/app_viewmodel.dart';
+import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/data/services/auth_repository.dart';
-import 'package:fit_tracker/data/services/user_repository.dart';
+import 'package:fit_tracker/data/repositories/auth_repository.dart';
+import 'package:fit_tracker/data/repositories/user_repository.dart';
 
 class AppViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;

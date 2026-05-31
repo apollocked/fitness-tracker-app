@@ -4,8 +4,8 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/presentation/widgets/ideal_weight/ideal_bw_form.dart';
 import 'package:fit_tracker/presentation/widgets/ideal_weight_dialog.dart';
-import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/calculators_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 
 class IdealBodyWeightPage extends StatefulWidget {

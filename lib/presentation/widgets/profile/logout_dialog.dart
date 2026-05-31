@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 
 class LogoutDialog {
   static void show(BuildContext context) {

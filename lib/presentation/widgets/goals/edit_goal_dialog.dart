@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_dialog_text_field.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
 
 class EditGoalDialog extends StatefulWidget {
   final String goalKey;

@@ -7,9 +7,9 @@ import 'package:fit_tracker/presentation/widgets/daily_calories/daily_calories_d
 import 'package:fit_tracker/presentation/widgets/daily_calories/calorie_goal_option.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/calculators_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 class DailyCaloriePage extends StatefulWidget {
   final VoidCallback? onGoalsUpdated;

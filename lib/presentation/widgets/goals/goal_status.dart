@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
-import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
 
 class GoalsStats extends StatelessWidget {
   const GoalsStats({super.key});

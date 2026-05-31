@@ -9,7 +9,7 @@ import 'package:fit_tracker/presentation/widgets/profile/personal_info_section.d
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/data/services/registration_validator.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/data/model/user_model.dart';
 
 class RegisterPage extends StatefulWidget {

@@ -4,8 +4,8 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_dialog_text_field
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
 import 'package:fit_tracker/data/services/storage_service.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
-import 'package:fit_tracker/logic/porviders/app_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/app_viewmodel.dart';
 
 class SettingsDialogs {
   static void showChangePasswordDialog(BuildContext context) {

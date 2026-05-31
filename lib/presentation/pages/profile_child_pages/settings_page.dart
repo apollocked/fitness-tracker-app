@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_tracker/logic/porviders/app_viewmodel.dart';
+import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/profile/settings_dialogs.dart';
 import 'package:fit_tracker/presentation/widgets/profile/settings_section_widget.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

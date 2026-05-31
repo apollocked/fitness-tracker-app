@@ -11,7 +11,7 @@ import 'package:fit_tracker/presentation/pages/profile_child_pages/settings_page
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/presentation/widgets/profile/profile_widgets.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

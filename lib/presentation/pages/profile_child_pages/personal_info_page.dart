@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 
 class PersonalInfoPage extends StatelessWidget {
   const PersonalInfoPage({super.key});

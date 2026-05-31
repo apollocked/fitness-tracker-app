@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/goals/edit_goal_dialog.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
-import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
 
 class GoalTile extends StatelessWidget {
   final String goalKey;
