@@ -14,11 +14,14 @@ import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
     final user = context.watch<AuthViewModel>().currentUser;
+    final isDark = theme.brightness == Brightness.dark;
+
     if (user == null) {
       return Scaffold(
         appBar: customAppBarr(
@@ -29,122 +32,292 @@ class ProfilePage extends StatelessWidget {
                 style: TextStyle(color: colors.textColor))),
       );
     }
+
     return Scaffold(
-      appBar:
-          customAppBarr('Profile', primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr('Profile', primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
+            // Profile header
+            _buildProfileHeader(context, user, colors, isDark),
             const SizedBox(height: 20),
-            CircleAvatar(
-              radius: 60,
-              backgroundColor: primaryColor,
-              child: Icon(Icons.person,
-                  size: 60, color: theme.scaffoldBackgroundColor),
+            // Menu sections
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionLabel(context, 'Account', colors),
+                  const SizedBox(height: 8),
+                  _buildMenuCard(context, isDark, [
+                    _buildMenuTile(
+                      context,
+                      icon: Icons.person_outline_rounded,
+                      title: 'Personal Info',
+                      subtitle: 'View your profile details',
+                      color: blueColor,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const PersonalInfoPage())),
+                    ),
+                    _buildDivider(colors),
+                    _buildMenuTile(
+                      context,
+                      icon: Icons.flag_outlined,
+                      title: 'Goals',
+                      subtitle: 'Set your fitness targets',
+                      color: greenColor,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const GoalsPage())),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSectionLabel(context, 'App', colors),
+                  const SizedBox(height: 8),
+                  _buildMenuCard(context, isDark, [
+                    _buildMenuTile(
+                      context,
+                      icon: Icons.settings_outlined,
+                      title: 'Settings',
+                      subtitle: 'Preferences & appearance',
+                      color: primaryColor,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SettingsPage())),
+                    ),
+                    _buildDivider(colors),
+                    _buildMenuTile(
+                      context,
+                      icon: Icons.help_outline_rounded,
+                      title: 'Help & Support',
+                      subtitle: 'Get assistance',
+                      color: orangeColor,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const HelpAndSupportPage())),
+                    ),
+                    _buildDivider(colors),
+                    _buildMenuTile(
+                      context,
+                      icon: Icons.auto_fix_high_rounded,
+                      title: 'App Features',
+                      subtitle: 'Explore all features',
+                      color: blueColor,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FeaturesPage())),
+                    ),
+                    _buildDivider(colors),
+                    _buildMenuTile(
+                      context,
+                      icon: Icons.info_outline_rounded,
+                      title: 'About',
+                      subtitle: 'App information',
+                      color: Colors.grey,
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AboutPage())),
+                    ),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildMenuCard(context, isDark, [
+                    _buildMenuTile(
+                      context,
+                      icon: Icons.logout_rounded,
+                      title: 'Logout',
+                      subtitle: 'Sign out of your account',
+                      color: Colors.red,
+                      isDanger: true,
+                      onTap: () => LogoutDialog.show(context),
+                    ),
+                  ]),
+                  const SizedBox(height: 32),
+                ],
+              ),
             ),
-            const SizedBox(height: 10),
-            Text(user.username,
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: colors.textColor)),
-            Text(user.email,
-                style: TextStyle(fontSize: 14, color: colors.subtitleColor)),
-            const SizedBox(height: 20),
-            _buildProfileCard(context, [
-              _buildListTile(
-                  context, Icons.person, 'Personal Info', 'View your info', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PersonalInfoPage()));
-              }),
-              _buildListTile(
-                  context, Icons.flag, 'Goals', 'Set your fitness goals', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const GoalsPage()));
-              }),
-            ]),
-            const SizedBox(height: 5),
-            _buildProfileCard(context, [
-              _buildListTile(
-                  context, Icons.settings, 'Settings', 'App preferences', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingsPage()));
-              }),
-              _buildListTile(context, Icons.help_outline, 'Help & Support',
-                  'Get assistance', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HelpAndSupportPage()));
-              }),
-              _buildListTile(context, Icons.auto_fix_high, 'App Features',
-                  'Explore all features', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FeaturesPage()));
-              }),
-              _buildListTile(
-                  context, Icons.info_outline, 'About', 'App information', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const AboutPage()));
-              }),
-            ]),
-            const SizedBox(height: 5),
-            _buildProfileCard(context, [
-              _buildListTile(
-                  context, Icons.logout, 'Logout', 'Sign out from your account',
-                  () {
-                LogoutDialog.show(context);
-              }, isLogout: true),
-            ]),
-            const SizedBox(height: 32),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildProfileCard(BuildContext context, List<Widget> children) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+  Widget _buildProfileHeader(
+    BuildContext context,
+    dynamic user,
+    AppColorsExtension colors,
+    bool isDark,
+  ) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      width: double.infinity,
       decoration: BoxDecoration(
-        color: Theme.of(context).extension<AppColorsExtension>()!.cardColor,
-        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          colors: isDark
+              ? [
+                  primaryColor.withOpacity(0.3),
+                  primaryColor.withOpacity(0.05),
+                ]
+              : [
+                  primaryColor.withOpacity(0.18),
+                  primaryColor.withOpacity(0.04),
+                ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      padding: const EdgeInsets.fromLTRB(24, 20, 24, 28),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: 90,
+                height: 90,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [primaryColor, primaryColor.withOpacity(0.7)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: primaryColor.withOpacity(0.35),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(Icons.person_rounded,
+                    size: 48, color: Colors.white),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            user.username,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: colors.textColor,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            user.email,
+            style: TextStyle(fontSize: 13, color: colors.subtitleColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionLabel(
+      BuildContext context, String label, AppColorsExtension colors) {
+    return Text(
+      label.toUpperCase(),
+      style: TextStyle(
+        fontSize: 11,
+        fontWeight: FontWeight.w700,
+        color: colors.subtitleColor,
+        letterSpacing: 1.2,
+      ),
+    );
+  }
+
+  Widget _buildMenuCard(
+      BuildContext context, bool isDark, List<Widget> children) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.cardColor,
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-              color: isDark
-                  ? Colors.black.withOpacity(0.3)
-                  : Colors.grey.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 5),
+            color: colors.shadowColor,
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Column(children: children),
     );
   }
 
-  Widget _buildListTile(BuildContext context, IconData icon, String title,
-      String subtitle, VoidCallback onTap,
-      {bool isLogout = false}) {
+  Widget _buildDivider(AppColorsExtension colors) {
+    return Divider(
+      height: 1,
+      thickness: 1,
+      color: colors.subtitleColor.withOpacity(0.12),
+      indent: 56,
+    );
+  }
+
+  Widget _buildMenuTile(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required VoidCallback onTap,
+    bool isDanger = false,
+  }) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Material(
       color: Colors.transparent,
-      child: ListTile(
-        leading: Icon(icon, color: isLogout ? Colors.red : primaryColor),
-        title: Text(title,
-            style: TextStyle(
-                color: isLogout ? Colors.red : colors.textColor,
-                fontWeight: FontWeight.w500)),
-        subtitle: Text(subtitle, style: TextStyle(color: colors.subtitleColor)),
-        trailing: const Icon(Icons.chevron_right),
+      child: InkWell(
         onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, size: 20, color: color),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: isDanger ? Colors.red : colors.textColor,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                          fontSize: 12, color: colors.subtitleColor),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right_rounded,
+                  size: 20, color: colors.subtitleColor),
+            ],
+          ),
+        ),
       ),
     );
   }

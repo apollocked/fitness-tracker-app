@@ -1,4 +1,4 @@
-# 🏋️ Fitness Tracker App
+# Fitness Tracker App
 
 A comprehensive Flutter-based fitness tracking application designed to help users monitor their fitness journey with calculators, goal tracking, and progress visualization.
 
@@ -8,50 +8,42 @@ A comprehensive Flutter-based fitness tracking application designed to help user
 
 ---
 
-## ✨ Features
+## Features
 
-### 🔐 Authentication
-
+### Authentication
 - **User Registration** - Create accounts with comprehensive validation
 - **User Login** - Secure login with email and password
 - **Personal Profile Management** - Store and manage user information
 
-### 🧮 Fitness Calculators
-
+### Fitness Calculators
 - **Daily Calorie Calculator** - Calculate daily calorie needs based on BMR and activity level
 - **Ideal Body Weight Calculator** - Determine ideal weight based on height and gender
 - **Protein Intake Calculator** - Calculate daily protein requirements (regular & bodybuilder)
 
-### 🎯 Goal Management
-
+### Goal Management
 - **Weight Goals** - Track progress towards target weight
 - **Calorie Goals** - Set and monitor daily calorie intake
 - **Protein Goals** - Manage daily protein targets
 - **Progress Tracking** - Visual indicators and percentage tracking
 - **Auto-sync** - Goals automatically update with calculator results
 
-### 📊 Progress Tracking
-
+### Progress Tracking
 - **Weight Measurement Logging** - Record weight updates
 - **Progress Visualization** - Track changes over time
 - **Goal Achievement Status** - Monitor completion progress
-- **Statistics Dashboard** - View overall statistics
 
-### 👤 User Profile
-
+### User Profile
 - **Personal Information** - View and manage profile details
 - **Account Settings** - Change password and email
 - **Goal Management** - Edit and manage fitness goals
 - **Account Deletion** - Option to delete account
 
-### 🌙 Theme Support
-
+### Theme Support
 - **Dark Mode** - Reduce eye strain with dark theme
 - **Light Mode** - Traditional light interface
 - **Auto-save Theme Preference** - Remember user choice
 
-### ℹ️ Help & Support
-
+### Help & Support
 - **Feature Documentation** - Learn about all app features
 - **FAQs** - Answers to common questions
 - **Troubleshooting Guide** - Solutions to common issues
@@ -60,7 +52,7 @@ A comprehensive Flutter-based fitness tracking application designed to help user
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -93,365 +85,136 @@ flutter run
 ### First Time Setup
 
 1. **Register an account**
-   - Open app → Sign Up
-   - Fill in all required information
-   - Create account
-
+   - Open app, sign up, and fill in all required information
 2. **Set your goals**
-   - Go to Home → Use calculators
-   - Daily Calorie Calculator
-   - Ideal Body Weight Calculator
-   - Protein Intake Calculator
-
+   - Go to Home, use calculators (Daily Calorie, Ideal Body Weight, Protein Intake)
 3. **Start tracking**
-   - Go to Home → Update Weight
-   - Check Progress page for history
-   - Monitor goals in Profile → My Goals
+   - Go to Home, update weight, check Progress page for history, monitor goals in Profile
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 lib/
-├── pages/
-│   ├── authentication/
-│   │   ├── login_page.dart
-│   │   ├── register_page.dart
-│   │   └── authWidgets/
-│   ├── HomePage/
-│   │   └── home_page.dart
-│   ├── Profile/
+├── main.dart                              # App entry point with DI setup
+├── core/
+│   └── theme/                             # Light/dark theme definitions
+│       ├── app_colors.dart                # Color palette constants
+│       └── app_theme.dart                 # ThemeData + AppColorsExtension
+├── data/
+│   ├── model/                             # Data models
+│   │   ├── user_model.dart                # User data model
+│   │   └── measurement_model.dart         # Weight measurement model
+│   └── services/                          # Repositories & services
+│       ├── auth_repository.dart           # Auth interface
+│       ├── local_auth_repository.dart     # Local auth implementation
+│       ├── user_repository.dart           # User CRUD interface
+│       ├── local_user_repository.dart     # Local user storage
+│       ├── measurement_repository.dart    # Measurement interface
+│       ├── local_measurement_repository.dart
+│       ├── storage_service.dart           # SharedPreferences wrapper
+│       ├── calculation_service.dart       # Fitness calculation utils
+│       └── registration_validator.dart    # Input validation rules
+├── logic/
+│   └── porviders/                         # ViewModels (ChangeNotifier)
+│       ├── app_viewmodel.dart             # Theme & navigation state
+│       ├── auth_viewmodel.dart            # Auth state & methods
+│       ├── goals_viewmodel.dart           # Goal CRUD & progress
+│       ├── progress_viewmodel.dart        # Measurement tracking
+│       └── calculators_viewmodel.dart     # Calculator logic
+├── presentation/
+│   ├── pages/                             # All screen pages
+│   │   ├── auth/
+│   │   │   ├── login_page.dart
+│   │   │   └── register_page.dart
+│   │   ├── calculators/
+│   │   │   ├── daily_calorie_page.dart
+│   │   │   ├── ideal_bw_page.dart
+│   │   │   ├── protien_intake_page.dart
+│   │   │   └── add_measurement_page.dart
+│   │   ├── profile_child_pages/
+│   │   │   ├── about_page.dart
+│   │   │   ├── features_page.dart
+│   │   │   ├── goals_page.dart
+│   │   │   ├── help_support_page.dart
+│   │   │   ├── personal_info_page.dart
+│   │   │   └── settings_page.dart
+│   │   ├── setting_child_pages/
+│   │   │   ├── privacy_policy_page.dart
+│   │   │   └── terms_conditions_page.dart
+│   │   ├── home_page.dart
+│   │   ├── layout_page.dart              # Bottom nav scaffold
 │   │   ├── profile_page.dart
-│   │   ├── features_page.dart
-│   │   ├── help_support_page.dart
-│   │   ├── Goals/
-│   │   ├── Settings/
-│   │   └── ...
-│   ├── Cards/
-│   │   ├── daily_calorie_page.dart
-│   │   ├── ideal_bw_page.dart
-│   │   ├── protien_intake_page.dart
-│   │   └── add_measurement_page.dart
-│   └── progress/
-│       └── progress_page.dart
-├── Custom_Widgets/
-│   ├── custom_appbar.dart
-│   ├── custom_textfeild.dart
-│   ├── custom_elevated_button.dart
-│   └── ...
-├── services/
-│   ├── goals_service.dart
-│   └── registration_validator.dart
-├── models/
-│   └── measurement_model.dart
-├── utils/
-│   ├── colors.dart
-│   ├── dark_mode_helper.dart
-│   └── user_data.dart
-└── main.dart
+│   │   └── progress_page.dart
+│   └── widgets/                           # Reusable UI components
+│       ├── auth/                          # Auth-specific widgets
+│       ├── daily_calories/                # Calorie calculator dialogs
+│       ├── goals/                         # Goal card & list widgets
+│       ├── profile/                       # Profile & settings widgets
+│       ├── protien_intake/                # Protein dialog
+│       ├── shared/                        # Generic reusable widgets
+│       │   ├── custom_appbar.dart
+│       │   ├── custom_textfield.dart
+│       │   ├── custom_elevated_button.dart
+│       │   ├── custom_dialog_text_field.dart
+│       │   ├── loading_overlay.dart
+│       │   ├── section_card.dart
+│       │   └── select_gender_radio.dart
+│       ├── ideal_weight_dialog.dart
+│       ├── select_workout_type.dart
+│       └── stat_item.dart
 ```
 
 ---
 
-## 💾 Data Storage
+## Architecture
 
-Currently uses **in-memory storage** for demonstration purposes:
+### MVVM with Provider
+
+The app follows the **Model-View-ViewModel** pattern using Flutter's `provider` package for state management.
+
+```
+User Action → View (Page) → ViewModel (ChangeNotifier) → Service/Repository → Model
+                    ↑               │
+                    └── notifyListeners() ───┘
+```
+
+- **Models** (`data/model/`) - Data classes for User and Measurement
+- **Services** (`data/services/`) - Repositories abstracting local storage (SharedPreferences)
+- **ViewModels** (`logic/porviders/`) - ChangeNotifier classes holding UI state and business logic
+- **Pages** (`presentation/pages/`) - StatelessWidget/StatefulWidget screens consuming ViewModels via `context.watch<>()` and `context.read<>()`
+- **Widgets** (`presentation/widgets/`) - Reusable UI components
+
+### Dependency Injection
+
+Dependencies are wired manually in `main.dart` via constructor injection and provided through `MultiProvider`:
 
 ```dart
-List<Map<String, dynamic>> users = [
-  {
-    "id": "unique_id",
-    "username": "username",
-    "email": "email@example.com",
-    "password": "password",
-    "age": 25,
-    "weight": 75.0,
-    "height": 180.0,
-    "gender": "Male",
-    "goals": {
-      "weight": {...},
-      "calories": {...},
-      "protein": {...}
-    }
-    // ... more fields
-  }
-];
-```
-
-### Future Enhancement: Database Integration
-
-- Firebase for cloud sync
-
----
-
-## 🎨 UI/UX Features
-
-### Theme Support
-
-- ✅ Dark Mode
-- ✅ Light Mode
-- ✅ Auto theme switching
-- ✅ Persistent theme preference
-
-### Responsive Design
-
-- ✅ Mobile optimized
-- ✅ Tablet support
-- ✅ Landscape orientation
-- ✅ Safe area handling
-
-### User Experience
-
-- ✅ Form validation
-- ✅ Error messages
-- ✅ Loading indicators
-- ✅ Success notifications
-- ✅ Intuitive navigation
-
----
-
-## 🔧 Key Technologies
-
-### Flutter & Dart
-
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  intl: ^0.19.0
-```
-
-### Architecture
-
-- **State Management**: StatefulWidget & SetState
-- **Navigation**: Named Routes & Navigator
-- **Form Validation**: GlobalKey & FormState
-
-### Design Patterns
-
-- **MVC Pattern** - Model-View-Controller
-- **Singleton Pattern** - Global user data
-- **Service Pattern** - Goals management
-- **Validator Pattern** - Input validation
-
----
-
-## 📱 App Navigation
-
-```
-Login/Register
-    ↓
-Home (Dashboard with calculators)
-    ├── Daily Calorie Calculator
-    ├── Ideal Body Weight Calculator
-    ├── Protein Intake Calculator
-    └── Update Weight
-    ↓
-Progress (Measurement history)
-    ├── View measurements
-    └── Track progress
-    ↓
-Profile
-    ├── Personal Information
-    ├── My Goals
-    ├── Settings
-    │   ├── Dark Mode
-    │   ├── Change Password
-    │   └── Edit Profile
-    ├── Features
-    ├── Help & Support
-    │   ├── FAQs
-    │   ├── Troubleshooting
-    │   └── Tips & Tricks
-    └── About
+MultiProvider(
+  providers: [
+    ChangeNotifierProvider(create: (_) => AuthViewModel(authRepo, userRepo)),
+    ChangeNotifierProvider(create: (_) => GoalsViewModel(userRepo, authRepo)),
+    ChangeNotifierProvider(create: (_) => AppViewModel(authRepo, userRepo)),
+    ChangeNotifierProvider(create: (_) => ProgressViewModel(measurementRepo)),
+    ChangeNotifierProvider(create: (_) => CalculatorsViewModel()),
+  ],
+)
 ```
 
 ---
 
-## ✅ Validation Features
+## Data Storage
 
-### Registration Validation
+Currently uses **SharedPreferences** for local persistence:
 
-- ✅ Username (minimum 3 characters)
-- ✅ Email (valid format, not registered)
-- ✅ Password (minimum 6 characters)
-- ✅ Age (13-120 years)
-- ✅ Weight (1-300 kg)
-- ✅ Height (1-300 cm)
-- ✅ Gender selection
+- **Users** - JSON-encoded user profiles stored in SharedPreferences
+- **Measurements** - JSON-encoded weight measurement history
+- **Settings** - Theme preference persisted per-user
 
-### Input Validation
+Data is loaded on app startup via `StorageService.init()` and `LocalUserRepository.reloadFromStorage()`.
 
-- ✅ Form validation on all inputs
-- ✅ Real-time error messages
-- ✅ Field-specific validators
-- ✅ Range validation for numbers
-
----
-
-## 🎯 Calculators
-
-### Daily Calorie Calculator
-
-- **Inputs**: Age, Weight, Height, Gender, Activity Level
-- **Output**: Daily calorie needs
-- **Features**:
-  - BMR calculation (Harris-Benedict formula)
-  - Activity multiplier adjustments
-  - Weight loss/gain calculations
-
-### Ideal Body Weight Calculator
-
-- **Inputs**: Height, Gender, Current Weight
-- **Output**: Ideal weight target
-- **Features**:
-  - Devine formula for calculations
-  - Auto-detect goal type (lose/gain/maintain)
-  - Progress tracking
-
-### Protein Intake Calculator
-
-- **Inputs**: Weight, Body Type (Regular/Bodybuilder)
-- **Output**: Daily protein requirements
-- **Features**:
-  - Different calculations for fitness levels
-  - Range suggestions (min/max)
-  - Muscle building recommendations
-
----
-
-## 🔐 Security Features
-
-- ✅ Local password storage
-- ✅ Email validation
-- ✅ Input sanitization
-- ✅ Session management
-- ✅ Account deletion option
-
-**Note**: For production, implement proper backend with encrypted passwords and secure authentication (JWT, OAuth2, etc.)
-
----
-
-## 📊 Goals System
-
-### Goal Types
-
-1. **Weight Goals**
-   - Track loss, gain, or maintenance
-   - Visual progress bar
-   - Percentage tracking
-   - Auto-update with measurements
-
-2. **Calorie Goals**
-   - Set daily targets
-   - From calculator results
-   - Read-only (set from calculator)
-
-3. **Protein Goals**
-   - Daily protein intake
-   - From calculator results
-   - Read-only (set from calculator)
-
-### Goal Tracking
-
-- Progress percentage
-- Completion status
-- Visual indicators
-- Statistics dashboard
-
----
-
-## 🎨 Customization
-
-### Colors
-
-Edit `lib/utils/colors.dart`:
-
-```dart
-Color primaryColor = const Color(0xFFD4AF37);  // Gold
-Color redColor = Colors.red;
-Color greenColor = Colors.green;
-Color blueColor = const Color(0xFF2962FF);
-```
-
-### Theme
-
-Edit `lib/utils/dark_mode_helper.dart`:
-
-```dart
-Color getCardColor() {
-  return isDarkMode() ? darkCard : Colors.white;
-}
-```
-
----
-
-## 🚦 Testing
-
-### Test Cases Covered
-
-- ✅ User registration with all validations
-- ✅ User login with credentials
-- ✅ Calculator calculations
-- ✅ Goal creation and updates
-- ✅ Dark/Light theme toggle
-- ✅ Progress tracking
-
-### How to Test
-
-1. Register new account
-2. Set goals using calculators
-3. Update measurements
-4. Track progress
-5. Test dark mode toggle
-6. Change settings
-
----
-
-## 🐛 Known Issues & Future Improvements
-
-### Current Limitations
-
-- ⚠️ No backend integration
-- ⚠️ No data export/backup
-- ⚠️ No push notifications
-
-### Future Enhancements
-
-- 🔄 Database integration (Firebase)
-- 🔄 Cloud synchronization
-- 🔄 Push notifications
-- 🔄 Social features (sharing goals)
-- 🔄 Workout plans
-- 🔄 Nutrition tracking
-- 🔄 Integration with wearables
-- 🔄 Analytics and reports
-
----
-
-## 📝 API Documentation
-
-### User Data Structure
-
-```dart
-{
-  "id": String,              // Unique identifier
-  "username": String,        // Username
-  "email": String,          // Email address
-  "password": String,       // Password (hashed in production)
-  "age": int,               // Age in years
-  "weight": double,         // Current weight in kg
-  "height": double,         // Height in cm
-  "gender": String,         // "Male" or "Female"
-  "isBodybuilder": bool,    // Fitness level
-  "darkMode": bool,         // Theme preference
-  "createdAt": String,      // Creation date
-  "goals": Map<String, Map> // Goals object
-}
-```
-
-### Goals Structure
+### Goals Data Structure
 
 ```dart
 {
@@ -460,7 +223,8 @@ Color getCardColor() {
     "current": double,
     "unit": "kg",
     "active": bool,
-    "goalType": "lose|gain|maintain"
+    "goalType": "lose|gain|maintain",
+    "startWeight": double
   },
   "calories": {
     "target": double,
@@ -477,66 +241,195 @@ Color getCardColor() {
 
 ---
 
-## 📧 Support
+## UI/UX Features
+
+### Theme Support
+- Dark Mode
+- Light Mode
+- Auto theme switching
+- Persistent theme preference
+
+### Responsive Design
+- Mobile optimized
+- Tablet support
+- Landscape orientation
+- Safe area handling
+
+### User Experience
+- Form validation
+- Error messages
+- Loading indicators
+- Success notifications
+- Intuitive navigation
+
+---
+
+## Key Technologies
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.0        # State management (MVVM)
+  shared_preferences: >=2.4.21  # Local persistence
+  intl: ^0.20.2           # Date formatting
+  flutter_secure_storage: ^10.0.0  # Secure credential storage
+  hive: ^2.2.3            # Local database
+  path_provider: ^2.0.15  # File system paths
+```
+
+---
+
+## App Navigation
+
+```
+Login/Register
+    ↓
+Home (Dashboard with calculator cards)
+    ├── Daily Calorie Calculator
+    ├── Ideal Body Weight Calculator
+    ├── Protein Intake Calculator
+    └── Update Weight
+    ↓
+Progress (Measurement history)
+    ├── View measurements
+    └── Add new measurement
+    ↓
+Profile
+    ├── Personal Information
+    ├── My Goals
+    ├── Settings
+    │   ├── Dark Mode Toggle
+    │   ├── Terms & Conditions
+    │   └── Privacy Policy
+    ├── Features
+    ├── Help & Support
+    └── About
+```
+
+---
+
+## Validation Features
+
+### Registration Validation
+- Username (minimum 3 characters)
+- Email (valid format, not registered)
+- Password (minimum 6 characters)
+- Age (13-120 years)
+- Weight (1-300 kg)
+- Height (1-300 cm)
+- Gender selection
+
+### Input Validation
+- Form validation on all inputs
+- Real-time error messages
+- Field-specific validators
+- Range validation for numbers
+
+---
+
+## Calculators
+
+### Daily Calorie Calculator
+- **Inputs**: Age, Weight, Height, Gender, Activity Level
+- **Output**: Daily calorie needs
+- **Features**: BMR calculation (Mifflin-St Jeor), activity multiplier, weight loss/gain adjustments
+
+### Ideal Body Weight Calculator
+- **Inputs**: Height, Gender, Current Weight (optional target)
+- **Output**: Ideal weight target
+- **Features**: Devine formula, auto-detect goal type (lose/gain/maintain), progress tracking
+
+### Protein Intake Calculator
+- **Inputs**: Weight, Body Type (Regular/Bodybuilder)
+- **Output**: Daily protein requirements
+- **Features**: Different calculations for fitness levels, range suggestions (min/max)
+
+---
+
+## Customization
+
+### Colors
+
+Edit `lib/core/theme/app_colors.dart`:
+
+```dart
+Color primaryColor = const Color(0xFFD4AF37);  // Gold
+Color redColor = Colors.red;
+Color greenColor = Colors.green;
+Color blueColor = const Color(0xFF2962FF);
+```
+
+### Theme
+
+Edit `lib/core/theme/app_theme.dart` to customize light/dark theme properties.
+
+---
+
+## Testing
+
+### How to Test
+1. Register a new account
+2. Set goals using calculators
+3. Update measurements
+4. Track progress
+5. Test dark mode toggle
+6. Change settings
+
+---
+
+## Known Issues & Future Improvements
+
+### Current Limitations
+- No backend integration
+- No data export/backup
+- No push notifications
+
+### Future Enhancements
+- Database integration (Firebase)
+- Cloud synchronization
+- Push notifications
+- Social features (sharing goals)
+- Workout plans
+- Nutrition tracking
+- Integration with wearables
+- Analytics and reports
+
+---
+
+## Support
 
 ### Help & Support
-
 - Check in-app FAQs
 - Read troubleshooting guide
 - Email: mahamadbarznji712@gmail.com
 
 ### Contact
-
 - **Issues**: Create GitHub issue
 - **Features**: Submit feature request
 - **Feedback**: Email feedback to support
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-```
-MIT License
-
-Copyright (c) 2026 Fitness Tracker
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
-```
-
 ---
 
-## 👥 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to branch (`git push origin feature/AmazingFeature`)
-5. **Open** a Pull Request
-
-### Contribution Guidelines
-
-- Follow Dart style guide
-- Add comments for complex logic
-- Test your changes
-- Update documentation
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 🙏 Acknowledgments
-
-- Flutter team for amazing framework
-- Material Design for UI/UX guidelines
-- Community for feedback and support
-
----
-
-## 📞 Contact
+## Contact
 
 - **Developer**: muhammed jameel barznji
 - **Email**: mahamadbarznji712@gmail.com
@@ -545,36 +438,35 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📊 Statistics
+## Statistics
 
 - **Lines of Code**: ~3000+
 - **Number of Pages**: 15+
-- **Custom Widgets**: 10+
+- **Custom Widgets**: 20+
 - **Features**: 25+
 - **Calculators**: 3
 
 ---
 
-## 🎉 Version History
+## Version History
 
 ### v1.0.0 (Current)
-
-- ✅ User Authentication
-- ✅ Fitness Calculators
-- ✅ Goal Management
-- ✅ Progress Tracking
-- ✅ Dark Mode Support
-- ✅ Help & Support
+- User Authentication
+- Fitness Calculators
+- Goal Management
+- Progress Tracking
+- Dark Mode Support
+- Help & Support
+- MVVM architecture with Provider
 
 ### v1.1.0 (Upcoming)
-
-- 🔄 Database Integration
-- 🔄 Cloud Sync
-- 🔄 Push Notifications
-- 🔄 Social Sharing
+- Database Integration
+- Cloud Sync
+- Push Notifications
+- Social Sharing
 
 ---
 
-**Made with ❤️ for fitness enthusiasts**
+**Made with for fitness enthusiasts**
 
-⭐ Star this repo if you find it helpful!
+Star this repo if you find it helpful!
