@@ -1,14 +1,1 @@
-import 'package:flutter/material.dart';
-
-AppBar customAppBarr(
-    [String title = "", Color? backgroundColor, Color? foregroundColor]) {
-  return AppBar(
-    title: Text(
-      title,
-      style: TextStyle(
-          color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 22),
-    ),
-    backgroundColor: backgroundColor,
-    foregroundColor: foregroundColor,
-  );
-}
+import 'package:flutter/material.dart';AppBar customAppBarr(    [String title = "", Color? backgroundColor, Color? foregroundColor]) {  return AppBar(    title: Text(      title,      style: TextStyle(          color: foregroundColor, fontWeight: FontWeight.bold, fontSize: 22),    ),    backgroundColor: backgroundColor,    foregroundColor: foregroundColor,  );}

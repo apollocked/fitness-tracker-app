@@ -7,21 +7,21 @@
 
 #include "flutter/generated_plugin_registrant.h"
 
-struct _MyApplication {
+struct _fit_trackerlication {
   GtkApplication parent_instance;
   char** dart_entrypoint_arguments;
 };
 
-G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
+G_DEFINE_TYPE(fit_trackerlication, my_application, GTK_TYPE_APPLICATION)
 
 // Called when first Flutter frame received.
-static void first_frame_cb(MyApplication* self, FlView* view) {
+static void first_frame_cb(fit_trackerlication* self, FlView* view) {
   gtk_widget_show(gtk_widget_get_toplevel(GTK_WIDGET(view)));
 }
 
 // Implements GApplication::activate.
 static void my_application_activate(GApplication* application) {
-  MyApplication* self = MY_APPLICATION(application);
+  fit_trackerlication* self = MY_APPLICATION(application);
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
@@ -45,11 +45,11 @@ static void my_application_activate(GApplication* application) {
   if (use_header_bar) {
     GtkHeaderBar* header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
     gtk_widget_show(GTK_WIDGET(header_bar));
-    gtk_header_bar_set_title(header_bar, "myapp");
+    gtk_header_bar_set_title(header_bar, "fit_tracker");
     gtk_header_bar_set_show_close_button(header_bar, TRUE);
     gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
   } else {
-    gtk_window_set_title(window, "myapp");
+    gtk_window_set_title(window, "fit_tracker");
   }
 
   gtk_window_set_default_size(window, 1280, 720);
@@ -82,7 +82,7 @@ static void my_application_activate(GApplication* application) {
 static gboolean my_application_local_command_line(GApplication* application,
                                                   gchar*** arguments,
                                                   int* exit_status) {
-  MyApplication* self = MY_APPLICATION(application);
+  fit_trackerlication* self = MY_APPLICATION(application);
   // Strip out the first argument as it is the binary name.
   self->dart_entrypoint_arguments = g_strdupv(*arguments + 1);
 
@@ -101,7 +101,7 @@ static gboolean my_application_local_command_line(GApplication* application,
 
 // Implements GApplication::startup.
 static void my_application_startup(GApplication* application) {
-  // MyApplication* self = MY_APPLICATION(object);
+  // fit_trackerlication* self = MY_APPLICATION(object);
 
   // Perform any actions required at application startup.
 
@@ -110,7 +110,7 @@ static void my_application_startup(GApplication* application) {
 
 // Implements GApplication::shutdown.
 static void my_application_shutdown(GApplication* application) {
-  // MyApplication* self = MY_APPLICATION(object);
+  // fit_trackerlication* self = MY_APPLICATION(object);
 
   // Perform any actions required at application shutdown.
 
@@ -119,12 +119,12 @@ static void my_application_shutdown(GApplication* application) {
 
 // Implements GObject::dispose.
 static void my_application_dispose(GObject* object) {
-  MyApplication* self = MY_APPLICATION(object);
+  fit_trackerlication* self = MY_APPLICATION(object);
   g_clear_pointer(&self->dart_entrypoint_arguments, g_strfreev);
   G_OBJECT_CLASS(my_application_parent_class)->dispose(object);
 }
 
-static void my_application_class_init(MyApplicationClass* klass) {
+static void my_application_class_init(fit_trackerlicationClass* klass) {
   G_APPLICATION_CLASS(klass)->activate = my_application_activate;
   G_APPLICATION_CLASS(klass)->local_command_line =
       my_application_local_command_line;
@@ -133,9 +133,9 @@ static void my_application_class_init(MyApplicationClass* klass) {
   G_OBJECT_CLASS(klass)->dispose = my_application_dispose;
 }
 
-static void my_application_init(MyApplication* self) {}
+static void my_application_init(fit_trackerlication* self) {}
 
-MyApplication* my_application_new() {
+fit_trackerlication* my_application_new() {
   // Set the program name to the application ID, which helps various systems
   // like GTK and desktop environments map this running application to its
   // corresponding .desktop file. This ensures better integration by allowing

@@ -3,7 +3,7 @@
 
 #include <gtk/gtk.h>
 
-G_DECLARE_FINAL_TYPE(MyApplication,
+G_DECLARE_FINAL_TYPE(fit_trackerlication,
                      my_application,
                      MY,
                      APPLICATION,
@@ -14,8 +14,8 @@ G_DECLARE_FINAL_TYPE(MyApplication,
  *
  * Creates a new Flutter-based application.
  *
- * Returns: a new #MyApplication.
+ * Returns: a new #fit_trackerlication.
  */
-MyApplication* my_application_new();
+fit_trackerlication* my_application_new();
 
 #endif  // FLUTTER_MY_APPLICATION_H_
