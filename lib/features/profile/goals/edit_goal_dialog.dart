@@ -147,8 +147,9 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
   }
 
   void _saveChanges() {
-    if (_targetController.text.isEmpty || _currentController.text.isEmpty)
+    if (_targetController.text.isEmpty || _currentController.text.isEmpty) {
       return;
+    }
     final cubit = context.read<GoalsCubit>();
     final goal = cubit.state.goals[widget.goalKey]!;
     double targetValue = double.tryParse(_targetController.text) ?? 0.0;
@@ -176,4 +177,3 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     Navigator.pop(context);
   }
 }
-

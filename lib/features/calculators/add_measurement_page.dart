@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +55,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
         // Add measurement
 
         // Save measurement to progress cubit
-        final progressCubit = context.read<ProgressCubit>();
+        context.read<ProgressCubit>();
 
         // Update user weight
         final authCubit = context.read<AuthCubit>();
@@ -107,9 +109,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           }
         }
       }
-    } catch (e) {
-      print('Error updating weight goal: $e');
-    }
+    } catch (e) {}
   }
 
   @override

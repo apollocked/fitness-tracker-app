@@ -1,6 +1,5 @@
 import 'package:fit_tracker/app/models/user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/app/repositories/auth_repository.dart';
 import 'package:fit_tracker/app/repositories/user_repository.dart';
 

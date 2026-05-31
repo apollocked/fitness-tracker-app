@@ -154,10 +154,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         onSaved: (value) {},
                         text: "Email",
                         validator: (value) {
-                          if (value == null || value.isEmpty)
+                          if (value == null || value.isEmpty) {
                             return "Email is required";
-                          if (!value.contains('@'))
+                          }
+                          if (!value.contains('@')) {
                             return "Enter a valid email";
+                          }
                           return null;
                         },
                         isObscure: false,
@@ -271,4 +273,3 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
-

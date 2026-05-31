@@ -1,3 +1,4 @@
+import 'package:fit_tracker/app/services/goals_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/widgets/custom_appbar.dart';
 import 'package:fit_tracker/widgets/custom_elevated_button.dart';
@@ -278,4 +279,3 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     );
   }
 }
-
