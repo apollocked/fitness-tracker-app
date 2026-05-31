@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
-import 'package:fit_tracker/widgets/custom_elevated_button.dart';
-import 'package:fit_tracker/widgets/custom_textfield.dart';
-import 'package:fit_tracker/widgets/protein_dialog.dart';
-import 'package:fit_tracker/widgets/select_workout_type.dart';
-import 'package:fit_tracker/app/services/goals_service.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
+import 'package:fit_tracker/shared/widgets/custom_elevated_button.dart';
+import 'package:fit_tracker/shared/widgets/custom_textfield.dart';
+import 'package:fit_tracker/shared/widgets/protein_dialog.dart';
+import 'package:fit_tracker/shared/widgets/select_workout_type.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
 
 class ProtienIntakePage extends StatefulWidget {
   final VoidCallback? onGoalsUpdated;
@@ -53,7 +53,10 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
       final targetProtein = !_isBodybuilder ? normalProteins : maxProteins;
 
       // Save protein goal WITHOUT current value (only target)
-      GoalsService.updateGoalFromCalculator('protein', targetProtein);
+      context.read<GoalsViewModel>().updateGoal('protein', {
+        'target': targetProtein,
+        'active': true,
+      });
 
       // Notify parent if callback exists
       widget.onGoalsUpdated?.call();

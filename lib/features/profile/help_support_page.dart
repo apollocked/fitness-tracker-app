@@ -1,10 +1,10 @@
 // ignore_for_file: unnecessary_to_list_in_spreads
 
 import 'package:flutter/material.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
-import 'package:fit_tracker/widgets/support_contact_widget.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
+import 'package:fit_tracker/shared/widgets/support_contact_widget.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
 
 class HelpAndSupportPage extends StatefulWidget {
   const HelpAndSupportPage({super.key});

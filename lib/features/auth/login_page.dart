@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/widgets/custom_textfield.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/shared/widgets/custom_textfield.dart';
 import 'package:fit_tracker/features/navigation/layout_page.dart';
 import 'package:fit_tracker/features/auth/widgets/auth_footer_widget.dart';
 import 'package:fit_tracker/features/auth/widgets/auth_header_widget.dart';
 import 'package:fit_tracker/features/auth/register_page.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,10 +30,10 @@ class _LoginPageState extends State<LoginPage> {
     if (!_formKey.currentState!.validate()) return;
     final email = _emailController.text.trim();
     final password = _passwordController.text;
-    await context.read<AuthCubit>().login(email, password);
+    final authVM = context.read<AuthViewModel>();
+    await authVM.login(email, password);
     if (!context.mounted) return;
-    final state = context.read<AuthCubit>().state;
-    if (state.user == null) {
+    if (authVM.currentUser == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content:
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isLoading = context.watch<AuthCubit>().state.isLoading;
+    final isLoading = context.watch<AuthViewModel>().isLoading;
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(

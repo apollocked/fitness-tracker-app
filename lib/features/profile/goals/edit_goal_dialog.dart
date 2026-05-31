@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/widgets/custom_dialog_text_field.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/cubits/goals_cubit.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/shared/widgets/custom_dialog_text_field.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
 
 class EditGoalDialog extends StatefulWidget {
   final String goalKey;
@@ -20,7 +20,8 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
   @override
   void initState() {
     super.initState();
-    final goal = context.read<GoalsCubit>().state.goals[widget.goalKey]!;
+    final goalsVM = context.read<GoalsViewModel>();
+    final goal = goalsVM.goals[widget.goalKey]!;
     _targetController = TextEditingController(text: goal['target'].toString());
     _currentController =
         TextEditingController(text: goal['current'].toString());
@@ -47,7 +48,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final goal = context.read<GoalsCubit>().state.goals[widget.goalKey]!;
+    final goal = context.read<GoalsViewModel>().goals[widget.goalKey]!;
     return AlertDialog(
       backgroundColor: colors.cardColor,
       title: Text(
@@ -150,8 +151,8 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     if (_targetController.text.isEmpty || _currentController.text.isEmpty) {
       return;
     }
-    final cubit = context.read<GoalsCubit>();
-    final goal = cubit.state.goals[widget.goalKey]!;
+    final goalsVM = context.read<GoalsViewModel>();
+    final goal = goalsVM.goals[widget.goalKey]!;
     double targetValue = double.tryParse(_targetController.text) ?? 0.0;
     double currentValue = double.tryParse(_currentController.text) ?? 0.0;
     if (goal['unit'] == 'cal') {
@@ -173,7 +174,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
               ? currentValue
               : goal['startWeight'];
     }
-    cubit.updateGoal(widget.goalKey, updatedGoal);
+    goalsVM.updateGoal(widget.goalKey, updatedGoal);
     Navigator.pop(context);
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/app/cubits/goals_cubit.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
 
 class GoalsSquareCard extends StatelessWidget {
   final String goalKey;
@@ -10,7 +10,7 @@ class GoalsSquareCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final goal = context.watch<GoalsCubit>().state.goals[goalKey];
+    final goal = context.watch<GoalsViewModel>().goals[goalKey];
     if (goal == null) return const SizedBox();
     final target = goal['target'];
     final unit = goal['unit'];

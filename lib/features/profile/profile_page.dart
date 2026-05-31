@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
 import 'package:fit_tracker/features/profile/about_page.dart';
 import 'package:fit_tracker/features/profile/goals/goals_page.dart';
 import 'package:fit_tracker/features/profile/features_page.dart';
@@ -8,9 +8,9 @@ import 'package:fit_tracker/features/profile/help_support_page.dart';
 import 'package:fit_tracker/features/profile/logout_dialog.dart';
 import 'package:fit_tracker/features/profile/personal_info_page.dart';
 import 'package:fit_tracker/features/profile/settings/settings_page.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
-    final user = context.watch<AuthCubit>().state.user;
+    final user = context.watch<AuthViewModel>().currentUser;
     if (user == null) {
       return Scaffold(
         appBar: customAppBarr(

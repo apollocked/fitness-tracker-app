@@ -1,13 +1,13 @@
-import 'package:fit_tracker/app/services/goals_service.dart';
 import 'package:flutter/material.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
-import 'package:fit_tracker/widgets/custom_elevated_button.dart';
-import 'package:fit_tracker/widgets/daily_calorie_input_section.dart';
-import 'package:fit_tracker/widgets/daily_calories_dialog.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
+import 'package:fit_tracker/shared/widgets/custom_elevated_button.dart';
+import 'package:fit_tracker/shared/widgets/daily_calorie_input_section.dart';
+import 'package:fit_tracker/shared/widgets/daily_calories_dialog.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
 
 class DailyCaloriePage extends StatefulWidget {
   final VoidCallback? onGoalsUpdated;
@@ -32,7 +32,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   @override
   void initState() {
     super.initState();
-    final user = context.read<AuthCubit>().state.user;
+    final user = context.read<AuthViewModel>().currentUser;
     if (user != null) {
       _gender = user.gender;
       final weightGoal = user.goals['weight'];
@@ -93,7 +93,10 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
       dailyCalories = (dailyCalories / 10).round() * 10;
 
       // Save calorie goal WITHOUT current value (only target)
-      GoalsService.updateGoalFromCalculator('calories', dailyCalories);
+      context.read<GoalsViewModel>().updateGoal('calories', {
+        'target': dailyCalories,
+        'active': true,
+      });
 
       // Notify parent if callback exists
       widget.onGoalsUpdated?.call();

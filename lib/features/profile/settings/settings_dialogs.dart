@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/widgets/custom_dialog_text_field.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/shared/widgets/custom_dialog_text_field.dart';
 import 'package:fit_tracker/features/auth/register_page.dart';
-import 'package:fit_tracker/app/services/storage_service.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
-import 'package:fit_tracker/app/cubits/settings_cubit.dart';
+import 'package:fit_tracker/shared/services/storage_service.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
+import 'package:fit_tracker/features/app/presentation/app_viewmodel.dart';
 
 class SettingsDialogs {
   static void showChangePasswordDialog(BuildContext context) {
-    if (context.read<AuthCubit>().state.user == null) return;
+    if (context.read<AuthViewModel>().currentUser == null) return;
     final oldPasswordController = TextEditingController();
     final newPasswordController = TextEditingController();
     final confirmPasswordController = TextEditingController();
@@ -52,16 +52,16 @@ class SettingsDialogs {
                     backgroundColor: Colors.red));
                 return;
               }
-              final cubit = dialogContext.read<SettingsCubit>();
-              final success = await cubit.changePassword(
+              final appVM = dialogContext.read<AppViewModel>();
+              final success = await appVM.changePassword(
                   oldPasswordController.text, newPasswordController.text);
               if (success) Navigator.pop(dialogContext);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(cubit.state.successMessage ??
-                      cubit.state.error ??
+                  content: Text(appVM.successMessage ??
+                      appVM.settingsError ??
                       'Done'),
-                  backgroundColor: cubit.state.successMessage != null
+                  backgroundColor: appVM.successMessage != null
                       ? Colors.green
                       : Colors.red,
                 ),
@@ -75,7 +75,7 @@ class SettingsDialogs {
   }
 
   static void showEditProfileDialog(BuildContext context, Function onSave) {
-    final user = context.read<AuthCubit>().state.user;
+    final user = context.read<AuthViewModel>().currentUser;
     if (user == null) return;
     final usernameController = TextEditingController(text: user.username);
     final emailController = TextEditingController(text: user.email);
@@ -107,8 +107,8 @@ class SettingsDialogs {
                     backgroundColor: Colors.red));
                 return;
               }
-              final cubit = dialogContext.read<SettingsCubit>();
-              final success = await cubit.updateProfile(
+              final appVM = dialogContext.read<AppViewModel>();
+              final success = await appVM.updateProfile(
                   usernameController.text, emailController.text);
               if (success) {
                 onSave();
@@ -116,10 +116,10 @@ class SettingsDialogs {
               }
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(cubit.state.successMessage ??
-                      cubit.state.error ??
+                  content: Text(appVM.successMessage ??
+                      appVM.settingsError ??
                       'Done'),
-                  backgroundColor: cubit.state.successMessage != null
+                  backgroundColor: appVM.successMessage != null
                       ? Colors.green
                       : Colors.red,
                 ),
@@ -150,13 +150,13 @@ class SettingsDialogs {
               child: const Text('Cancel')),
           TextButton(
             onPressed: () async {
-              if (context.read<AuthCubit>().state.user == null) {
+              if (context.read<AuthViewModel>().currentUser == null) {
                 Navigator.pop(dialogContext);
                 return;
               }
               try {
                 Navigator.pop(dialogContext);
-                await context.read<AuthCubit>().deleteAccount();
+                await context.read<AuthViewModel>().deleteAccount();
                 await StorageService.clearAll();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

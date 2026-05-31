@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
 
 class AuthFooter extends StatelessWidget {
   final String buttonText;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
 
 class AppTheme {
   AppTheme._(); // Prevent instantiation
@@ -134,12 +134,14 @@ class AppTheme {
           AppColorsExtension(
             cardColor: Color.fromARGB(255, 255, 254, 246),
             textColor: Colors.black87,
-            subtitleColor: Color(0xFF757575),
-            insideButtonColor: Color(0xFFFAFAFA),
-            shadowColor: Color(0x1A9E9E9E),
+            subtitleColor: Color(0xFF757575), // Colors.grey[600]
+            insideButtonColor: Color(0xFFFAFAFA), // Colors.grey[50]
+            shadowColor: Color(0x1A9E9E9E), // Colors.grey.withOpacity(0.1)
           ),
         ],
       );
+
+  // Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½ Dark Theme Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½Gï¿½ï¿½
 
   static ThemeData get darkTheme => ThemeData(
         useMaterial3: true,
@@ -159,7 +161,7 @@ class AppTheme {
           foregroundColor: darkText,
           elevation: 0,
           centerTitle: true,
-          titleTextStyle: const TextStyle(
+          titleTextStyle: TextStyle(
             color: darkText,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -190,7 +192,7 @@ class AppTheme {
         ),
 
         // Text
-        textTheme: const TextTheme(
+        textTheme: TextTheme(
           headlineLarge: TextStyle(
             color: darkText,
             fontSize: 28,
@@ -216,7 +218,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          titleTextStyle: const TextStyle(
+          titleTextStyle: TextStyle(
             color: darkText,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -262,7 +264,7 @@ class AppTheme {
         ),
 
         // Icon
-        iconTheme: const IconThemeData(
+        iconTheme: IconThemeData(
           color: darkText,
         ),
 
@@ -271,15 +273,16 @@ class AppTheme {
           AppColorsExtension(
             cardColor: darkCard,
             textColor: darkText,
-            subtitleColor: Color(0xFFBDBDBD),
+            subtitleColor: Color(0xFFBDBDBD), // Colors.grey[400]
             insideButtonColor: darkBg,
-            shadowColor: Color(0x4D000000),
+            shadowColor: Color(0x4D000000), // Colors.black.withOpacity(0.3)
           ),
         ],
       );
 }
 
-/// Custom theme extension for app-specific colors
+/// Custom theme extension for app-specific colors that don't map
+/// directly to Material's ColorScheme.
 @immutable
 class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color cardColor;
@@ -296,6 +299,7 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.shadowColor,
   });
 
+  /// Standard card BoxDecoration using the current theme colors.
   BoxDecoration get cardDecoration => BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(12),
@@ -338,3 +342,4 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     );
   }
 }
+

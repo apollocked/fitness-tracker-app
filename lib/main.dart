@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:fit_tracker/features/navigation/layout_page.dart';
 import 'package:fit_tracker/features/profile/settings/privacy_policy_page.dart';
 import 'package:fit_tracker/features/profile/settings/terms_conditions_page.dart';
-import 'package:fit_tracker/app/cubits/theme_cubit.dart';
-import 'package:fit_tracker/app/cubits/navigation_cubit.dart';
 import 'package:fit_tracker/features/calculators/ideal_bw_page.dart';
 import 'package:fit_tracker/features/calculators/protien_intake_page.dart';
 import 'package:fit_tracker/features/calculators/daily_calorie_page.dart';
 import 'package:fit_tracker/features/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/features/profile/features_page.dart';
 import 'package:fit_tracker/features/auth/login_page.dart';
-import 'package:fit_tracker/app/services/storage_service.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/repositories/local_auth_repository.dart';
-import 'package:fit_tracker/app/repositories/local_user_repository.dart';
-import 'package:fit_tracker/app/repositories/local_measurement_repository.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
-import 'package:fit_tracker/app/cubits/goals_cubit.dart';
-import 'package:fit_tracker/app/cubits/settings_cubit.dart';
-import 'package:fit_tracker/app/cubits/progress_cubit.dart';
+import 'package:fit_tracker/shared/services/storage_service.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/auth/data/repositories/local_auth_repository.dart';
+import 'package:fit_tracker/features/auth/data/repositories/local_user_repository.dart';
+import 'package:fit_tracker/features/auth/data/repositories/local_measurement_repository.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
+import 'package:fit_tracker/features/app/presentation/app_viewmodel.dart';
+import 'package:fit_tracker/features/progress/presentation/progress_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,15 +46,12 @@ class FitApp extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiProvider(
       providers: [
-        BlocProvider(create: (_) => AuthCubit(authRepository, userRepository)),
-        BlocProvider(create: (_) => GoalsCubit(userRepository, authRepository)),
-        BlocProvider(
-            create: (_) => SettingsCubit(authRepository, userRepository)),
-        BlocProvider(create: (_) => ProgressCubit(measurementRepository)),
-        BlocProvider(create: (_) => ThemeCubit()),
-        BlocProvider(create: (_) => NavigationCubit()),
+        ChangeNotifierProvider(create: (_) => AuthViewModel(authRepository, userRepository)),
+        ChangeNotifierProvider(create: (_) => GoalsViewModel(userRepository, authRepository)),
+        ChangeNotifierProvider(create: (_) => AppViewModel(authRepository, userRepository)),
+        ChangeNotifierProvider(create: (_) => ProgressViewModel(measurementRepository)),
       ],
       child: const _FitAppBuilder(),
     );
@@ -67,18 +62,18 @@ class _FitAppBuilder extends StatelessWidget {
   const _FitAppBuilder();
   @override
   Widget build(BuildContext context) {
-    final themeCubit = context.watch<ThemeCubit>();
-    final authState = context.watch<AuthCubit>().state;
-    if (authState.user?.darkMode != null) {
-      themeCubit.setDarkMode(authState.user!.darkMode);
+    final appVM = context.watch<AppViewModel>();
+    final authVM = context.watch<AuthViewModel>();
+    if (authVM.currentUser?.darkMode != null) {
+      appVM.setDarkMode(authVM.currentUser!.darkMode);
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Fitness Tracker",
-      themeMode: themeCubit.state,
+      themeMode: appVM.themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      home: authState.isLoggedIn ? const LayoutPage() : const LoginPage(),
+      home: authVM.isLoggedIn ? const LayoutPage() : const LoginPage(),
       routes: {
         '/terms-conditions': (context) => const TermsConditionsPage(),
         '/privacy-policy': (context) => const PrivacyPolicyPage(),

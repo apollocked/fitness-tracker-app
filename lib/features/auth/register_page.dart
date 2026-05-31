@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/widgets/custom_textfield.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/shared/widgets/custom_textfield.dart';
 import 'package:fit_tracker/features/auth/widgets/auth_footer_widget.dart';
 import 'package:fit_tracker/features/auth/widgets/auth_header_widget.dart';
 import 'package:fit_tracker/features/auth/widgets/personal_info_section.dart';
 import 'package:fit_tracker/features/auth/login_page.dart';
-import 'package:fit_tracker/app/services/registration_validator.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
-import 'package:fit_tracker/app/models/user_model.dart';
+import 'package:fit_tracker/shared/services/registration_validator.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
+import 'package:fit_tracker/features/auth/data/models/user_model.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -40,8 +40,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> register(BuildContext context) async {
     if (!_formKey.currentState!.validate()) return;
-    final authCubit = context.read<AuthCubit>();
-    if (authCubit.emailExists(_emailController.text.trim())) {
+    final authVM = context.read<AuthViewModel>();
+    if (authVM.emailExists(_emailController.text.trim())) {
       _showError("Email already registered");
       return;
     }
@@ -78,9 +78,9 @@ class _RegisterPageState extends State<RegisterPage> {
         'calories': {'target': 0, 'unit': 'cal', 'active': false},
       },
     );
-    await authCubit.register(user);
+    await authVM.register(user);
     if (!context.mounted) return;
-    if (authCubit.state.user != null) {
+    if (authVM.currentUser != null) {
       _showSuccess("Account created successfully!");
       await Future.delayed(const Duration(milliseconds: 500));
       if (mounted) {
@@ -109,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.extension<AppColorsExtension>()!;
-    final isLoading = context.watch<AuthCubit>().state.isLoading;
+    final isLoading = context.watch<AuthViewModel>().isLoading;
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
 
 Widget buildSectionTitle(BuildContext context, String title) {
   final colors = Theme.of(context).extension<AppColorsExtension>()!;

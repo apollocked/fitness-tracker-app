@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fit_tracker/widgets/custom_textfield.dart';
-import 'package:fit_tracker/widgets/select_gender_radio.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/shared/widgets/custom_textfield.dart';
+import 'package:fit_tracker/shared/widgets/select_gender_radio.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
 
 class PersonalInfoSection extends StatelessWidget {
   final TextEditingController ageController;

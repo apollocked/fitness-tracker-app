@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:fit_tracker/features/auth/login_page.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
 
 class LogoutDialog {
   static void show(BuildContext context) {
@@ -22,7 +22,7 @@ class LogoutDialog {
                 child: const Text('Cancel')),
             TextButton(
               onPressed: () async {
-                await context.read<AuthCubit>().logout();
+                await context.read<AuthViewModel>().logout();
                 if (context.mounted) {
                   Navigator.pushAndRemoveUntil(
                     context,

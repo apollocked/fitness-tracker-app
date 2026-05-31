@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
 
 class PersonalInfoPage extends StatelessWidget {
   const PersonalInfoPage({super.key});
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<AuthCubit>().state.user;
+    final user = context.watch<AuthViewModel>().currentUser;
     final theme = Theme.of(context);
     if (user == null) {
       return Scaffold(

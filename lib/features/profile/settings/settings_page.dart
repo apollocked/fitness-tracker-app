@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/app/cubits/theme_cubit.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/features/app/presentation/app_viewmodel.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
 import 'package:fit_tracker/features/profile/settings/settings_dialogs.dart';
 import 'package:fit_tracker/features/profile/settings/settings_section_widget.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/app/cubits/auth_cubit.dart';
-import 'package:fit_tracker/app/cubits/settings_cubit.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
   Future<void> _onDarkModeChanged(BuildContext context, bool value) async {
-    final themeCubit = context.read<ThemeCubit>();
-    final authCubit = context.read<AuthCubit>();
-    themeCubit.setDarkMode(value);
-    if (authCubit.state.user != null) {
-      final updated = authCubit.state.user!.copyWith(darkMode: value);
-      authCubit.updateUser(updated);
+    final appVM = context.read<AppViewModel>();
+    final authVM = context.read<AuthViewModel>();
+    appVM.setDarkMode(value);
+    if (authVM.currentUser != null) {
+      final updated = authVM.currentUser!.copyWith(darkMode: value);
+      authVM.updateUser(updated);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeCubit = context.watch<ThemeCubit>();
-    final settingsCubit = context.watch<SettingsCubit>();
+    final appVM = context.watch<AppViewModel>();
     return Scaffold(
       appBar: customAppBarr('Settings', primaryColor,
           Theme.of(context).scaffoldBackgroundColor),
@@ -58,8 +56,8 @@ class SettingsPage extends StatelessWidget {
                   Icons.notifications,
                   'All Notifications',
                   'Enable/disable notifications',
-                  settingsCubit.state.notificationsEnabled, (value) {
-                context.read<SettingsCubit>().setNotifications(value);
+                  appVM.notificationsEnabled, (value) {
+                appVM.setNotifications(value);
               }),
             ]),
             const SizedBox(height: 24),
@@ -70,7 +68,7 @@ class SettingsPage extends StatelessWidget {
                   Icons.dark_mode,
                   'Dark Mode',
                   'Toggle dark/light theme',
-                  themeCubit.isDarkMode,
+                  appVM.isDarkMode,
                   (value) => _onDarkModeChanged(context, value)),
             ]),
             const SizedBox(height: 24),

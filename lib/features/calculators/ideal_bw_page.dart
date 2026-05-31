@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
-import 'package:fit_tracker/widgets/custom_elevated_button.dart';
-import 'package:fit_tracker/widgets/custom_textfield.dart';
-import 'package:fit_tracker/widgets/select_gender_radio.dart';
-import 'package:fit_tracker/widgets/ideal_weight_dialog.dart';
-import 'package:fit_tracker/app/services/goals_service.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
+import 'package:fit_tracker/shared/widgets/custom_elevated_button.dart';
+import 'package:fit_tracker/shared/widgets/custom_textfield.dart';
+import 'package:fit_tracker/shared/widgets/select_gender_radio.dart';
+import 'package:fit_tracker/shared/widgets/ideal_weight_dialog.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
 
 class IdealBodyWeightPage extends StatefulWidget {
   final VoidCallback? onGoalsUpdated;
@@ -66,11 +66,13 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
       weightDifference = (weightDifference * 100).round() / 100;
 
       // Save as weight goal with automatically determined goal type
-      GoalsService.updateWeightGoalWithTarget(
-        currentWeight,
-        targetWeight,
-        goalType,
-      );
+      context.read<GoalsViewModel>().updateGoal('weight', {
+        'target': targetWeight,
+        'current': currentWeight,
+        'startWeight': currentWeight,
+        'goalType': goalType,
+        'active': true,
+      });
 
       // Notify parent if callback exists
       widget.onGoalsUpdated?.call();

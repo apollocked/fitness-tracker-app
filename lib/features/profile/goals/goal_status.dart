@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/app/cubits/goals_cubit.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
 
 class GoalsStats extends StatelessWidget {
   const GoalsStats({super.key});
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final cubit = context.watch<GoalsCubit>();
-    final state = cubit.state;
+    final cubit = context.watch<GoalsViewModel>();
     final activeGoals =
-        state.goals.values.where((g) => g['active'] == true).length;
+        cubit.goals.values.where((g) => g['active'] == true).length;
     final completedGoals = cubit.completedCount;
     return Container(
       margin: const EdgeInsets.all(16),
@@ -22,7 +21,7 @@ class GoalsStats extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildStatItem(
-              colors, 'Total', state.goals.length.toString(), Icons.list),
+              colors, 'Total', cubit.goals.length.toString(), Icons.list),
           _buildStatItem(colors, 'Active', activeGoals.toString(), Icons.flag),
           _buildStatItem(colors, 'Completed', completedGoals.toString(),
               Icons.check_circle),

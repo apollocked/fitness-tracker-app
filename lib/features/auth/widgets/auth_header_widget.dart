@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fit_tracker/core/constants.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
 
 class AuthHeader extends StatelessWidget {
   final String title;
@@ -18,7 +17,7 @@ class AuthHeader extends StatelessWidget {
     final subtitleColor = isDark ? Colors.grey[400] : Colors.grey[600];
     return Column(
       children: [
-        logoWidget,
+        const Icon(Icons.fitness_center, size: 80, color: primaryColor),
         const SizedBox(height: 30),
         Text(
           title,

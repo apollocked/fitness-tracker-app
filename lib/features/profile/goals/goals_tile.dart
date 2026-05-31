@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:fit_tracker/features/profile/goals/edit_goal_dialog.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/app/cubits/goals_cubit.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
 
 class GoalTile extends StatelessWidget {
   final String goalKey;
@@ -11,8 +11,8 @@ class GoalTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final cubit = context.watch<GoalsCubit>();
-    final goal = cubit.state.goals[goalKey];
+    final cubit = context.watch<GoalsViewModel>();
+    final goal = cubit.goals[goalKey];
     if (goal == null) return const SizedBox();
     final progress = cubit.getProgress(goalKey);
     final percent = (progress * 100).toInt();
@@ -33,7 +33,7 @@ class GoalTile extends StatelessWidget {
                 : Colors.grey.withOpacity(0.1),
             shape: BoxShape.circle,
           ),
-          child: Icon(GoalsCubit.getGoalIcon(goalKey),
+          child: Icon(GoalsViewModel.getGoalIcon(goalKey),
               color: isActive ? cubit.getProgressColor(goalKey) : Colors.grey),
         ),
         title: Row(
@@ -47,7 +47,7 @@ class GoalTile extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: colors.textColor)),
-                  Text(GoalsCubit.getGoalDescription(goalKey),
+                  Text(GoalsViewModel.getGoalDescription(goalKey),
                       style:
                           TextStyle(fontSize: 12, color: colors.subtitleColor)),
                 ],

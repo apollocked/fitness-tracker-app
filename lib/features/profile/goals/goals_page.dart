@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
+import 'package:provider/provider.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
 import 'package:fit_tracker/features/profile/goals/goal_status.dart';
 import 'package:fit_tracker/features/profile/goals/goals_list.dart';
 import 'package:fit_tracker/features/profile/goals/goals_square_row.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/cubits/goals_cubit.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
 
 class GoalsPage extends StatelessWidget {
   const GoalsPage({super.key});
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final goalsState = context.watch<GoalsCubit>().state;
+    final goalsVM = context.watch<GoalsViewModel>();
     return Scaffold(
       appBar: customAppBarr(
           'My Goals', primaryColor, Theme.of(context).scaffoldBackgroundColor),
@@ -25,7 +25,7 @@ class GoalsPage extends StatelessWidget {
           const GoalsSquareRow(),
           const SizedBox(height: 16),
           Expanded(
-            child: goalsState.goals.containsKey('weight')
+            child: goalsVM.goals.containsKey('weight')
                 ? const GoalsList()
                 : _buildNoWeightGoalState(colors, context),
           ),

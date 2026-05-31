@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:fit_tracker/widgets/custom_appbar.dart';
-import 'package:fit_tracker/widgets/custom_elevated_button.dart';
+import 'package:fit_tracker/shared/widgets/custom_appbar.dart';
+import 'package:fit_tracker/shared/widgets/custom_elevated_button.dart';
 import 'package:fit_tracker/features/calculators/add_measurement_page.dart';
-import 'package:fit_tracker/core/theme/colors.dart';
-import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/app/cubits/progress_cubit.dart';
+import 'package:fit_tracker/config/theme/app_colors.dart';
+import 'package:fit_tracker/config/theme/app_theme.dart';
+import 'package:fit_tracker/features/progress/presentation/progress_viewmodel.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -18,14 +18,14 @@ class _ProgressPageState extends State<ProgressPage> {
   @override
   void initState() {
     super.initState();
-    context.read<ProgressCubit>().loadMeasurements();
+      context.read<ProgressViewModel>().loadMeasurements();
   }
 
   void _navigateToAddMeasurement() async {
     final result = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => const AddMeasurementPage()));
     if (result == true && context.mounted) {
-      context.read<ProgressCubit>().loadMeasurements();
+    context.read<ProgressViewModel>().loadMeasurements();
     }
   }
 
@@ -101,7 +101,7 @@ class _ProgressPageState extends State<ProgressPage> {
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () => context
-                          .read<ProgressCubit>()
+                          .read<ProgressViewModel>()
                           .deleteMeasurement(index),
                     ),
                   ],
@@ -133,7 +133,7 @@ class _ProgressPageState extends State<ProgressPage> {
 
   @override
   Widget build(BuildContext context) {
-    final measurements = context.watch<ProgressCubit>().state.measurements;
+    final measurements = context.watch<ProgressViewModel>().measurements;
     return Scaffold(
       appBar: customAppBarr(
           'Progress', primaryColor, Theme.of(context).scaffoldBackgroundColor),
