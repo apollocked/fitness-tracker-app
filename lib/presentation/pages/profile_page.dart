@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_tracker/presentation/widgets/custom_appbar.dart';
-import 'package:fit_tracker/presentation/pages/about_page.dart';
-import 'package:fit_tracker/presentation/pages/goals_page.dart';
-import 'package:fit_tracker/presentation/pages/features_page.dart';
-import 'package:fit_tracker/presentation/pages/help_support_page.dart';
-import 'package:fit_tracker/presentation/widgets/logout_dialog.dart';
-import 'package:fit_tracker/presentation/pages/personal_info_page.dart';
-import 'package:fit_tracker/presentation/pages/settings_page.dart';
+import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
+import 'package:fit_tracker/presentation/pages/profile_child_pages/about_page.dart';
+import 'package:fit_tracker/presentation/pages/profile_child_pages/goals_page.dart';
+import 'package:fit_tracker/presentation/pages/profile_child_pages/features_page.dart';
+import 'package:fit_tracker/presentation/pages/profile_child_pages/help_support_page.dart';
+import 'package:fit_tracker/presentation/widgets/profile/logout_dialog.dart';
+import 'package:fit_tracker/presentation/pages/profile_child_pages/personal_info_page.dart';
+import 'package:fit_tracker/presentation/pages/profile_child_pages/settings_page.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -149,5 +149,3 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
-
-

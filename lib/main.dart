@@ -1,24 +1,24 @@
+import 'package:fit_tracker/logic/porviders/progress_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/pages/layout_page.dart';
-import 'package:fit_tracker/presentation/pages/privacy_policy_page.dart';
-import 'package:fit_tracker/presentation/pages/terms_conditions_page.dart';
-import 'package:fit_tracker/presentation/pages/ideal_bw_page.dart';
-import 'package:fit_tracker/presentation/pages/protien_intake_page.dart';
-import 'package:fit_tracker/presentation/pages/daily_calorie_page.dart';
-import 'package:fit_tracker/presentation/pages/add_measurement_page.dart';
-import 'package:fit_tracker/presentation/pages/features_page.dart';
-import 'package:fit_tracker/presentation/pages/login_page.dart';
+import 'package:fit_tracker/presentation/pages/setting_child_pages/privacy_policy_page.dart';
+import 'package:fit_tracker/presentation/pages/setting_child_pages/terms_conditions_page.dart';
+import 'package:fit_tracker/presentation/pages/calculators/ideal_bw_page.dart';
+import 'package:fit_tracker/presentation/pages/calculators/protien_intake_page.dart';
+import 'package:fit_tracker/presentation/pages/calculators/daily_calorie_page.dart';
+import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
+import 'package:fit_tracker/presentation/pages/profile_child_pages/features_page.dart';
+import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/data/services/storage_service.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/data/services/local_auth_repository.dart';
 import 'package:fit_tracker/data/services/local_user_repository.dart';
 import 'package:fit_tracker/data/services/local_measurement_repository.dart';
-import 'package:fit_tracker/logic/auth_viewmodel.dart';
-import 'package:fit_tracker/logic/goals_viewmodel.dart';
-import 'package:fit_tracker/logic/app_viewmodel.dart';
-import 'package:fit_tracker/logic/progress_viewmodel.dart';
-import 'package:fit_tracker/logic/calculators_viewmodel.dart';
+import 'package:fit_tracker/logic/porviders/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/porviders/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/porviders/app_viewmodel.dart';
+import 'package:fit_tracker/logic/porviders/calculators_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,10 +49,14 @@ class FitApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthViewModel(authRepository, userRepository)),
-        ChangeNotifierProvider(create: (_) => GoalsViewModel(userRepository, authRepository)),
-        ChangeNotifierProvider(create: (_) => AppViewModel(authRepository, userRepository)),
-        ChangeNotifierProvider(create: (_) => ProgressViewModel(measurementRepository)),
+        ChangeNotifierProvider(
+            create: (_) => AuthViewModel(authRepository, userRepository)),
+        ChangeNotifierProvider(
+            create: (_) => GoalsViewModel(userRepository, authRepository)),
+        ChangeNotifierProvider(
+            create: (_) => AppViewModel(authRepository, userRepository)),
+        ChangeNotifierProvider(
+            create: (_) => ProgressViewModel(measurementRepository)),
         ChangeNotifierProvider(create: (_) => CalculatorsViewModel()),
       ],
       child: const _FitAppBuilder(),

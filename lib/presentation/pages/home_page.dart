@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fit_tracker/presentation/widgets/custom_appbar.dart';
-import 'package:fit_tracker/presentation/pages/add_measurement_page.dart';
+import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
+import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 
@@ -148,4 +148,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
