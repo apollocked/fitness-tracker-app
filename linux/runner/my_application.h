@@ -16,6 +16,6 @@ G_DECLARE_FINAL_TYPE(fit_trackerlication,
  *
  * Returns: a new #fit_trackerlication.
  */
-fit_trackerlication* my_application_new();
+fit_trackerlication *my_application_new();
 
-#endif  // FLUTTER_MY_APPLICATION_H_
+#endif // FLUTTER_MY_APPLICATION_H_

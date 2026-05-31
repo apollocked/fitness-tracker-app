@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fit_tracker/features/profile/goals/goals_square_card.dart';
+import 'package:fit_tracker/app/cubits/goals_cubit.dart';
+
+class GoalsSquareRow extends StatelessWidget {
+  const GoalsSquareRow({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final goals = context.watch<GoalsCubit>().state.goals;
+    final hasCalorieGoal = goals.containsKey('calories');
+    final hasProteinGoal = goals.containsKey('protein');
+    if (!hasCalorieGoal && !hasProteinGoal) return const SizedBox();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          if (hasCalorieGoal)
+            Expanded(child: GoalsSquareCard(goalKey: 'calories')),
+          if (hasCalorieGoal && hasProteinGoal) const SizedBox(width: 12),
+          if (hasProteinGoal)
+            Expanded(child: GoalsSquareCard(goalKey: 'protein')),
+        ],
+      ),
+    );
+  }
+}
+

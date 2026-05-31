@@ -1,0 +1,212 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fit_tracker/widgets/custom_dialog_text_field.dart';
+import 'package:fit_tracker/features/auth/register_page.dart';
+import 'package:fit_tracker/app/services/storage_service.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
+import '';
+import 'package:fit_tracker/app/cubits/auth_cubit.dart';
+import 'package:fit_tracker/app/cubits/settings_cubit.dart';
+
+class SettingsDialogs {
+  static void showChangePasswordDialog(BuildContext context) {
+    if (context.read<AuthCubit>().state.user == null) return;
+    final oldPasswordController = TextEditingController();
+    final newPasswordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: colors.cardColor,
+        title:
+            Text('Change Password', style: TextStyle(color: colors.textColor)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomDialogTextField(
+                controller: oldPasswordController,
+                text: 'Old Password',
+                isPassword: true),
+            const SizedBox(height: 12),
+            CustomDialogTextField(
+                controller: newPasswordController,
+                text: 'New Password',
+                isPassword: true),
+            const SizedBox(height: 12),
+            CustomDialogTextField(
+                controller: confirmPasswordController,
+                text: 'Confirm Password',
+                isPassword: true),
+          ],
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Cancel')),
+          TextButton(
+            onPressed: () async {
+              if (newPasswordController.text !=
+                  confirmPasswordController.text) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Passwords do not match'),
+                    backgroundColor: Colors.red));
+                return;
+              }
+              final cubit = dialogContext.read<SettingsCubit>();
+              final success = await cubit.changePassword(
+                  oldPasswordController.text, newPasswordController.text);
+              if (success) Navigator.pop(dialogContext);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(cubit.state.successMessage ??
+                      cubit.state.error ??
+                      'Done'),
+                  backgroundColor: cubit.state.successMessage != null
+                      ? Colors.green
+                      : Colors.red,
+                ),
+              );
+            },
+            child: const Text('Update'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static void showEditProfileDialog(BuildContext context, Function onSave) {
+    final user = context.read<AuthCubit>().state.user;
+    if (user == null) return;
+    final usernameController = TextEditingController(text: user.username);
+    final emailController = TextEditingController(text: user.email);
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: colors.cardColor,
+        title: Text('Edit Profile', style: TextStyle(color: colors.textColor)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomDialogTextField(
+                controller: usernameController, text: 'Username'),
+            const SizedBox(height: 12),
+            CustomDialogTextField(controller: emailController, text: 'Email'),
+          ],
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Cancel')),
+          TextButton(
+            onPressed: () async {
+              if (usernameController.text.isEmpty ||
+                  emailController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Please fill all fields'),
+                    backgroundColor: Colors.red));
+                return;
+              }
+              final cubit = dialogContext.read<SettingsCubit>();
+              final success = await cubit.updateProfile(
+                  usernameController.text, emailController.text);
+              if (success) {
+                onSave();
+                Navigator.pop(dialogContext);
+              }
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(cubit.state.successMessage ??
+                      cubit.state.error ??
+                      'Done'),
+                  backgroundColor: cubit.state.successMessage != null
+                      ? Colors.green
+                      : Colors.red,
+                ),
+              );
+            },
+            child: const Text('Update'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static void showDeleteAccountDialog(BuildContext context) async {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: colors.cardColor,
+        title:
+            Text('Delete Account', style: TextStyle(color: colors.textColor)),
+        content: Text(
+            'Are you sure you want to delete your account? This action cannot be undone.',
+            style: TextStyle(color: colors.textColor)),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Cancel')),
+          TextButton(
+            onPressed: () async {
+              if (context.read<AuthCubit>().state.user == null) {
+                Navigator.pop(dialogContext);
+                return;
+              }
+              try {
+                Navigator.pop(dialogContext);
+                await context.read<AuthCubit>().deleteAccount();
+                await StorageService.clearAll();
+                await initUserData();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Account deleted successfully'),
+                      backgroundColor: Colors.green,
+                      duration: Duration(seconds: 3)));
+                }
+                await Future.delayed(const Duration(milliseconds: 1000));
+                if (context.mounted) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterPage()),
+                      (route) => false);
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Failed to delete account: $e'),
+                      backgroundColor: Colors.red,
+                      duration: const Duration(seconds: 3)));
+                }
+              }
+            },
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static void showInfoDialog(
+      BuildContext context, String title, String content) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: colors.cardColor,
+        title: Text(title, style: TextStyle(color: colors.textColor)),
+        content: Text(content, style: TextStyle(color: colors.textColor)),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Close'))
+        ],
+      ),
+    );
+  }
+}
+
+
