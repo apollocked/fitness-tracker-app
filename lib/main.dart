@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_tracker/features/navigation/layout_page.dart';
-import 'package:fit_tracker/features/profile/settings/privacy_policy_page.dart';
-import 'package:fit_tracker/features/profile/settings/terms_conditions_page.dart';
-import 'package:fit_tracker/features/calculators/ideal_bw_page.dart';
-import 'package:fit_tracker/features/calculators/protien_intake_page.dart';
-import 'package:fit_tracker/features/calculators/daily_calorie_page.dart';
-import 'package:fit_tracker/features/calculators/add_measurement_page.dart';
-import 'package:fit_tracker/features/profile/features_page.dart';
-import 'package:fit_tracker/features/auth/login_page.dart';
-import 'package:fit_tracker/shared/services/storage_service.dart';
-import 'package:fit_tracker/config/theme/app_theme.dart';
-import 'package:fit_tracker/features/auth/data/repositories/local_auth_repository.dart';
-import 'package:fit_tracker/features/auth/data/repositories/local_user_repository.dart';
-import 'package:fit_tracker/features/auth/data/repositories/local_measurement_repository.dart';
-import 'package:fit_tracker/features/auth/presentation/auth_viewmodel.dart';
-import 'package:fit_tracker/features/profile/presentation/goals_viewmodel.dart';
-import 'package:fit_tracker/features/app/presentation/app_viewmodel.dart';
-import 'package:fit_tracker/features/progress/presentation/progress_viewmodel.dart';
+import 'package:fit_tracker/presentation/pages/layout_page.dart';
+import 'package:fit_tracker/presentation/pages/privacy_policy_page.dart';
+import 'package:fit_tracker/presentation/pages/terms_conditions_page.dart';
+import 'package:fit_tracker/presentation/pages/ideal_bw_page.dart';
+import 'package:fit_tracker/presentation/pages/protien_intake_page.dart';
+import 'package:fit_tracker/presentation/pages/daily_calorie_page.dart';
+import 'package:fit_tracker/presentation/pages/add_measurement_page.dart';
+import 'package:fit_tracker/presentation/pages/features_page.dart';
+import 'package:fit_tracker/presentation/pages/login_page.dart';
+import 'package:fit_tracker/data/services/storage_service.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/data/services/local_auth_repository.dart';
+import 'package:fit_tracker/data/services/local_user_repository.dart';
+import 'package:fit_tracker/data/services/local_measurement_repository.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/app_viewmodel.dart';
+import 'package:fit_tracker/logic/progress_viewmodel.dart';
+import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +53,7 @@ class FitApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => GoalsViewModel(userRepository, authRepository)),
         ChangeNotifierProvider(create: (_) => AppViewModel(authRepository, userRepository)),
         ChangeNotifierProvider(create: (_) => ProgressViewModel(measurementRepository)),
+        ChangeNotifierProvider(create: (_) => CalculatorsViewModel()),
       ],
       child: const _FitAppBuilder(),
     );

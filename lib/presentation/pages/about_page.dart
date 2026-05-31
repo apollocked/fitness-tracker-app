@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+import 'package:fit_tracker/presentation/widgets/custom_appbar.dart';
+import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
+
+class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    return Scaffold(
+      appBar: customAppBarr(
+          'About', primaryColor, Theme.of(context).scaffoldBackgroundColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            Center(
+              child: Icon(Icons.fitness_center, size: 80, color: primaryColor),
+            ),
+            const SizedBox(height: 24),
+            Center(
+              child: Text(
+                'Fitness Tracker',
+                style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: colors.textColor),
+              ),
+            ),
+            const SizedBox(height: 2),
+            Center(
+              child: Text(
+                'Version 1.0.0',
+                style: TextStyle(fontSize: 14, color: colors.subtitleColor),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'About This App',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Fitness Tracker is your personal fitness companion designed to help you achieve your health and fitness goals. Whether you\'re looking to lose weight, build muscle, or maintain a healthy lifestyle, our app provides you with all the tools you need.',
+              style: TextStyle(
+                  fontSize: 14, color: colors.subtitleColor, height: 1.6),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Our Mission',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'We believe that fitness is a journey, not a destination. Our mission is to make fitness tracking simple, accessible, and enjoyable for everyone. With Fitness Tracker, you\'re never alone in your fitness journey.',
+              style: TextStyle(
+                  fontSize: 14, color: colors.subtitleColor, height: 1.6),
+            ),
+            const SizedBox(height: 32),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: colors.cardColor,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: primaryColor),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'App Information',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: colors.textColor),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('App Name:',
+                          style: TextStyle(color: colors.subtitleColor)),
+                      Text('Fitness Tracker',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: colors.textColor)),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Version:',
+                          style: TextStyle(color: colors.subtitleColor)),
+                      Text('1.0.0',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: colors.textColor)),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Developer:',
+                          style: TextStyle(color: colors.subtitleColor)),
+                      Text('Apollo team.eng',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: colors.textColor)),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Email',
+                          style: TextStyle(color: colors.subtitleColor)),
+                      Text('support@fitnessapp.com',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: colors.textColor)),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
