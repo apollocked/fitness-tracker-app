@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>PERMISSION_NOTIFICATIONS</key>
+	<string>Used to remind you to track your weight every three days.</string>
 </dict>
 </plist>

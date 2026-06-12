@@ -6,6 +6,7 @@ import 'package:fit_tracker/data/model/user_model.dart';
 import 'package:fit_tracker/data/repositories/auth_repository.dart';
 import 'package:fit_tracker/data/repositories/user_repository.dart';
 import 'package:fit_tracker/data/services/notification_service.dart';
+import 'package:fit_tracker/data/services/registration_validator.dart';
 import 'package:fit_tracker/data/services/hive_storage_service.dart';
 
 class AppViewModel extends ChangeNotifier {
@@ -163,11 +164,27 @@ class AppViewModel extends ChangeNotifier {
     _settingsError = null;
     _successMessage = null;
     notifyListeners();
+
+    final validationError = RegistrationValidator.validateUsername(username);
+    if (validationError != null) {
+      _settingsLoading = false;
+      _settingsError = validationError;
+      notifyListeners();
+      return false;
+    }
+
     try {
       final user = _authRepository.getCurrentUser();
       if (user == null) {
         _settingsLoading = false;
         _settingsError = 'No user logged in';
+        notifyListeners();
+        return false;
+      }
+      if (username != user.username &&
+          _authRepository.usernameExists(username)) {
+        _settingsLoading = false;
+        _settingsError = 'Username already taken';
         notifyListeners();
         return false;
       }

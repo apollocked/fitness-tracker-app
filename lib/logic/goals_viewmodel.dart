@@ -69,7 +69,12 @@ class GoalsViewModel extends ChangeNotifier {
 
   Future<void> _persist() async {
     final user = _authRepository.getCurrentUser();
-    if (user == null || user.id == '__guest__') return;
+    if (user == null) return;
+    if (user.id == '__guest__') {
+      // Guest mode: goals are not persisted. The guest banner already
+      // communicates that data is not saved, so this is intentional.
+      return;
+    }
     final updated = user.copyWith(goals: Map.from(_currentGoals ?? {}));
     await _userRepository.updateUser(updated);
     await _authRepository.setCurrentUser(updated);

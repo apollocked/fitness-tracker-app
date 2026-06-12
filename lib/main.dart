@@ -1,4 +1,5 @@
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/pages/layout_page.dart';
@@ -92,7 +93,7 @@ class _FitAppBuilder extends StatelessWidget {
     }
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: !kReleaseMode,
       title: "Fitness Tracker",
       themeMode: appVM.themeMode,
       theme: AppTheme.lightTheme,

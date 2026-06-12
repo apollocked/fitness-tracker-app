@@ -1,20 +1,35 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveStorageService {
-  static const String _boxName = 'fitness_app';
+  static const String _boxName = 'fitness_app_enc';
+  static const String _encKeyKey = 'hive_encryption_key';
 
   static late Box<String> _box;
+  static const _secureStorage = FlutterSecureStorage();
 
   static Future<void> init() async {
     await Hive.initFlutter();
-    _box = await Hive.openBox<String>(_boxName);
+
+    final key = await _getOrCreateEncryptionKey();
+
+    _box = await Hive.openBox<String>(_boxName, encryptionKey: key);
+  }
+
+  static Future<List<int>> _getOrCreateEncryptionKey() async {
+    final stored = await _secureStorage.read(key: _encKeyKey);
+    if (stored != null) {
+      return base64Url.decode(stored);
+    }
+    final key = Hive.generateSecureKey();
+    await _secureStorage.write(key: _encKeyKey, value: base64Url.encode(key));
+    return key;
   }
 
   // ── Users ──
   static Future<void> saveUsers(List<Map<String, dynamic>> users) async {
-    final json = jsonEncode(users);
-    await _box.put('users', json);
+    await _box.put('users', jsonEncode(users));
   }
 
   static List<Map<String, dynamic>> getUsers() {
@@ -24,31 +39,31 @@ class HiveStorageService {
     return list.cast<Map<String, dynamic>>();
   }
 
-  // ── Current user ──
-  static Future<void> saveCurrentUser(Map<String, dynamic>? user) async {
-    if (user == null) {
-      await _box.delete('currentUser');
+  // ── Current user ID (session reference only) ──
+  static Future<void> saveCurrentUserId(String? userId) async {
+    if (userId == null) {
+      await _box.delete('currentUserId');
     } else {
-      await _box.put('currentUser', jsonEncode(user));
+      await _box.put('currentUserId', userId);
     }
   }
 
-  static Map<String, dynamic>? getCurrentUser() {
-    final json = _box.get('currentUser');
-    if (json == null) return null;
-    return jsonDecode(json) as Map<String, dynamic>;
+  static String? getCurrentUserId() => _box.get('currentUserId');
+
+  static Future<void> saveCurrentUser(Map<String, dynamic>? _) async {
+    // Deprecated — only user ID is stored now.
   }
+
+  static Map<String, dynamic>? getCurrentUser() => null;
 
   // ── Measurements (per user) ──
   static Future<void> saveMeasurements(
       String username, List<Map<String, dynamic>> measurements) async {
-    final key = 'measurements_$username';
-    await _box.put(key, jsonEncode(measurements));
+    await _box.put('measurements_$username', jsonEncode(measurements));
   }
 
   static List<Map<String, dynamic>> getMeasurements(String username) {
-    final key = 'measurements_$username';
-    final json = _box.get(key);
+    final json = _box.get('measurements_$username');
     if (json == null) return [];
     final List<dynamic> list = jsonDecode(json);
     return list.cast<Map<String, dynamic>>();
@@ -70,11 +85,15 @@ class HiveStorageService {
 
   // ── Clear ──
   static Future<void> clearCurrentSession() async {
-    await _box.delete('currentUser');
+    await _box.delete('currentUserId');
     await _box.delete('guestDarkMode');
   }
 
   static Future<void> deleteUserData(String username) async {
     await _box.delete('measurements_$username');
+  }
+
+  static Future<void> clearGuestMeasurements() async {
+    await _box.delete('measurements_Guest');
   }
 }

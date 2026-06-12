@@ -1,10 +1,15 @@
 class RegistrationValidator {
+  static const _reservedNames = {'Guest', '__guest__', 'Admin', 'admin'};
+
   static String? validateUsername(String? value) {
     if (value == null || value.isEmpty) {
       return 'Username is required';
     }
     if (value.length < 3) {
       return 'Username must be at least 3 characters';
+    }
+    if (_reservedNames.contains(value.trim())) {
+      return 'This username is reserved';
     }
     if (!RegExp(r'^[a-zA-Z0-9._\-]+$').hasMatch(value)) {
       return 'Username can only contain letters, numbers, ., _, and -';
@@ -47,11 +52,14 @@ class RegistrationValidator {
     if (value == null || value.isEmpty) {
       return 'Passkey is required';
     }
-    if (value.length != 4) {
-      return 'Must be exactly 4 digits';
+    if (value.length < 6) {
+      return 'Must be at least 6 characters';
     }
-    if (int.tryParse(value) == null) {
-      return 'Must contain only digits';
+    if (value.length > 64) {
+      return 'Must be at most 64 characters';
+    }
+    if (!RegExp(r'^[a-zA-Z0-9!@#\$%^&*()_\-+=?.,:;]+$').hasMatch(value)) {
+      return 'Only letters, numbers, and common symbols allowed';
     }
     return null;
   }
@@ -69,5 +77,4 @@ class RegistrationValidator {
     }
     return null;
   }
-
 }

@@ -39,13 +39,14 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
     final authVM = context.read<AuthViewModel>();
-    if (authVM.usernameExists(_usernameCtrl.text.trim())) {
+    final username = _usernameCtrl.text.trim();
+    if (authVM.usernameExists(username)) {
       _snack('Username already taken', redColor);
       return;
     }
     final user = UserModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      username: _usernameCtrl.text.trim(),
+      username: username,
       passkey: _passkeyCtrl.text.trim(),
       age: int.parse(_ageCtrl.text.trim()),
       weight: double.parse(_weightCtrl.text.trim()),
@@ -111,17 +112,14 @@ class _RegisterPageState extends State<RegisterPage> {
             TextFormField(
               controller: _passkeyCtrl,
               decoration: InputDecoration(
-                labelText: 'Passkey (4 digits)',
+                labelText: 'Passkey (min 6 chars)',
                 prefixIcon: const Icon(Icons.lock_outline),
                 suffixIcon: IconButton(
                   icon: Icon(_obscurePasskey ? Icons.visibility_off_outlined : Icons.visibility_outlined),
                   onPressed: () => setState(() => _obscurePasskey = !_obscurePasskey),
                 ),
               ),
-              keyboardType: TextInputType.number,
               obscureText: _obscurePasskey,
-              maxLength: 4,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               validator: RegistrationValidator.validatePasskey,
             ),
             const SizedBox(height: 16),

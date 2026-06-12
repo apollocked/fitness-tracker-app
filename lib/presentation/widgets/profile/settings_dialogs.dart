@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_dialog_text_field.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
-import 'package:fit_tracker/data/services/hive_storage_service.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
@@ -85,12 +84,8 @@ class SettingsDialogs {
                 return;
               }
               try {
-                final username =
-                    context.read<AuthViewModel>().currentUser!.username;
                 Navigator.pop(dialogContext);
                 await context.read<AuthViewModel>().deleteAccount();
-                await HiveStorageService.deleteUserData(username);
-                await HiveStorageService.clearCurrentSession();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Account deleted successfully'),

@@ -7,23 +7,33 @@ class LocalAuthRepository implements AuthRepository {
 
   @override
   UserModel? getCurrentUser() {
-    final userMap = HiveStorageService.getCurrentUser();
+    final userId = HiveStorageService.getCurrentUserId();
+    if (userId == null) return null;
+    final users = HiveStorageService.getUsers();
+    final userMap = users.where((u) => u['id'] == userId).firstOrNull;
     if (userMap == null) return null;
     return UserModel.fromMap(userMap);
   }
 
   @override
   Future<bool> isLoggedIn() async {
-    return HiveStorageService.getCurrentUser() != null;
+    return HiveStorageService.getCurrentUserId() != null;
   }
 
   @override
   Future<UserModel?> login(String username, String passkey) async {
     final users = HiveStorageService.getUsers();
-    final userMap = users.where((u) => u['username'] == username && u['passkey'] == passkey).firstOrNull;
-    if (userMap == null) return null;
-    await HiveStorageService.saveCurrentUser(userMap);
-    return UserModel.fromMap(userMap);
+    for (final u in users) {
+      if (u['username'] == username) {
+        final user = UserModel.fromMap(u);
+        if (user.verifyPasskey(passkey)) {
+          await HiveStorageService.saveCurrentUserId(user.id);
+          return user;
+        }
+        return null;
+      }
+    }
+    return null;
   }
 
   @override
@@ -36,13 +46,13 @@ class LocalAuthRepository implements AuthRepository {
     final users = HiveStorageService.getUsers();
     users.add(user.toMap());
     await HiveStorageService.saveUsers(users);
-    await HiveStorageService.saveCurrentUser(user.toMap());
+    await HiveStorageService.saveCurrentUserId(user.id);
     return user;
   }
 
   @override
   Future<void> setCurrentUser(UserModel? user) async {
-    await HiveStorageService.saveCurrentUser(user?.toMap());
+    await HiveStorageService.saveCurrentUserId(user?.id);
   }
 
   @override
@@ -50,13 +60,12 @@ class LocalAuthRepository implements AuthRepository {
     final guestUser = UserModel(
       id: _guestId,
       username: 'Guest',
-      passkey: '',
       age: 0,
       weight: 0.0,
       height: 0.0,
       gender: 'Male',
     );
-    await HiveStorageService.saveCurrentUser(guestUser.toMap());
+    await HiveStorageService.saveCurrentUserId(guestUser.id);
     return guestUser;
   }
 

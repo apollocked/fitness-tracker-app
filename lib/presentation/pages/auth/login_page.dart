@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
@@ -95,23 +94,18 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     controller: _passkeyCtrl,
                     decoration: InputDecoration(
-                      labelText: 'Passkey (4 digits)',
+                      labelText: 'Passkey',
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
                         icon: Icon(_obscurePasskey ? Icons.visibility_off_outlined : Icons.visibility_outlined),
                         onPressed: () => setState(() => _obscurePasskey = !_obscurePasskey),
                       ),
                     ),
-                    keyboardType: TextInputType.number,
                     obscureText: _obscurePasskey,
-                    maxLength: 4,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
                         return 'Enter your passkey';
                       }
-                      if (v.trim().length != 4) return 'Must be 4 digits';
-                      if (int.tryParse(v.trim()) == null) return 'Digits only';
                       return null;
                     },
                   ),

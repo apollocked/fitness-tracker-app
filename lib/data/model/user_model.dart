@@ -1,7 +1,10 @@
+import 'package:fit_tracker/data/services/passkey_hasher.dart';
+
 class UserModel {
   final String id;
   String username;
-  String passkey;
+  String passkeyHash;
+  String passkeySalt;
   int age;
   double weight;
   double height;
@@ -15,7 +18,9 @@ class UserModel {
   UserModel({
     required this.id,
     required this.username,
-    required this.passkey,
+    String? passkey,
+    this.passkeyHash = '',
+    this.passkeySalt = '',
     this.age = 0,
     this.weight = 0.0,
     this.height = 0.0,
@@ -26,13 +31,23 @@ class UserModel {
     this.notificationsEnabled = false,
     Map<String, dynamic>? goals,
   })  : createdAt = createdAt ?? DateTime.now(),
-        goals = goals ?? {};
+        goals = goals ?? {} {
+    if (passkey != null && passkey.isNotEmpty) {
+      passkeySalt = PasskeyHasher.generateSalt();
+      passkeyHash = PasskeyHasher.hash(passkey, passkeySalt);
+    }
+  }
+
+  bool verifyPasskey(String passkey) {
+    return PasskeyHasher.verify(passkey, passkeySalt, passkeyHash);
+  }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id'] ?? '',
       username: map['username'] ?? '',
-      passkey: map['passkey'] ?? '',
+      passkeyHash: map['passkeyHash'] ?? '',
+      passkeySalt: map['passkeySalt'] ?? '',
       age: map['age'] ?? 0,
       weight: (map['weight'] ?? 0).toDouble(),
       height: (map['height'] ?? 0).toDouble(),
@@ -50,7 +65,8 @@ class UserModel {
     return {
       'id': id,
       'username': username,
-      'passkey': passkey,
+      'passkeyHash': passkeyHash,
+      'passkeySalt': passkeySalt,
       'age': age,
       'weight': weight,
       'height': height,
@@ -75,10 +91,9 @@ class UserModel {
     bool? notificationsEnabled,
     Map<String, dynamic>? goals,
   }) {
-    return UserModel(
+    final clone = UserModel(
       id: id,
       username: username ?? this.username,
-      passkey: passkey ?? this.passkey,
       age: age ?? this.age,
       weight: weight ?? this.weight,
       height: height ?? this.height,
@@ -89,5 +104,12 @@ class UserModel {
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       goals: goals ?? Map.from(this.goals),
     );
+    clone.passkeyHash = passkeyHash;
+    clone.passkeySalt = passkeySalt;
+    if (passkey != null && passkey.isNotEmpty) {
+      clone.passkeySalt = PasskeyHasher.generateSalt();
+      clone.passkeyHash = PasskeyHasher.hash(passkey, clone.passkeySalt);
+    }
+    return clone;
   }
 }
