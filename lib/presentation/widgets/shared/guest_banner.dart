@@ -51,7 +51,7 @@ class GuestBanner extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14)),
             ),
-            child: const Text('Create Account',
+            child: const Text('Create Profile',
                 style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
           ),
         ),
@@ -83,7 +83,7 @@ class GuestGuard {
         ]),
         content: const Text(
           'You\'re currently in guest mode.\n\n'
-          'Create a free account to save your fitness data, track progress, and set goals.',
+          'Create a free profile to save your fitness data, track progress, and set goals.',
         ),
         actions: [
           TextButton(
@@ -103,7 +103,7 @@ class GuestGuard {
                 MaterialPageRoute(builder: (_) => const RegisterPage()),
               );
             },
-            child: const Text('Create Account'),
+            child: const Text('Create Profile'),
           ),
         ],
       ),

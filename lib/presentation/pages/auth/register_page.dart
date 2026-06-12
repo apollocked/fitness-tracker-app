@@ -24,6 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _weightCtrl = TextEditingController();
   final _heightCtrl = TextEditingController();
   String _selectedGender = 'Male';
+  bool _obscurePasskey = true;
 
   @override
   void dispose() {
@@ -76,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: customAppBarr('Create Account', primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr('Create Profile', primaryColor, theme.scaffoldBackgroundColor),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -93,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   size: 48, color: primaryColor),
             ),
             const SizedBox(height: 24),
-            Text('Create Your Account',
+            Text('Create Your Profile',
                 style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold, color: colors.textColor)),
             const SizedBox(height: 24),
@@ -109,12 +110,16 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _passkeyCtrl,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Passkey (4 digits)',
-                prefixIcon: Icon(Icons.lock_outline),
+                prefixIcon: const Icon(Icons.lock_outline),
+                suffixIcon: IconButton(
+                  icon: Icon(_obscurePasskey ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                  onPressed: () => setState(() => _obscurePasskey = !_obscurePasskey),
+                ),
               ),
               keyboardType: TextInputType.number,
-              obscureText: true,
+              obscureText: _obscurePasskey,
               maxLength: 4,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               validator: RegistrationValidator.validatePasskey,
@@ -171,14 +176,14 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 32),
             CalcButton(
-              label: 'Create Account',
+              label: 'Create Profile',
               color: primaryColor,
               onPressed: _register,
               isLoading: isLoading,
             ),
             const SizedBox(height: 24),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text('Already have an account? ',
+              Text('Already have a profile? ',
                   style: TextStyle(color: colors.subtitleColor)),
               TextButton(
                 onPressed: () => Navigator.pop(context),

@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameCtrl = TextEditingController();
   final _passkeyCtrl = TextEditingController();
+  bool _obscurePasskey = true;
 
   @override
   void dispose() {
@@ -93,12 +94,16 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _passkeyCtrl,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Passkey (4 digits)',
-                      prefixIcon: Icon(Icons.lock_outline),
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(_obscurePasskey ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                        onPressed: () => setState(() => _obscurePasskey = !_obscurePasskey),
+                      ),
                     ),
                     keyboardType: TextInputType.number,
-                    obscureText: true,
+                    obscureText: _obscurePasskey,
                     maxLength: 4,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (v) {
@@ -146,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 16),
                   TextButton.icon(
                     icon: const Icon(Icons.person_add_outlined),
-                    label: const Text('Create New Account'),
+                    label: const Text('Create New Profile'),
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
