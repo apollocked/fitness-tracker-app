@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fit_tracker/data/services/storage_service.dart';
+import 'package:fit_tracker/data/services/hive_storage_service.dart';
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 
@@ -78,7 +78,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   Future<void> _finish() async {
-    await StorageService.setOnboardingSeen();
+    await HiveStorageService.setOnboardingSeen();
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,

@@ -1,14 +1,14 @@
 import 'package:fit_tracker/data/model/user_model.dart';
 import 'package:fit_tracker/data/repositories/user_repository.dart';
-import 'package:fit_tracker/data/services/storage_service.dart';
+import 'package:fit_tracker/data/services/hive_storage_service.dart';
 
 class LocalUserRepository implements UserRepository {
   List<UserModel> _cachedUsers = [];
+
   @override
   Future<List<UserModel>> getAllUsers() async {
     if (_cachedUsers.isEmpty) {
-      final stored = StorageService.getUsers();
-      _cachedUsers = stored.map((m) => UserModel.fromMap(m)).toList();
+      await reloadFromStorage();
     }
     return List.from(_cachedUsers);
   }
@@ -35,58 +35,26 @@ class LocalUserRepository implements UserRepository {
   }
 
   @override
-  bool emailExists(String email) {
-    return _cachedUsers.any(
-      (u) => u.email.toLowerCase() == email.toLowerCase(),
-    );
+  bool usernameExists(String username) {
+    return _cachedUsers.any((u) => u.username == username);
   }
 
   @override
-  UserModel? findUserByEmailAndPassword(String email, String password) {
+  UserModel? findUserByUsername(String username) {
     return _cachedUsers.cast<UserModel?>().firstWhere(
-          (u) =>
-              u!.email.toLowerCase() == email.toLowerCase() &&
-              u.password == password,
+          (u) => u!.username == username,
           orElse: () => null,
         );
   }
 
   Future<void> _persistUsers() async {
-    await StorageService.saveUsers(
+    await HiveStorageService.saveUsers(
       _cachedUsers.map((u) => u.toMap()).toList(),
     );
   }
 
   Future<void> reloadFromStorage() async {
-    final stored = StorageService.getUsers();
+    final stored = HiveStorageService.getUsers();
     _cachedUsers = stored.map((m) => UserModel.fromMap(m)).toList();
-  }
-
-  Future<void> addDefaultUserIfEmpty() async {
-    if (_cachedUsers.isEmpty) {
-      final defaultUser = UserModel(
-        id: 'demo_001',
-        username: 'demo_user',
-        email: 'demo@fitness.com',
-        password: 'demo123',
-        age: 25,
-        weight: 70.0,
-        height: 175.0,
-        gender: 'Male',
-        goals: {
-          'weight': {
-            'target': 75.0,
-            'current': 70.0,
-            'unit': 'kg',
-            'active': true,
-            'goalType': 'gain',
-          },
-          'protein': {'target': 120, 'unit': 'g', 'active': true},
-          'calories': {'target': 2500, 'unit': 'cal', 'active': true},
-        },
-      );
-      _cachedUsers.add(defaultUser);
-      await _persistUsers();
-    }
   }
 }

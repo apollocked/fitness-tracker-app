@@ -2,83 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_dialog_text_field.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
-import 'package:fit_tracker/data/services/storage_service.dart';
+import 'package:fit_tracker/data/services/hive_storage_service.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
 
 class SettingsDialogs {
-  static void showChangePasswordDialog(BuildContext context) {
-    if (context.read<AuthViewModel>().currentUser == null) return;
-    final oldPasswordController = TextEditingController();
-    final newPasswordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        backgroundColor: colors.cardColor,
-        title:
-            Text('Change Password', style: TextStyle(color: colors.textColor)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomDialogTextField(
-                controller: oldPasswordController,
-                text: 'Old Password',
-                isPassword: true),
-            const SizedBox(height: 12),
-            CustomDialogTextField(
-                controller: newPasswordController,
-                text: 'New Password',
-                isPassword: true),
-            const SizedBox(height: 12),
-            CustomDialogTextField(
-                controller: confirmPasswordController,
-                text: 'Confirm Password',
-                isPassword: true),
-          ],
-        ),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Cancel')),
-          TextButton(
-            onPressed: () async {
-              if (newPasswordController.text !=
-                  confirmPasswordController.text) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Passwords do not match'),
-                    backgroundColor: redColor));
-                return;
-              }
-              final appVM = dialogContext.read<AppViewModel>();
-              final success = await appVM.changePassword(
-                  oldPasswordController.text, newPasswordController.text);
-              if (success) await context.read<AuthViewModel>().reloadUser();
-              if (success) Navigator.pop(dialogContext);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                      appVM.successMessage ?? appVM.settingsError ?? 'Done'),
-                  backgroundColor:
-                      appVM.successMessage != null ? greenColor : redColor,
-                ),
-              );
-            },
-            child: const Text('Update'),
-          ),
-        ],
-      ),
-    );
-  }
-
   static void showEditProfileDialog(BuildContext context, Function onSave) {
     final user = context.read<AuthViewModel>().currentUser;
     if (user == null) return;
     final usernameController = TextEditingController(text: user.username);
-    final emailController = TextEditingController(text: user.email);
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     showDialog(
       context: context,
@@ -90,8 +24,6 @@ class SettingsDialogs {
           children: [
             CustomDialogTextField(
                 controller: usernameController, text: 'Username'),
-            const SizedBox(height: 12),
-            CustomDialogTextField(controller: emailController, text: 'Email'),
           ],
         ),
         actions: [
@@ -100,8 +32,7 @@ class SettingsDialogs {
               child: const Text('Cancel')),
           TextButton(
             onPressed: () async {
-              if (usernameController.text.isEmpty ||
-                  emailController.text.isEmpty) {
+              if (usernameController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Please fill all fields'),
                     backgroundColor: redColor));
@@ -109,7 +40,7 @@ class SettingsDialogs {
               }
               final appVM = dialogContext.read<AppViewModel>();
               final success = await appVM.updateProfile(
-                  usernameController.text, emailController.text);
+                  usernameController.text);
               if (success) {
                 await context.read<AuthViewModel>().reloadUser();
                 onSave();
@@ -154,9 +85,12 @@ class SettingsDialogs {
                 return;
               }
               try {
+                final username =
+                    context.read<AuthViewModel>().currentUser!.username;
                 Navigator.pop(dialogContext);
                 await context.read<AuthViewModel>().deleteAccount();
-                await StorageService.clearAll();
+                await HiveStorageService.deleteUserData(username);
+                await HiveStorageService.clearCurrentSession();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Account deleted successfully'),

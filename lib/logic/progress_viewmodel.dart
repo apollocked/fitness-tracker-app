@@ -1,39 +1,31 @@
 import 'package:flutter/foundation.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/data/services/measurement_repository.dart';
+import 'package:fit_tracker/data/repositories/auth_repository.dart';
 
 class ProgressViewModel extends ChangeNotifier {
   final MeasurementRepository _measurementRepository;
+  final AuthRepository _authRepository;
 
-  ProgressViewModel(this._measurementRepository) {
-    loadMeasurements();
-  }
+  ProgressViewModel(this._measurementRepository, this._authRepository);
 
-  List<Measurement> _measurements = [];
-  final bool _isLoading = false;
+  List<Measurement> get measurements =>
+      _measurementRepository.getMeasurements(_currentUsername);
 
-  List<Measurement> get measurements => _measurements;
-  bool get isLoading => _isLoading;
+  String get _currentUsername =>
+      _authRepository.getCurrentUser()?.username ?? '';
 
-  void loadMeasurements() {
-    _measurements = _measurementRepository.getMeasurements();
+  Future<void> loadMeasurements() async {
     notifyListeners();
   }
 
   Future<void> addMeasurement(Measurement measurement) async {
-    await _measurementRepository.addMeasurement(measurement);
-    loadMeasurements();
+    await _measurementRepository.addMeasurement(_currentUsername, measurement);
+    notifyListeners();
   }
 
-  Future<void> deleteMeasurement(int displayIndex) async {
-    final current = _measurements;
-    final actualIndex = current.length - 1 - displayIndex;
-    await _measurementRepository.deleteMeasurement(actualIndex);
-    loadMeasurements();
-  }
-
-  Future<void> clearMeasurements() async {
-    await _measurementRepository.clearMeasurements();
-    loadMeasurements();
+  Future<void> deleteMeasurement(int index) async {
+    await _measurementRepository.deleteMeasurement(_currentUsername, index);
+    notifyListeners();
   }
 }

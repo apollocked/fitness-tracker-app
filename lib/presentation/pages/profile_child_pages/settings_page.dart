@@ -52,13 +52,6 @@ class SettingsPage extends StatelessWidget {
           buildCardSection(context, [
             buildListTile(
                 context,
-                Icons.lock_outline_rounded,
-                'Change Password',
-                'Update your password',
-                () => SettingsDialogs.showChangePasswordDialog(context)),
-            const Divider(height: 1, indent: 56),
-            buildListTile(
-                context,
                 Icons.edit_outlined,
                 'Edit Profile',
                 'Update your information',

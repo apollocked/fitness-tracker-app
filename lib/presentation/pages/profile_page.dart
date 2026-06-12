@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(children: [
-          ProfileHero(username: user.username, email: user.email),
+          ProfileHero(username: user.username),
           const SizedBox(height: 20),
           _buildSections(context, colors),
           const SizedBox(height: 32),

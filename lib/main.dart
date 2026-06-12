@@ -12,7 +12,7 @@ import 'package:fit_tracker/presentation/pages/profile_child_pages/features_page
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/presentation/pages/onboarding_page.dart';
 import 'package:fit_tracker/data/services/notification_service.dart';
-import 'package:fit_tracker/data/services/storage_service.dart';
+import 'package:fit_tracker/data/services/hive_storage_service.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/data/repositories/local_auth_repository.dart';
 import 'package:fit_tracker/data/repositories/local_user_repository.dart';
@@ -24,18 +24,17 @@ import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await StorageService.init();
+  await HiveStorageService.init();
   await NotificationService.instance.initialize();
   final userRepository = LocalUserRepository();
   await userRepository.reloadFromStorage();
-  await userRepository.addDefaultUserIfEmpty();
-  final authRepository = LocalAuthRepository(userRepository);
+  final authRepository = LocalAuthRepository();
   final currentUser = authRepository.getCurrentUser();
   if (currentUser?.notificationsEnabled == true) {
     await NotificationService.instance.scheduleWeightReminder();
   }
   final measurementRepository = LocalMeasurementRepository();
-  final seenOnboarding = StorageService.hasSeenOnboarding();
+  final seenOnboarding = HiveStorageService.hasSeenOnboarding();
   runApp(FitApp(
     userRepository: userRepository,
     authRepository: authRepository,
@@ -67,7 +66,7 @@ class FitApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => AppViewModel(authRepository, userRepository)),
         ChangeNotifierProvider(
-            create: (_) => ProgressViewModel(measurementRepository)),
+            create: (_) => ProgressViewModel(measurementRepository, authRepository)),
         ChangeNotifierProvider(create: (_) => CalculatorsViewModel()),
       ],
       child: _FitAppBuilder(showOnboarding: showOnboarding),
@@ -78,7 +77,6 @@ class FitApp extends StatelessWidget {
 class _FitAppBuilder extends StatelessWidget {
   final bool showOnboarding;
   const _FitAppBuilder({this.showOnboarding = false});
-  @override
   @override
   Widget build(BuildContext context) {
     final appVM = context.watch<AppViewModel>();

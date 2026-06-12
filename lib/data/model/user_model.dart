@@ -1,8 +1,6 @@
 class UserModel {
   final String id;
   String username;
-  String email;
-  String password;
   int age;
   double weight;
   double height;
@@ -16,8 +14,6 @@ class UserModel {
   UserModel({
     required this.id,
     required this.username,
-    required this.email,
-    required this.password,
     this.age = 0,
     this.weight = 0.0,
     this.height = 0.0,
@@ -34,8 +30,6 @@ class UserModel {
     return UserModel(
       id: map['id'] ?? '',
       username: map['username'] ?? '',
-      email: map['email'] ?? '',
-      password: map['password'] ?? '',
       age: map['age'] ?? 0,
       weight: (map['weight'] ?? 0).toDouble(),
       height: (map['height'] ?? 0).toDouble(),
@@ -53,8 +47,6 @@ class UserModel {
     return {
       'id': id,
       'username': username,
-      'email': email,
-      'password': password,
       'age': age,
       'weight': weight,
       'height': height,
@@ -69,8 +61,6 @@ class UserModel {
 
   UserModel copyWith({
     String? username,
-    String? email,
-    String? password,
     int? age,
     double? weight,
     double? height,
@@ -83,8 +73,6 @@ class UserModel {
     return UserModel(
       id: id,
       username: username ?? this.username,
-      email: email ?? this.email,
-      password: password ?? this.password,
       age: age ?? this.age,
       weight: weight ?? this.weight,
       height: height ?? this.height,

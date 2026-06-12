@@ -6,7 +6,7 @@ import 'package:fit_tracker/data/model/user_model.dart';
 import 'package:fit_tracker/data/repositories/auth_repository.dart';
 import 'package:fit_tracker/data/repositories/user_repository.dart';
 import 'package:fit_tracker/data/services/notification_service.dart';
-import 'package:fit_tracker/data/services/storage_service.dart';
+import 'package:fit_tracker/data/services/hive_storage_service.dart';
 
 class AppViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
@@ -37,7 +37,7 @@ class AppViewModel extends ChangeNotifier {
     }
     final user = _authRepository.getCurrentUser();
     if (user != null && user.id == '__guest__') {
-      await StorageService.setGuestDarkMode(isDark);
+      await HiveStorageService.setGuestDarkMode(isDark);
     } else {
       await _persistCurrentUser((user) => user.copyWith(darkMode: isDark));
     }
@@ -130,10 +130,8 @@ class AppViewModel extends ChangeNotifier {
       setNotifications(!_notificationsEnabled);
 
   void syncWithUser(UserModel? user, {bool notify = true}) {
-    // For guest users, settings are in-memory only and should not be overwritten
-    // by the default false values in the ephemeral guest user object.
     if (user != null && user.id == '__guest__') {
-      final guestDark = StorageService.getGuestDarkMode();
+      final guestDark = HiveStorageService.getGuestDarkMode();
       final guestMode = guestDark ? ThemeMode.dark : ThemeMode.light;
       if (_themeMode != guestMode) {
         _themeMode = guestMode;
@@ -170,7 +168,7 @@ class AppViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> changePassword(String oldPassword, String newPassword) async {
+  Future<bool> updateProfile(String username) async {
     _settingsLoading = true;
     _settingsError = null;
     _successMessage = null;
@@ -183,41 +181,7 @@ class AppViewModel extends ChangeNotifier {
         notifyListeners();
         return false;
       }
-      if (user.password != oldPassword) {
-        _settingsLoading = false;
-        _settingsError = 'Old password is incorrect';
-        notifyListeners();
-        return false;
-      }
-      final updated = user.copyWith(password: newPassword);
-      await _userRepository.updateUser(updated);
-      await _authRepository.setCurrentUser(updated);
-      _settingsLoading = false;
-      _successMessage = 'Password changed successfully!';
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _settingsLoading = false;
-      _settingsError = 'Failed to change password';
-      notifyListeners();
-      return false;
-    }
-  }
-
-  Future<bool> updateProfile(String username, String email) async {
-    _settingsLoading = true;
-    _settingsError = null;
-    _successMessage = null;
-    notifyListeners();
-    try {
-      final user = _authRepository.getCurrentUser();
-      if (user == null) {
-        _settingsLoading = false;
-        _settingsError = 'No user logged in';
-        notifyListeners();
-        return false;
-      }
-      final updated = user.copyWith(username: username, email: email);
+      final updated = user.copyWith(username: username);
       await _userRepository.updateUser(updated);
       await _authRepository.setCurrentUser(updated);
       _settingsLoading = false;
@@ -236,7 +200,7 @@ class AppViewModel extends ChangeNotifier {
     UserModel Function(UserModel user) update,
   ) async {
     final user = _authRepository.getCurrentUser();
-    if (user == null || user.id == '__guest__') return null; // no persistence for guests
+    if (user == null || user.id == '__guest__') return null;
 
     final updated = update(user);
     await _userRepository.updateUser(updated);

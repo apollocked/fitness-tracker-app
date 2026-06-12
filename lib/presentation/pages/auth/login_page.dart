@@ -1,14 +1,11 @@
-import 'package:fit_tracker/core/theme/app_colors_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_tracker/presentation/widgets/shared/custom_textfield.dart';
-import 'package:fit_tracker/presentation/pages/layout_page.dart';
-import 'package:fit_tracker/presentation/widgets/auth/auth_footer_widget.dart';
-import 'package:fit_tracker/presentation/widgets/auth/auth_header_widget.dart';
-import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
-import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
+import 'package:fit_tracker/presentation/pages/layout_page.dart';
+import 'package:fit_tracker/presentation/pages/onboarding_page.dart';
+import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,171 +15,161 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailCtrl = TextEditingController();
-  final _passCtrl = TextEditingController();
+  final _usernameCtrl = TextEditingController();
 
   @override
   void dispose() {
-    _emailCtrl.dispose();
-    _passCtrl.dispose();
+    _usernameCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    final authVM = context.read<AuthViewModel>();
-    await authVM.login(_emailCtrl.text.trim(), _passCtrl.text);
-    if (!context.mounted) return;
-    if (authVM.currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Invalid email or password', textAlign: TextAlign.center),
-        backgroundColor: redColor,
-      ));
-      return;
+    await context.read<AuthViewModel>().login(_usernameCtrl.text.trim());
+    if (context.mounted && context.read<AuthViewModel>().currentUser != null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const LayoutPage()),
+        (_) => false,
+      );
     }
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => const LayoutPage()));
-  }
-
-  Future<void> _continueAsGuest() async {
-    final authVM = context.read<AuthViewModel>();
-    await authVM.loginAsGuest();
-    if (!context.mounted) return;
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => const LayoutPage()));
   }
 
   @override
   Widget build(BuildContext context) {
+    final authVM = context.watch<AuthViewModel>();
     final theme = Theme.of(context);
-    Theme.of(context).extension<AppColorsExtension>()!;
-    final isLoading = context.watch<AuthViewModel>().isLoading;
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
-            child: Column(children: [
-              const AuthHeader(
-                title: 'Welcome Back!',
-                subtitle: 'Login to continue your fitness journey',
-              ),
-              Form(
-                key: _formKey,
-                child: Column(children: [
-                  CustomTextfield(
-                    controller: _emailCtrl,
-                    color: primaryColor,
-                    icon: const Icon(Icons.email_outlined),
-                    text: 'Email',
-                    isObscure: false,
-                    keyboard: TextInputType.emailAddress,
-                    onSaved: (_) {},
-                    input: FilteringTextInputFormatter.allow(
-                        RegExp(r'[a-zA-Z0-9@._\-]')),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: primaryColor.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.fitness_center_rounded,
+                        size: 56, color: primaryColor),
+                  ),
+                  const SizedBox(height: 24),
+                  Text('Welcome Back',
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: colors.textColor)),
+                  const SizedBox(height: 8),
+                  Text('Enter your username to continue',
+                      style: TextStyle(color: colors.subtitleColor)),
+                  const SizedBox(height: 32),
+                  TextFormField(
+                    controller: _usernameCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Username',
+                      prefixIcon: Icon(Icons.person_outline),
+                    ),
+                    textCapitalization: TextCapitalization.none,
                     validator: (v) {
-                      if (v == null || v.isEmpty) return 'Email is required';
-                      if (!v.contains('@')) return 'Enter a valid email';
+                      if (v == null || v.trim().isEmpty) {
+                        return 'Enter your username';
+                      }
                       return null;
                     },
+                  ),
+                  if (authVM.error != null) ...[
+                    const SizedBox(height: 12),
+                    Text(authVM.error!,
+                        style: const TextStyle(color: redColor, fontSize: 13)),
+                  ],
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 54,
+                    child: ElevatedButton(
+                      onPressed: authVM.isLoading ? null : _login,
+                      child: authVM.isLoading
+                          ? const SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                  strokeWidth: 2, color: Colors.white))
+                          : const Text('Login',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600)),
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  CustomTextfield(
-                    controller: _passCtrl,
-                    color: primaryColor,
-                    icon: const Icon(Icons.lock_outline),
-                    text: 'Password',
-                    isObscure: true,
-                    keyboard: TextInputType.text,
-                    onSaved: (_) {},
-                    input: FilteringTextInputFormatter.allow(
-                        RegExp(r'[a-zA-Z0-9@._\-]')),
-                    validator: (v) {
-                      if (v == null || v.isEmpty) return 'Password is required';
-                      if (v.length < 6) return 'Minimum 6 characters';
-                      return null;
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Divider(
+                            color: theme.dividerColor.withOpacity(0.4)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text('or',
+                            style: TextStyle(
+                                color: theme.colorScheme.onSurface
+                                    .withOpacity(0.4))),
+                      ),
+                      Expanded(
+                        child: Divider(
+                            color: theme.dividerColor.withOpacity(0.4)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton.icon(
+                    icon: const Icon(Icons.person_add_outlined),
+                    label: const Text('Create New Account'),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const RegisterPage()),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton.icon(
+                    icon: const Icon(Icons.explore_outlined),
+                    label: const Text('Continue as Guest'),
+                    onPressed: () async {
+                      await context
+                          .read<AuthViewModel>()
+                          .loginAsGuest();
+                      if (context.mounted) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const LayoutPage()),
+                          (_) => false,
+                        );
+                      }
                     },
                   ),
-                ]),
-              ),
-              AuthFooter(
-                buttonText: isLoading ? 'Logging in...' : 'Login',
-                questionText: "Don't have an account? ",
-                linkText: 'Sign Up',
-                onButtonPressed: isLoading ? null : _login,
-                onLinkPressed: isLoading
-                    ? null
-                    : () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const RegisterPage())),
-              ),
-              if (isLoading) ...[
-                const SizedBox(height: 16),
-                CircularProgressIndicator(color: primaryColor),
-              ],
-              if (!isLoading) ...[
-                const SizedBox(height: 24),
-                Row(children: [
-                  Expanded(
-                      child:
-                          Divider(color: theme.dividerColor.withOpacity(0.4))),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Text('or',
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const OnboardingPage()),
+                    ),
+                    child: Text('View Onboarding',
                         style: TextStyle(
-                            color: theme.colorScheme.onSurface.withOpacity(0.4),
-                            fontSize: 13)),
+                            color: colors.subtitleColor)),
                   ),
-                  Expanded(
-                      child:
-                          Divider(color: theme.dividerColor.withOpacity(0.4))),
-                ]),
-                const SizedBox(height: 16),
-                _GuestButton(onTap: _continueAsGuest),
-              ],
-            ]),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _GuestButton extends StatelessWidget {
-  final VoidCallback onTap;
-  const _GuestButton({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        decoration: BoxDecoration(
-          border: Border.all(
-              color: colors.subtitleColor.withOpacity(0.3), width: 1.5),
-          borderRadius: BorderRadius.circular(14),
-          color: colors.cardColor,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.person_outline_rounded,
-                size: 20, color: theme.colorScheme.onSurface.withOpacity(0.7)),
-            const SizedBox(width: 8),
-            Text(
-              'Continue as Guest',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

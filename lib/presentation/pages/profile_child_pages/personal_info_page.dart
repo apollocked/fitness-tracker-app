@@ -24,7 +24,6 @@ class PersonalInfoPage extends StatelessWidget {
 
     final fields = [
       ('Username', user.username, Icons.person_outline_rounded),
-      ('Email', user.email, Icons.email_outlined),
       ('Age', '${user.age} years', Icons.cake_outlined),
       ('Height', '${user.height} cm', Icons.height_rounded),
       ('Weight', '${user.weight} kg', Icons.monitor_weight_outlined),

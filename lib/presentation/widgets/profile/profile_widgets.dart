@@ -4,9 +4,8 @@ import 'package:fit_tracker/core/theme/app_theme.dart';
 
 /// Gradient avatar + name/email header for the profile page.
 class ProfileHero extends StatelessWidget {
-  const ProfileHero({super.key, required this.username, required this.email});
+  const ProfileHero({super.key, required this.username});
   final String username;
-  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,7 @@ class ProfileHero extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: colors.textColor)),
           const SizedBox(height: 4),
-          Text(email,
+          Text('Your personal fitness journey',
               style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
         ],
       ),

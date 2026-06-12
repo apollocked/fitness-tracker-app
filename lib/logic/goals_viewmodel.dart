@@ -8,206 +8,124 @@ class GoalsViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
 
   GoalsViewModel(this._userRepository, this._authRepository) {
-    loadGoals();
+    _loadGoals();
   }
 
-  Map<String, Map<String, dynamic>> _goals = {};
-  final bool _isLoading = false;
+  Map<String, dynamic>? _currentGoals;
+  Map<String, dynamic> get goals => _currentGoals ?? {};
 
-  Map<String, Map<String, dynamic>> get goals => _goals;
-  bool get isLoading => _isLoading;
-
-  void loadGoals() {
+  void _loadGoals() {
     final user = _authRepository.getCurrentUser();
-    if (user != null) {
-      _goals = Map<String, Map<String, dynamic>>.from(
-        (user.goals).map((k, v) => MapEntry(k, Map<String, dynamic>.from(v))),
-      );
-      notifyListeners();
-    }
+    _currentGoals = user?.goals ?? {};
   }
 
-  Future<void> saveGoals() async {
-    final user = _authRepository.getCurrentUser();
-    if (user == null || user.id == '__guest__') return; // guests: no persistence
-    user.goals = Map<String, dynamic>.from(_goals);
-    await _userRepository.updateUser(user);
-    await _authRepository.setCurrentUser(user);
-  }
-
-  Future<void> updateGoal(String key, Map<String, dynamic> newGoal) async {
-    final updated = Map<String, Map<String, dynamic>>.from(_goals);
-    updated[key] = {
-      ...Map<String, dynamic>.from(updated[key] ?? {}),
-      ...Map<String, dynamic>.from(newGoal),
-    };
-    _goals = updated;
+  void reload() {
+    _loadGoals();
     notifyListeners();
-    await saveGoals();
-  }
-
-  Future<void> toggleGoalActive(String key, bool active) async {
-    final updated = Map<String, Map<String, dynamic>>.from(_goals);
-    if (updated.containsKey(key)) {
-      updated[key] = Map<String, dynamic>.from(updated[key]!);
-      updated[key]!['active'] = active;
-      _goals = updated;
-      notifyListeners();
-      await saveGoals();
-    }
-  }
-
-  int get activeCount => _goals.values.where((g) => g['active'] == true).length;
-
-  int get completedCount {
-    int count = 0;
-    _goals.forEach((key, goal) {
-      if (goal['active'] == true &&
-          key == 'weight' &&
-          goal['current'] != null &&
-          getProgress(key) >= 1.0) {
-        count++;
-      }
-    });
-    return count;
   }
 
   double getProgress(String key) {
-    final goal = _goals[key];
-    if (goal == null || goal['current'] == null) return 0.0;
-    if (key == 'weight') {
-      final double target = _toDouble(goal['target']) ?? 0.0;
-      final double current = _toDouble(goal['current']) ?? 0.0;
-      final String goalType = goal['goalType'] ?? 'lose';
-      if (goalType == 'lose') {
-        final double startWeight = _toDouble(goal['startWeight']) ??
-            (current > target ? current : target + 5.0);
-        final double totalToLose = startWeight - target;
-        if (totalToLose <= 0) return 1.0;
-        return ((startWeight - current) / totalToLose).clamp(0.0, 1.0);
-      } else if (goalType == 'gain') {
-        final double startWeight = _toDouble(goal['startWeight']) ??
-            (current < target ? current : target - 5.0);
-        final double totalToGain = target - startWeight;
-        if (totalToGain <= 0) return 1.0;
-        return ((current - startWeight) / totalToGain).clamp(0.0, 1.0);
-      } else if (goalType == 'maintain') {
-        if (target == 0) return 0.0;
-        final double diff = (current - target).abs();
-        if (diff <= (target * 0.01)) return 1.0;
-        return (1.0 - (diff / 5.0)).clamp(0.0, 1.0);
-      }
-    }
-    final double targetValue = _toDouble(goal['target']) ?? 0.0;
-    final double currentValue = _toDouble(goal['current']) ?? 0.0;
-    if (targetValue == 0) return 0.0;
-    return (currentValue / targetValue).clamp(0.0, 1.0);
-  }
-
-  int getProgressPercentage(String key) => (getProgress(key) * 100).toInt();
-
-  Color getProgressColor(String key) {
-    final progress = getProgress(key);
-    return progress >= 1.0
-        ? greenColor
-        : progress >= 0.75
-            ? blueColor
-            : progress >= 0.5
-                ? orangeColor
-                : redColor;
+    final goal = _currentGoals?[key];
+    if (goal == null) return 0.0;
+    final target = (goal['target'] as num?)?.toDouble() ?? 0;
+    final current = (goal['current'] as num?)?.toDouble() ?? 0;
+    if (target == 0) return 0.0;
+    return (current / target).clamp(0.0, 1.0);
   }
 
   bool shouldShowPercentage(String key) {
-    final goal = _goals[key];
-    return goal != null && key == 'weight' && goal['current'] != null;
+    return key == 'weight' || key == 'protein';
   }
 
-  bool shouldShowProgressBar(String key) {
-    final goal = _goals[key];
-    return goal != null && key == 'weight' && goal['current'] != null;
+  Color getProgressColor(String key) {
+    final goal = _currentGoals?[key];
+    final active = goal?['active'] == true;
+    if (!active) return greyColor;
+    final progress = getProgress(key);
+    if (progress >= 1.0) return greenColor;
+    if (progress >= 0.5) return primaryColor;
+    return orangeColor;
   }
 
   String getGoalStatus(String key) {
-    final goal = _goals[key]!;
-    if (key == 'calories' || key == 'protein') return 'Goal Set';
-    if (key == 'weight' && goal['current'] != null) {
-      return getProgress(key) >= 1.0 ? 'Goal achieved' : 'Active';
-    }
-    return 'Not started';
+    final goal = _currentGoals?[key];
+    if (goal == null) return '';
+    final current = goal['current'];
+    final target = goal['target'];
+    if (current == null || target == null) return '';
+    return '$current / $target ${goal['unit'] ?? ''}';
   }
 
-  Color getCardColor(String key) {
-    switch (key) {
-      case 'calories':
-        return redColor;
-      case 'protein':
-        return orangeColor;
-      case 'weight':
-        return blueColor;
-      default:
-        return primaryColor;
-    }
+  int get completedCount {
+    if (_currentGoals == null) return 0;
+    return _currentGoals!.values.where((g) {
+      final target = (g['target'] as num?)?.toDouble() ?? 0;
+      final current = (g['current'] as num?)?.toDouble() ?? 0;
+      return target > 0 && current >= target;
+    }).length;
   }
 
-  String getShortTitle(String key) {
-    switch (key) {
-      case 'calories':
-        return 'Calories';
-      case 'protein':
-        return 'Protein';
-      case 'weight':
-        return 'Weight';
-      default:
-        return _capitalize(key);
-    }
+  Future<void> updateGoal(String key, Map<String, dynamic> goalData) async {
+    _currentGoals ??= {};
+    _currentGoals![key] = goalData;
+    await _persist();
+    notifyListeners();
   }
 
-  IconData getIcon(String key) {
-    switch (key) {
-      case 'calories':
-        return Icons.local_fire_department;
-      case 'protein':
-        return Icons.restaurant;
-      case 'weight':
-        return Icons.monitor_weight;
-      default:
-        return Icons.flag;
-    }
+  Future<void> saveGoal(String key, Map<String, dynamic> goalData) async {
+    _currentGoals ??= {};
+    _currentGoals![key] = goalData;
+    await _persist();
+    notifyListeners();
   }
 
-  String _capitalize(String s) =>
-      s.isNotEmpty ? s[0].toUpperCase() + s.substring(1) : '';
-
-  double? _toDouble(dynamic value) {
-    if (value == null) return null;
-    if (value is int) return value.toDouble();
-    if (value is double) return value;
-    return double.tryParse(value.toString());
+  Future<void> toggleGoal(String key, bool active) async {
+    final goal = _currentGoals?[key];
+    if (goal == null) return;
+    goal['active'] = active;
+    await _persist();
+    notifyListeners();
   }
 
-  static String getGoalDescription(String key) {
-    switch (key) {
-      case 'weight':
-        return 'Target body weight';
-      case 'calories':
-        return 'Daily calorie intake';
-      case 'protein':
-        return 'Daily protein intake';
-      default:
-        return 'Fitness goal';
-    }
+  Future<void> setGoalProgress(String key, double current) async {
+    final goal = _currentGoals?[key];
+    if (goal == null) return;
+    goal['current'] = current;
+    await _persist();
+    notifyListeners();
+  }
+
+  Future<void> _persist() async {
+    final user = _authRepository.getCurrentUser();
+    if (user == null || user.id == '__guest__') return;
+    final updated = user.copyWith(goals: Map.from(_currentGoals ?? {}));
+    await _userRepository.updateUser(updated);
+    await _authRepository.setCurrentUser(updated);
   }
 
   static IconData getGoalIcon(String key) {
     switch (key) {
       case 'weight':
-        return Icons.monitor_weight;
-      case 'calories':
-        return Icons.local_fire_department;
+        return Icons.monitor_weight_outlined;
       case 'protein':
-        return Icons.restaurant;
+        return Icons.restaurant_outlined;
+      case 'calories':
+        return Icons.local_fire_department_outlined;
       default:
-        return Icons.flag;
+        return Icons.flag_outlined;
+    }
+  }
+
+  static String getGoalDescription(String key) {
+    switch (key) {
+      case 'weight':
+        return 'Track your weight goals';
+      case 'protein':
+        return 'Daily protein intake target';
+      case 'calories':
+        return 'Daily calorie intake target';
+      default:
+        return '';
     }
   }
 }
