@@ -63,7 +63,7 @@ class SettingsDialogs {
                   content: Text(
                       appVM.successMessage ?? appVM.settingsError ?? 'Done'),
                   backgroundColor:
-                      appVM.successMessage != null ? Colors.green : Colors.red,
+                      appVM.successMessage != null ? greenColor : redColor,
                 ),
               );
             },
@@ -120,7 +120,7 @@ class SettingsDialogs {
                   content: Text(
                       appVM.successMessage ?? appVM.settingsError ?? 'Done'),
                   backgroundColor:
-                      appVM.successMessage != null ? Colors.green : Colors.red,
+                      appVM.successMessage != null ? greenColor : redColor,
                 ),
               );
             },
@@ -180,7 +180,7 @@ class SettingsDialogs {
                 }
               }
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: Text('Delete', style: TextStyle(color: redColor)),
           ),
         ],
       ),

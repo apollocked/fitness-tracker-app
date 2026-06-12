@@ -52,7 +52,7 @@ Widget buildListTile(BuildContext context, IconData icon, String title,
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: (isDanger ? Colors.red : primaryColor).withOpacity(0.12),
+              color: (isDanger ? redColor : primaryColor).withOpacity(0.12),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon,
@@ -67,7 +67,7 @@ Widget buildListTile(BuildContext context, IconData icon, String title,
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: isDanger ? Colors.red : colors.textColor)),
+                        color: isDanger ? redColor : colors.textColor)),
                 Text(subtitle,
                     style:
                         TextStyle(fontSize: 12, color: colors.subtitleColor)),

@@ -79,14 +79,10 @@ class _FitAppBuilder extends StatelessWidget {
   final bool showOnboarding;
   const _FitAppBuilder({this.showOnboarding = false});
   @override
+  @override
   Widget build(BuildContext context) {
     final appVM = context.watch<AppViewModel>();
     final authVM = context.watch<AuthViewModel>();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (context.mounted) {
-        context.read<AppViewModel>().syncWithUser(authVM.currentUser);
-      }
-    });
 
     Widget home;
     if (showOnboarding) {

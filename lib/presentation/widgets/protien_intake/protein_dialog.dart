@@ -110,16 +110,9 @@ class ProteinResultsDialog {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: orangeColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
                     child: const Text('Got it!',
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
+                            fontSize: 16, fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],

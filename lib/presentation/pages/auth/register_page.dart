@@ -54,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (!_formKey.currentState!.validate()) return;
     final authVM = context.read<AuthViewModel>();
     if (authVM.emailExists(_emailCtrl.text.trim())) {
-      _snack('Email already registered', Colors.red);
+      _snack('Email already registered', redColor);
       return;
     }
     if (!RegistrationValidator.validateAll(
@@ -65,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
         weight: _weightCtrl.text,
         height: _heightCtrl.text,
         gender: _gender)) {
-      _snack('Please fill all fields correctly', Colors.red);
+      _snack('Please fill all fields correctly', redColor);
       return;
     }
     final user = UserModel(
@@ -103,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       }
     } else {
-      _snack('Registration failed', Colors.red);
+      _snack('Registration failed', redColor);
     }
   }
 

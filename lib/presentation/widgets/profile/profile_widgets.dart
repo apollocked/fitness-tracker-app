@@ -108,7 +108,7 @@ class ProfileMenuTile extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: isDanger ? Colors.red : colors.textColor)),
+                            color: isDanger ? redColor : colors.textColor)),
                     const SizedBox(height: 2),
                     Text(subtitle,
                         style: TextStyle(

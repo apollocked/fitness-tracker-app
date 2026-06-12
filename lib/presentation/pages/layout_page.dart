@@ -37,7 +37,7 @@ class LayoutPage extends StatelessWidget {
           color: colors.cardColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(isDark ? 0.3 : 0.07),
+              color: colors.shadowColor,
               blurRadius: 20,
               offset: const Offset(0, -4),
             ),

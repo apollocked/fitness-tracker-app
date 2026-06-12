@@ -107,8 +107,8 @@ class ProfilePage extends StatelessWidget {
               icon: Icons.info_outline_rounded,
               title: 'About',
               subtitle: 'App information',
-              accentColor: greyColor,
-              onTap: () => _push(context, const AboutPage())),
+              accentColor: colors.subtitleColor,
+               onTap: () => _push(context, const AboutPage())),
         ]),
         const SizedBox(height: 16),
         _card(context, colors, [
@@ -180,7 +180,7 @@ class _GuestProfilePage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(children: [
           // Hero gradient card
-          _GuestHero(colors: colors),
+          _GuestHero(colors: colors, isDark: theme.brightness == Brightness.dark),
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -214,16 +214,21 @@ class _GuestProfilePage extends StatelessWidget {
 
 class _GuestHero extends StatelessWidget {
   final AppColorsExtension colors;
-  const _GuestHero({required this.colors});
+  final bool isDark;
+  const _GuestHero({required this.colors, required this.isDark});
 
   @override
   Widget build(BuildContext context) {
+    final bg = isDark
+        ? const [Color(0xFF1A1A2E), Color(0xFF252540)]
+        : primaryGradient;
+    final fg = isDark ? colors.textColor : blackColor;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 24),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: primaryGradient,
+          colors: bg,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -234,23 +239,22 @@ class _GuestHero extends StatelessWidget {
           height: 80,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: blackColor.withOpacity(0.08),
-            border: Border.all(color: blackColor.withOpacity(0.15), width: 2),
+            color: fg.withOpacity(0.08),
+            border: Border.all(color: fg.withOpacity(0.15), width: 2),
           ),
-          child: const Icon(Icons.person_outline_rounded,
-              size: 44, color: blackColor),
+          child: Icon(Icons.person_outline_rounded, size: 44, color: fg),
         ),
         const SizedBox(height: 14),
-        const Text('Browsing as Guest',
+        Text('Browsing as Guest',
             style: TextStyle(
-                color: blackColor,
+                color: fg,
                 fontSize: 20,
                 fontWeight: FontWeight.w700)),
         const SizedBox(height: 6),
         Text(
           'Your data is not being saved',
           style: TextStyle(
-              color: blackColor.withOpacity(0.7),
+              color: fg.withOpacity(0.7),
               fontSize: 13,
               fontWeight: FontWeight.w500),
         ),
@@ -360,30 +364,12 @@ class _CreateAccountButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 50,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: primaryGradient,
-          ),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14)),
-          ),
-          icon: const Icon(Icons.person_add_outlined,
-              color: Colors.white, size: 20),
-          label: const Text('Create Free Account',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15)),
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const RegisterPage())),
-        ),
+      child: ElevatedButton.icon(
+        icon: const Icon(Icons.person_add_outlined, size: 20),
+        label: const Text('Create Free Account',
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+        onPressed: () => Navigator.push(context,
+            MaterialPageRoute(builder: (_) => const RegisterPage())),
       ),
     );
   }
@@ -463,9 +449,9 @@ class _AppInfoSection extends StatelessWidget {
               icon: Icons.info_outline_rounded,
               title: 'About',
               subtitle: 'App information',
-              accentColor: greyColor,
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const AboutPage()))),
+              accentColor: colors.subtitleColor,
+               onTap: () => Navigator.push(context,
+                   MaterialPageRoute(builder: (_) => const AboutPage()))),
           Divider(
               height: 1,
               thickness: 1,

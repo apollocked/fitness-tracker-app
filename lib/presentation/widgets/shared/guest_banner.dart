@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
+import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 
 /// Sticky gradient banner shown at the top of every main page for guests.
@@ -13,45 +14,45 @@ class GuestBanner extends StatelessWidget {
     final isGuest = context.watch<AuthViewModel>().isGuest;
     if (!isGuest) return const SizedBox.shrink();
     final theme = Theme.of(context);
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final isDark = theme.brightness == Brightness.dark;
+    final bg =
+        isDark ? const [Color(0xFF1A1A2E), Color(0xFF252540)] : primaryGradient;
+    final fg = isDark ? colors.textColor : blackColor;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: primaryGradient,
+          colors: bg,
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
       ),
       child: Row(children: [
-        const Icon(Icons.cloud_off_rounded, color: blackColor, size: 18),
+        Icon(Icons.cloud_off_rounded, color: fg, size: 18),
         const SizedBox(width: 10),
         Expanded(
           child: Text(
             'Guest mode — your data won\'t be saved.',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: blackColor,
+              color: fg,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         const SizedBox(width: 8),
-        GestureDetector(
-          onTap: () => _navigateToRegister(context),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+        SizedBox(
+          height: 28,
+          child: ElevatedButton(
+            onPressed: () => _navigateToRegister(context),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
             ),
-            child: const Text(
-              'Create Account',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: primaryColor, // White button with gold text is fine, but maybe white background with primary text is enough since primaryColor is dark gold now.
-              ),
-            ),
+            child: const Text('Create Account',
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
           ),
         ),
       ]),
@@ -93,7 +94,7 @@ class GuestGuard {
             style: FilledButton.styleFrom(
               backgroundColor: primaryColor,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(14)),
             ),
             onPressed: () {
               Navigator.pop(ctx);

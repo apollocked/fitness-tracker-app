@@ -156,18 +156,11 @@ class IdealWeightResultsDialog {
                         onSetGoal?.call();
                         Navigator.pop(context);
                       },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: blueColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                      child: const Text('Got it!',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                     ),
-                    child: const Text('Got it!',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
                   ),
-                ),
               ],
             ),
           ),

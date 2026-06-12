@@ -128,7 +128,7 @@ class AppTheme {
       iconTheme: IconThemeData(color: text),
       listTileTheme: const ListTileThemeData(
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 4)),
-      extensions: <ThemeExtension>[
+      extensions: <ThemeExtension<dynamic>>[
         AppColorsExtension(
           cardColor: card,
           textColor: text,

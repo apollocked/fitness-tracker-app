@@ -37,12 +37,12 @@ class GoalTile extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isActive
                     ? cubit.getProgressColor(goalKey).withOpacity(0.1)
-                    : greyColor.withOpacity(0.1),
+                    : colors.subtitleColor.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(GoalsViewModel.getGoalIcon(goalKey),
                     color:
-                        isActive ? cubit.getProgressColor(goalKey) : greyColor),
+                        isActive ? cubit.getProgressColor(goalKey) : colors.subtitleColor),
             ),
             title: Row(
               children: [
@@ -116,10 +116,10 @@ class GoalTile extends StatelessWidget {
                 if (goalKey == 'weight' && hasCurrent)
                   LinearProgressIndicator(
                     value: progress,
-                    backgroundColor: greyColor.withOpacity(0.3),
+                    backgroundColor: colors.subtitleColor.withOpacity(0.3),
                     color: isActive
                         ? cubit.getProgressColor(goalKey)
-                        : Colors.grey,
+                        : colors.subtitleColor,
                     minHeight: 6,
                     borderRadius: BorderRadius.circular(3),
                   ),
@@ -139,7 +139,7 @@ class GoalTile extends StatelessWidget {
                             ? greenColor
                             : hasCurrent
                                 ? greenColor
-                                : greyColor,
+                                : colors.subtitleColor,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -152,7 +152,7 @@ class GoalTile extends StatelessWidget {
                                 ? greenColor
                                 : hasCurrent
                                     ? colors.subtitleColor
-                                    : greyColor),
+                                    : colors.subtitleColor),
                       ),
                     ],
                   ),

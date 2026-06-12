@@ -167,18 +167,12 @@ class DailyCaloriesResultsDialog {
                           onPressed: () => Navigator.pop(context),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            side: BorderSide(color: redColor),
+                            side: const BorderSide(color: primaryColor),
                           ),
-                          child: Text(
-                            'Close',
-                            style: TextStyle(
-                              color: redColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          child: const Text('Close',
+                              style: TextStyle(
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.w600)),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -189,19 +183,10 @@ class DailyCaloriesResultsDialog {
                             Navigator.pop(context);
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: redColor,
                             padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
                           ),
-                          child: const Text(
-                            'Set as Goal',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          child: const Text('Set as Goal',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                         ),
                       ),
                     ],
