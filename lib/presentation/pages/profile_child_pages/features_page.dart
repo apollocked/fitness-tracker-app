@@ -12,7 +12,8 @@ class FeaturesPage extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: customAppBarr('App Features', primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          'App Features', primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -22,7 +23,8 @@ class FeaturesPage extends StatelessWidget {
           children: [
             Text('Discover Our Features', style: theme.textTheme.titleLarge),
             const SizedBox(height: 6),
-            Text('Explore all the tools and capabilities available in our fitness app.',
+            Text(
+                'Explore all the tools and capabilities available in our fitness app.',
                 style: TextStyle(color: colors.subtitleColor, fontSize: 14)),
             const SizedBox(height: 24),
             ListView.builder(
@@ -45,28 +47,46 @@ class FeaturesPage extends StatelessWidget {
                                 color: primaryColor.withOpacity(0.12),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Icon(feature['icon'] as IconData, size: 24, color: primaryColor),
+                              child: Icon(feature['icon'] as IconData,
+                                  size: 24, color: primaryColor),
                             ),
                             const SizedBox(width: 14),
-                            Expanded(child: Text(feature['title'], style: theme.textTheme.titleMedium)),
+                            Expanded(
+                                child: Text(feature['title'],
+                                    style: theme.textTheme.titleMedium)),
                           ],
                         ),
                         const SizedBox(height: 14),
-                        Text(feature['description'], style: TextStyle(color: colors.subtitleColor, fontSize: 13, height: 1.4)),
+                        Text(feature['description'],
+                            style: TextStyle(
+                                color: colors.subtitleColor,
+                                fontSize: 13,
+                                height: 1.4)),
                         const SizedBox(height: 16),
-                        Text('Why it\'s useful:', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: colors.textColor)),
+                        Text('Why it\'s useful:',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                                color: colors.textColor)),
                         const SizedBox(height: 10),
-                        ...(feature['benefits'] as List<String>).map((benefit) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(Icons.check_circle_rounded, size: 18, color: greenColor),
-                              const SizedBox(width: 10),
-                              Expanded(child: Text(benefit, style: TextStyle(color: colors.subtitleColor, fontSize: 13))),
-                            ],
-                          ),
-                        )),
+                        ...(feature['benefits'] as List<String>)
+                            .map((benefit) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.check_circle_rounded,
+                                          size: 18, color: greenColor),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                          child: Text(benefit,
+                                              style: TextStyle(
+                                                  color: colors.subtitleColor,
+                                                  fontSize: 13))),
+                                    ],
+                                  ),
+                                )),
                       ],
                     ),
                   ),
@@ -79,15 +99,23 @@ class FeaturesPage extends StatelessWidget {
               elevation: false,
               child: Row(
                 children: [
-                  Icon(Icons.help_outline_rounded, color: primaryColor, size: 28),
+                  Icon(Icons.help_outline_rounded,
+                      color: primaryColor, size: 28),
                   const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Need Help?', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textColor)),
+                        Text('Need Help?',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: colors.textColor)),
                         const SizedBox(height: 4),
-                        Text('Visit Help & Support for FAQs and troubleshooting.', style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
+                        Text(
+                            'Visit Help & Support for FAQs and troubleshooting.',
+                            style: TextStyle(
+                                fontSize: 12, color: colors.subtitleColor)),
                       ],
                     ),
                   ),

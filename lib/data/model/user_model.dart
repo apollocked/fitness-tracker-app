@@ -10,6 +10,7 @@ class UserModel {
   bool isBodybuilder;
   final DateTime createdAt;
   bool darkMode;
+  bool notificationsEnabled;
   Map<String, dynamic> goals;
 
   UserModel({
@@ -24,6 +25,7 @@ class UserModel {
     this.isBodybuilder = false,
     DateTime? createdAt,
     this.darkMode = false,
+    this.notificationsEnabled = false,
     Map<String, dynamic>? goals,
   })  : createdAt = createdAt ?? DateTime.now(),
         goals = goals ?? {};
@@ -42,6 +44,7 @@ class UserModel {
       createdAt:
           map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
       darkMode: map['darkMode'] ?? false,
+      notificationsEnabled: map['notificationsEnabled'] ?? false,
       goals: map['goals'] is Map ? Map<String, dynamic>.from(map['goals']) : {},
     );
   }
@@ -59,6 +62,7 @@ class UserModel {
       'isBodybuilder': isBodybuilder,
       'createdAt': createdAt.toIso8601String(),
       'darkMode': darkMode,
+      'notificationsEnabled': notificationsEnabled,
       'goals': goals,
     };
   }
@@ -73,6 +77,7 @@ class UserModel {
     String? gender,
     bool? isBodybuilder,
     bool? darkMode,
+    bool? notificationsEnabled,
     Map<String, dynamic>? goals,
   }) {
     return UserModel(
@@ -87,6 +92,7 @@ class UserModel {
       isBodybuilder: isBodybuilder ?? this.isBodybuilder,
       createdAt: createdAt,
       darkMode: darkMode ?? this.darkMode,
+      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       goals: goals ?? Map.from(this.goals),
     );
   }

@@ -55,6 +55,7 @@ class SettingsDialogs {
               final appVM = dialogContext.read<AppViewModel>();
               final success = await appVM.changePassword(
                   oldPasswordController.text, newPasswordController.text);
+              if (success) await context.read<AuthViewModel>().reloadUser();
               if (success) Navigator.pop(dialogContext);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -109,6 +110,7 @@ class SettingsDialogs {
               final success = await appVM.updateProfile(
                   usernameController.text, emailController.text);
               if (success) {
+                await context.read<AuthViewModel>().reloadUser();
                 onSave();
                 Navigator.pop(dialogContext);
               }

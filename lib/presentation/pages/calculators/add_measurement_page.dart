@@ -7,6 +7,7 @@ import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 
@@ -32,16 +33,19 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      final newWeight = double.parse(_weightCtrl.text);
+      final newWeight = double.parse(_weightCtrl.text.trim());
       final authVM = context.read<AuthViewModel>();
       final user = authVM.currentUser;
       if (user != null) {
-        user.weight = newWeight;
-        authVM.updateUser(user);
+        await authVM.updateUser(user.copyWith(weight: newWeight));
       }
       final progressVM = context.read<ProgressViewModel>();
-      progressVM
+      await progressVM
           .addMeasurement(Measurement(weight: newWeight, date: DateTime.now()));
+      final goalsVM = context.read<GoalsViewModel>();
+      if (goalsVM.goals.containsKey('weight')) {
+        await goalsVM.updateGoal('weight', {'current': newWeight});
+      }
       setState(() => _isLoading = false);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

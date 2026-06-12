@@ -46,7 +46,7 @@ class AppTheme {
             color: text,
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            letterSpacing: 0.3),
+            letterSpacing: 0),
       ),
       cardTheme: CardThemeData(
         color: card,
@@ -68,7 +68,7 @@ class AppTheme {
             color: text,
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            letterSpacing: -0.5),
+            letterSpacing: 0),
         titleLarge:
             TextStyle(color: text, fontSize: 20, fontWeight: FontWeight.bold),
         titleMedium:
@@ -117,6 +117,12 @@ class AppTheme {
           padding: const EdgeInsets.symmetric(vertical: 16),
           textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: isDark ? const Color(0xFF252540) : blackColor,
+        contentTextStyle: const TextStyle(color: Colors.white, fontSize: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       dividerTheme: DividerThemeData(color: divColor, thickness: 1, space: 0),
       iconTheme: IconThemeData(color: text),

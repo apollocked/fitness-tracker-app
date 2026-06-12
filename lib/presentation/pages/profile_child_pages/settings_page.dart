@@ -13,9 +13,26 @@ class SettingsPage extends StatelessWidget {
   Future<void> _onDarkModeChanged(BuildContext context, bool value) async {
     final appVM = context.read<AppViewModel>();
     final authVM = context.read<AuthViewModel>();
-    appVM.setDarkMode(value);
-    if (authVM.currentUser != null) {
-      authVM.updateUser(authVM.currentUser!.copyWith(darkMode: value));
+    await appVM.setDarkMode(value);
+    await authVM.reloadUser();
+  }
+
+  Future<void> _onNotificationsChanged(BuildContext context, bool value) async {
+    final appVM = context.read<AppViewModel>();
+    final messenger = ScaffoldMessenger.of(context);
+    final success = await appVM.setNotifications(value);
+    if (!context.mounted) return;
+    await context.read<AuthViewModel>().reloadUser();
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          appVM.successMessage ?? appVM.settingsError ?? 'Settings updated.',
+        ),
+        backgroundColor: success ? Colors.green : Colors.red,
+      ),
+    );
+    if (!success) {
+      appVM.clearMessages();
     }
   }
 
@@ -54,9 +71,11 @@ class SettingsPage extends StatelessWidget {
                 context,
                 Icons.notifications_outlined,
                 'All Notifications',
-                'Enable/disable notifications',
+                'Weight reminder every 3 days',
                 appVM.notificationsEnabled,
-                (v) => appVM.setNotifications(v)),
+                appVM.settingsLoading
+                    ? (_) {}
+                    : (v) => _onNotificationsChanged(context, v)),
           ]),
           const SizedBox(height: 20),
           buildSectionTitle(context, 'Appearance'),

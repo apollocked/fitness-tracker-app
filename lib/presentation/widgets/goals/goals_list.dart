@@ -21,7 +21,8 @@ class GoalsList extends StatelessWidget {
           decoration: BoxDecoration(
             color: blueColor.withOpacity(0.12),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: blueColor.withOpacity(isDark ? 0.3 : 0.2)),
+            border:
+                Border.all(color: blueColor.withOpacity(isDark ? 0.3 : 0.2)),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +32,8 @@ class GoalsList extends StatelessWidget {
               Expanded(
                 child: Text(
                   'Weight goals can be edited. Calorie and protein goals are set automatically from their respective calculators.',
-                  style: TextStyle(fontSize: 12, color: colors.textColor, height: 1.4),
+                  style: TextStyle(
+                      fontSize: 12, color: colors.textColor, height: 1.4),
                 ),
               ),
             ],

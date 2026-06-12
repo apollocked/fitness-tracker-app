@@ -120,7 +120,7 @@ class ProfilePage extends StatelessWidget {
           fontSize: 11,
           fontWeight: FontWeight.w700,
           color: colors.subtitleColor,
-          letterSpacing: 1.2));
+          letterSpacing: 0));
 
   Widget _divider(AppColorsExtension colors) => Divider(
       height: 1,

@@ -21,10 +21,10 @@ AppBar customAppBarr([String title = '', Color? accentColor, Color? bgColor]) {
         Text(
           title,
           style: TextStyle(
-            color: accentColor ?? bgColor,
+            color: accentColor,
             fontWeight: FontWeight.bold,
             fontSize: 20,
-            letterSpacing: 0.3,
+            letterSpacing: 0,
           ),
         ),
       ],

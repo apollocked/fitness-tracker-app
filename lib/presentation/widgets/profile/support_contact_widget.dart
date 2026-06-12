@@ -14,7 +14,7 @@ class SupportContactWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    
+
     return AppCard(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       borderColor: primaryColor.withOpacity(0.3),

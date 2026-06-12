@@ -32,12 +32,16 @@ class GoalsViewModel extends ChangeNotifier {
     if (user != null) {
       user.goals = Map<String, dynamic>.from(_goals);
       await _userRepository.updateUser(user);
+      await _authRepository.setCurrentUser(user);
     }
   }
 
   Future<void> updateGoal(String key, Map<String, dynamic> newGoal) async {
     final updated = Map<String, Map<String, dynamic>>.from(_goals);
-    updated[key] = Map.from(newGoal);
+    updated[key] = {
+      ...Map<String, dynamic>.from(updated[key] ?? {}),
+      ...Map<String, dynamic>.from(newGoal),
+    };
     _goals = updated;
     notifyListeners();
     await saveGoals();

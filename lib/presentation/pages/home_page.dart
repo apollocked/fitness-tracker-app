@@ -26,9 +26,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 4),
             GreetingBanner(username: username),
             const SizedBox(height: 24),
-            Text('Quick Calculators',
-                style:
-                    theme.textTheme.titleMedium?.copyWith(letterSpacing: 0.2)),
+            Text('Quick Calculators', style: theme.textTheme.titleMedium),
             const SizedBox(height: 14),
             GridView.count(
               shrinkWrap: true,
@@ -97,7 +95,7 @@ class _TipCard extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: Text(
-            'Consistency beats intensity — small daily habits build lasting results.',
+            'Consistency beats intensity - small daily habits build lasting results.',
             style: theme.textTheme.bodySmall,
           ),
         ),

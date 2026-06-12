@@ -10,6 +10,7 @@ import 'package:fit_tracker/presentation/pages/calculators/daily_calorie_page.da
 import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/presentation/pages/profile_child_pages/features_page.dart';
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
+import 'package:fit_tracker/data/services/notification_service.dart';
 import 'package:fit_tracker/data/services/storage_service.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/data/repositories/local_auth_repository.dart';
@@ -23,10 +24,15 @@ import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await StorageService.init();
+  await NotificationService.instance.initialize();
   final userRepository = LocalUserRepository();
   await userRepository.reloadFromStorage();
   await userRepository.addDefaultUserIfEmpty();
   final authRepository = LocalAuthRepository(userRepository);
+  final currentUser = authRepository.getCurrentUser();
+  if (currentUser?.notificationsEnabled == true) {
+    await NotificationService.instance.scheduleWeightReminder();
+  }
   final measurementRepository = LocalMeasurementRepository();
   runApp(FitApp(
     userRepository: userRepository,
@@ -70,12 +76,11 @@ class _FitAppBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     final appVM = context.watch<AppViewModel>();
     final authVM = context.watch<AuthViewModel>();
-    if (authVM.currentUser?.darkMode != null &&
-        appVM.isDarkMode != authVM.currentUser!.darkMode) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        appVM.setDarkMode(authVM.currentUser!.darkMode);
-      });
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) {
+        context.read<AppViewModel>().syncWithUser(authVM.currentUser);
+      }
+    });
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Fitness Tracker",

@@ -106,7 +106,6 @@ class _MeasurementList extends StatelessWidget {
       itemCount: measurements.length,
       itemBuilder: (context, index) {
         final m = measurements[measurements.length - 1 - index];
-        final reversedIndex = measurements.length - 1 - index;
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
@@ -149,9 +148,8 @@ class _MeasurementList extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.delete_outline_rounded,
                   color: Colors.red, size: 20),
-              onPressed: () => context
-                  .read<ProgressViewModel>()
-                  .deleteMeasurement(reversedIndex),
+              onPressed: () =>
+                  context.read<ProgressViewModel>().deleteMeasurement(index),
             ),
           ]),
         );

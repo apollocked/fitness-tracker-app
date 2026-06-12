@@ -28,7 +28,7 @@ class DashboardCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: colors.cardColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(16),
           border:
               Border.all(color: accentColor.withOpacity(isDark ? 0.25 : 0.15)),
           boxShadow: [
@@ -63,7 +63,7 @@ class DashboardCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                   color: accentColor.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(12)),
               child: Text(label,
                   style: TextStyle(
                       fontSize: 11,
@@ -98,7 +98,7 @@ class GreetingBanner extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: primaryColor.withOpacity(isDark ? 0.3 : 0.2)),
       ),
       child: Row(
@@ -106,7 +106,7 @@ class GreetingBanner extends StatelessWidget {
           Expanded(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('Hello, ${username ?? 'Athlete'}! 👋',
+              Text('Hello, ${username ?? 'Athlete'}!',
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

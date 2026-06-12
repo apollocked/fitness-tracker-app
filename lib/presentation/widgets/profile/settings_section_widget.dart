@@ -11,7 +11,7 @@ Widget buildSectionTitle(BuildContext context, String title) {
             fontSize: 11,
             fontWeight: FontWeight.w700,
             color: colors.subtitleColor,
-            letterSpacing: 1.2)),
+            letterSpacing: 0)),
   );
 }
 

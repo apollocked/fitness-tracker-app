@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 const List<Map<String, dynamic>> helpFaqs = [
   {
     'question': 'How do I update my weight?',
-    'answer': 'Go to the Home page > Click "Update Weight" card > Enter your current weight > Save.',
+    'answer':
+        'Go to the Home page > Click "Update Weight" card > Enter your current weight > Save.',
   },
   {
     'question': 'Can I edit my fitness goals?',
-    'answer': 'Yes! Go to Profile > My Goals > Click the Edit button on any goal > Modify > Save.',
+    'answer':
+        'Yes! Go to Profile > My Goals > Click the Edit button on any goal > Modify > Save.',
   },
   {
     'question': 'How do I enable Dark Mode?',
-    'answer': 'Go to Profile > Settings > Find "Dark Mode" under Appearance > Toggle the switch.',
+    'answer':
+        'Go to Profile > Settings > Find "Dark Mode" under Appearance > Toggle the switch.',
   },
   {
     'question': 'What calculators does the app have?',
-    'answer': 'Daily Calorie Calculator, Ideal Body Weight Calculator, and Protein Intake Calculator.',
+    'answer':
+        'Daily Calorie Calculator, Ideal Body Weight Calculator, and Protein Intake Calculator.',
   },
   {
     'question': 'Are my personal details safe?',

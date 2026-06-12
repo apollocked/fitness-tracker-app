@@ -8,10 +8,11 @@ class ProteinResultsDialog {
     required double normalProtein,
     required double minProtein,
     required double maxProtein,
-    required Null Function() onSetGoal,
+    required VoidCallback onSetGoal,
   }) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const accent = Colors.orange;
+
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -26,7 +27,7 @@ class ProteinResultsDialog {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.orange[100],
+                    color: accent.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(Icons.restaurant,
@@ -44,13 +45,7 @@ class ProteinResultsDialog {
                         TextStyle(fontSize: 14, color: colors.subtitleColor)),
                 const SizedBox(height: 24),
                 if (isBodybuilder) ...[
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.orange[50],
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.orange[200]!, width: 2),
-                    ),
+                  _ResultPanel(
                     child: Column(
                       children: [
                         Text('Daily Protein Range',
@@ -60,36 +55,18 @@ class ProteinResultsDialog {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              children: [
-                                Text('Minimum',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: colors.subtitleColor)),
-                                const SizedBox(height: 4),
-                                Text('${minProtein.toStringAsFixed(1)}g',
-                                    style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.orange)),
-                              ],
+                            _ProteinValue(
+                              label: 'Minimum',
+                              value: minProtein,
+                              colors: colors,
                             ),
                             Text('to',
                                 style: TextStyle(
                                     fontSize: 16, color: colors.subtitleColor)),
-                            Column(
-                              children: [
-                                Text('Maximum',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: colors.subtitleColor)),
-                                const SizedBox(height: 4),
-                                Text('${maxProtein.toStringAsFixed(1)}g',
-                                    style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.orange)),
-                              ],
+                            _ProteinValue(
+                              label: 'Maximum',
+                              value: maxProtein,
+                              colors: colors,
                             ),
                           ],
                         ),
@@ -97,26 +74,14 @@ class ProteinResultsDialog {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                        color: Colors.blue[isDark ? 900 : 50],
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Text(
-                      'Ã°Å¸â€™Âª As a bodybuilder, consume protein throughout the day for optimal muscle growth',
-                      style: TextStyle(
-                          fontSize: 12, color: Colors.blue[isDark ? 300 : 600]),
-                      textAlign: TextAlign.center,
-                    ),
+                  _HintBox(
+                    message:
+                        'As a bodybuilder, consume protein throughout the day for optimal muscle growth.',
+                    color: Colors.blue,
+                    colors: colors,
                   ),
                 ] else ...[
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.orange[50],
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.orange[200]!, width: 2),
-                    ),
+                  _ResultPanel(
                     child: Column(
                       children: [
                         Text('Daily Protein Intake',
@@ -127,23 +92,16 @@ class ProteinResultsDialog {
                             style: const TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.orange)),
+                                color: accent)),
                       ],
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                        color: Colors.green[isDark ? 900 : 50],
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Text(
-                      'Ã¢Å“â€œ This is the recommended daily protein intake for a healthy lifestyle',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.green[isDark ? 300 : 600]),
-                      textAlign: TextAlign.center,
-                    ),
+                  _HintBox(
+                    message:
+                        'This is the recommended daily protein intake for a healthy lifestyle.',
+                    color: Colors.green,
+                    colors: colors,
                   ),
                 ],
                 const SizedBox(height: 24),
@@ -153,7 +111,7 @@ class ProteinResultsDialog {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                      backgroundColor: accent,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -168,6 +126,83 @@ class ProteinResultsDialog {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ResultPanel extends StatelessWidget {
+  const _ResultPanel({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.orange.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.orange.withOpacity(0.25), width: 1),
+      ),
+      child: child,
+    );
+  }
+}
+
+class _ProteinValue extends StatelessWidget {
+  const _ProteinValue({
+    required this.label,
+    required this.value,
+    required this.colors,
+  });
+
+  final String label;
+  final double value;
+  final AppColorsExtension colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(label,
+            style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
+        const SizedBox(height: 4),
+        Text('${value.toStringAsFixed(1)}g',
+            style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.orange)),
+      ],
+    );
+  }
+}
+
+class _HintBox extends StatelessWidget {
+  const _HintBox({
+    required this.message,
+    required this.color,
+    required this.colors,
+  });
+
+  final String message;
+  final Color color;
+  final AppColorsExtension colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withOpacity(0.2)),
+      ),
+      child: Text(
+        message,
+        style: TextStyle(fontSize: 12, color: colors.textColor),
+        textAlign: TextAlign.center,
       ),
     );
   }

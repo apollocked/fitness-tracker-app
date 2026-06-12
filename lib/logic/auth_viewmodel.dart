@@ -71,7 +71,9 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUser(UserModel user) {
+  Future<void> updateUser(UserModel user) async {
+    await _userRepository.updateUser(user);
+    await _authRepository.setCurrentUser(user);
     _user = user;
     notifyListeners();
   }

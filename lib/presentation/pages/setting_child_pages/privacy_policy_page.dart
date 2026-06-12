@@ -12,7 +12,8 @@ class PrivacyPolicyPage extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: customAppBarr('Privacy Policy', primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          'Privacy Policy', primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -20,9 +21,12 @@ class PrivacyPolicyPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Privacy Policy', style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
+            Text('Privacy Policy',
+                style: theme.textTheme.headlineMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
-            Text('Last Updated: May 1, 2026', style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
+            Text('Last Updated: May 1, 2026',
+                style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
             const SizedBox(height: 24),
             ListView.builder(
               shrinkWrap: true,
@@ -37,25 +41,35 @@ class PrivacyPolicyPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(section['title'], style: theme.textTheme.titleMedium),
+                        Text(section['title'],
+                            style: theme.textTheme.titleMedium),
                         const SizedBox(height: 10),
-                        Text(section['desc'], style: TextStyle(color: colors.subtitleColor, fontSize: 13, height: 1.4)),
+                        Text(section['desc'],
+                            style: TextStyle(
+                                color: colors.subtitleColor,
+                                fontSize: 13,
+                                height: 1.4)),
                         if (points != null) ...[
                           const SizedBox(height: 12),
                           ...points.map((point) => Padding(
-                            padding: const EdgeInsets.only(bottom: 6),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Icon(Icons.circle, size: 6, color: primaryColor),
+                                padding: const EdgeInsets.only(bottom: 6),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 6),
+                                      child: Icon(Icons.circle,
+                                          size: 6, color: primaryColor),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                        child: Text(point,
+                                            style: TextStyle(
+                                                color: colors.textColor,
+                                                fontSize: 13))),
+                                  ],
                                 ),
-                                const SizedBox(width: 10),
-                                Expanded(child: Text(point, style: TextStyle(color: colors.textColor, fontSize: 13))),
-                              ],
-                            ),
-                          )),
+                              )),
                         ],
                       ],
                     ),
@@ -70,11 +84,22 @@ class PrivacyPolicyPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Contact Information', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textColor)),
+                  Text('Contact Information',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: colors.textColor)),
                   const SizedBox(height: 8),
-                  Text('If you have any questions about this Privacy Policy, please contact us at:', style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
+                  Text(
+                      'If you have any questions about this Privacy Policy, please contact us at:',
+                      style:
+                          TextStyle(color: colors.subtitleColor, fontSize: 13)),
                   const SizedBox(height: 8),
-                  Text('support@fitnessapp.com', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold, fontSize: 14)),
+                  Text('mahamadbarznji712@gmail.com',
+                      style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14)),
                 ],
               ),
             ),

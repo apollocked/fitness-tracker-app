@@ -28,7 +28,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   void _scrollTo(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
-      Scrollable.ensureVisible(context, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+      Scrollable.ensureVisible(context,
+          duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
     }
   }
 
@@ -36,9 +37,10 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
-    
+
     return Scaffold(
-      appBar: customAppBarr('Help & Support', primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          'Help & Support', primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         controller: _scrollController,
@@ -47,21 +49,34 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Welcome to Help & Support', style: theme.textTheme.titleLarge),
+            Text('Welcome to Help & Support',
+                style: theme.textTheme.titleLarge),
             const SizedBox(height: 6),
-            Text('Find answers to common questions and learn how to use the app.',
+            Text(
+                'Find answers to common questions and learn how to use the app.',
                 style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
             const SizedBox(height: 24),
             _buildQuickNavigation(colors),
             const SizedBox(height: 28),
-            _buildSection(key: _faqKey, title: 'Frequently Asked Questions', child: _buildFAQSection(colors)),
+            _buildSection(
+                key: _faqKey,
+                title: 'Frequently Asked Questions',
+                child: _buildFAQSection(colors)),
             const SizedBox(height: 28),
-            _buildSection(key: _troubleshootKey, title: 'Troubleshooting', child: _buildTroubleshootSection(colors)),
+            _buildSection(
+                key: _troubleshootKey,
+                title: 'Troubleshooting',
+                child: _buildTroubleshootSection(colors)),
             const SizedBox(height: 28),
-            _buildSection(key: _tipsKey, title: 'Tips & Tricks', child: _buildTipsSection(colors)),
+            _buildSection(
+                key: _tipsKey,
+                title: 'Tips & Tricks',
+                child: _buildTipsSection(colors)),
             const SizedBox(height: 28),
-            _buildSection(title: 'Still Need Help?', child: const SupportContactWidget(
-              email: 'support@fitnessapp.com', title: 'Contact Us')),
+            _buildSection(
+                title: 'Still Need Help?',
+                child: const SupportContactWidget(
+                    email: 'mahamadbarznji712@gmail.com', title: 'Contact Us')),
             const SizedBox(height: 32),
           ],
         ),
@@ -69,7 +84,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
     );
   }
 
-  Widget _buildSection({GlobalKey? key, required String title, required Widget child}) {
+  Widget _buildSection(
+      {GlobalKey? key, required String title, required Widget child}) {
     final theme = Theme.of(context);
     return Container(
       key: key,
@@ -92,15 +108,24 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Quick Navigation', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textColor)),
+          Text('Quick Navigation',
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor)),
           const SizedBox(height: 12),
           Wrap(
-            spacing: 8, runSpacing: 8,
+            spacing: 8,
+            runSpacing: 8,
             children: [
-              _navBtn(Icons.star_outline, 'Features', () => Navigator.pushNamed(context, '/features'), colors),
-              _navBtn(Icons.help_outline, 'FAQs', () => _scrollTo(_faqKey), colors),
-              _navBtn(Icons.build_circle_outlined, 'Troubleshoot', () => _scrollTo(_troubleshootKey), colors),
-              _navBtn(Icons.lightbulb_outline, 'Tips', () => _scrollTo(_tipsKey), colors),
+              _navBtn(Icons.star_outline, 'Features',
+                  () => Navigator.pushNamed(context, '/features'), colors),
+              _navBtn(
+                  Icons.help_outline, 'FAQs', () => _scrollTo(_faqKey), colors),
+              _navBtn(Icons.build_circle_outlined, 'Troubleshoot',
+                  () => _scrollTo(_troubleshootKey), colors),
+              _navBtn(Icons.lightbulb_outline, 'Tips',
+                  () => _scrollTo(_tipsKey), colors),
             ],
           ),
         ],
@@ -108,13 +133,15 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
     );
   }
 
-  Widget _navBtn(IconData icon, String label, VoidCallback onTap, AppColorsExtension colors) {
+  Widget _navBtn(IconData icon, String label, VoidCallback onTap,
+      AppColorsExtension colors) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: colors.cardColor, borderRadius: BorderRadius.circular(8),
+          color: colors.cardColor,
+          borderRadius: BorderRadius.circular(8),
           border: Border.all(color: primaryColor.withOpacity(0.3)),
         ),
         child: Row(
@@ -122,7 +149,11 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
           children: [
             Icon(icon, size: 16, color: primaryColor),
             const SizedBox(width: 6),
-            Text(label, style: TextStyle(color: colors.textColor, fontSize: 13, fontWeight: FontWeight.w500)),
+            Text(label,
+                style: TextStyle(
+                    color: colors.textColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500)),
           ],
         ),
       ),
@@ -131,7 +162,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
 
   Widget _buildFAQSection(AppColorsExtension colors) {
     return ListView.builder(
-      shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: helpFaqs.length,
       itemBuilder: (context, index) {
         final faq = helpFaqs[index];
@@ -140,16 +172,28 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
           padding: const EdgeInsets.only(bottom: 12),
           child: AppCard(
             padding: EdgeInsets.zero,
-            borderColor: isExpanded ? primaryColor : colors.subtitleColor.withOpacity(0.2),
+            borderColor: isExpanded
+                ? primaryColor
+                : colors.subtitleColor.withOpacity(0.2),
             child: Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              data:
+                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
-                onExpansionChanged: (expanded) => setState(() => _expandedFAQIndex = expanded ? index : -1),
-                title: Text(faq['question'], style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor)),
+                onExpansionChanged: (expanded) =>
+                    setState(() => _expandedFAQIndex = expanded ? index : -1),
+                title: Text(faq['question'],
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: colors.textColor)),
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                    child: Text(faq['answer'], style: TextStyle(fontSize: 13, color: colors.subtitleColor, height: 1.4)),
+                    child: Text(faq['answer'],
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: colors.subtitleColor,
+                            height: 1.4)),
                   ),
                 ],
               ),
@@ -162,7 +206,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
 
   Widget _buildTroubleshootSection(AppColorsExtension colors) {
     return ListView.builder(
-      shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: helpTroubleshooting.length,
       itemBuilder: (context, index) {
         final issue = helpTroubleshooting[index];
@@ -175,24 +220,44 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.warning_amber_rounded, size: 20, color: orangeColor),
+                    Icon(Icons.warning_amber_rounded,
+                        size: 20, color: orangeColor),
                     const SizedBox(width: 10),
-                    Expanded(child: Text(issue['issue'], style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor))),
+                    Expanded(
+                        child: Text(issue['issue'],
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: colors.textColor))),
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text('Solutions:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: colors.subtitleColor)),
+                Text('Solutions:',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: colors.subtitleColor)),
                 const SizedBox(height: 8),
-                ...(issue['solutions'] as List<String>).indexed.map((e) => Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('${e.$1 + 1}. ', style: TextStyle(fontSize: 12, color: colors.subtitleColor, fontWeight: FontWeight.w600)),
-                      Expanded(child: Text(e.$2, style: TextStyle(fontSize: 12, color: colors.subtitleColor))),
-                    ],
-                  ),
-                )),
+                ...(issue['solutions'] as List<String>)
+                    .indexed
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${e.$1 + 1}. ',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: colors.subtitleColor,
+                                      fontWeight: FontWeight.w600)),
+                              Expanded(
+                                  child: Text(e.$2,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: colors.subtitleColor))),
+                            ],
+                          ),
+                        )),
               ],
             ),
           ),
@@ -203,9 +268,13 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
 
   Widget _buildTipsSection(AppColorsExtension colors) {
     return GridView.builder(
-      shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, childAspectRatio: 0.95, crossAxisSpacing: 12, mainAxisSpacing: 12,
+        crossAxisCount: 2,
+        childAspectRatio: 0.95,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
       ),
       itemCount: helpTips.length,
       itemBuilder: (context, index) {
@@ -218,9 +287,19 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
             children: [
               Icon(tip['icon'] as IconData, size: 24, color: greenColor),
               const SizedBox(height: 10),
-              Text(tip['title'], style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: colors.textColor), maxLines: 2, overflow: TextOverflow.ellipsis),
+              Text(tip['title'],
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: colors.textColor),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis),
               const SizedBox(height: 6),
-              Text(tip['description'], style: TextStyle(fontSize: 11, color: colors.subtitleColor, height: 1.3), maxLines: 3, overflow: TextOverflow.ellipsis),
+              Text(tip['description'],
+                  style: TextStyle(
+                      fontSize: 11, color: colors.subtitleColor, height: 1.3),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis),
             ],
           ),
         );
