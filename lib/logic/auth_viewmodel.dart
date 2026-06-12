@@ -19,6 +19,7 @@ class AuthViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isLoggedIn => _user != null;
+  bool get isGuest => _user?.id == '__guest__';
 
   Future<void> login(String email, String password) async {
     _isLoading = true;
@@ -37,6 +38,22 @@ class AuthViewModel extends ChangeNotifier {
     } catch (e) {
       _isLoading = false;
       _error = "Login failed";
+      notifyListeners();
+    }
+  }
+
+  Future<void> loginAsGuest() async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+    try {
+      final guest = await _authRepository.loginAsGuest();
+      _user = guest;
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      _error = "Failed to start guest session";
       notifyListeners();
     }
   }

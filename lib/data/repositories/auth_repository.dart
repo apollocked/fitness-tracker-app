@@ -7,4 +7,5 @@ abstract class AuthRepository {
   Future<bool> isLoggedIn();
   UserModel? getCurrentUser();
   Future<void> setCurrentUser(UserModel? user);
+  Future<UserModel> loginAsGuest();
 }

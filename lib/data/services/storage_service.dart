@@ -32,6 +32,7 @@ class StorageService {
   static const String _currentUserKey = 'current_user';
   static const String _measurementsKey = 'measurements';
   static const String _isLoggedInKey = 'is_logged_in';
+  static const String _isGuestKey = 'is_guest_mode';
 
   // Save all users
   static Future<void> saveUsers(List<Map<String, dynamic>> users) async {
@@ -125,6 +126,18 @@ class StorageService {
     return _prefs.getBool(_isLoggedInKey) ?? false;
   }
 
+  // Save guest mode flag
+  static Future<void> setGuestMode(bool isGuest) async {
+    await _ensureInitialized();
+    await _prefs.setBool(_isGuestKey, isGuest);
+  }
+
+  // Check if current session is guest
+  static bool isGuestMode() {
+    if (!_isInitialized) return false;
+    return _prefs.getBool(_isGuestKey) ?? false;
+  }
+
   // Save measurements
   static Future<void> saveMeasurements(
       List<Map<String, dynamic>> measurements) async {
@@ -153,6 +166,7 @@ class StorageService {
     print('Clearing all user data (logout)');
     await _prefs.remove(_currentUserKey);
     await _prefs.remove(_isLoggedInKey);
+    await _prefs.remove(_isGuestKey);
   }
 
   // Clear everything (for account deletion)

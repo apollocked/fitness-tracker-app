@@ -218,7 +218,7 @@ class AppViewModel extends ChangeNotifier {
     UserModel Function(UserModel user) update,
   ) async {
     final user = _authRepository.getCurrentUser();
-    if (user == null) return null;
+    if (user == null || user.id == '__guest__') return null; // no persistence for guests
 
     final updated = update(user);
     await _userRepository.updateUser(updated);

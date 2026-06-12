@@ -10,6 +10,7 @@ import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
+import 'package:fit_tracker/presentation/widgets/shared/guest_banner.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   const AddMeasurementPage({super.key});
@@ -31,6 +32,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
+    final allowed = await GuestGuard.check(context);
+    if (!allowed) return;
     setState(() => _isLoading = true);
     try {
       final newWeight = double.parse(_weightCtrl.text.trim());

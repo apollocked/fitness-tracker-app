@@ -43,6 +43,14 @@ class _LoginPageState extends State<LoginPage> {
         context, MaterialPageRoute(builder: (_) => const LayoutPage()));
   }
 
+  Future<void> _continueAsGuest() async {
+    final authVM = context.read<AuthViewModel>();
+    await authVM.loginAsGuest();
+    if (!context.mounted) return;
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (_) => const LayoutPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -112,8 +120,66 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 16),
                 CircularProgressIndicator(color: primaryColor),
               ],
+              if (!isLoading) ...[
+                const SizedBox(height: 24),
+                Row(children: [
+                  Expanded(
+                      child: Divider(
+                          color: theme.dividerColor.withOpacity(0.4))),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text('or',
+                        style: TextStyle(
+                            color: theme.colorScheme.onSurface.withOpacity(0.4),
+                            fontSize: 13)),
+                  ),
+                  Expanded(
+                      child: Divider(
+                          color: theme.dividerColor.withOpacity(0.4))),
+                ]),
+                const SizedBox(height: 16),
+                _GuestButton(onTap: _continueAsGuest),
+              ],
             ]),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GuestButton extends StatelessWidget {
+  final VoidCallback onTap;
+  const _GuestButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          border: Border.all(
+              color: theme.colorScheme.outline.withOpacity(0.3), width: 1.5),
+          borderRadius: BorderRadius.circular(14),
+          color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.person_outline_rounded,
+                size: 20, color: theme.colorScheme.onSurface.withOpacity(0.7)),
+            const SizedBox(width: 8),
+            Text(
+              'Continue as Guest',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.onSurface.withOpacity(0.7),
+              ),
+            ),
+          ],
         ),
       ),
     );

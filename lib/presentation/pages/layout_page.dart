@@ -6,6 +6,7 @@ import 'package:fit_tracker/presentation/pages/profile_page.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/presentation/widgets/shared/guest_banner.dart';
 
 class LayoutPage extends StatelessWidget {
   const LayoutPage({super.key});
@@ -16,14 +17,19 @@ class LayoutPage extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: IndexedStack(
-        index: appVM.currentIndex,
-        children: [
-          HomePage(key: ValueKey('home_$isDark')),
-          ProgressPage(key: ValueKey('progress_$isDark')),
-          ProfilePage(key: ValueKey('profile_$isDark')),
-        ],
-      ),
+      body: Column(children: [
+        const GuestBanner(),
+        Expanded(
+          child: IndexedStack(
+            index: appVM.currentIndex,
+            children: [
+              HomePage(key: ValueKey('home_$isDark')),
+              ProgressPage(key: ValueKey('progress_$isDark')),
+              ProfilePage(key: ValueKey('profile_$isDark')),
+            ],
+          ),
+        ),
+      ]),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: colors.cardColor,

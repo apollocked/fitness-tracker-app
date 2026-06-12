@@ -29,11 +29,10 @@ class GoalsViewModel extends ChangeNotifier {
 
   Future<void> saveGoals() async {
     final user = _authRepository.getCurrentUser();
-    if (user != null) {
-      user.goals = Map<String, dynamic>.from(_goals);
-      await _userRepository.updateUser(user);
-      await _authRepository.setCurrentUser(user);
-    }
+    if (user == null || user.id == '__guest__') return; // guests: no persistence
+    user.goals = Map<String, dynamic>.from(_goals);
+    await _userRepository.updateUser(user);
+    await _authRepository.setCurrentUser(user);
   }
 
   Future<void> updateGoal(String key, Map<String, dynamic> newGoal) async {

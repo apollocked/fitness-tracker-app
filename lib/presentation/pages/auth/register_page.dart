@@ -7,6 +7,7 @@ import 'package:fit_tracker/presentation/widgets/auth/auth_header_widget.dart';
 import 'package:fit_tracker/presentation/widgets/auth/requirements_checklist.dart';
 import 'package:fit_tracker/presentation/widgets/profile/personal_info_section.dart';
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
+import 'package:fit_tracker/presentation/pages/layout_page.dart';
 import 'package:fit_tracker/data/services/registration_validator.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
@@ -94,8 +95,12 @@ class _RegisterPageState extends State<RegisterPage> {
       _snack('Account created successfully!', greenColor);
       await Future.delayed(const Duration(milliseconds: 500));
       if (mounted) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const LoginPage()));
+        // Navigate to main app directly (works for both guest upgrade and fresh register)
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const LayoutPage()),
+          (_) => false,
+        );
       }
     } else {
       _snack('Registration failed', Colors.red);
