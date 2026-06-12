@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
+import 'package:fit_tracker/core/theme/app_colors.dart';
 
 /// Sticky gradient banner shown at the top of every main page for guests.
 class GuestBanner extends StatelessWidget {
@@ -17,7 +18,7 @@ class GuestBanner extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF6C63FF), Color(0xFF3B82F6)],
+          colors: primaryGradient,
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
@@ -48,7 +49,7 @@ class GuestBanner extends StatelessWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF6C63FF),
+                color: primaryColor,
               ),
             ),
           ),
@@ -75,7 +76,7 @@ class GuestGuard {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Row(children: [
-          Icon(Icons.lock_outline_rounded, color: Color(0xFF6C63FF)),
+          Icon(Icons.lock_outline_rounded, color: primaryColor),
           SizedBox(width: 10),
           Text('Guest Mode'),
         ]),
@@ -90,7 +91,7 @@ class GuestGuard {
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF6C63FF),
+              backgroundColor: primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),

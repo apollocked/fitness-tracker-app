@@ -33,6 +33,7 @@ class StorageService {
   static const String _measurementsKey = 'measurements';
   static const String _isLoggedInKey = 'is_logged_in';
   static const String _isGuestKey = 'is_guest_mode';
+  static const String _onboardingSeenKey = 'onboarding_seen';
 
   // Save all users
   static Future<void> saveUsers(List<Map<String, dynamic>> users) async {
@@ -136,6 +137,17 @@ class StorageService {
   static bool isGuestMode() {
     if (!_isInitialized) return false;
     return _prefs.getBool(_isGuestKey) ?? false;
+  }
+
+  // Onboarding
+  static bool hasSeenOnboarding() {
+    if (!_isInitialized) return false;
+    return _prefs.getBool(_onboardingSeenKey) ?? false;
+  }
+
+  static Future<void> setOnboardingSeen() async {
+    await _ensureInitialized();
+    await _prefs.setBool(_onboardingSeenKey, true);
   }
 
   // Save measurements

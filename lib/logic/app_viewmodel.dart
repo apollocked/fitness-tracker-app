@@ -124,6 +124,10 @@ class AppViewModel extends ChangeNotifier {
       setNotifications(!_notificationsEnabled);
 
   void syncWithUser(UserModel? user, {bool notify = true}) {
+    // For guest users, settings are in-memory only and should not be overwritten
+    // by the default false values in the ephemeral guest user object.
+    if (user != null && user.id == '__guest__') return;
+
     final nextMode =
         (user?.darkMode ?? false) ? ThemeMode.dark : ThemeMode.light;
     final nextNotifications = user?.notificationsEnabled ?? false;

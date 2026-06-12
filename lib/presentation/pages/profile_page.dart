@@ -12,6 +12,7 @@ import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/presentation/widgets/profile/profile_widgets.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 
@@ -170,6 +171,7 @@ class _GuestProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appVM = context.watch<AppViewModel>();
     return Scaffold(
       appBar: customAppBarr(
           'Profile', primaryColor, theme.scaffoldBackgroundColor),
@@ -185,6 +187,10 @@ class _GuestProfilePage extends StatelessWidget {
             child: Column(children: [
               // Benefit chips
               _BenefitsCard(colors: colors, theme: theme),
+              const SizedBox(height: 20),
+              // Appearance toggle (theme works for guests in-session)
+              _GuestAppearanceCard(
+                  colors: colors, theme: theme, appVM: appVM),
               const SizedBox(height: 20),
               // Create account CTA
               _CreateAccountButton(theme: theme),
@@ -217,7 +223,7 @@ class _GuestHero extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 24),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF6C63FF), Color(0xFF3B82F6)],
+          colors: primaryGradient,
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -312,22 +318,22 @@ class _BenefitsCard extends StatelessWidget {
   static const _benefits = [
     _Benefit(
         icon: Icons.save_alt_rounded,
-        color: Color(0xFF6C63FF),
+        color: primaryColor,
         title: 'Save your data',
         subtitle: 'Measurements & progress persist across sessions'),
     _Benefit(
         icon: Icons.flag_outlined,
-        color: Color(0xFF22C55E),
+        color: greenColor,
         title: 'Set goals',
         subtitle: 'Weight, protein & calorie targets'),
     _Benefit(
         icon: Icons.show_chart_rounded,
-        color: Color(0xFF3B82F6),
+        color: blueColor,
         title: 'Track progress',
         subtitle: 'Visualize your fitness journey over time'),
     _Benefit(
         icon: Icons.notifications_active_outlined,
-        color: Color(0xFFF97316),
+        color: orangeColor,
         title: 'Reminders',
         subtitle: 'Weight check-in notifications'),
   ];
@@ -357,7 +363,7 @@ class _CreateAccountButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [Color(0xFF6C63FF), Color(0xFF3B82F6)],
+            colors: primaryGradient,
           ),
           borderRadius: BorderRadius.circular(14),
         ),
@@ -394,15 +400,15 @@ class _LoginButton extends StatelessWidget {
       height: 48,
       child: OutlinedButton.icon(
         style: OutlinedButton.styleFrom(
-          side: const BorderSide(color: Color(0xFF6C63FF), width: 1.5),
+          side: const BorderSide(color: primaryColor, width: 1.5),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
         icon: const Icon(Icons.login_rounded,
-            color: Color(0xFF6C63FF), size: 20),
+            color: primaryColor, size: 20),
         label: const Text('Already have an account? Login',
             style: TextStyle(
-                color: Color(0xFF6C63FF),
+                color: primaryColor,
                 fontWeight: FontWeight.w600,
                 fontSize: 14)),
         onPressed: () {
@@ -499,6 +505,66 @@ class _ExitGuestButton extends StatelessWidget {
           (_) => false,
         );
       },
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Guest Appearance Card (theme toggle available for guests)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _GuestAppearanceCard extends StatelessWidget {
+  final AppColorsExtension colors;
+  final ThemeData theme;
+  final AppViewModel appVM;
+  const _GuestAppearanceCard(
+      {required this.colors, required this.theme, required this.appVM});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+              color: colors.shadowColor,
+              blurRadius: 12,
+              offset: const Offset(0, 4))
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        child: Row(children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: primaryColor.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.dark_mode_outlined,
+                color: primaryColor, size: 20),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Dark Mode',
+                      style: theme.textTheme.bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.w600)),
+                  Text('Toggle dark/light theme',
+                      style: theme.textTheme.bodySmall),
+                ]),
+          ),
+          Switch(
+            value: appVM.isDarkMode,
+            activeColor: primaryColor,
+            onChanged: (v) => context.read<AppViewModel>().setDarkMode(v),
+          ),
+        ]),
+      ),
     );
   }
 }

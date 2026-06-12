@@ -17,19 +17,21 @@ class LayoutPage extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Column(children: [
-        const GuestBanner(),
-        Expanded(
-          child: IndexedStack(
-            index: appVM.currentIndex,
-            children: [
-              HomePage(key: ValueKey('home_$isDark')),
-              ProgressPage(key: ValueKey('progress_$isDark')),
-              ProfilePage(key: ValueKey('profile_$isDark')),
-            ],
+      body: SafeArea(
+        child: Column(children: [
+          const GuestBanner(),
+          Expanded(
+            child: IndexedStack(
+              index: appVM.currentIndex,
+              children: [
+                HomePage(key: ValueKey('home_$isDark')),
+                ProgressPage(key: ValueKey('progress_$isDark')),
+                ProfilePage(key: ValueKey('profile_$isDark')),
+              ],
+            ),
           ),
-        ),
-      ]),
+        ]),
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: colors.cardColor,

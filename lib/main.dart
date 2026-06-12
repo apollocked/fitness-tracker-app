@@ -10,6 +10,7 @@ import 'package:fit_tracker/presentation/pages/calculators/daily_calorie_page.da
 import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/presentation/pages/profile_child_pages/features_page.dart';
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
+import 'package:fit_tracker/presentation/pages/onboarding_page.dart';
 import 'package:fit_tracker/data/services/notification_service.dart';
 import 'package:fit_tracker/data/services/storage_service.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
@@ -34,10 +35,12 @@ void main() async {
     await NotificationService.instance.scheduleWeightReminder();
   }
   final measurementRepository = LocalMeasurementRepository();
+  final seenOnboarding = StorageService.hasSeenOnboarding();
   runApp(FitApp(
     userRepository: userRepository,
     authRepository: authRepository,
     measurementRepository: measurementRepository,
+    showOnboarding: !seenOnboarding,
   ));
 }
 
@@ -45,11 +48,13 @@ class FitApp extends StatelessWidget {
   final LocalUserRepository userRepository;
   final LocalAuthRepository authRepository;
   final LocalMeasurementRepository measurementRepository;
+  final bool showOnboarding;
   const FitApp({
     super.key,
     required this.userRepository,
     required this.authRepository,
     required this.measurementRepository,
+    this.showOnboarding = false,
   });
   @override
   Widget build(BuildContext context) {
@@ -65,13 +70,14 @@ class FitApp extends StatelessWidget {
             create: (_) => ProgressViewModel(measurementRepository)),
         ChangeNotifierProvider(create: (_) => CalculatorsViewModel()),
       ],
-      child: const _FitAppBuilder(),
+      child: _FitAppBuilder(showOnboarding: showOnboarding),
     );
   }
 }
 
 class _FitAppBuilder extends StatelessWidget {
-  const _FitAppBuilder();
+  final bool showOnboarding;
+  const _FitAppBuilder({this.showOnboarding = false});
   @override
   Widget build(BuildContext context) {
     final appVM = context.watch<AppViewModel>();
@@ -81,13 +87,23 @@ class _FitAppBuilder extends StatelessWidget {
         context.read<AppViewModel>().syncWithUser(authVM.currentUser);
       }
     });
+
+    Widget home;
+    if (showOnboarding) {
+      home = const OnboardingPage();
+    } else if (authVM.isLoggedIn) {
+      home = const LayoutPage();
+    } else {
+      home = const LoginPage();
+    }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Fitness Tracker",
       themeMode: appVM.themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      home: authVM.isLoggedIn ? const LayoutPage() : const LoginPage(),
+      home: home,
       routes: {
         '/terms-conditions': (context) => const TermsConditionsPage(),
         '/privacy-policy': (context) => const PrivacyPolicyPage(),
@@ -97,6 +113,7 @@ class _FitAppBuilder extends StatelessWidget {
         '/add-measurement': (context) => const AddMeasurementPage(),
         '/features': (context) => const FeaturesPage(),
         '/login': (context) => const LoginPage(),
+        '/onboarding': (context) => const OnboardingPage(),
       },
     );
   }
