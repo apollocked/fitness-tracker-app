@@ -146,8 +146,8 @@ class _MeasurementList extends StatelessWidget {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.delete_outline_rounded,
-                  color: Colors.red, size: 20),
+              icon: Icon(Icons.delete_outline_rounded,
+                  color: redColor, size: 20),
               onPressed: () =>
                   context.read<ProgressViewModel>().deleteMeasurement(index),
             ),

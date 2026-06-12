@@ -1,3 +1,4 @@
+import 'package:fit_tracker/core/theme/app_colors_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -33,9 +34,9 @@ class _LoginPageState extends State<LoginPage> {
     await authVM.login(_emailCtrl.text.trim(), _passCtrl.text);
     if (!context.mounted) return;
     if (authVM.currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Invalid email or password', textAlign: TextAlign.center),
-        backgroundColor: Colors.red,
+        backgroundColor: redColor,
       ));
       return;
     }
@@ -54,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    Theme.of(context).extension<AppColorsExtension>()!;
     final isLoading = context.watch<AuthViewModel>().isLoading;
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -124,8 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 24),
                 Row(children: [
                   Expanded(
-                      child: Divider(
-                          color: theme.dividerColor.withOpacity(0.4))),
+                      child:
+                          Divider(color: theme.dividerColor.withOpacity(0.4))),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Text('or',
@@ -134,8 +136,8 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 13)),
                   ),
                   Expanded(
-                      child: Divider(
-                          color: theme.dividerColor.withOpacity(0.4))),
+                      child:
+                          Divider(color: theme.dividerColor.withOpacity(0.4))),
                 ]),
                 const SizedBox(height: 16),
                 _GuestButton(onTap: _continueAsGuest),
@@ -155,6 +157,7 @@ class _GuestButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -162,9 +165,9 @@ class _GuestButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           border: Border.all(
-              color: theme.colorScheme.outline.withOpacity(0.3), width: 1.5),
+              color: colors.subtitleColor.withOpacity(0.3), width: 1.5),
           borderRadius: BorderRadius.circular(14),
-          color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+          color: colors.cardColor,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

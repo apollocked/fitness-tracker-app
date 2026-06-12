@@ -257,7 +257,7 @@ class _SlideContentState extends State<_SlideContent>
                         color: textColor.withOpacity(isGold ? 0.15 : 0.3), width: 2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
+                        color: blackColor.withOpacity(0.15),
                         blurRadius: 40,
                         spreadRadius: 10,
                       ),

@@ -80,7 +80,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
                   labelText: 'Goal Type',
                   labelStyle: TextStyle(color: colors.subtitleColor),
                   filled: true,
-                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                  fillColor: colors.cardColor,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
                   enabledBorder: OutlineInputBorder(
@@ -129,7 +129,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: colors.cardColor,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: colors.subtitleColor.withOpacity(0.5)),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 
 class ProteinResultsDialog {
@@ -11,7 +12,6 @@ class ProteinResultsDialog {
     required VoidCallback onSetGoal,
   }) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    const accent = Colors.orange;
 
     showDialog(
       context: context,
@@ -27,11 +27,11 @@ class ProteinResultsDialog {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: accent.withOpacity(0.12),
+                    color: orangeColor.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Icon(Icons.restaurant,
-                      size: 48, color: Colors.orange),
+                  child: Icon(Icons.restaurant,
+                      size: 48, color: orangeColor),
                 ),
                 const SizedBox(height: 20),
                 Text('Your Protein Intake',
@@ -77,7 +77,7 @@ class ProteinResultsDialog {
                   _HintBox(
                     message:
                         'As a bodybuilder, consume protein throughout the day for optimal muscle growth.',
-                    color: Colors.blue,
+                    color: blueColor,
                     colors: colors,
                   ),
                 ] else ...[
@@ -89,10 +89,10 @@ class ProteinResultsDialog {
                                 fontSize: 14, color: colors.subtitleColor)),
                         const SizedBox(height: 12),
                         Text('${normalProtein.toStringAsFixed(1)}g',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
-                                color: accent)),
+                                color: orangeColor)),
                       ],
                     ),
                   ),
@@ -100,7 +100,7 @@ class ProteinResultsDialog {
                   _HintBox(
                     message:
                         'This is the recommended daily protein intake for a healthy lifestyle.',
-                    color: Colors.green,
+                    color: greenColor,
                     colors: colors,
                   ),
                 ],
@@ -111,7 +111,7 @@ class ProteinResultsDialog {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: accent,
+                      backgroundColor: orangeColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -142,9 +142,9 @@ class _ResultPanel extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.orange.withOpacity(0.08),
+        color: orangeColor.withOpacity(0.08),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.orange.withOpacity(0.25), width: 1),
+        border: Border.all(color: orangeColor.withOpacity(0.25), width: 1),
       ),
       child: child,
     );
@@ -170,10 +170,10 @@ class _ProteinValue extends StatelessWidget {
             style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
         const SizedBox(height: 4),
         Text('${value.toStringAsFixed(1)}g',
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.orange)),
+                color: orangeColor)),
       ],
     );
   }

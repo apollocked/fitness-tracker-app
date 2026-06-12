@@ -55,7 +55,7 @@ class DailyCaloriesResultsDialog {
                   const SizedBox(height: 16),
 
                   // Divider
-                  Divider(color: Colors.grey.withOpacity(0.3)),
+                  Divider(color: colors.subtitleColor.withOpacity(0.3)),
                   const SizedBox(height: 16),
 
                   // BMR
@@ -132,7 +132,7 @@ class DailyCaloriesResultsDialog {
                       decoration: BoxDecoration(
                         color: colors.cardColor,
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                        border: Border.all(color: colors.subtitleColor.withOpacity(0.3)),
                       ),
                       child: Row(
                         children: [

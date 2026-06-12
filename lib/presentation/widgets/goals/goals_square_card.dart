@@ -19,12 +19,12 @@ class GoalsSquareCard extends StatelessWidget {
     String title;
     switch (goalKey) {
       case 'calories':
-        cardColor = Colors.red;
+        cardColor = redColor;
         icon = Icons.local_fire_department;
         title = 'Calories';
         break;
       case 'protein':
-        cardColor = Colors.orange;
+        cardColor = orangeColor;
         icon = Icons.restaurant;
         title = 'Protein';
         break;
@@ -85,17 +85,17 @@ class GoalsSquareCard extends StatelessWidget {
                         height: 1.1)),
               ],
             ),
-            const Row(
-              children: [
-                Icon(Icons.circle, size: 8, color: Colors.green),
-                SizedBox(width: 6),
-                Text('Goal Set',
-                    style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.green,
-                        fontWeight: FontWeight.w600)),
-              ],
-            ),
+              Row(
+                children: [
+                  Icon(Icons.circle, size: 8, color: greenColor),
+                  SizedBox(width: 6),
+                  Text('Goal Set',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: greenColor,
+                          fontWeight: FontWeight.w600)),
+                ],
+              ),
           ],
         ),
       ),

@@ -28,7 +28,7 @@ class SettingsPage extends StatelessWidget {
         content: Text(
           appVM.successMessage ?? appVM.settingsError ?? 'Settings updated.',
         ),
-        backgroundColor: success ? Colors.green : Colors.red,
+        backgroundColor: success ? greenColor : redColor,
       ),
     );
     if (!success) {

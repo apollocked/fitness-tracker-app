@@ -7,7 +7,7 @@ class IdealWeightResultsDialog {
     BuildContext context, {
     required double idealWeight,
     required double currentWeight,
-    required Null Function() onSetGoal,
+    required VoidCallback? onSetGoal,
     required String goalType,
     required double weightDifference,
   }) {
@@ -67,7 +67,7 @@ class IdealWeightResultsDialog {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                      color: isDark ? Colors.grey[800] : Colors.grey[100],
+                      color: colors.cardColor.withOpacity(isDark ? 0.8 : 0.5),
                       borderRadius: BorderRadius.circular(12)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -88,21 +88,21 @@ class IdealWeightResultsDialog {
                       Container(
                           width: 2,
                           height: 60,
-                          color: isDark ? Colors.grey[700] : Colors.grey[300]),
+                          color: colors.subtitleColor.withOpacity(0.3)),
                       Column(
                         children: [
                           Text(isOverweight ? 'To Lose' : 'To Gain',
                               style: TextStyle(
                                   fontSize: 12,
                                   color: isOverweight
-                                      ? Colors.red
-                                      : Colors.green)),
+                                      ? redColor
+                                      : greenColor)),
                           const SizedBox(height: 8),
                           Text('${difference.abs().toStringAsFixed(1)} kg',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: isOverweight ? Colors.red : Colors.green,
+                                color: isOverweight ? redColor : greenColor,
                               )),
                         ],
                       ),
@@ -114,8 +114,8 @@ class IdealWeightResultsDialog {
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: isOverweight
-                        ? Colors.red[isDark ? 900 : 50]
-                        : Colors.green[isDark ? 900 : 50],
+                        ? redColor.withOpacity(isDark ? 0.3 : 0.08)
+                        : greenColor.withOpacity(isDark ? 0.3 : 0.08),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -127,8 +127,8 @@ class IdealWeightResultsDialog {
                             : Icons.check_circle_rounded,
                         size: 16,
                         color: isOverweight
-                            ? Colors.red[isDark ? 300 : 700]
-                            : Colors.green[isDark ? 300 : 700],
+                            ? redColor
+                            : greenColor,
                       ),
                       const SizedBox(width: 8),
                       Expanded(
@@ -139,8 +139,8 @@ class IdealWeightResultsDialog {
                           style: TextStyle(
                               fontSize: 12,
                               color: isOverweight
-                                  ? Colors.red[isDark ? 300 : 700]
-                                  : Colors.green[isDark ? 300 : 700]),
+                                  ? redColor
+                                  : greenColor),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -148,11 +148,14 @@ class IdealWeightResultsDialog {
                   ),
                 ),
                 const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        onSetGoal?.call();
+                        Navigator.pop(context);
+                      },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: blueColor,
                       shape: RoundedRectangleBorder(

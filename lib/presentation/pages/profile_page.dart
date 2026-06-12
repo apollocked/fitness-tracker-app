@@ -107,7 +107,7 @@ class ProfilePage extends StatelessWidget {
               icon: Icons.info_outline_rounded,
               title: 'About',
               subtitle: 'App information',
-              accentColor: Colors.grey,
+              accentColor: greyColor,
               onTap: () => _push(context, const AboutPage())),
         ]),
         const SizedBox(height: 16),
@@ -116,7 +116,7 @@ class ProfilePage extends StatelessWidget {
               icon: Icons.logout_rounded,
               title: 'Logout',
               subtitle: 'Sign out of your account',
-              accentColor: Colors.red,
+              accentColor: redColor,
               isDanger: true,
               onTap: () => LogoutDialog.show(context)),
         ]),
@@ -463,7 +463,7 @@ class _AppInfoSection extends StatelessWidget {
               icon: Icons.info_outline_rounded,
               title: 'About',
               subtitle: 'App information',
-              accentColor: Colors.grey,
+              accentColor: greyColor,
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const AboutPage()))),
           Divider(
@@ -493,10 +493,10 @@ class _ExitGuestButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      icon: const Icon(Icons.logout_rounded, color: Colors.red, size: 18),
-      label: const Text('Exit Guest Mode',
+      icon: Icon(Icons.logout_rounded, color: redColor, size: 18),
+      label: Text('Exit Guest Mode',
           style:
-              TextStyle(color: Colors.red, fontWeight: FontWeight.w600)),
+              TextStyle(color: redColor, fontWeight: FontWeight.w600)),
       onPressed: () {
         context.read<AuthViewModel>().logout();
         Navigator.pushAndRemoveUntil(

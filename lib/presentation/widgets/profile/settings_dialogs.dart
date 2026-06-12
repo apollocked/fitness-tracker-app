@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_dialog_text_field.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
 import 'package:fit_tracker/data/services/storage_service.dart';
+import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
@@ -49,7 +50,7 @@ class SettingsDialogs {
                   confirmPasswordController.text) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Passwords do not match'),
-                    backgroundColor: Colors.red));
+                    backgroundColor: redColor));
                 return;
               }
               final appVM = dialogContext.read<AppViewModel>();
@@ -103,7 +104,7 @@ class SettingsDialogs {
                   emailController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Please fill all fields'),
-                    backgroundColor: Colors.red));
+                    backgroundColor: redColor));
                 return;
               }
               final appVM = dialogContext.read<AppViewModel>();
@@ -159,7 +160,7 @@ class SettingsDialogs {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Account deleted successfully'),
-                      backgroundColor: Colors.green,
+                      backgroundColor: greenColor,
                       duration: Duration(seconds: 3)));
                 }
                 await Future.delayed(const Duration(milliseconds: 1000));
@@ -174,7 +175,7 @@ class SettingsDialogs {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text('Failed to delete account: $e'),
-                      backgroundColor: Colors.red,
+                      backgroundColor: redColor,
                       duration: const Duration(seconds: 3)));
                 }
               }

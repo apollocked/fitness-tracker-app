@@ -51,16 +51,16 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
       }
       setState(() => _isLoading = false);
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Measurement saved!'),
-            backgroundColor: Colors.green));
+            backgroundColor: greenColor));
         Navigator.pop(context, true);
       }
     } catch (e) {
       setState(() => _isLoading = false);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+            SnackBar(content: Text('Error: $e'), backgroundColor: redColor));
       }
     }
   }

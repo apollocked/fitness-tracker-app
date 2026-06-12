@@ -37,12 +37,12 @@ class GoalTile extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isActive
                     ? cubit.getProgressColor(goalKey).withOpacity(0.1)
-                    : Colors.grey.withOpacity(0.1),
+                    : greyColor.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(GoalsViewModel.getGoalIcon(goalKey),
-                  color:
-                      isActive ? cubit.getProgressColor(goalKey) : Colors.grey),
+                    color:
+                        isActive ? cubit.getProgressColor(goalKey) : greyColor),
             ),
             title: Row(
               children: [
@@ -116,7 +116,7 @@ class GoalTile extends StatelessWidget {
                 if (goalKey == 'weight' && hasCurrent)
                   LinearProgressIndicator(
                     value: progress,
-                    backgroundColor: Colors.grey.withOpacity(0.3),
+                    backgroundColor: greyColor.withOpacity(0.3),
                     color: isActive
                         ? cubit.getProgressColor(goalKey)
                         : Colors.grey,
@@ -139,7 +139,7 @@ class GoalTile extends StatelessWidget {
                             ? greenColor
                             : hasCurrent
                                 ? greenColor
-                                : Colors.grey,
+                                : greyColor,
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -152,7 +152,7 @@ class GoalTile extends StatelessWidget {
                                 ? greenColor
                                 : hasCurrent
                                     ? colors.subtitleColor
-                                    : Colors.grey),
+                                    : greyColor),
                       ),
                     ],
                   ),

@@ -67,7 +67,7 @@ class _CustomDialogTextFieldState extends State<CustomDialogTextField> {
         ),
         errorStyle: const TextStyle(fontSize: 15),
         filled: true,
-        fillColor: Theme.of(context).scaffoldBackgroundColor,
+        fillColor: colors.cardColor,
       ),
     );
   }
