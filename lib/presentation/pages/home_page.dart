@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/presentation/widgets/home/home_widgets.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/core/theme/app_colors.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -39,28 +40,28 @@ class HomePage extends StatelessWidget {
                 DashboardCard(
                   title: 'Ideal Body Weight',
                   icon: Icons.monitor_weight_outlined,
-                  accentColor: const Color(0xFF2962FF),
+                  accentColor: primaryColor,
                   label: 'Calculate',
                   onTap: () => Navigator.pushNamed(context, '/ideal-weight'),
                 ),
                 DashboardCard(
                   title: 'Protein Intake',
                   icon: Icons.restaurant_outlined,
-                  accentColor: Colors.orange,
+                  accentColor: orangeColor,
                   label: 'Calculate',
                   onTap: () => Navigator.pushNamed(context, '/protein-intake'),
                 ),
                 DashboardCard(
                   title: 'Daily Calories',
                   icon: Icons.local_fire_department_outlined,
-                  accentColor: Colors.red,
+                  accentColor: redColor,
                   label: 'Calculate',
                   onTap: () => Navigator.pushNamed(context, '/daily-calories'),
                 ),
                 DashboardCard(
                   title: 'Update Weight',
                   icon: Icons.scale_outlined,
-                  accentColor: Colors.green,
+                  accentColor: greenColor,
                   label: 'Track Weight',
                   onTap: () => Navigator.push(
                       context,

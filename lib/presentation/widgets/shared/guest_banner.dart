@@ -24,14 +24,14 @@ class GuestBanner extends StatelessWidget {
         ),
       ),
       child: Row(children: [
-        const Icon(Icons.cloud_off_rounded, color: Colors.white, size: 18),
+        const Icon(Icons.cloud_off_rounded, color: blackColor, size: 18),
         const SizedBox(width: 10),
         Expanded(
           child: Text(
             'Guest mode — your data won\'t be saved.',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
+              color: blackColor,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -49,7 +49,7 @@ class GuestBanner extends StatelessWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
-                color: primaryColor,
+                color: primaryColor, // White button with gold text is fine, but maybe white background with primary text is enough since primaryColor is dark gold now.
               ),
             ),
           ),

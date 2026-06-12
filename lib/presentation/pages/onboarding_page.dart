@@ -90,6 +90,9 @@ class _OnboardingPageState extends State<OnboardingPage>
   @override
   Widget build(BuildContext context) {
     final slide = _slides[_currentPage];
+    final isGold = slide.gradient == primaryGradient;
+    final textColor = isGold ? blackColor : Colors.white;
+    
     return Scaffold(
       body: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
@@ -110,11 +113,11 @@ class _OnboardingPageState extends State<OnboardingPage>
                 child: _currentPage < _slides.length - 1
                     ? TextButton(
                         onPressed: _finish,
-                        child: const Text('Skip',
+                        child: Text('Skip',
                             style: TextStyle(
-                                color: Colors.white70,
+                                color: textColor.withOpacity(0.7),
                                 fontSize: 15,
-                                fontWeight: FontWeight.w500)),
+                                fontWeight: FontWeight.w600)),
                       )
                     : const SizedBox(width: 70),
               ),
@@ -144,8 +147,8 @@ class _OnboardingPageState extends State<OnboardingPage>
                       height: 8,
                       decoration: BoxDecoration(
                         color: isActive
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.35),
+                            ? textColor
+                            : textColor.withOpacity(0.35),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     );
@@ -158,8 +161,8 @@ class _OnboardingPageState extends State<OnboardingPage>
                   height: 56,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: slide.gradient[0],
+                      backgroundColor: isGold ? blackColor : Colors.white,
+                      foregroundColor: isGold ? primaryColor : slide.gradient[0],
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
@@ -229,6 +232,9 @@ class _SlideContentState extends State<_SlideContent>
 
   @override
   Widget build(BuildContext context) {
+    final isGold = widget.slide.gradient == primaryGradient;
+    final textColor = isGold ? blackColor : Colors.white;
+
     return SlideTransition(
       position: _slideAnim,
       child: FadeTransition(
@@ -246,9 +252,9 @@ class _SlideContentState extends State<_SlideContent>
                   height: 140,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.15),
+                    color: textColor.withOpacity(isGold ? 0.08 : 0.15),
                     border: Border.all(
-                        color: Colors.white.withOpacity(0.3), width: 2),
+                        color: textColor.withOpacity(isGold ? 0.15 : 0.3), width: 2),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.15),
@@ -258,7 +264,7 @@ class _SlideContentState extends State<_SlideContent>
                     ],
                   ),
                   child: Icon(widget.slide.icon,
-                      size: 68, color: Colors.white),
+                      size: 68, color: textColor),
                 ),
               ),
               const SizedBox(height: 40),
@@ -267,15 +273,15 @@ class _SlideContentState extends State<_SlideContent>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: textColor.withOpacity(isGold ? 0.1 : 0.2),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                      color: Colors.white.withOpacity(0.3), width: 1),
+                      color: textColor.withOpacity(isGold ? 0.2 : 0.3), width: 1),
                 ),
                 child: Text(
                   widget.slide.tag,
-                  style: const TextStyle(
-                      color: Colors.white,
+                  style: TextStyle(
+                      color: textColor,
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 2),
@@ -286,8 +292,8 @@ class _SlideContentState extends State<_SlideContent>
               Text(
                 widget.slide.title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: textColor,
                   fontSize: 32,
                   fontWeight: FontWeight.w800,
                   height: 1.15,
@@ -300,9 +306,9 @@ class _SlideContentState extends State<_SlideContent>
                 widget.slide.subtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.85),
+                  color: textColor.withOpacity(0.85),
                   fontSize: 15,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   height: 1.55,
                 ),
               ),

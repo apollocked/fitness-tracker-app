@@ -6,6 +6,7 @@ import 'package:fit_tracker/data/model/user_model.dart';
 import 'package:fit_tracker/data/repositories/auth_repository.dart';
 import 'package:fit_tracker/data/repositories/user_repository.dart';
 import 'package:fit_tracker/data/services/notification_service.dart';
+import 'package:fit_tracker/data/services/storage_service.dart';
 
 class AppViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
@@ -34,7 +35,12 @@ class AppViewModel extends ChangeNotifier {
       _themeMode = nextMode;
       notifyListeners();
     }
-    await _persistCurrentUser((user) => user.copyWith(darkMode: isDark));
+    final user = _authRepository.getCurrentUser();
+    if (user != null && user.id == '__guest__') {
+      await StorageService.setGuestDarkMode(isDark);
+    } else {
+      await _persistCurrentUser((user) => user.copyWith(darkMode: isDark));
+    }
   }
 
   ThemeData get theme => isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme;
@@ -126,7 +132,15 @@ class AppViewModel extends ChangeNotifier {
   void syncWithUser(UserModel? user, {bool notify = true}) {
     // For guest users, settings are in-memory only and should not be overwritten
     // by the default false values in the ephemeral guest user object.
-    if (user != null && user.id == '__guest__') return;
+    if (user != null && user.id == '__guest__') {
+      final guestDark = StorageService.getGuestDarkMode();
+      final guestMode = guestDark ? ThemeMode.dark : ThemeMode.light;
+      if (_themeMode != guestMode) {
+        _themeMode = guestMode;
+        if (notify) notifyListeners();
+      }
+      return;
+    }
 
     final nextMode =
         (user?.darkMode ?? false) ? ThemeMode.dark : ThemeMode.light;

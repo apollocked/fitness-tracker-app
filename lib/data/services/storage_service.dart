@@ -33,6 +33,7 @@ class StorageService {
   static const String _measurementsKey = 'measurements';
   static const String _isLoggedInKey = 'is_logged_in';
   static const String _isGuestKey = 'is_guest_mode';
+  static const String _guestDarkModeKey = 'guest_dark_mode';
   static const String _onboardingSeenKey = 'onboarding_seen';
 
   // Save all users
@@ -139,6 +140,17 @@ class StorageService {
     return _prefs.getBool(_isGuestKey) ?? false;
   }
 
+  // Guest Theme Mode
+  static Future<void> setGuestDarkMode(bool isDark) async {
+    await _ensureInitialized();
+    await _prefs.setBool(_guestDarkModeKey, isDark);
+  }
+
+  static bool getGuestDarkMode() {
+    if (!_isInitialized) return false;
+    return _prefs.getBool(_guestDarkModeKey) ?? false;
+  }
+
   // Onboarding
   static bool hasSeenOnboarding() {
     if (!_isInitialized) return false;
@@ -179,6 +191,7 @@ class StorageService {
     await _prefs.remove(_currentUserKey);
     await _prefs.remove(_isLoggedInKey);
     await _prefs.remove(_isGuestKey);
+    await _prefs.remove(_guestDarkModeKey);
   }
 
   // Clear everything (for account deletion)

@@ -234,25 +234,25 @@ class _GuestHero extends StatelessWidget {
           height: 80,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white.withOpacity(0.2),
-            border: Border.all(color: Colors.white.withOpacity(0.5), width: 2),
+            color: blackColor.withOpacity(0.08),
+            border: Border.all(color: blackColor.withOpacity(0.15), width: 2),
           ),
           child: const Icon(Icons.person_outline_rounded,
-              size: 44, color: Colors.white),
+              size: 44, color: blackColor),
         ),
         const SizedBox(height: 14),
         const Text('Browsing as Guest',
             style: TextStyle(
-                color: Colors.white,
+                color: blackColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w700)),
         const SizedBox(height: 6),
         Text(
           'Your data is not being saved',
           style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+              color: blackColor.withOpacity(0.7),
               fontSize: 13,
-              fontWeight: FontWeight.w400),
+              fontWeight: FontWeight.w500),
         ),
       ]),
     );
