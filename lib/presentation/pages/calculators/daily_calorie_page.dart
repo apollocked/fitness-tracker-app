@@ -12,8 +12,7 @@ import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 class DailyCaloriePage extends StatefulWidget {
-  final VoidCallback? onGoalsUpdated;
-  const DailyCaloriePage({super.key, this.onGoalsUpdated});
+  const DailyCaloriePage({super.key});
   @override
   State<DailyCaloriePage> createState() => _DailyCaloriePageState();
 }
@@ -63,7 +62,6 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     context
         .read<GoalsViewModel>()
         .updateGoal('calories', {'target': daily, 'active': true});
-    widget.onGoalsUpdated?.call();
     WidgetsBinding.instance.addPostFrameCallback((_) =>
         DailyCaloriesResultsDialog.showResults(context,
             bmr: bmr,

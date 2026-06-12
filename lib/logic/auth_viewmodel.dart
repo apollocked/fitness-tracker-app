@@ -21,15 +21,15 @@ class AuthViewModel extends ChangeNotifier {
   bool get isLoggedIn => _user != null;
   bool get isGuest => _user?.id == '__guest__';
 
-  Future<void> login(String username) async {
+  Future<void> login(String username, String passkey) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
     try {
-      final user = await _authRepository.login(username);
+      final user = await _authRepository.login(username, passkey);
       if (user == null) {
         _isLoading = false;
-        _error = "User not found";
+        _error = "Invalid username or passkey";
       } else {
         _user = user;
         _isLoading = false;

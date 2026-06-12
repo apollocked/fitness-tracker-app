@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
 import 'package:fit_tracker/presentation/pages/layout_page.dart';
 import 'package:fit_tracker/presentation/pages/onboarding_page.dart';
+import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 
@@ -16,16 +18,21 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameCtrl = TextEditingController();
+  final _passkeyCtrl = TextEditingController();
 
   @override
   void dispose() {
     _usernameCtrl.dispose();
+    _passkeyCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    await context.read<AuthViewModel>().login(_usernameCtrl.text.trim());
+    await context.read<AuthViewModel>().login(
+      _usernameCtrl.text.trim(),
+      _passkeyCtrl.text.trim(),
+    );
     if (context.mounted && context.read<AuthViewModel>().currentUser != null) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -66,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                           fontWeight: FontWeight.bold,
                           color: colors.textColor)),
                   const SizedBox(height: 8),
-                  Text('Enter your username to continue',
+                  Text('Enter your details to continue',
                       style: TextStyle(color: colors.subtitleColor)),
                   const SizedBox(height: 32),
                   TextFormField(
@@ -83,28 +90,37 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _passkeyCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Passkey (4 digits)',
+                      prefixIcon: Icon(Icons.lock_outline),
+                    ),
+                    keyboardType: TextInputType.number,
+                    obscureText: true,
+                    maxLength: 4,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    validator: (v) {
+                      if (v == null || v.trim().isEmpty) {
+                        return 'Enter your passkey';
+                      }
+                      if (v.trim().length != 4) return 'Must be 4 digits';
+                      if (int.tryParse(v.trim()) == null) return 'Digits only';
+                      return null;
+                    },
+                  ),
                   if (authVM.error != null) ...[
                     const SizedBox(height: 12),
                     Text(authVM.error!,
                         style: const TextStyle(color: redColor, fontSize: 13)),
                   ],
                   const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 54,
-                    child: ElevatedButton(
-                      onPressed: authVM.isLoading ? null : _login,
-                      child: authVM.isLoading
-                          ? const SizedBox(
-                              width: 22,
-                              height: 22,
-                              child: CircularProgressIndicator(
-                                  strokeWidth: 2, color: Colors.white))
-                          : const Text('Login',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600)),
-                    ),
+                  CalcButton(
+                    label: 'Login',
+                    color: primaryColor,
+                    onPressed: _login,
+                    isLoading: authVM.isLoading,
                   ),
                   const SizedBox(height: 16),
                   Row(

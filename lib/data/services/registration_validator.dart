@@ -43,6 +43,19 @@ class RegistrationValidator {
     return null;
   }
 
+  static String? validatePasskey(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Passkey is required';
+    }
+    if (value.length != 4) {
+      return 'Must be exactly 4 digits';
+    }
+    if (int.tryParse(value) == null) {
+      return 'Must contain only digits';
+    }
+    return null;
+  }
+
   static String? validateHeight(String? value) {
     if (value == null || value.isEmpty) {
       return 'Height is required';
@@ -57,13 +70,4 @@ class RegistrationValidator {
     return null;
   }
 
-  static String? validateGender(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Gender is required';
-    }
-    if (value != 'Male' && value != 'Female') {
-      return 'Select a valid gender';
-    }
-    return null;
-  }
 }

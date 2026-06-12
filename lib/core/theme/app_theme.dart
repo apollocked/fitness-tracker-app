@@ -133,7 +133,6 @@ class AppTheme {
           cardColor: card,
           textColor: text,
           subtitleColor: subtitle,
-          insideButtonColor: Colors.white,
           shadowColor: shadow,
         ),
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/data/model/user_model.dart';
@@ -6,6 +7,7 @@ import 'package:fit_tracker/data/services/registration_validator.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
+import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/presentation/pages/layout_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -17,6 +19,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameCtrl = TextEditingController();
+  final _passkeyCtrl = TextEditingController();
   final _ageCtrl = TextEditingController();
   final _weightCtrl = TextEditingController();
   final _heightCtrl = TextEditingController();
@@ -25,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void dispose() {
     _usernameCtrl.dispose();
+    _passkeyCtrl.dispose();
     _ageCtrl.dispose();
     _weightCtrl.dispose();
     _heightCtrl.dispose();
@@ -41,6 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final user = UserModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       username: _usernameCtrl.text.trim(),
+      passkey: _passkeyCtrl.text.trim(),
       age: int.parse(_ageCtrl.text.trim()),
       weight: double.parse(_weightCtrl.text.trim()),
       height: double.parse(_heightCtrl.text.trim()),
@@ -103,12 +108,26 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              controller: _passkeyCtrl,
+              decoration: const InputDecoration(
+                labelText: 'Passkey (4 digits)',
+                prefixIcon: Icon(Icons.lock_outline),
+              ),
+              keyboardType: TextInputType.number,
+              obscureText: true,
+              maxLength: 4,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              validator: RegistrationValidator.validatePasskey,
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
               controller: _ageCtrl,
               decoration: const InputDecoration(
                 labelText: 'Age',
                 prefixIcon: Icon(Icons.numbers),
               ),
               keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               validator: RegistrationValidator.validateAge,
             ),
             const SizedBox(height: 16),
@@ -119,6 +138,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 prefixIcon: Icon(Icons.monitor_weight_outlined),
               ),
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
+              ],
               validator: RegistrationValidator.validateWeight,
             ),
             const SizedBox(height: 16),
@@ -129,6 +151,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 prefixIcon: Icon(Icons.height),
               ),
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
+              ],
               validator: RegistrationValidator.validateHeight,
             ),
             const SizedBox(height: 16),
@@ -145,21 +170,11 @@ class _RegisterPageState extends State<RegisterPage> {
               onChanged: (v) => setState(() => _selectedGender = v!),
             ),
             const SizedBox(height: 32),
-            SizedBox(
-              width: double.infinity,
-              height: 54,
-              child: ElevatedButton(
-                onPressed: isLoading ? null : _register,
-                child: isLoading
-                    ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2, color: Colors.white))
-                    : const Text('Create Account',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600)),
-              ),
+            CalcButton(
+              label: 'Create Account',
+              color: primaryColor,
+              onPressed: _register,
+              isLoading: isLoading,
             ),
             const SizedBox(height: 24),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [

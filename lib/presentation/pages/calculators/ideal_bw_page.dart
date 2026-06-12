@@ -9,8 +9,7 @@ import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 
 class IdealBodyWeightPage extends StatefulWidget {
-  final VoidCallback? onGoalsUpdated;
-  const IdealBodyWeightPage({super.key, this.onGoalsUpdated});
+  const IdealBodyWeightPage({super.key});
   @override
   State<IdealBodyWeightPage> createState() => _IdealBodyWeightPageState();
 }
@@ -55,7 +54,6 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
       'goalType': goalType,
       'active': true,
     });
-    widget.onGoalsUpdated?.call();
     IdealWeightResultsDialog.showResults(context,
         idealWeight: target,
         currentWeight: current,
@@ -100,9 +98,4 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
       ),
     );
   }
-}
-
-extension StringExtension on String {
-  String capitalize() =>
-      isEmpty ? this : '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
 }

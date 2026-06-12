@@ -120,22 +120,4 @@ class SettingsDialogs {
       ),
     );
   }
-
-  static void showInfoDialog(
-      BuildContext context, String title, String content) {
-    final colors = Theme.of(context).extension<AppColorsExtension>()!;
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        backgroundColor: colors.cardColor,
-        title: Text(title, style: TextStyle(color: colors.textColor)),
-        content: Text(content, style: TextStyle(color: colors.textColor)),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Close'))
-        ],
-      ),
-    );
-  }
 }

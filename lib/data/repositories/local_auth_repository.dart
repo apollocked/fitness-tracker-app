@@ -18,9 +18,9 @@ class LocalAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<UserModel?> login(String username) async {
+  Future<UserModel?> login(String username, String passkey) async {
     final users = HiveStorageService.getUsers();
-    final userMap = users.where((u) => u['username'] == username).firstOrNull;
+    final userMap = users.where((u) => u['username'] == username && u['passkey'] == passkey).firstOrNull;
     if (userMap == null) return null;
     await HiveStorageService.saveCurrentUser(userMap);
     return UserModel.fromMap(userMap);
@@ -50,6 +50,7 @@ class LocalAuthRepository implements AuthRepository {
     final guestUser = UserModel(
       id: _guestId,
       username: 'Guest',
+      passkey: '',
       age: 0,
       weight: 0.0,
       height: 0.0,

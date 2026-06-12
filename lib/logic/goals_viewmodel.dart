@@ -19,11 +19,6 @@ class GoalsViewModel extends ChangeNotifier {
     _currentGoals = user?.goals ?? {};
   }
 
-  void reload() {
-    _loadGoals();
-    notifyListeners();
-  }
-
   double getProgress(String key) {
     final goal = _currentGoals?[key];
     if (goal == null) return 0.0;
@@ -68,29 +63,6 @@ class GoalsViewModel extends ChangeNotifier {
   Future<void> updateGoal(String key, Map<String, dynamic> goalData) async {
     _currentGoals ??= {};
     _currentGoals![key] = goalData;
-    await _persist();
-    notifyListeners();
-  }
-
-  Future<void> saveGoal(String key, Map<String, dynamic> goalData) async {
-    _currentGoals ??= {};
-    _currentGoals![key] = goalData;
-    await _persist();
-    notifyListeners();
-  }
-
-  Future<void> toggleGoal(String key, bool active) async {
-    final goal = _currentGoals?[key];
-    if (goal == null) return;
-    goal['active'] = active;
-    await _persist();
-    notifyListeners();
-  }
-
-  Future<void> setGoalProgress(String key, double current) async {
-    final goal = _currentGoals?[key];
-    if (goal == null) return;
-    goal['current'] = current;
     await _persist();
     notifyListeners();
   }

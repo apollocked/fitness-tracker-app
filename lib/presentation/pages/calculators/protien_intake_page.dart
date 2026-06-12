@@ -12,8 +12,7 @@ import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 class ProtienIntakePage extends StatefulWidget {
-  final VoidCallback? onGoalsUpdated;
-  const ProtienIntakePage({super.key, this.onGoalsUpdated});
+  const ProtienIntakePage({super.key});
   @override
   State<ProtienIntakePage> createState() => _ProtienIntakePageState();
 }
@@ -39,7 +38,6 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
     context
         .read<GoalsViewModel>()
         .updateGoal('protein', {'target': target, 'active': true});
-    widget.onGoalsUpdated?.call();
     ProteinResultsDialog.showResults(context,
         isBodybuilder: _isBodybuilder,
         normalProtein: vals.normal,

@@ -27,8 +27,6 @@ class AppViewModel extends ChangeNotifier {
   ThemeMode get themeMode => _themeMode;
   bool get isDarkMode => _themeMode == ThemeMode.dark;
 
-  Future<void> toggleTheme() => setDarkMode(!isDarkMode);
-
   Future<void> setDarkMode(bool isDark) async {
     final nextMode = isDark ? ThemeMode.dark : ThemeMode.light;
     if (_themeMode != nextMode) {
@@ -54,11 +52,6 @@ class AppViewModel extends ChangeNotifier {
       _currentIndex = index;
       notifyListeners();
     }
-  }
-
-  void resetNavigation() {
-    _currentIndex = 0;
-    notifyListeners();
   }
 
   // --- Settings ---
@@ -125,9 +118,6 @@ class AppViewModel extends ChangeNotifier {
       return false;
     }
   }
-
-  Future<bool> toggleNotifications() =>
-      setNotifications(!_notificationsEnabled);
 
   void syncWithUser(UserModel? user, {bool notify = true}) {
     if (user != null && user.id == '__guest__') {

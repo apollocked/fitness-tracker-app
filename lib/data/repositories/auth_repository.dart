@@ -1,7 +1,7 @@
 import 'package:fit_tracker/data/model/user_model.dart';
 
 abstract class AuthRepository {
-  Future<UserModel?> login(String username);
+  Future<UserModel?> login(String username, String passkey);
   Future<UserModel> register(UserModel user);
   Future<void> logout();
   Future<bool> isLoggedIn();

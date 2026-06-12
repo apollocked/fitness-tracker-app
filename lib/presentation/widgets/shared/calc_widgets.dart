@@ -36,10 +36,12 @@ class CalcButton extends StatelessWidget {
       {super.key,
       required this.label,
       required this.color,
-      required this.onPressed});
+      required this.onPressed,
+      this.isLoading = false});
   final String label;
   final Color color;
   final VoidCallback onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class CalcButton extends StatelessWidget {
       width: double.infinity,
       height: 52,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: Colors.white,
@@ -55,8 +57,15 @@ class CalcButton extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
-        child: Text(label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+        child: isLoading
+            ? const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                    strokeWidth: 2, color: Colors.white))
+            : Text(label,
+                style: const TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.w600)),
       ),
     );
   }
