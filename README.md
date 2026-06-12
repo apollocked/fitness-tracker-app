@@ -12,9 +12,11 @@ A comprehensive Flutter-based fitness tracking application to help users monitor
 
 ### Authentication & Onboarding
 - **Onboarding Carousel** — 5 animated slides introducing the app on first launch
-- **User Registration** — Create a profile with username, 4-digit passkey, age, weight, height, and gender
+- **User Registration** — Create a profile with username, passkey (6+ characters, alphanumeric + symbols), age, weight, height, and gender
 - **User Login** — Secure login with username + passkey; passkey visibility toggle
 - **Guest Mode** — Browse without saving; all data-write actions blocked by a guard dialog
+- **Rate Limiting** — Login locks out for 1 minute after 5 failed attempts; remaining attempts shown in error message
+- **Passkey Hashing** — Passkeys stored as HMAC-SHA256 hash with per-user 16-byte salt; never stored in plaintext
 - **Passkey Visibility Toggle** — Show/hide passkey on both login and registration forms
 
 ### Fitness Calculators
@@ -151,9 +153,11 @@ User Action → View (Page) → ViewModel (ChangeNotifier) → Repository → Hi
 
 ## Data Storage
 
-Uses **Hive** for local persistence (100% offline, no backend):
+Uses **Hive** with **AES-256 encryption** for local persistence (100% offline, no backend):
 
-- **Users** — JSON-encoded user profiles stored per-user
+- **Encryption Key** — Stored in platform Keystore/Keychain via `flutter_secure_storage`; generated once on first launch
+- **Users** — JSON-encoded user profiles stored per-user (passkey is hashed, never plaintext)
+- **Session** — Only the user ID is stored in the session; full user reconstructed from the users list
 - **Measurements** — Per-user weight history (`measurements_{username}` key)
 - **Settings** — Theme preference, notification toggle, guest dark mode, onboarding seen flag
 
@@ -239,12 +243,13 @@ dependencies:
   provider: ^6.1.0           # State management (MVVM)
   hive: ^2.2.3               # Local persistence
   hive_flutter: ^1.1.0       # Hive Flutter adapter
-  shared_preferences: >=2.4.21  # Theme preference (guest)
-  flutter_local_notifications: ^18.0.1  # Weight reminders
-  permission_handler: ^11.3.1  # Notification permission
-  timezone: ^0.10.0          # Timezone handling
+  crypto: ^3.0.6             # HMAC-SHA256 passkey hashing
+  flutter_secure_storage: ^9.2.4  # Hive encryption key storage
+  flutter_local_notifications: ^22.0.0  # Weight reminders
+  permission_handler: ^12.0.3  # Notification permission
+  timezone: ^0.11.0          # Timezone handling
   intl: ^0.20.2              # Date formatting
-  path_provider: ^2.0.15     # File system paths
+  shared_preferences: (migrated to Hive)
 ```
 
 ---
@@ -264,7 +269,7 @@ dependencies:
 
 ## Version History
 
-### v2.1.0 (Current)
+### v2.2.0 (Current)
 - User Registration & Login with passkey visibility toggle
 - Guest Mode with guarded data writes
 - Onboarding Carousel
@@ -277,7 +282,8 @@ dependencies:
 - Privacy Policy & Terms & Conditions
 - Help & Support (FAQ, Troubleshooting, Tips)
 - MVVM architecture with Provider
-- Hive local persistence
+- Hive + flutter_secure_storage for encrypted persistence
+- **Security**: HMAC-SHA256 passkey hashing, AES-256 Hive encryption, rate-limited login, session as user ID only, ProGuard obfuscation
 
 ---
 
