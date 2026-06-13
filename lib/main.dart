@@ -26,6 +26,7 @@ import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveStorageService.init();
+  await HiveStorageService.seedTestUser();
   await NotificationService.instance.initialize();
   final userRepository = LocalUserRepository();
   await userRepository.reloadFromStorage();
@@ -67,7 +68,8 @@ class FitApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => AppViewModel(authRepository, userRepository)),
         ChangeNotifierProvider(
-            create: (_) => ProgressViewModel(measurementRepository, authRepository)),
+            create: (_) =>
+                ProgressViewModel(measurementRepository, authRepository)),
         ChangeNotifierProvider(create: (_) => CalculatorsViewModel()),
       ],
       child: _FitAppBuilder(showOnboarding: showOnboarding),
@@ -93,7 +95,7 @@ class _FitAppBuilder extends StatelessWidget {
     }
 
     return MaterialApp(
-      debugShowCheckedModeBanner: !kReleaseMode,
+      debugShowCheckedModeBanner: false,
       title: "Fitness Tracker",
       themeMode: appVM.themeMode,
       theme: AppTheme.lightTheme,

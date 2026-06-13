@@ -1,4 +1,4 @@
-package com.example.fit_tracker
+package com.apollo.fit_tracker
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:fit_tracker/data/model/user_model.dart';
 
 class HiveStorageService {
   static const String _boxName = 'fitness_app_enc';
@@ -87,6 +88,23 @@ class HiveStorageService {
   static Future<void> clearCurrentSession() async {
     await _box.delete('currentUserId');
     await _box.delete('guestDarkMode');
+  }
+
+  // ── Test user ──
+  static Future<void> seedTestUser() async {
+    final users = getUsers();
+    if (users.any((u) => u['username'] == 'test')) return;
+    final testUser = UserModel(
+      id: 'test-user-id',
+      username: 'test',
+      passkey: '1234',
+      age: 25,
+      weight: 70.0,
+      height: 175.0,
+      gender: 'Male',
+    );
+    users.add(testUser.toMap());
+    await saveUsers(users);
   }
 
   static Future<void> deleteUserData(String username) async {

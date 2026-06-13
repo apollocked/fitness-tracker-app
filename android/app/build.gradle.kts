@@ -1,11 +1,15 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
-    // The Flutter Gradle Plugin must be applied after the Android Gradle plugin.
+    id("kotlin-android")
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
-    namespace = "com.example.fit_tracker"
+    namespace = "com.apollo.fit_tracker"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,29 +24,24 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.fit_tracker"
+        applicationId = "com.apollo.fit_tracker"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
-    signingConfigs {
-        create("release") {
-            // TODO: Generate a production keystore and configure:
-            // 1. Create android/key.properties (gitignored) with:
-            //    storePassword=...
-            //    keyPassword=...
-            //    keyAlias=...
-            //    storeFile=...
-            // 2. Uncomment the block below to sign release builds.
-            // val props = java.util.Properties().apply {
-            //     load(file("key.properties").inputStream())
-            // }
-            // storeFile = file(props["storeFile"] as String)
-            // storePassword = props["storePassword"] as String
-            // keyAlias = props["keyAlias"] as String
-            // keyPassword = props["keyPassword"] as String
+    val keystorePropsFile = rootProject.file("key.properties")
+    if (keystorePropsFile.exists()) {
+        val props = Properties()
+        props.load(FileInputStream(keystorePropsFile))
+        signingConfigs {
+            create("release") {
+                storeFile = file(props.getProperty("storeFile"))
+                storePassword = props.getProperty("storePassword")
+                keyAlias = props.getProperty("keyAlias")
+                keyPassword = props.getProperty("keyPassword")
+            }
         }
     }
 
