@@ -61,14 +61,14 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
           children: [
             CustomDialogTextField(
               controller: _currentController,
-              text: 'Current Weight (${goal['unit']})',
+              text: 'Current Weight (${goal['unit'] ?? 'kg'})',
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
             ),
             const SizedBox(height: 16),
             CustomDialogTextField(
               controller: _targetController,
-              text: 'Target Weight (${goal['unit']})',
+              text: 'Target Weight (${goal['unit'] ?? 'kg'})',
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
             ),
@@ -162,7 +162,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     Map<String, dynamic> updatedGoal = {
       'target': targetValue,
       'current': currentValue,
-      'unit': goal['unit'],
+      'unit': goal['unit'] ?? 'kg',
       'active': _isActive,
     };
     if (widget.goalKey == 'weight') {

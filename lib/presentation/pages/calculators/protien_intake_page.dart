@@ -8,6 +8,7 @@ import 'package:fit_tracker/presentation/widgets/select_workout_type.dart';
 import 'package:fit_tracker/presentation/widgets/protien_intake/protein_dialog.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
@@ -23,21 +24,38 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
   bool _isBodybuilder = false;
 
   @override
+  void initState() {
+    super.initState();
+    final user = context.read<AuthViewModel>().currentUser;
+    if (user != null) {
+      if (user.weight > 0) _weightCtrl.text = user.weight.toString();
+      _isBodybuilder = user.isBodybuilder;
+    }
+  }
+
+  @override
   void dispose() {
     _weightCtrl.dispose();
     super.dispose();
   }
 
-  void _calculate() {
+  Future<void> _calculate() async {
     if (!_formKey.currentState!.validate()) return;
     final weight = double.parse(_weightCtrl.text);
     final vals = context
         .read<CalculatorsViewModel>()
         .calculateProteinValues(weight, _isBodybuilder);
     final target = _isBodybuilder ? vals.max : vals.normal;
-    context
+    await context
         .read<GoalsViewModel>()
-        .updateGoal('protein', {'target': target, 'active': true});
+        .updateGoal('protein', {'target': target, 'active': true, 'unit': 'g'});
+    final authVM = context.read<AuthViewModel>();
+    final user = authVM.currentUser;
+    if (user != null) {
+      await authVM.updateUser(
+          user.copyWith(weight: weight, isBodybuilder: _isBodybuilder));
+    }
+    if (!context.mounted) return;
     ProteinResultsDialog.showResults(context,
         isBodybuilder: _isBodybuilder,
         normalProtein: vals.normal,

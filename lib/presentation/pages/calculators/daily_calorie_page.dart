@@ -33,6 +33,9 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     final user = context.read<AuthViewModel>().currentUser;
     if (user != null) {
       _gender = user.gender;
+      if (user.weight > 0) _weightCtrl.text = user.weight.toString();
+      if (user.height > 0) _heightCtrl.text = user.height.toString();
+      if (user.age > 0) _ageCtrl.text = user.age.toString();
       final wg = user.goals['weight'];
       if (wg?['goalType'] != null) _goalType = wg!['goalType'];
     }
@@ -46,11 +49,13 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     super.dispose();
   }
 
-  void _calculate() {
+  Future<void> _calculate() async {
     if (!_formKey.currentState!.validate()) return;
     final calcVM = context.read<CalculatorsViewModel>();
-    final bmr = calcVM.calculateBMR(double.parse(_weightCtrl.text),
-        double.parse(_heightCtrl.text), int.parse(_ageCtrl.text), _gender);
+    final weight = double.parse(_weightCtrl.text);
+    final height = double.parse(_heightCtrl.text);
+    final age = int.parse(_ageCtrl.text);
+    final bmr = calcVM.calculateBMR(weight, height, age, _gender);
     final maintenance = calcVM.calculateTDEE(bmr, _activityLevel);
     final adj = calcVM.getCalorieAdjustment(_goalType, _weeklyGoal);
     final daily = ((maintenance + adj) / 10).round() * 10.0;
@@ -59,9 +64,15 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
         : _goalType == 'lose'
             ? 'Weight Loss ($_weeklyGoal kg/week)'
             : 'Weight Gain ($_weeklyGoal kg/week)';
-    context
+    await context
         .read<GoalsViewModel>()
-        .updateGoal('calories', {'target': daily, 'active': true});
+        .updateGoal('calories', {'target': daily, 'active': true, 'unit': 'cal'});
+    final authVM = context.read<AuthViewModel>();
+    final user = authVM.currentUser;
+    if (user != null) {
+      await authVM.updateUser(user.copyWith(weight: weight, height: height, age: age));
+    }
+    if (!context.mounted) return;
     WidgetsBinding.instance.addPostFrameCallback((_) =>
         DailyCaloriesResultsDialog.showResults(context,
             bmr: bmr,

@@ -13,7 +13,7 @@ class GoalsSquareCard extends StatelessWidget {
     final goal = context.watch<GoalsViewModel>().goals[goalKey];
     if (goal == null) return const SizedBox();
     final target = goal['target'];
-    final unit = goal['unit'];
+    final unit = goal['unit'] ?? '';
     Color cardColor;
     IconData icon;
     String title;

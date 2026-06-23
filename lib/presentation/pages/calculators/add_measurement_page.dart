@@ -46,8 +46,12 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
       await progressVM
           .addMeasurement(Measurement(weight: newWeight, date: DateTime.now()));
       final goalsVM = context.read<GoalsViewModel>();
-      if (goalsVM.goals.containsKey('weight')) {
-        await goalsVM.updateGoal('weight', {'current': newWeight});
+      final existingGoal = goalsVM.goals['weight'];
+      if (existingGoal != null) {
+        await goalsVM.updateGoal('weight', {
+          ...Map<String, dynamic>.from(existingGoal),
+          'current': newWeight,
+        });
       }
       setState(() => _isLoading = false);
       if (context.mounted) {

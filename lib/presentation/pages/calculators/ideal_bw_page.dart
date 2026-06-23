@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/presentation/widgets/ideal_weight/ideal_bw_form.dart';
 import 'package:fit_tracker/presentation/widgets/ideal_weight_dialog.dart';
+import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
@@ -22,6 +23,19 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
   String _gender = 'Male';
 
   @override
+  void initState() {
+    super.initState();
+    final user = context.read<AuthViewModel>().currentUser;
+    if (user != null) {
+      _gender = user.gender;
+      if (user.weight > 0) _weightCtrl.text = user.weight.toString();
+      if (user.height > 0) _heightCtrl.text = user.height.toString();
+      final wg = user.goals['weight'];
+      if (wg?['target'] != null) _targetCtrl.text = wg!['target'].toString();
+    }
+  }
+
+  @override
   void dispose() {
     _heightCtrl.dispose();
     _weightCtrl.dispose();
@@ -29,7 +43,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
     super.dispose();
   }
 
-  void _calculate() {
+  Future<void> _calculate() async {
     if (!_formKey.currentState!.validate()) return;
     final height = double.parse(_heightCtrl.text);
     final current = double.parse(_weightCtrl.text);
@@ -47,13 +61,21 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
             ? 'gain'
             : 'maintain';
     final diff = ((target - current).abs() * 100).round() / 100;
-    context.read<GoalsViewModel>().updateGoal('weight', {
+    await context.read<GoalsViewModel>().updateGoal('weight', {
       'target': target,
       'current': current,
       'startWeight': current,
       'goalType': goalType,
       'active': true,
+      'unit': 'kg',
     });
+    final authVM = context.read<AuthViewModel>();
+    final user = authVM.currentUser;
+    if (user != null) {
+      await authVM.updateUser(
+          user.copyWith(weight: current, height: height, gender: _gender));
+    }
+    if (!context.mounted) return;
     IdealWeightResultsDialog.showResults(context,
         idealWeight: target,
         currentWeight: current,
