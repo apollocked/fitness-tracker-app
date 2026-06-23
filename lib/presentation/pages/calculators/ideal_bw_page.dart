@@ -4,8 +4,10 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/presentation/widgets/ideal_weight/ideal_bw_form.dart';
 import 'package:fit_tracker/presentation/widgets/ideal_weight_dialog.dart';
+import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 
@@ -74,6 +76,8 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
         'active': true,
         'unit': 'kg',
       });
+      context.read<ProgressViewModel>().addMeasurement(
+          Measurement(weight: current, date: DateTime.now()));
       final authVM = context.read<AuthViewModel>();
       final user = authVM.currentUser;
       if (user != null) {

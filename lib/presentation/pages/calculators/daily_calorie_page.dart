@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/presentation/widgets/daily_calories/daily_calorie_input_section.dart';
@@ -9,6 +10,7 @@ import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 class DailyCaloriePage extends StatefulWidget {
@@ -74,6 +76,8 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
         onSetGoal: () {
       context.read<GoalsViewModel>().updateGoal('calories',
           {'target': daily, 'active': true, 'unit': 'cal'});
+      context.read<ProgressViewModel>().addMeasurement(
+          Measurement(weight: weight, date: DateTime.now()));
       final authVM = context.read<AuthViewModel>();
       final user = authVM.currentUser;
       if (user != null) {

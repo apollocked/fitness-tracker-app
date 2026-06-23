@@ -8,8 +8,10 @@ import 'package:fit_tracker/presentation/widgets/select_workout_type.dart';
 import 'package:fit_tracker/presentation/widgets/protien_intake/protein_dialog.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 class ProtienIntakePage extends StatefulWidget {
@@ -53,6 +55,8 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
         maxProtein: vals.max, onSetGoal: () {
       context.read<GoalsViewModel>().updateGoal('protein',
           {'target': target, 'active': true, 'unit': 'g'});
+      context.read<ProgressViewModel>().addMeasurement(
+          Measurement(weight: weight, date: DateTime.now()));
       final authVM = context.read<AuthViewModel>();
       final user = authVM.currentUser;
       if (user != null) {
