@@ -9,6 +9,9 @@ class LocalAuthRepository implements AuthRepository {
   UserModel? getCurrentUser() {
     final userId = HiveStorageService.getCurrentUserId();
     if (userId == null) return null;
+    if (userId == _guestId) {
+      return UserModel(id: _guestId, username: 'Guest');
+    }
     final users = HiveStorageService.getUsers();
     final userMap = users.where((u) => u['id'] == userId).firstOrNull;
     if (userMap == null) return null;
