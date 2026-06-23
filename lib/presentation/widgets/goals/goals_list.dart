@@ -31,7 +31,7 @@ class GoalsList extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Weight goals can be edited. Calorie and protein goals are set automatically from their respective calculators.',
+                  'Tap any goal to edit its target or toggle it on/off. Calorie and protein goals can also be set from the calculators on the Home page.',
                   style: TextStyle(
                       fontSize: 12, color: colors.textColor, height: 1.4),
                 ),

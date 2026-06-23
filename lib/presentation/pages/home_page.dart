@@ -72,9 +72,9 @@ class _HomePageState extends State<HomePage> {
           children: [
             GreetingBanner(username: user?.username),
             const SizedBox(height: 16),
-            if (user != null && (user.weight > 0 || latestWeight != null))
+            if (user != null)
               StatsSummaryCard(user: user, latestWeight: latestWeight),
-            if (user != null && (user.weight > 0 || latestWeight != null))
+            if (user != null)
               const SizedBox(height: 16),
             DashboardGoalsSection(onViewAll: _goToGoals),
             const SizedBox(height: 16),

@@ -109,7 +109,10 @@ class ProteinResultsDialog {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      onSetGoal();
+                      Navigator.pop(context);
+                    },
                     child: const Text('Got it!',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),

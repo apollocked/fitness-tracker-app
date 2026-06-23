@@ -43,7 +43,7 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
     super.dispose();
   }
 
-  Future<void> _calculate() async {
+  void _calculate() {
     if (!_formKey.currentState!.validate()) return;
     final height = double.parse(_heightCtrl.text);
     final current = double.parse(_weightCtrl.text);
@@ -61,26 +61,25 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
             ? 'gain'
             : 'maintain';
     final diff = ((target - current).abs() * 100).round() / 100;
-    await context.read<GoalsViewModel>().updateGoal('weight', {
-      'target': target,
-      'current': current,
-      'startWeight': current,
-      'goalType': goalType,
-      'active': true,
-      'unit': 'kg',
-    });
-    final authVM = context.read<AuthViewModel>();
-    final user = authVM.currentUser;
-    if (user != null) {
-      await authVM.updateUser(
-          user.copyWith(weight: current, height: height, gender: _gender));
-    }
-    if (!context.mounted) return;
     IdealWeightResultsDialog.showResults(context,
         idealWeight: target,
         currentWeight: current,
         goalType: goalType,
         weightDifference: diff, onSetGoal: () {
+      context.read<GoalsViewModel>().updateGoal('weight', {
+        'target': target,
+        'current': current,
+        'startWeight': current,
+        'goalType': goalType,
+        'active': true,
+        'unit': 'kg',
+      });
+      final authVM = context.read<AuthViewModel>();
+      final user = authVM.currentUser;
+      if (user != null) {
+        authVM.updateUser(
+            user.copyWith(weight: current, height: height, gender: _gender));
+      }
       final label = '${goalType[0].toUpperCase()}${goalType.substring(1)}';
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('$label weight goal saved!'),

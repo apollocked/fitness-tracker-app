@@ -49,7 +49,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     super.dispose();
   }
 
-  Future<void> _calculate() async {
+  void _calculate() {
     if (!_formKey.currentState!.validate()) return;
     final calcVM = context.read<CalculatorsViewModel>();
     final weight = double.parse(_weightCtrl.text);
@@ -64,27 +64,26 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
         : _goalType == 'lose'
             ? 'Weight Loss ($_weeklyGoal kg/week)'
             : 'Weight Gain ($_weeklyGoal kg/week)';
-    await context
-        .read<GoalsViewModel>()
-        .updateGoal('calories', {'target': daily, 'active': true, 'unit': 'cal'});
-    final authVM = context.read<AuthViewModel>();
-    final user = authVM.currentUser;
-    if (user != null) {
-      await authVM.updateUser(user.copyWith(weight: weight, height: height, age: age));
-    }
-    if (!context.mounted) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        DailyCaloriesResultsDialog.showResults(context,
-            bmr: bmr,
-            maintenanceCalories: maintenance,
-            dailyCalories: daily,
-            goalType: _goalType,
-            weeklyGoal: _weeklyGoal,
-            goalDescription: desc,
-            onSetGoal: () => ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text('$desc goal saved!'),
-                    backgroundColor: greenColor))));
+    DailyCaloriesResultsDialog.showResults(context,
+        bmr: bmr,
+        maintenanceCalories: maintenance,
+        dailyCalories: daily,
+        goalType: _goalType,
+        weeklyGoal: _weeklyGoal,
+        goalDescription: desc,
+        onSetGoal: () {
+      context.read<GoalsViewModel>().updateGoal('calories',
+          {'target': daily, 'active': true, 'unit': 'cal'});
+      final authVM = context.read<AuthViewModel>();
+      final user = authVM.currentUser;
+      if (user != null) {
+        authVM.updateUser(
+            user.copyWith(weight: weight, height: height, age: age));
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('$desc goal saved!'),
+          backgroundColor: greenColor));
+    });
   }
 
   @override

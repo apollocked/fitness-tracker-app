@@ -41,7 +41,7 @@ class GoalTile extends StatelessWidget {
           title: Row(children: [
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(children: [
-                Expanded(child: Text(goal['label'] ?? '', style: TextStyle(fontWeight: FontWeight.bold, color: colors.textColor))),
+                Expanded(child: Text(goal['label'] ?? '${goalKey[0].toUpperCase()}${goalKey.substring(1)}', style: TextStyle(fontWeight: FontWeight.bold, color: colors.textColor))),
                 Text(cubit.getGoalStatus(goalKey), style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
               ]),
               const SizedBox(height: 4),

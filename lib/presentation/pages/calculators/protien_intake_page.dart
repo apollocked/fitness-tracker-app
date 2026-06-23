@@ -39,28 +39,26 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
     super.dispose();
   }
 
-  Future<void> _calculate() async {
+  void _calculate() {
     if (!_formKey.currentState!.validate()) return;
     final weight = double.parse(_weightCtrl.text);
     final vals = context
         .read<CalculatorsViewModel>()
         .calculateProteinValues(weight, _isBodybuilder);
     final target = _isBodybuilder ? vals.max : vals.normal;
-    await context
-        .read<GoalsViewModel>()
-        .updateGoal('protein', {'target': target, 'active': true, 'unit': 'g'});
-    final authVM = context.read<AuthViewModel>();
-    final user = authVM.currentUser;
-    if (user != null) {
-      await authVM.updateUser(
-          user.copyWith(weight: weight, isBodybuilder: _isBodybuilder));
-    }
-    if (!context.mounted) return;
     ProteinResultsDialog.showResults(context,
         isBodybuilder: _isBodybuilder,
         normalProtein: vals.normal,
         minProtein: vals.min,
         maxProtein: vals.max, onSetGoal: () {
+      context.read<GoalsViewModel>().updateGoal('protein',
+          {'target': target, 'active': true, 'unit': 'g'});
+      final authVM = context.read<AuthViewModel>();
+      final user = authVM.currentUser;
+      if (user != null) {
+        authVM.updateUser(
+            user.copyWith(weight: weight, isBodybuilder: _isBodybuilder));
+      }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text('Protein goal saved!'),
           backgroundColor: greenColor));
