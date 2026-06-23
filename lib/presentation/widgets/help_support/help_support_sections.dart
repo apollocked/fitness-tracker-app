@@ -28,17 +28,20 @@ class _FAQSectionState extends State<FAQSection> {
           child: AppCard(
             padding: EdgeInsets.zero,
             borderColor: isExpanded ? primaryColor : colors.subtitleColor.withOpacity(0.2),
-            child: Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                onExpansionChanged: (expanded) => setState(() => _expandedIndex = expanded ? index : -1),
-                title: Text(faq['question'], style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor)),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                    child: Text(faq['answer'], style: TextStyle(fontSize: 13, color: colors.subtitleColor, height: 1.4)),
-                  ),
-                ],
+            child: Material(
+              type: MaterialType.transparency,
+              child: Theme(
+                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  onExpansionChanged: (expanded) => setState(() => _expandedIndex = expanded ? index : -1),
+                  title: Text(faq['question'], style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor)),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      child: Text(faq['answer'], style: TextStyle(fontSize: 13, color: colors.subtitleColor, height: 1.4)),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

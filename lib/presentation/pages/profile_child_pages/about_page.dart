@@ -65,7 +65,7 @@ class AboutPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Fitness Tracker is your personal fitness companion designed to help you achieve your health and fitness goals. Whether you\'re looking to lose weight, build muscle, or maintain a healthy lifestyle, our app provides you with all the tools you need.',
+                    'Fitness Tracker is your personal fitness companion designed to help you achieve your health and fitness goals. Whether you\'re looking to lose weight, build muscle, or maintain a healthy lifestyle, our app provides all the tools you need in one place.',
                     style: TextStyle(
                         fontSize: 14, color: colors.subtitleColor, height: 1.5),
                   ),
@@ -80,7 +80,7 @@ class AboutPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'We believe that fitness is a journey, not a destination. Our mission is to make fitness tracking simple, accessible, and enjoyable for everyone. With Fitness Tracker, you\'re never alone in your fitness journey.',
+                    'We believe fitness is a journey, not a destination. Our mission is to make fitness tracking simple, accessible, and enjoyable for everyone. With Fitness Tracker, you\'re never alone in your fitness journey.',
                     style: TextStyle(
                         fontSize: 14, color: colors.subtitleColor, height: 1.5),
                   ),
@@ -100,6 +100,8 @@ class AboutPage extends StatelessWidget {
                   _infoRow('Version', '1.1.0', colors),
                   _divider(colors),
                   _infoRow('Developer', 'Mohammed jameel - Apollo', colors),
+                  _divider(colors),
+                  _infoRow('Tech Stack', 'Flutter & Dart', colors),
                   _divider(colors),
                   _infoRow('Email', 'mahamadbarznji712@gmail.com', colors,
                       isLink: true),

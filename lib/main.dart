@@ -20,6 +20,7 @@ import 'package:fit_tracker/data/repositories/local_measurement_repository.dart'
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
+
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 void main() async {

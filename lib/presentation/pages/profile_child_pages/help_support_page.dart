@@ -27,7 +27,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   void _scrollTo(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
-      Scrollable.ensureVisible(context, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+      Scrollable.ensureVisible(context,
+          duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
     }
   }
 
@@ -37,52 +38,84 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: customAppBarr('Help & Support', primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          'Help & Support', primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         controller: _scrollController,
         padding: const EdgeInsets.all(20),
         physics: const BouncingScrollPhysics(),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Welcome to Help & Support', style: theme.textTheme.titleLarge),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+          Text('How can we help you?',
+              style: theme.textTheme.titleLarge),
           const SizedBox(height: 6),
-          Text('Find answers to common questions and learn how to use the app.',
+          Text(
+              'Find answers, troubleshooting tips, and guides to get the most out of Fitness Tracker.',
               style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
           const SizedBox(height: 24),
           AppCard(
             padding: const EdgeInsets.all(16),
             borderColor: primaryColor.withOpacity(0.2),
             elevation: false,
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('Quick Navigation', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colors.textColor)),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              Text('Quick Navigation',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: colors.textColor)),
               const SizedBox(height: 12),
               Wrap(spacing: 8, runSpacing: 8, children: [
-                _navBtn(Icons.star_outline, 'Features', () => Navigator.pushNamed(context, '/features'), colors),
-                _navBtn(Icons.help_outline, 'FAQs', () => _scrollTo(_faqKey), colors),
-                _navBtn(Icons.build_circle_outlined, 'Troubleshoot', () => _scrollTo(_troubleshootKey), colors),
-                _navBtn(Icons.lightbulb_outline, 'Tips', () => _scrollTo(_tipsKey), colors),
+                _navBtn(Icons.help_outline, 'FAQs',
+                    () => _scrollTo(_faqKey), colors),
+                _navBtn(Icons.build_circle_outlined, 'Troubleshoot',
+                    () => _scrollTo(_troubleshootKey), colors),
+                _navBtn(Icons.lightbulb_outline, 'Tips',
+                    () => _scrollTo(_tipsKey), colors),
               ]),
             ]),
           ),
           const SizedBox(height: 28),
-          _section(theme: theme, key: _faqKey, title: 'Frequently Asked Questions',
+          _section(
+              theme: theme,
+              key: _faqKey,
+              title: 'Frequently Asked Questions',
+              subtitle: 'Answers to the most common questions.',
               child: const FAQSection()),
           const SizedBox(height: 28),
-          _section(theme: theme, key: _troubleshootKey, title: 'Troubleshooting',
+          _section(
+              theme: theme,
+              key: _troubleshootKey,
+              title: 'Troubleshooting',
+              subtitle: 'Solutions for common issues.',
               child: const TroubleshootSection()),
           const SizedBox(height: 28),
-          _section(theme: theme, key: _tipsKey, title: 'Tips & Tricks',
+          _section(
+              theme: theme,
+              key: _tipsKey,
+              title: 'Tips & Tricks',
+              subtitle: 'Get the most out of your fitness journey.',
               child: const TipsSection()),
           const SizedBox(height: 28),
-          _section(theme: theme, title: 'Still Need Help?',
-              child: const SupportContactWidget(email: 'mahamadbarznji712@gmail.com', title: 'Contact Us')),
+          _section(
+              theme: theme,
+              title: 'Still Need Help?',
+              subtitle: 'We\'re here for you.',
+              child: const SupportContactWidget(
+                email: 'mahamadbarznji712@gmail.com',
+                title: 'Contact Us',
+              )),
           const SizedBox(height: 32),
         ]),
       ),
     );
   }
 
-  Widget _navBtn(IconData icon, String label, VoidCallback onTap, AppColorsExtension colors) {
+  Widget _navBtn(
+      IconData icon, String label, VoidCallback onTap, AppColorsExtension colors) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -95,17 +128,32 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Icon(icon, size: 16, color: primaryColor),
           const SizedBox(width: 6),
-          Text(label, style: TextStyle(color: colors.textColor, fontSize: 13, fontWeight: FontWeight.w500)),
+          Text(label,
+              style: TextStyle(
+                  color: colors.textColor,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500)),
         ]),
       ),
     );
   }
 
-  Widget _section({required ThemeData theme, GlobalKey? key, required String title, required Widget child}) {
+  Widget _section(
+      {required ThemeData theme,
+      GlobalKey? key,
+      required String title,
+      String? subtitle,
+      required Widget child}) {
     return Container(
       key: key,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(title, style: theme.textTheme.titleMedium),
+        if (subtitle != null) ...[
+          const SizedBox(height: 4),
+          Text(subtitle,
+              style:
+                  TextStyle(fontSize: 12, color: theme.extension<AppColorsExtension>()!.subtitleColor)),
+        ],
         const SizedBox(height: 12),
         child,
       ]),

@@ -24,7 +24,7 @@ class FeaturesPage extends StatelessWidget {
             Text('Discover Our Features', style: theme.textTheme.titleLarge),
             const SizedBox(height: 6),
             Text(
-                'Explore all the tools and capabilities available in our fitness app.',
+                '${appFeatures.length}+ tools and capabilities to power your fitness journey.',
                 style: TextStyle(color: colors.subtitleColor, fontSize: 14)),
             const SizedBox(height: 24),
             ListView.builder(
@@ -97,29 +97,35 @@ class FeaturesPage extends StatelessWidget {
             AppCard(
               borderColor: primaryColor.withOpacity(0.3),
               elevation: false,
-              child: Row(
-                children: [
-                  Icon(Icons.help_outline_rounded,
-                      color: primaryColor, size: 28),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Need Help?',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: colors.textColor)),
-                        const SizedBox(height: 4),
-                        Text(
-                            'Visit Help & Support for FAQs and troubleshooting.',
-                            style: TextStyle(
-                                fontSize: 12, color: colors.subtitleColor)),
-                      ],
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                onTap: () {},
+                child: Row(
+                  children: [
+                    Icon(Icons.help_outline_rounded,
+                        color: primaryColor, size: 28),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Need Help?',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: colors.textColor)),
+                          const SizedBox(height: 4),
+                          Text(
+                              'Visit Help & Support for FAQs and troubleshooting.',
+                              style: TextStyle(
+                                  fontSize: 12, color: colors.subtitleColor)),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Icon(Icons.chevron_right_rounded,
+                        color: colors.subtitleColor, size: 20),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 32),
