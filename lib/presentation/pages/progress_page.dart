@@ -71,6 +71,7 @@ class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final goalsVM = context.watch<GoalsViewModel>();
     final hasGoals = goalsVM.goals.isNotEmpty;
 
@@ -81,9 +82,13 @@ class _EmptyState extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-                color: primaryColor.withOpacity(0.1), shape: BoxShape.circle),
-            child:
-                Icon(Icons.show_chart_rounded, size: 64, color: primaryColor),
+              color: primaryColor.withOpacity(0.1),
+              shape: BoxShape.circle,
+              border: Border.all(
+                  color: primaryColor.withOpacity(isDark ? 0.25 : 0.15),
+                  width: 2),
+            ),
+            child: Icon(Icons.show_chart_rounded, size: 64, color: primaryColor),
           ),
           const SizedBox(height: 24),
           Text('No Measurements Yet',
@@ -99,10 +104,21 @@ class _EmptyState extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(color: colors.subtitleColor)),
           const SizedBox(height: 32),
-          ElevatedButton.icon(
-            onPressed: onAdd,
-            icon: const Icon(Icons.add),
-            label: const Text('Log First Measurement'),
+          SizedBox(
+            width: 240,
+            height: 54,
+            child: ElevatedButton.icon(
+              onPressed: onAdd,
+              icon: const Icon(Icons.add, size: 20),
+              label: const Text('Log Your First Measurement',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                elevation: 4,
+                shadowColor: primaryColor.withOpacity(0.4),
+              ),
+            ),
           ),
         ]),
       ),
