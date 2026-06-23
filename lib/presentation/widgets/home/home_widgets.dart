@@ -191,29 +191,48 @@ class DashboardGoalsSection extends StatelessWidget {
 
     if (goals.isEmpty) {
       return Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: colors.cardColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: primaryColor.withOpacity(0.2)),
           boxShadow: [BoxShadow(color: colors.shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
         ),
-        child: Column(
+        child: Row(
           children: [
-            Icon(Icons.flag_outlined, size: 40, color: primaryColor.withOpacity(0.4)),
-            const SizedBox(height: 12),
-            Text('No Goals Set Yet',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: colors.textColor)),
-            const SizedBox(height: 6),
-            Text('Set fitness goals to track your progress',
-                style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: onViewAll,
-              icon: const Icon(Icons.add, size: 18),
-              label: const Text('Set Your First Goal'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: primaryColor.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(Icons.flag_outlined, size: 24, color: primaryColor.withOpacity(0.5)),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('No Goals Set Yet',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor)),
+                  const SizedBox(height: 2),
+                  Text('Set fitness goals to track your progress',
+                      style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            SizedBox(
+              height: 36,
+              child: ElevatedButton.icon(
+                onPressed: onViewAll,
+                icon: const Icon(Icons.add, size: 16),
+                label: const Text('Set Goal',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
               ),
             ),
           ],
