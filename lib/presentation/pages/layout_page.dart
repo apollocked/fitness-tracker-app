@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/pages/home_page.dart';
 import 'package:fit_tracker/presentation/pages/progress_page.dart';
@@ -11,14 +12,45 @@ import 'package:fit_tracker/core/theme/app_theme.dart';
 
 class LayoutPage extends StatelessWidget {
   const LayoutPage({super.key});
+
+  void _showExitDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Exit App'),
+        content: const Text('Are you sure you want to exit the app?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('Cancel',
+                style: TextStyle(color: Theme.of(context).extension<AppColorsExtension>()!.subtitleColor)),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              SystemNavigator.pop();
+            },
+            child: const Text('Exit', style: TextStyle(color: primaryColor, fontWeight: FontWeight.w600)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appVM = context.watch<AppViewModel>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final bottomInset = MediaQuery.of(context).padding.bottom;
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        _showExitDialog(context);
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         children: [
           SafeArea(
@@ -76,6 +108,7 @@ class LayoutPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
     );
   }
 }
