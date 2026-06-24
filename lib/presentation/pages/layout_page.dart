@@ -23,14 +23,19 @@ class LayoutPage extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text('Cancel',
-                style: TextStyle(color: Theme.of(context).extension<AppColorsExtension>()!.subtitleColor)),
+                style: TextStyle(
+                    color: Theme.of(context)
+                        .extension<AppColorsExtension>()!
+                        .subtitleColor)),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
               SystemNavigator.pop();
             },
-            child: const Text('Exit', style: TextStyle(color: primaryColor, fontWeight: FontWeight.w600)),
+            child: const Text('Exit',
+                style: TextStyle(
+                    color: primaryColor, fontWeight: FontWeight.w600)),
           ),
         ],
       ),
@@ -51,24 +56,27 @@ class LayoutPage extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Stack(
-        children: [
-          SafeArea(
-            top: true,
-            bottom: false,
-            child: Column(children: [
-              const GuestBanner(),
-              Expanded(
-                child: IndexedStack(
-                  index: appVM.currentIndex,
-                  children: const [
-                    HomePage(),
-                    ProgressPage(),
-                    ProfilePage(),
-                  ],
-                ),
-              ),
-            ])),
+        body: Stack(
+          children: [
+            SafeArea(
+                top: true,
+                bottom: false,
+                child: Column(children: [
+                  const GuestBanner(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 58),
+                      child: IndexedStack(
+                        index: appVM.currentIndex,
+                        children: const [
+                          HomePage(),
+                          ProgressPage(),
+                          ProfilePage(),
+                        ],
+                      ),
+                    ),
+                  )
+                ])),
             Positioned(
               left: 20,
               right: 20,
@@ -143,12 +151,12 @@ class _DockNavBar extends StatelessWidget {
             ),
             Row(
               children: [
-                _dockItem(0, Icons.home_rounded, 'Home',
-                    primaryColor, colors.subtitleColor, itemWidth),
-                _dockItem(1, Icons.show_chart_rounded, 'Progress',
-                    primaryColor, colors.subtitleColor, itemWidth),
-                _dockItem(2, Icons.person_rounded, 'Profile',
-                    primaryColor, colors.subtitleColor, itemWidth),
+                _dockItem(0, Icons.home_rounded, 'Home', primaryColor,
+                    colors.subtitleColor, itemWidth),
+                _dockItem(1, Icons.show_chart_rounded, 'Progress', primaryColor,
+                    colors.subtitleColor, itemWidth),
+                _dockItem(2, Icons.person_rounded, 'Profile', primaryColor,
+                    colors.subtitleColor, itemWidth),
               ],
             ),
           ],
@@ -157,8 +165,8 @@ class _DockNavBar extends StatelessWidget {
     );
   }
 
-  Widget _dockItem(
-      int index, IconData icon, String label, Color activeColor, Color inactiveColor, double width) {
+  Widget _dockItem(int index, IconData icon, String label, Color activeColor,
+      Color inactiveColor, double width) {
     final isSelected = currentIndex == index;
     return GestureDetector(
       onTap: () => onTap(index),
