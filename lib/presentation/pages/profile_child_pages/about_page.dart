@@ -44,7 +44,7 @@ class AboutPage extends StatelessWidget {
                 style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold, color: colors.textColor)),
             const SizedBox(height: 4),
-            Text('Version 1.1.0',
+            Text('Version 1.2.1',
                 style: TextStyle(
                     fontSize: 14,
                     color: colors.subtitleColor,
@@ -97,7 +97,7 @@ class AboutPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   _infoRow('App Name', 'Fitness Tracker', colors),
                   _divider(colors),
-                  _infoRow('Version', '1.1.0', colors),
+                  _infoRow('Version', '1.2.1', colors),
                   _divider(colors),
                   _infoRow('Developer', 'Mohammed jameel - Apollo', colors),
                   _divider(colors),

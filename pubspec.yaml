@@ -1,7 +1,7 @@
 name: fit_tracker
 description: A fitness measurement tracking app
 publish_to: "none"
-version: 1.2.0+3
+version: 1.2.1+5
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
