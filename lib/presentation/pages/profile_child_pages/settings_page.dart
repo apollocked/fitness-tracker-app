@@ -6,6 +6,7 @@ import 'package:fit_tracker/presentation/widgets/profile/settings_dialogs.dart';
 import 'package:fit_tracker/presentation/widgets/profile/settings_section_widget.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/data/services/notification_service.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -18,10 +19,32 @@ class SettingsPage extends StatelessWidget {
   }
 
   Future<void> _onNotificationsChanged(BuildContext context, bool value) async {
+    if (value) {
+      final accepted = await showNotificationRationale(context);
+      if (!accepted || !context.mounted) return;
+    }
+
     final appVM = context.read<AppViewModel>();
     final messenger = ScaffoldMessenger.of(context);
     final success = await appVM.setNotifications(value);
     if (!context.mounted) return;
+
+    if (!success && value && appVM.settingsError == 'Notification permission is blocked.') {
+      await showAppSettingsRedirect(context);
+      if (!context.mounted) return;
+      final retry = await appVM.setNotifications(value);
+      if (retry && context.mounted) {
+        await context.read<AuthViewModel>().reloadUser();
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(appVM.successMessage ?? 'Notifications enabled.'),
+            backgroundColor: greenColor,
+          ),
+        );
+        return;
+      }
+    }
+
     await context.read<AuthViewModel>().reloadUser();
     messenger.showSnackBar(
       SnackBar(

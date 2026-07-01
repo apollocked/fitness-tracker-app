@@ -70,6 +70,13 @@ class HiveStorageService {
     return list.cast<Map<String, dynamic>>();
   }
 
+  // ── Generic key-value ──
+  static Future<void> saveString(String key, String value) async {
+    await _box.put(key, value);
+  }
+
+  static String? getString(String key) => _box.get(key);
+
   // ── Guest settings ──
   static Future<void> setGuestDarkMode(bool isDark) async {
     await _box.put('guestDarkMode', isDark ? 'true' : 'false');

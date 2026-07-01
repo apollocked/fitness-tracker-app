@@ -9,6 +9,8 @@ import 'package:fit_tracker/data/services/notification_service.dart';
 import 'package:fit_tracker/data/services/registration_validator.dart';
 import 'package:fit_tracker/data/services/hive_storage_service.dart';
 
+const _guestNotificationsKey = 'guest_notifications_enabled';
+
 class AppViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
@@ -73,14 +75,23 @@ class AppViewModel extends ChangeNotifier {
 
     try {
       if (enabled) {
-        final granted =
+        final result =
             await _notificationService.requestNotificationPermission();
-        if (!granted) {
+
+        if (result == NotificationPermissionResult.permanentlyDenied) {
           _notificationsEnabled = false;
           await _notificationService.cancelWeightReminder();
-          await _persistCurrentUser(
-            (user) => user.copyWith(notificationsEnabled: false),
-          );
+          await _persistNotificationState(false);
+          _settingsLoading = false;
+          _settingsError = 'Notification permission is blocked.';
+          notifyListeners();
+          return false;
+        }
+
+        if (result == NotificationPermissionResult.denied) {
+          _notificationsEnabled = false;
+          await _notificationService.cancelWeightReminder();
+          await _persistNotificationState(false);
           _settingsLoading = false;
           _settingsError = 'Notification permission was not granted.';
           notifyListeners();
@@ -90,9 +101,7 @@ class AppViewModel extends ChangeNotifier {
         final scheduled = await _notificationService.scheduleWeightReminder();
         if (!scheduled) {
           _notificationsEnabled = false;
-          await _persistCurrentUser(
-            (user) => user.copyWith(notificationsEnabled: false),
-          );
+          await _persistNotificationState(false);
           _settingsLoading = false;
           _settingsError = 'Unable to schedule notifications on this device.';
           notifyListeners();
@@ -103,9 +112,7 @@ class AppViewModel extends ChangeNotifier {
       }
 
       _notificationsEnabled = enabled;
-      await _persistCurrentUser(
-        (user) => user.copyWith(notificationsEnabled: enabled),
-      );
+      await _persistNotificationState(enabled);
       _settingsLoading = false;
       _successMessage = enabled
           ? 'Weight reminder scheduled every three days.'
@@ -120,12 +127,37 @@ class AppViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> _persistNotificationState(bool enabled) async {
+    final user = _authRepository.getCurrentUser();
+    if (user == null) return;
+    if (user.id == '__guest__') {
+      await HiveStorageService.saveString(
+          _guestNotificationsKey, enabled.toString());
+    } else {
+      await _persistCurrentUser(
+        (u) => u.copyWith(notificationsEnabled: enabled),
+      );
+    }
+  }
+
   void syncWithUser(UserModel? user, {bool notify = true}) {
     if (user != null && user.id == '__guest__') {
       final guestDark = HiveStorageService.getGuestDarkMode();
       final guestMode = guestDark ? ThemeMode.dark : ThemeMode.light;
-      if (_themeMode != guestMode) {
-        _themeMode = guestMode;
+      final guestNotif =
+          HiveStorageService.getString(_guestNotificationsKey) == 'true';
+      final changed = _themeMode != guestMode ||
+          _notificationsEnabled != guestNotif;
+
+      _themeMode = guestMode;
+      _notificationsEnabled = guestNotif;
+
+      if (changed) {
+        if (guestNotif) {
+          unawaited(_notificationService.scheduleWeightReminder());
+        } else {
+          unawaited(_notificationService.cancelWeightReminder());
+        }
         if (notify) notifyListeners();
       }
       return;

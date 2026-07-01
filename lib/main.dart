@@ -20,7 +20,6 @@ import 'package:fit_tracker/data/repositories/local_measurement_repository.dart'
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
-
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 
 void main() async {
@@ -32,7 +31,10 @@ void main() async {
   await userRepository.reloadFromStorage();
   final authRepository = LocalAuthRepository();
   final currentUser = authRepository.getCurrentUser();
-  if (currentUser?.notificationsEnabled == true) {
+  final guestNotif = currentUser?.id == '__guest__'
+      ? HiveStorageService.getString('guest_notifications_enabled') == 'true'
+      : currentUser?.notificationsEnabled == true;
+  if (guestNotif) {
     await NotificationService.instance.scheduleWeightReminder();
   }
   final measurementRepository = LocalMeasurementRepository();
