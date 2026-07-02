@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
-import 'package:fit_tracker/presentation/widgets/profile/terms_data.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class TermsConditionsPage extends StatelessWidget {
   const TermsConditionsPage({super.key});
@@ -30,55 +29,24 @@ class TermsConditionsPage extends StatelessWidget {
             Text(l10n.termsLastUpdated,
                 style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
             const SizedBox(height: 24),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: termsSections.length,
-              itemBuilder: (context, index) {
-                final section = termsSections[index];
-                final points = section['points'] as List<String>?;
-                return Padding(
+            ..._termsSections(l10n).map((section) => Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: AppCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(section['title'],
+                        Text(section.$1,
                             style: theme.textTheme.titleMedium),
                         const SizedBox(height: 10),
-                        Text(section['desc'],
+                        Text(section.$2,
                             style: TextStyle(
                                 color: colors.subtitleColor,
                                 fontSize: 13,
                                 height: 1.4)),
-                        if (points != null) ...[
-                          const SizedBox(height: 12),
-                          ...points.map((point) => Padding(
-                                padding: const EdgeInsets.only(bottom: 6),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Icon(Icons.circle,
-                                          size: 6, color: primaryColor),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Expanded(
-                                        child: Text(point,
-                                            style: TextStyle(
-                                                color: colors.textColor,
-                                                fontSize: 13))),
-                                  ],
-                                ),
-                              )),
-                        ],
                       ],
                     ),
                   ),
-                );
-              },
-            ),
+                )),
             const SizedBox(height: 16),
             AppCard(
               borderColor: primaryColor.withOpacity(0.3),
@@ -111,3 +79,13 @@ class TermsConditionsPage extends StatelessWidget {
     );
   }
 }
+
+List<(String, String)> _termsSections(AppLocalizations l10n) => [
+      (l10n.termsSection1Title, l10n.termsSection1Body),
+      (l10n.termsSection2Title, l10n.termsSection2Body),
+      (l10n.termsSection3Title, l10n.termsSection3Body),
+      (l10n.termsSection4Title, l10n.termsSection4Body),
+      (l10n.termsSection5Title, l10n.termsSection5Body),
+      (l10n.termsSection6Title, l10n.termsSection6Body),
+      (l10n.termsSection7Title, l10n.termsSection7Body),
+    ];

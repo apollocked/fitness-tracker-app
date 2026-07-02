@@ -5,7 +5,7 @@ import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/data/services/weight_chart_data.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_colors_extension.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class WeightChart extends StatelessWidget {
   final List<Measurement> measurements;

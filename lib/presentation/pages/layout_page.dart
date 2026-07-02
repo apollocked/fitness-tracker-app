@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -156,12 +156,15 @@ class _DockNavBar extends StatelessWidget {
       builder: (context, constraints) {
         final itemWidth = constraints.maxWidth / 3;
         final onProgress = currentIndex == 1;
+        final isRtl = Directionality.of(context) == TextDirection.rtl;
+        final indicatorLeft =
+            6 + (isRtl ? 2 - currentIndex : currentIndex) * itemWidth;
         return Stack(
           children: [
             AnimatedPositioned(
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeOutCubic,
-              left: 6 + currentIndex * itemWidth,
+              left: indicatorLeft,
               top: 6,
               width: itemWidth - 12,
               height: 56,

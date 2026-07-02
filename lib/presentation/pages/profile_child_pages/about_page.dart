@@ -3,7 +3,7 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -42,7 +42,7 @@ class AboutPage extends StatelessWidget {
                   size: 64, color: Colors.white),
             ),
             const SizedBox(height: 24),
-            Text('Fitness Tracker',
+            Text(l10n.appMaterialTitle,
                 style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold, color: colors.textColor)),
             const SizedBox(height: 4),
@@ -61,7 +61,7 @@ class AboutPage extends StatelessWidget {
                       Icon(Icons.info_outline_rounded,
                           color: primaryColor, size: 22),
                       const SizedBox(width: 10),
-                      Text('About This App',
+                      Text(l10n.aboutTitle,
                           style: theme.textTheme.titleMedium),
                     ],
                   ),
@@ -97,9 +97,9 @@ class AboutPage extends StatelessWidget {
                 children: [
                   Text('App Information', style: theme.textTheme.titleMedium),
                   const SizedBox(height: 16),
-                  _infoRow('App Name', 'Fitness Tracker', colors),
+                  _infoRow('App Name', l10n.appMaterialTitle, colors),
                   _divider(colors),
-                  _infoRow('Version', '1.2.1', colors),
+                  _infoRow(l10n.appVersion, '1.2.1', colors),
                   _divider(colors),
                   _infoRow(
                       l10n.aboutDeveloper, 'Mohammed jameel - Apollo', colors),

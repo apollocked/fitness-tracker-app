@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_colors_extension.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class GuestAppearanceCard extends StatelessWidget {
   final AppViewModel appVM;
@@ -12,6 +13,7 @@ class GuestAppearanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: colors.cardColor, borderRadius: BorderRadius.circular(16),
@@ -28,7 +30,7 @@ class GuestAppearanceCard extends StatelessWidget {
           const SizedBox(width: 14),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('Dark Mode', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
-            Text('Toggle dark/light theme', style: theme.textTheme.bodySmall),
+            Text(l10n.settingsToggleTheme, style: theme.textTheme.bodySmall),
           ])),
           Switch(
             value: appVM.isDarkMode, activeColor: primaryColor,

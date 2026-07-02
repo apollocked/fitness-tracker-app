@@ -35,6 +35,10 @@ flutter_icons:
   image_path: "assets/logo/logo.png"
   adaptive_icon_background: "#D4AF37"
   adaptive_icon_foreground: "assets/logo/logo.png"
+fonts:
+  - family: News
+    fonts:
+      - asset: assets/fonts/News.ttf
 
 flutter:
   uses-material-design: true

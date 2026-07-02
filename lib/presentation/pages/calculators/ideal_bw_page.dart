@@ -10,7 +10,7 @@ import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class IdealBodyWeightPage extends StatefulWidget {
   const IdealBodyWeightPage({super.key});

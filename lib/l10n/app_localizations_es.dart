@@ -718,7 +718,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get featuresProteinDesc =>
-      'Calcula tus necesidades diarias de proteína según tu actividad.';
+      'Calcula tus necesidades diarias de proteína según tu peso y nivel de actividad.';
 
   @override
   String get featuresCalorieTracker => 'Rastreador de Calorías';
@@ -739,7 +739,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get featuresProgressDesc =>
-      'Visualiza tus tendencias de peso con gráficos y sigue el progreso de tus objetivos.';
+      'Registra y monitorea tus medidas corporales a lo largo del tiempo con un gráfico interactivo.';
 
   @override
   String get featuresLocalOnly => '100% Local';
@@ -1101,4 +1101,662 @@ class AppLocalizationsEs extends AppLocalizations {
   String settingsLanguageLabel(String language) {
     return 'Idioma: $language';
   }
+
+  @override
+  String get appMaterialTitle => 'FitTracker';
+
+  @override
+  String get settingsAppearance => 'Apariencia';
+
+  @override
+  String get settingsMore => 'Más';
+
+  @override
+  String get settingsProfile => 'Perfil';
+
+  @override
+  String get settingsEditProfile => 'Editar Perfil';
+
+  @override
+  String get settingsEditProfileSub => 'Actualiza tu información';
+
+  @override
+  String get settingsPrivacyPolicySub => 'Lee nuestros términos de privacidad';
+
+  @override
+  String get settingsTermsSub => 'Lee nuestros términos';
+
+  @override
+  String get settingsDeleteAccount => 'Eliminar Cuenta';
+
+  @override
+  String get settingsDeleteAccountSub => 'Elimina tu cuenta permanentemente';
+
+  @override
+  String get settingsToggleTheme => 'Alternar tema claro/oscuro';
+
+  @override
+  String get settingsDeleteAccountConfirm => '¿Estás seguro?';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Esta acción no se puede deshacer.';
+
+  @override
+  String get authWelcomeBack => 'Bienvenido de nuevo';
+
+  @override
+  String get authTrackJourney => 'Sigue tu viaje de fitness';
+
+  @override
+  String get authLogin => 'Iniciar Sesión';
+
+  @override
+  String get authDontHaveAccount => '¿No tienes cuenta?';
+
+  @override
+  String get authRegister => 'Registrarse';
+
+  @override
+  String get authRegisterTitle => 'Registrarse';
+
+  @override
+  String get authLetsGetStarted => '¡Comencemos!';
+
+  @override
+  String get authCreateAccount => 'Crear Cuenta';
+
+  @override
+  String get authAlreadyHaveAccount => '¿Ya tienes cuenta?';
+
+  @override
+  String get onboardingProgressTitle => 'Observa tu\nProgreso Volar';
+
+  @override
+  String get onboardingProgressDesc =>
+      'Registra mediciones diarias de peso y visualiza tu transformación a lo largo del tiempo con gráficos elegantes.';
+
+  @override
+  String get onboardingGoalsTitle => 'Establece Metas,\nMantente Motivado';
+
+  @override
+  String get onboardingGoalsDesc =>
+      'Define objetivos de peso, proteína y calorías. Haz seguimiento y celebra cada hito.';
+
+  @override
+  String get onboardingCalculatorsTitle => 'Calculadoras\nInteligentes';
+
+  @override
+  String get onboardingCalculatorsDesc =>
+      'Peso ideal, calorías diarias, ingesta de proteína — herramientas basadas en ciencia al alcance de tu mano.';
+
+  @override
+  String get onboardingPersonalizedTitle => 'Hecho a Tu\nMedida';
+
+  @override
+  String get profileUpdateTitle => 'Actualizar Perfil';
+
+  @override
+  String get profileUsername => 'Nombre de usuario';
+
+  @override
+  String get profileWeightKg => 'Peso (kg)';
+
+  @override
+  String get profileHeightCm => 'Altura (cm)';
+
+  @override
+  String get profileSaveChanges => 'Guardar Cambios';
+
+  @override
+  String get validatorUsernameRequired => 'El nombre de usuario es obligatorio';
+
+  @override
+  String get validatorUsernameMinLength =>
+      'El nombre de usuario debe tener al menos 3 caracteres';
+
+  @override
+  String get validatorUsernameReserved =>
+      'Este nombre de usuario está reservado';
+
+  @override
+  String get validatorUsernameChars =>
+      'El nombre de usuario solo puede contener letras, números, ., _, y -';
+
+  @override
+  String get validatorAgeRequired => 'La edad es obligatoria';
+
+  @override
+  String get validatorValidNumber => 'Ingresa un número válido';
+
+  @override
+  String get validatorAgeMin => 'Debes tener al menos 13 años';
+
+  @override
+  String get validatorAgeValid => 'Ingresa una edad válida';
+
+  @override
+  String get validatorWeightRequired => 'El peso es obligatorio';
+
+  @override
+  String get validatorWeightRange => 'El peso debe estar entre 1-300 kg';
+
+  @override
+  String get validatorPasskeyRequired => 'La clave de acceso es obligatoria';
+
+  @override
+  String get validatorPasskeyMinLength => 'Debe tener al menos 6 caracteres';
+
+  @override
+  String get validatorPasskeyMaxLength =>
+      'Debe tener como máximo 64 caracteres';
+
+  @override
+  String get validatorPasskeyChars =>
+      'Solo se permiten letras, números y símbolos comunes';
+
+  @override
+  String get validatorHeightRequired => 'La altura es obligatoria';
+
+  @override
+  String get validatorHeightRange => 'La altura debe estar entre 1-300 cm';
+
+  @override
+  String errorTooManyAttempts(String seconds) {
+    return 'Demasiados intentos. Intenta de nuevo en ${seconds}s';
+  }
+
+  @override
+  String errorInvalidCredentials(String count) {
+    return 'Usuario o clave incorrectos ($count intento(s) restante(s))';
+  }
+
+  @override
+  String errorLockedOut(String seconds) {
+    return 'Demasiados intentos. Bloqueado por ${seconds}s';
+  }
+
+  @override
+  String get errorLoginFailed => 'Error al iniciar sesión';
+
+  @override
+  String get errorGuestSessionFailed => 'Error al iniciar sesión de invitado';
+
+  @override
+  String get errorUsernameTaken => 'El nombre de usuario ya está en uso';
+
+  @override
+  String get errorRegistrationFailed => 'Error al registrarse';
+
+  @override
+  String get errorNotificationBlocked =>
+      'El permiso de notificaciones está bloqueado.';
+
+  @override
+  String get errorNotificationDenied =>
+      'No se concedió el permiso de notificaciones.';
+
+  @override
+  String get errorNotificationSchedule =>
+      'No se pueden programar notificaciones en este dispositivo.';
+
+  @override
+  String get errorNotificationUpdate => 'Error al actualizar notificaciones.';
+
+  @override
+  String get errorNoUserLoggedIn => 'Ningún usuario ha iniciado sesión';
+
+  @override
+  String get errorProfileUpdate => 'Error al actualizar el perfil';
+
+  @override
+  String get successReminderScheduled =>
+      'Recordatorio de peso programado cada tres días.';
+
+  @override
+  String get successNotificationsDisabled => 'Notificaciones desactivadas.';
+
+  @override
+  String get successProfileUpdated => '¡Perfil actualizado exitosamente!';
+
+  @override
+  String get goalsDescriptionWeight => 'Sigue tus objetivos de peso';
+
+  @override
+  String get goalsDescriptionProtein =>
+      'Objetivo diario de ingesta de proteína';
+
+  @override
+  String get goalsDescriptionCalorie => 'Objetivo diario de calorías';
+
+  @override
+  String get featureDiscover => 'Descubre Nuestras Características';
+
+  @override
+  String featureCount(String count) {
+    return '$count+ herramientas y capacidades para potenciar tu viaje de fitness.';
+  }
+
+  @override
+  String get nutritionTitle => 'Nutrición';
+
+  @override
+  String get nutritionSearchHint => 'Buscar alimentos...';
+
+  @override
+  String get nutritionScanBarcode => 'Escanear Código de Barras';
+
+  @override
+  String get nutritionNoFoods => 'No se encontraron alimentos';
+
+  @override
+  String get nutritionCalories => 'Calorías';
+
+  @override
+  String get nutritionProtein => 'Proteína';
+
+  @override
+  String get nutritionCarbs => 'Carbohidratos';
+
+  @override
+  String get nutritionFat => 'Grasa';
+
+  @override
+  String get nutritionActions => 'Acciones';
+
+  @override
+  String get nutritionAddFood => 'Añadir Alimento';
+
+  @override
+  String get nutritionFoodName => 'Nombre del Alimento';
+
+  @override
+  String get nutritionCaloriesLabel => 'Calorías';
+
+  @override
+  String get nutritionProteinG => 'Proteína (g)';
+
+  @override
+  String get nutritionCarbsG => 'Carbohidratos (g)';
+
+  @override
+  String get nutritionFatG => 'Grasa (g)';
+
+  @override
+  String get nutritionAdd => 'Añadir';
+
+  @override
+  String get barcodeScan => 'Escanear código de barras';
+
+  @override
+  String get barcodeFlashlight => 'Linterna';
+
+  @override
+  String get barcodeNoDetected => 'No se detectó código de barras';
+
+  @override
+  String get barcodeFlashlightUnavailable => 'Linterna no disponible';
+
+  @override
+  String get barcodeNoScanner =>
+      'No hay escáner de código de barras disponible';
+
+  @override
+  String get barcodeScanFailed => 'Error al escanear código de barras';
+
+  @override
+  String get workoutTitle => 'Entrenamientos';
+
+  @override
+  String get workoutSearchHint => 'Buscar ejercicios...';
+
+  @override
+  String get workoutNoExercises => 'No se encontraron ejercicios';
+
+  @override
+  String get changePasskeyTitle => 'Cambiar Clave de Acceso';
+
+  @override
+  String get changePasskeyCurrent => 'Clave Actual';
+
+  @override
+  String get changePasskeyNew => 'Nueva Clave';
+
+  @override
+  String get changePasskeyConfirm => 'Confirmar Nueva Clave';
+
+  @override
+  String get changePasskeyNoMatch => 'Las claves no coinciden';
+
+  @override
+  String get changePasskeyUpdate => 'Actualizar Clave';
+
+  @override
+  String get changePasskeySame => 'La clave no puede ser igual a la anterior';
+
+  @override
+  String get helpHowCanWeHelp => '¿Cómo podemos ayudarte?';
+
+  @override
+  String get helpIntro =>
+      'Encuentra respuestas, consejos para solucionar problemas y guías para aprovechar al máximo FitTracker.';
+
+  @override
+  String get helpQuickNavigation => 'Navegación Rápida';
+
+  @override
+  String get helpTroubleshoot => 'Solucionar problemas';
+
+  @override
+  String get helpTips => 'Consejos';
+
+  @override
+  String get helpFaqSubtitle => 'Respuestas a las preguntas más comunes.';
+
+  @override
+  String get helpTroubleshootingTitle => 'Solución de problemas';
+
+  @override
+  String get helpTroubleshootingSub => 'Soluciones para problemas comunes.';
+
+  @override
+  String get helpTipsTitle => 'Consejos y Trucos';
+
+  @override
+  String get helpTipsSub => 'Aprovecha al máximo tu viaje de fitness.';
+
+  @override
+  String get helpSolutions => 'Soluciones:';
+
+  @override
+  String get helpTroubleCalculators =>
+      'Las calculadoras no actualizan resultados';
+
+  @override
+  String get helpTroubleCalculatorsS1 =>
+      'Toca \"Calcular\" después de cambiar cualquier valor';
+
+  @override
+  String get helpTroubleCalculatorsS2 =>
+      'Asegúrate de que todos los campos estén correctamente llenados';
+
+  @override
+  String get helpTroubleCalculatorsS3 =>
+      'Reinicia la aplicación e inténtalo de nuevo';
+
+  @override
+  String get helpTroubleGoals => 'Los objetivos no se muestran en el panel';
+
+  @override
+  String get helpTroubleGoalsS1 =>
+      'Asegúrate de haber establecido al menos un objetivo en Perfil > Mis Objetivos';
+
+  @override
+  String get helpTroubleGoalsS2 =>
+      'Desliza hacia abajo en la página de Inicio para actualizar';
+
+  @override
+  String get helpTroubleGoalsS3 =>
+      'Verifica que los valores objetivo sean realistas (no cero)';
+
+  @override
+  String get helpTroubleDarkMode => 'El cambio de modo oscuro no funciona';
+
+  @override
+  String get helpTroubleDarkModeS1 =>
+      'Reinicia la aplicación después de cambiar';
+
+  @override
+  String get helpTroubleDarkModeS2 =>
+      'Verifica la configuración del sistema de tu dispositivo';
+
+  @override
+  String get helpTroubleDarkModeS3 =>
+      'Actualiza a la última versión de la aplicación';
+
+  @override
+  String get helpTroubleChart => 'El gráfico de progreso no se muestra';
+
+  @override
+  String get helpTroubleChartS1 => 'Registra al menos dos mediciones de peso';
+
+  @override
+  String get helpTroubleChartS2 =>
+      'Asegúrate de que las mediciones se guarden correctamente';
+
+  @override
+  String get helpTroubleChartS3 =>
+      'Desliza hacia abajo para actualizar la página de Progreso';
+
+  @override
+  String get helpTroubleSlow => 'La aplicación se siente lenta o no responde';
+
+  @override
+  String get helpTroubleSlowS1 =>
+      'Cierra aplicaciones en segundo plano para liberar memoria';
+
+  @override
+  String get helpTroubleSlowS2 =>
+      'Borra el caché de la aplicación en la configuración del dispositivo';
+
+  @override
+  String get helpTroubleSlowS3 => 'Reinicia tu dispositivo';
+
+  @override
+  String get helpTipRealistic => 'Establece Metas Realistas';
+
+  @override
+  String get helpTipRealisticDesc =>
+      'Apunta a 0.5–1 kg de cambio por semana para resultados sostenibles.';
+
+  @override
+  String get helpTipConsistent => 'Actualizaciones Consistentes';
+
+  @override
+  String get helpTipConsistentDesc =>
+      'Pésate el mismo día y hora cada semana para tendencias precisas.';
+
+  @override
+  String get helpTipCalculators => 'Usa Todas las Calculadoras';
+
+  @override
+  String get helpTipCalculatorsDesc =>
+      'Combina las calculadoras de calorías, proteínas y peso ideal para un plan completo.';
+
+  @override
+  String get helpTipDashboard => 'Revisa el Panel Diariamente';
+
+  @override
+  String get helpTipDashboardDesc =>
+      'Tu panel de inicio lo muestra todo — revísalo a diario para mantenerte en el camino.';
+
+  @override
+  String get helpTipDarkMode => 'Modo Oscuro Nocturno';
+
+  @override
+  String get helpTipDarkModeDesc =>
+      'Activa el Modo Oscuro durante la noche para reducir la fatiga visual.';
+
+  @override
+  String get helpTipNotifications => 'Activa Notificaciones';
+
+  @override
+  String get helpTipNotificationsDesc =>
+      'Activa los recordatorios para mantenerte constante con tus mediciones.';
+
+  @override
+  String get helpTipBodybuilder => 'Actualiza Estado de Culturista';
+
+  @override
+  String get helpTipBodybuilderDesc =>
+      'Configura tu estado de culturista en el perfil para cálculos de proteína más precisos.';
+
+  @override
+  String get helpTipReview => 'Revisa el Progreso Semanalmente';
+
+  @override
+  String get helpTipReviewDesc =>
+      'Revisa tu gráfico de progreso cada semana para mantenerte motivado y ajustar objetivos.';
+
+  @override
+  String get featuresWhyUseful => 'Por qué es útil:';
+
+  @override
+  String get featuresNeedHelp => '¿Necesitas ayuda?';
+
+  @override
+  String get featuresHelpDesc =>
+      'Visita Ayuda y Soporte para preguntas frecuentes y solución de problemas.';
+
+  @override
+  String get featuresDashboardTitle => 'Panel de Inicio';
+
+  @override
+  String get featuresDashboardDesc =>
+      'Un panel centralizado que muestra tus estadísticas clave, progreso de objetivos, mediciones recientes y acciones rápidas de un vistazo.';
+
+  @override
+  String get featuresDashboardBenefit1 =>
+      'Ver todas las métricas clave en un solo lugar';
+
+  @override
+  String get featuresDashboardBenefit2 =>
+      'Acceso rápido a actualizaciones de peso';
+
+  @override
+  String get featuresDashboardBenefit3 =>
+      'Ver el progreso de objetivos de un vistazo';
+
+  @override
+  String get featuresIdealWeightTitle => 'Calculadora de Peso Ideal';
+
+  @override
+  String get featuresIdealWeightDesc =>
+      'Calcula tu peso corporal ideal basado en altura y género usando la fórmula Devine.';
+
+  @override
+  String get featuresIdealWeightBenefit1 => 'Conoce tu objetivo de peso ideal';
+
+  @override
+  String get featuresIdealWeightBenefit2 =>
+      'Establece metas realistas automáticamente';
+
+  @override
+  String get featuresIdealWeightBenefit3 =>
+      'Cálculo respaldado científicamente';
+
+  @override
+  String get featuresProteinTitle => 'Calculadora de Proteína';
+
+  @override
+  String get featuresProteinBenefit1 =>
+      'Determina los requerimientos diarios de proteína';
+
+  @override
+  String get featuresProteinBenefit2 => 'Ajusta según el nivel de actividad';
+
+  @override
+  String get featuresProteinBenefit3 =>
+      'Construye y mantiene músculo efectivamente';
+
+  @override
+  String get featuresProgressTitle => 'Seguimiento de Progreso';
+
+  @override
+  String get featuresProgressBenefit1 =>
+      'Sigue los cambios de peso a lo largo del tiempo';
+
+  @override
+  String get featuresProgressBenefit2 => 'Gráfico de progreso interactivo';
+
+  @override
+  String get featuresProgressBenefit3 => 'Mantente motivado con datos visuales';
+
+  @override
+  String get featuresGoalsTitle => 'Gestión Inteligente de Objetivos';
+
+  @override
+  String get featuresGoalsDesc =>
+      'Establece, edita y rastrea objetivos de fitness con detección automática de tipos de objetivos.';
+
+  @override
+  String get featuresGoalsBenefit1 => 'Seguimiento de progreso en tiempo real';
+
+  @override
+  String get featuresGoalsBenefit2 =>
+      'Edita o elimina objetivos en cualquier momento';
+
+  @override
+  String get featuresGoalsBenefit3 => 'Indicadores visuales de progreso';
+
+  @override
+  String get featuresProfileTitle => 'Perfil Personal';
+
+  @override
+  String get featuresProfileDesc =>
+      'Gestiona tu perfil incluyendo nombre, edad, altura, peso y género para cálculos personalizados.';
+
+  @override
+  String get featuresProfileBenefit1 => 'Mantén tu perfil actualizado';
+
+  @override
+  String get featuresProfileBenefit2 =>
+      'Resultados de calculadora personalizados';
+
+  @override
+  String get featuresProfileBenefit3 => 'Modo invitado disponible';
+
+  @override
+  String get featuresDarkModeTitle => 'Modo Oscuro';
+
+  @override
+  String get featuresDarkModeDesc =>
+      'Cambia entre temas claro y oscuro para adaptarse a tu preferencia y reducir la fatiga visual.';
+
+  @override
+  String get featuresDarkModeBenefit1 => 'Agradable a la vista por la noche';
+
+  @override
+  String get featuresDarkModeBenefit2 => 'Cambio de tema instantáneo';
+
+  @override
+  String get featuresDarkModeBenefit3 => 'Ahorra batería en dispositivos OLED';
+
+  @override
+  String get featuresGuestTitle => 'Modo Invitado';
+
+  @override
+  String get featuresGuestDesc =>
+      'Explora la aplicación sin crear una cuenta. Todos los datos se almacenan localmente en tu dispositivo.';
+
+  @override
+  String get featuresGuestBenefit1 => 'No se requiere cuenta';
+
+  @override
+  String get featuresGuestBenefit2 => 'Todas las funciones disponibles';
+
+  @override
+  String get featuresGuestBenefit3 => 'Experiencia centrada en la privacidad';
+
+  @override
+  String get featuresCalorieBenefit1 => 'Conoce tus calorías de mantenimiento';
+
+  @override
+  String get featuresCalorieBenefit2 =>
+      'Obtén objetivos para perder o ganar peso';
+
+  @override
+  String get featuresCalorieBenefit3 => 'Planifica tu dieta con precisión';
+
+  @override
+  String get featuresNotificationsBenefit1 =>
+      'Recordatorios de progreso de objetivos';
+
+  @override
+  String get featuresNotificationsBenefit2 =>
+      'Avisos de actualización de mediciones';
+
+  @override
+  String get featuresNotificationsBenefit3 =>
+      'Mantén constante tu viaje de fitness';
 }

@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class PersonalInfoPage extends StatelessWidget {
   const PersonalInfoPage({super.key});
@@ -13,26 +14,27 @@ class PersonalInfoPage extends StatelessWidget {
     final user = context.watch<AuthViewModel>().currentUser;
     final theme = Theme.of(context);
     final colors = theme.extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
 
     if (user == null) {
       return Scaffold(
-        appBar: customAppBarr('Personal Information', primaryColor,
+        appBar: customAppBarr(l10n.bodyStatsTitle, primaryColor,
             theme.scaffoldBackgroundColor),
-        body: const Center(child: Text('No user data')),
+        body: Center(child: Text(l10n.errorNoUserLoggedIn)),
       );
     }
 
     final fields = [
-      ('Username', user.username, Icons.person_outline_rounded),
-      ('Age', '${user.age} years', Icons.cake_outlined),
-      ('Height', '${user.height} cm', Icons.height_rounded),
-      ('Weight', '${user.weight} kg', Icons.monitor_weight_outlined),
-      ('Gender', user.gender, Icons.wc_rounded),
+      (l10n.profileUsername, user.username, Icons.person_outline_rounded),
+      (l10n.bodyStatsAge, '${user.age} years', Icons.cake_outlined),
+      (l10n.bodyStatsHeight, '${user.height} ${l10n.bodyStatsCm}', Icons.height_rounded),
+      (l10n.bodyStatsWeight, '${user.weight} ${l10n.bodyStatsKg}', Icons.monitor_weight_outlined),
+      (l10n.bodyStatsGender, user.gender, Icons.wc_rounded),
     ];
 
     return Scaffold(
       appBar: customAppBarr(
-          'Personal Information', primaryColor, theme.scaffoldBackgroundColor),
+          l10n.bodyStatsTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(20),

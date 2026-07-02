@@ -8,6 +8,7 @@ import 'package:fit_tracker/data/repositories/user_repository.dart';
 import 'package:fit_tracker/data/services/notification_service.dart';
 import 'package:fit_tracker/data/services/registration_validator.dart';
 import 'package:fit_tracker/data/services/hive_storage_service.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 const _guestNotificationsKey = 'guest_notifications_enabled';
 const _localeStorageKey = 'app_locale';
@@ -87,10 +88,13 @@ class AppViewModel extends ChangeNotifier {
   String? get settingsError => _settingsError;
   String? _successMessage;
   String? get successMessage => _successMessage;
+  String? _errorCode;
+  String? get errorCode => _errorCode;
 
   Future<bool> setNotifications(bool enabled) async {
     _settingsLoading = true;
     _settingsError = null;
+    _errorCode = null;
     _successMessage = null;
     notifyListeners();
 
@@ -105,6 +109,7 @@ class AppViewModel extends ChangeNotifier {
           await _persistNotificationState(false);
           _settingsLoading = false;
           _settingsError = 'Notification permission is blocked.';
+          _errorCode = 'notificationBlocked';
           notifyListeners();
           return false;
         }
@@ -115,6 +120,7 @@ class AppViewModel extends ChangeNotifier {
           await _persistNotificationState(false);
           _settingsLoading = false;
           _settingsError = 'Notification permission was not granted.';
+          _errorCode = 'notificationDenied';
           notifyListeners();
           return false;
         }
@@ -125,6 +131,7 @@ class AppViewModel extends ChangeNotifier {
           await _persistNotificationState(false);
           _settingsLoading = false;
           _settingsError = 'Unable to schedule notifications on this device.';
+          _errorCode = 'notificationSchedule';
           notifyListeners();
           return false;
         }
@@ -143,6 +150,7 @@ class AppViewModel extends ChangeNotifier {
     } catch (_) {
       _settingsLoading = false;
       _settingsError = 'Failed to update notifications.';
+      _errorCode = 'notificationUpdate';
       notifyListeners();
       return false;
     }
@@ -208,17 +216,20 @@ class AppViewModel extends ChangeNotifier {
 
   void clearMessages() {
     _settingsError = null;
+    _errorCode = null;
     _successMessage = null;
     notifyListeners();
   }
 
-  Future<bool> updateProfile(String username) async {
+  Future<bool> updateProfile(String username, AppLocalizations l10n) async {
     _settingsLoading = true;
     _settingsError = null;
+    _errorCode = null;
     _successMessage = null;
     notifyListeners();
 
-    final validationError = RegistrationValidator.validateUsername(username);
+    final validator = RegistrationValidator(l10n);
+    final validationError = validator.validateUsername(username);
     if (validationError != null) {
       _settingsLoading = false;
       _settingsError = validationError;
@@ -231,6 +242,7 @@ class AppViewModel extends ChangeNotifier {
       if (user == null) {
         _settingsLoading = false;
         _settingsError = 'No user logged in';
+        _errorCode = 'noUserLoggedIn';
         notifyListeners();
         return false;
       }
@@ -238,6 +250,7 @@ class AppViewModel extends ChangeNotifier {
           _authRepository.usernameExists(username)) {
         _settingsLoading = false;
         _settingsError = 'Username already taken';
+        _errorCode = 'usernameTaken';
         notifyListeners();
         return false;
       }
@@ -251,6 +264,7 @@ class AppViewModel extends ChangeNotifier {
     } catch (e) {
       _settingsLoading = false;
       _settingsError = 'Failed to update profile';
+      _errorCode = 'profileUpdate';
       notifyListeners();
       return false;
     }

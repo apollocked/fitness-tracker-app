@@ -710,7 +710,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get featuresProteinDesc =>
-      'احسب احتياجك اليومي من البروتين حسب مستوى نشاطك.';
+      'احسب احتياجك اليومي من البروتين بناءً على وزنك ومستوى نشاطك.';
 
   @override
   String get featuresCalorieTracker => 'متتبع السعرات';
@@ -730,7 +730,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get featuresProgressDesc =>
-      'تصور اتجاهات وزنك بالرسوم البيانية وتتبع تقدم أهدافك.';
+      'سجل وراقب قياسات جسمك بمرور الوقت باستخدام مخطط تفاعلي.';
 
   @override
   String get featuresLocalOnly => 'محلي ١٠٠٪';
@@ -1090,4 +1090,630 @@ class AppLocalizationsAr extends AppLocalizations {
   String settingsLanguageLabel(String language) {
     return 'اللغة: $language';
   }
+
+  @override
+  String get appMaterialTitle => 'FitTracker';
+
+  @override
+  String get settingsAppearance => 'المظهر';
+
+  @override
+  String get settingsMore => 'المزيد';
+
+  @override
+  String get settingsProfile => 'الملف الشخصي';
+
+  @override
+  String get settingsEditProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get settingsEditProfileSub => 'تحديث معلوماتك';
+
+  @override
+  String get settingsPrivacyPolicySub => 'اقرأ شروط الخصوصية';
+
+  @override
+  String get settingsTermsSub => 'اقرأ شروطنا';
+
+  @override
+  String get settingsDeleteAccount => 'حذف الحساب';
+
+  @override
+  String get settingsDeleteAccountSub => 'حذف حسابك بشكل دائم';
+
+  @override
+  String get settingsToggleTheme => 'تبديل المظهر الفاتح/الداكن';
+
+  @override
+  String get settingsDeleteAccountConfirm => 'هل أنت متأكد؟';
+
+  @override
+  String get settingsDeleteAccountWarning => 'لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get authWelcomeBack => 'مرحباً بعودتك';
+
+  @override
+  String get authTrackJourney => 'تتبع رحلة لياقتك';
+
+  @override
+  String get authLogin => 'تسجيل الدخول';
+
+  @override
+  String get authDontHaveAccount => 'ليس لديك حساب؟';
+
+  @override
+  String get authRegister => 'إنشاء حساب';
+
+  @override
+  String get authRegisterTitle => 'إنشاء حساب';
+
+  @override
+  String get authLetsGetStarted => 'هيا بنا نبدأ!';
+
+  @override
+  String get authCreateAccount => 'إنشاء حساب';
+
+  @override
+  String get authAlreadyHaveAccount => 'لديك حساب بالفعل؟';
+
+  @override
+  String get onboardingProgressTitle => 'شاهد تقدمك\nيرتفع';
+
+  @override
+  String get onboardingProgressDesc =>
+      'سجل قياسات الوزن اليومية وتصور تحولك عبر الزمن برسوم بيانية أنيقة.';
+
+  @override
+  String get onboardingGoalsTitle => 'حدد أهدافاً،\nواحبس الحماس';
+
+  @override
+  String get onboardingGoalsDesc =>
+      'حدد أهداف الوزن والبروتين والسعرات. تتبع الإنجاز واحتفل بكل معلم.';
+
+  @override
+  String get onboardingCalculatorsTitle => 'حاسبات ذكية\nللياقة';
+
+  @override
+  String get onboardingCalculatorsDesc =>
+      'الوزن المثالي، السعرات اليومية، احتياج البروتين — أدوات علمية في متناول يدك.';
+
+  @override
+  String get onboardingPersonalizedTitle => 'مصمم خصيصاً\nلك';
+
+  @override
+  String get profileUpdateTitle => 'تحديث الملف الشخصي';
+
+  @override
+  String get profileUsername => 'اسم المستخدم';
+
+  @override
+  String get profileWeightKg => 'الوزن (كجم)';
+
+  @override
+  String get profileHeightCm => 'الطول (سم)';
+
+  @override
+  String get profileSaveChanges => 'حفظ التغييرات';
+
+  @override
+  String get validatorUsernameRequired => 'اسم المستخدم مطلوب';
+
+  @override
+  String get validatorUsernameMinLength =>
+      'يجب أن يكون اسم المستخدم ٣ أحرف على الأقل';
+
+  @override
+  String get validatorUsernameReserved => 'اسم المستخدم هذا محجوز';
+
+  @override
+  String get validatorUsernameChars =>
+      'يمكن أن يحتوي اسم المستخدم على أحرف وأرقام و . و _ و - فقط';
+
+  @override
+  String get validatorAgeRequired => 'العمر مطلوب';
+
+  @override
+  String get validatorValidNumber => 'أدخل رقماً صحيحاً';
+
+  @override
+  String get validatorAgeMin => 'يجب أن يكون عمرك ١٣ سنة على الأقل';
+
+  @override
+  String get validatorAgeValid => 'أدخل عمراً صحيحاً';
+
+  @override
+  String get validatorWeightRequired => 'الوزن مطلوب';
+
+  @override
+  String get validatorWeightRange => 'يجب أن يكون الوزن بين ١-٣٠٠ كجم';
+
+  @override
+  String get validatorPasskeyRequired => 'مفتاح المرور مطلوب';
+
+  @override
+  String get validatorPasskeyMinLength => 'يجب أن يكون ٦ أحرف على الأقل';
+
+  @override
+  String get validatorPasskeyMaxLength => 'يجب أن يكون ٦٤ حرفاً كحد أقصى';
+
+  @override
+  String get validatorPasskeyChars =>
+      'يُسمح فقط بالأحرف والأرقام والرموز الشائعة';
+
+  @override
+  String get validatorHeightRequired => 'الطول مطلوب';
+
+  @override
+  String get validatorHeightRange => 'يجب أن يكون الطول بين ١-٣٠٠ سم';
+
+  @override
+  String errorTooManyAttempts(String seconds) {
+    return 'محاولات كثيرة جداً. حاول مرة أخرى بعد $seconds ثوانٍ';
+  }
+
+  @override
+  String errorInvalidCredentials(String count) {
+    return 'اسم مستخدم أو مفتاح مرور خاطئ ($count محاولة متبقية)';
+  }
+
+  @override
+  String errorLockedOut(String seconds) {
+    return 'محاولات كثيرة جداً. تم القفل لمدة $seconds ثانية';
+  }
+
+  @override
+  String get errorLoginFailed => 'فشل تسجيل الدخول';
+
+  @override
+  String get errorGuestSessionFailed => 'فشل بدء جلسة الضيف';
+
+  @override
+  String get errorUsernameTaken => 'اسم المستخدم مستخدم بالفعل';
+
+  @override
+  String get errorRegistrationFailed => 'فشل التسجيل';
+
+  @override
+  String get errorNotificationBlocked => 'تم حظر إذن الإشعارات.';
+
+  @override
+  String get errorNotificationDenied => 'لم يتم منح إذن الإشعارات.';
+
+  @override
+  String get errorNotificationSchedule =>
+      'تعذر جدولة الإشعارات على هذا الجهاز.';
+
+  @override
+  String get errorNotificationUpdate => 'فشل تحديث الإشعارات.';
+
+  @override
+  String get errorNoUserLoggedIn => 'لا يوجد مستخدم مسجل دخول';
+
+  @override
+  String get errorProfileUpdate => 'فشل تحديث الملف الشخصي';
+
+  @override
+  String get successReminderScheduled => 'تمت جدولة تذكير الوزن كل ثلاثة أيام.';
+
+  @override
+  String get successNotificationsDisabled => 'تم تعطيل الإشعارات.';
+
+  @override
+  String get successProfileUpdated => 'تم تحديث الملف الشخصي بنجاح!';
+
+  @override
+  String get goalsDescriptionWeight => 'تتبع أهداف الوزن الخاصة بك';
+
+  @override
+  String get goalsDescriptionProtein => 'هدف تناول البروتين اليومي';
+
+  @override
+  String get goalsDescriptionCalorie => 'هدف السعرات اليومي';
+
+  @override
+  String get featureDiscover => 'اكتشف مميزاتنا';
+
+  @override
+  String featureCount(String count) {
+    return '$count أداة وقدرة لدعم رحلة لياقتك.';
+  }
+
+  @override
+  String get nutritionTitle => 'التغذية';
+
+  @override
+  String get nutritionSearchHint => 'ابحث عن الأطعمة...';
+
+  @override
+  String get nutritionScanBarcode => 'مسح الباركود';
+
+  @override
+  String get nutritionNoFoods => 'لم يتم العثور على أطعمة';
+
+  @override
+  String get nutritionCalories => 'سعرات';
+
+  @override
+  String get nutritionProtein => 'بروتين';
+
+  @override
+  String get nutritionCarbs => 'كربوهيدرات';
+
+  @override
+  String get nutritionFat => 'دهون';
+
+  @override
+  String get nutritionActions => 'إجراءات';
+
+  @override
+  String get nutritionAddFood => 'إضافة طعام';
+
+  @override
+  String get nutritionFoodName => 'اسم الطعام';
+
+  @override
+  String get nutritionCaloriesLabel => 'سعرات';
+
+  @override
+  String get nutritionProteinG => 'بروتين (جم)';
+
+  @override
+  String get nutritionCarbsG => 'كربوهيدرات (جم)';
+
+  @override
+  String get nutritionFatG => 'دهون (جم)';
+
+  @override
+  String get nutritionAdd => 'إضافة';
+
+  @override
+  String get barcodeScan => 'مسح الباركود';
+
+  @override
+  String get barcodeFlashlight => 'الفلاش';
+
+  @override
+  String get barcodeNoDetected => 'لم يتم اكتشاف باركود';
+
+  @override
+  String get barcodeFlashlightUnavailable => 'الفلاش غير متاح';
+
+  @override
+  String get barcodeNoScanner => 'لا يوجد ماسح باركود متاح';
+
+  @override
+  String get barcodeScanFailed => 'فشل مسح الباركود';
+
+  @override
+  String get workoutTitle => 'التمارين';
+
+  @override
+  String get workoutSearchHint => 'ابحث عن تمارين...';
+
+  @override
+  String get workoutNoExercises => 'لم يتم العثور على تمارين';
+
+  @override
+  String get changePasskeyTitle => 'تغيير مفتاح المرور';
+
+  @override
+  String get changePasskeyCurrent => 'مفتاح المرور الحالي';
+
+  @override
+  String get changePasskeyNew => 'مفتاح المرور الجديد';
+
+  @override
+  String get changePasskeyConfirm => 'تأكيد مفتاح المرور الجديد';
+
+  @override
+  String get changePasskeyNoMatch => 'مفتاحا المرور غير متطابقين';
+
+  @override
+  String get changePasskeyUpdate => 'تحديث مفتاح المرور';
+
+  @override
+  String get changePasskeySame => 'لا يمكن أن يكون مفتاح المرور مماثلاً للقديم';
+
+  @override
+  String get helpHowCanWeHelp => 'كيف يمكننا مساعدتك؟';
+
+  @override
+  String get helpIntro =>
+      'اعثر على الإجابات ونصائح استكشاف الأخطاء وإصلاحها والأدلة للاستفادة القصوى من FitTracker.';
+
+  @override
+  String get helpQuickNavigation => 'التنقل السريع';
+
+  @override
+  String get helpTroubleshoot => 'استكشاف الأخطاء';
+
+  @override
+  String get helpTips => 'نصائح';
+
+  @override
+  String get helpFaqSubtitle => 'إجابات للأسئلة الأكثر شيوعاً.';
+
+  @override
+  String get helpTroubleshootingTitle => 'استكشاف الأخطاء';
+
+  @override
+  String get helpTroubleshootingSub => 'حلول للمشكلات الشائعة.';
+
+  @override
+  String get helpTipsTitle => 'نصائح وحيل';
+
+  @override
+  String get helpTipsSub => 'احصل على أقصى استفادة من رحلة لياقتك.';
+
+  @override
+  String get helpSolutions => 'الحلول:';
+
+  @override
+  String get helpTroubleCalculators => 'الحاسبات لا تحدث النتائج';
+
+  @override
+  String get helpTroubleCalculatorsS1 =>
+      'اضغط على \"احسب\" بعد تغيير أي قيمة إدخال';
+
+  @override
+  String get helpTroubleCalculatorsS2 => 'تأكد من ملء جميع الحقول بشكل صحيح';
+
+  @override
+  String get helpTroubleCalculatorsS3 => 'أعد تشغيل التطبيق وحاول مرة أخرى';
+
+  @override
+  String get helpTroubleGoals => 'الأهداف لا تظهر في لوحة المعلومات';
+
+  @override
+  String get helpTroubleGoalsS1 =>
+      'تأكد من تعيين هدف واحد على الأقل في ملفي > أهدافي';
+
+  @override
+  String get helpTroubleGoalsS2 => 'اسحب لأسفل في الصفحة الرئيسية للتحديث';
+
+  @override
+  String get helpTroubleGoalsS3 => 'تحقق من أن قيم الهدف واقعية (غير صفرية)';
+
+  @override
+  String get helpTroubleDarkMode => 'تبديل الوضع الداكن لا يعمل';
+
+  @override
+  String get helpTroubleDarkModeS1 => 'أعد تشغيل التطبيق بعد التبديل';
+
+  @override
+  String get helpTroubleDarkModeS2 => 'تحقق من إعدادات نظام جهازك';
+
+  @override
+  String get helpTroubleDarkModeS3 => 'قم بالتحديث إلى أحدث إصدار من التطبيق';
+
+  @override
+  String get helpTroubleChart => 'الرسم البياني للتقدم لا يظهر';
+
+  @override
+  String get helpTroubleChartS1 => 'سجل قياسين للوزن على الأقل';
+
+  @override
+  String get helpTroubleChartS2 => 'تأكد من حفظ القياسات بنجاح';
+
+  @override
+  String get helpTroubleChartS3 => 'اسحب لأسفل لتحديث صفحة التقدم';
+
+  @override
+  String get helpTroubleSlow => 'التطبيق بطيء أو لا يستجيب';
+
+  @override
+  String get helpTroubleSlowS1 => 'أغلق تطبيقات الخلفية لتحرير الذاكرة';
+
+  @override
+  String get helpTroubleSlowS2 =>
+      'امسح ذاكرة التخزين المؤقت للتطبيق في إعدادات الجهاز';
+
+  @override
+  String get helpTroubleSlowS3 => 'أعد تشغيل جهازك';
+
+  @override
+  String get helpTipRealistic => 'ضع أهدافاً واقعية';
+
+  @override
+  String get helpTipRealisticDesc =>
+      'استهدف تغيير 0.5-1 كجم أسبوعياً لنتائج مستدامة.';
+
+  @override
+  String get helpTipConsistent => 'تحديثات منتظمة';
+
+  @override
+  String get helpTipConsistentDesc =>
+      'زن نفسك في نفس اليوم والوقت كل أسبوع للحصول على اتجاهات دقيقة.';
+
+  @override
+  String get helpTipCalculators => 'استخدم جميع الحاسبات';
+
+  @override
+  String get helpTipCalculatorsDesc =>
+      'اجمع بين حاسبات السعرات والبروتين والوزن المثالي لخطة متكاملة.';
+
+  @override
+  String get helpTipDashboard => 'تفقد لوحة المعلومات يومياً';
+
+  @override
+  String get helpTipDashboardDesc =>
+      'لوحة المعلومات الرئيسية تظهر كل شيء — تفقدها يومياً للبقاء على المسار الصحيح.';
+
+  @override
+  String get helpTipDarkMode => 'الوضع الداكن ليلاً';
+
+  @override
+  String get helpTipDarkModeDesc =>
+      'فعّل الوضع الداكن خلال ساعات المساء لتقليل إجهاد العين.';
+
+  @override
+  String get helpTipNotifications => 'فعّل الإشعارات';
+
+  @override
+  String get helpTipNotificationsDesc =>
+      'شغّل التذكيرات للحفاظ على ثباتك في تحديث قياساتك.';
+
+  @override
+  String get helpTipBodybuilder => 'حدّث حالة كمال الأجسام';
+
+  @override
+  String get helpTipBodybuilderDesc =>
+      'اضبط حالة كمال الأجسام في ملفك الشخصي لحسابات بروتين أكثر دقة.';
+
+  @override
+  String get helpTipReview => 'راجع التقدم أسبوعياً';
+
+  @override
+  String get helpTipReviewDesc =>
+      'تفقد مخطط التقدم كل أسبوع للبقاء متحفزاً وتعديل الأهداف.';
+
+  @override
+  String get featuresWhyUseful => 'لماذا هو مفيد:';
+
+  @override
+  String get featuresNeedHelp => 'هل تحتاج مساعدة؟';
+
+  @override
+  String get featuresHelpDesc =>
+      'قم بزيارة المساعدة والدعم للأسئلة الشائعة واستكشاف الأخطاء.';
+
+  @override
+  String get featuresDashboardTitle => 'لوحة المعلومات الرئيسية';
+
+  @override
+  String get featuresDashboardDesc =>
+      'لوحة معلومات مركزية تظهر إحصائياتك الرئيسية وتقدم الأهداف والقياسات الأخيرة والإجراءات السريعة في لمحة.';
+
+  @override
+  String get featuresDashboardBenefit1 =>
+      'عرض جميع المقاييس الرئيسية في مكان واحد';
+
+  @override
+  String get featuresDashboardBenefit2 => 'وصول سريع لتحديثات الوزن';
+
+  @override
+  String get featuresDashboardBenefit3 => 'رؤية تقدم الهدف في لمحة';
+
+  @override
+  String get featuresIdealWeightTitle => 'حاسبة الوزن المثالي';
+
+  @override
+  String get featuresIdealWeightDesc =>
+      'احسب وزن جسمك المثالي بناءً على الطول والجنس باستخدام صيغة ديفاين.';
+
+  @override
+  String get featuresIdealWeightBenefit1 => 'اعرف هدف وزنك المثالي';
+
+  @override
+  String get featuresIdealWeightBenefit2 => 'ضع أهدافاً واقعية تلقائياً';
+
+  @override
+  String get featuresIdealWeightBenefit3 => 'حساب مدعوم علمياً';
+
+  @override
+  String get featuresProteinTitle => 'حاسبة البروتين';
+
+  @override
+  String get featuresProteinBenefit1 => 'تحديد متطلبات البروتين اليومية';
+
+  @override
+  String get featuresProteinBenefit2 => 'ضبط حسب مستوى النشاط';
+
+  @override
+  String get featuresProteinBenefit3 => 'بناء وصيانة العضلات بفعالية';
+
+  @override
+  String get featuresProgressTitle => 'تتبع التقدم';
+
+  @override
+  String get featuresProgressBenefit1 => 'تتبع تغيرات الوزن بمرور الوقت';
+
+  @override
+  String get featuresProgressBenefit2 => 'مخطط تقدم تفاعلي';
+
+  @override
+  String get featuresProgressBenefit3 => 'ابق متحفزاً ببيانات مرئية';
+
+  @override
+  String get featuresGoalsTitle => 'إدارة الأهداف الذكية';
+
+  @override
+  String get featuresGoalsDesc =>
+      'ضع أهداف اللياقة وعدلها وتابعها مع اكتشاف تلقائي لأنواع الأهداف.';
+
+  @override
+  String get featuresGoalsBenefit1 => 'تتبع التقدم في الوقت الفعلي';
+
+  @override
+  String get featuresGoalsBenefit2 => 'تعديل أو حذف الأهداف في أي وقت';
+
+  @override
+  String get featuresGoalsBenefit3 => 'مؤشرات تقدم مرئية';
+
+  @override
+  String get featuresProfileTitle => 'الملف الشخصي';
+
+  @override
+  String get featuresProfileDesc =>
+      'إدارة ملفك الشخصي بما في ذلك الاسم والعمر والطول والوزن والجنس لحسابات مخصصة.';
+
+  @override
+  String get featuresProfileBenefit1 => 'حافظ على تحديث ملفك الشخصي';
+
+  @override
+  String get featuresProfileBenefit2 => 'نتائج حاسبة مخصصة';
+
+  @override
+  String get featuresProfileBenefit3 => 'وضع الضيف متاح';
+
+  @override
+  String get featuresDarkModeTitle => 'الوضع الداكن';
+
+  @override
+  String get featuresDarkModeDesc =>
+      'بدّل بين السمات الفاتحة والداكنة لتناسب تفضيلاتك وتقليل إجهاد العين.';
+
+  @override
+  String get featuresDarkModeBenefit1 => 'مريح للعين في الليل';
+
+  @override
+  String get featuresDarkModeBenefit2 => 'تبديل فوري للمظهر';
+
+  @override
+  String get featuresDarkModeBenefit3 => 'توفير البطارية على أجهزة OLED';
+
+  @override
+  String get featuresGuestTitle => 'وضع الضيف';
+
+  @override
+  String get featuresGuestDesc =>
+      'استكشف التطبيق دون إنشاء حساب. جميع البيانات مخزنة محلياً على جهازك.';
+
+  @override
+  String get featuresGuestBenefit1 => 'لا حاجة لحساب';
+
+  @override
+  String get featuresGuestBenefit2 => 'جميع الميزات متاحة';
+
+  @override
+  String get featuresGuestBenefit3 => 'تجربة تركز على الخصوصية';
+
+  @override
+  String get featuresCalorieBenefit1 => 'اعرف سعراتك اليومية للصيانة';
+
+  @override
+  String get featuresCalorieBenefit2 => 'احصل على أهداف لفقدان أو زيادة الوزن';
+
+  @override
+  String get featuresCalorieBenefit3 => 'خطط لنظامك الغذائي بدقة';
+
+  @override
+  String get featuresNotificationsBenefit1 => 'تذكيرات بتقدم الهدف';
+
+  @override
+  String get featuresNotificationsBenefit2 => 'تنبيهات تحديث القياسات';
+
+  @override
+  String get featuresNotificationsBenefit3 => 'حافظ على استمرارية رحلة لياقتك';
 }

@@ -7,7 +7,7 @@ import 'package:fit_tracker/presentation/widgets/goals/goals_square_row.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class GoalsPage extends StatelessWidget {
   const GoalsPage({super.key});

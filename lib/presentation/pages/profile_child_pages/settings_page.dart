@@ -7,7 +7,7 @@ import 'package:fit_tracker/presentation/widgets/profile/settings_section_widget
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/data/services/notification_service.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -120,13 +120,13 @@ class SettingsPage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          buildSectionTitle(context, 'Profile'),
+          buildSectionTitle(context, l10n.settingsProfile),
           buildCardSection(context, [
             buildListTile(
                 context,
                 Icons.edit_outlined,
-                'Edit Profile',
-                'Update your information',
+                l10n.settingsEditProfile,
+                l10n.settingsEditProfileSub,
                 () => SettingsDialogs.showEditProfileDialog(context, () {})),
           ]),
           const SizedBox(height: 20),
@@ -143,13 +143,13 @@ class SettingsPage extends StatelessWidget {
                     : (v) => _onNotificationsChanged(context, v)),
           ]),
           const SizedBox(height: 20),
-          buildSectionTitle(context, 'Appearance'),
+          buildSectionTitle(context, l10n.settingsAppearance),
           buildCardSection(context, [
             buildSwitchTile(
                 context,
                 Icons.dark_mode_outlined,
                 l10n.settingsDark,
-                'Toggle dark/light theme',
+                l10n.settingsToggleTheme,
                 appVM.isDarkMode,
                 (v) => _onDarkModeChanged(context, v)),
             const Divider(height: 1, indent: 56),
@@ -161,27 +161,27 @@ class SettingsPage extends StatelessWidget {
                 () => _showLanguagePicker(context)),
           ]),
           const SizedBox(height: 20),
-          buildSectionTitle(context, 'More'),
+          buildSectionTitle(context, l10n.settingsMore),
           buildCardSection(context, [
             buildListTile(
                 context,
                 Icons.privacy_tip_outlined,
-                'Privacy Policy',
-                'Read our privacy terms',
+                l10n.profilePrivacyPolicy,
+                l10n.settingsPrivacyPolicySub,
                 () => Navigator.pushNamed(context, '/privacy-policy')),
             const Divider(height: 1, indent: 56),
             buildListTile(
                 context,
                 Icons.description_outlined,
-                'Terms & Conditions',
-                'Read our terms',
+                l10n.profileTermsConditions,
+                l10n.settingsTermsSub,
                 () => Navigator.pushNamed(context, '/terms-conditions')),
             const Divider(height: 1, indent: 56),
             buildListTile(
                 context,
                 Icons.delete_forever_outlined,
-                'Delete Account',
-                'Permanently delete your account',
+                l10n.settingsDeleteAccount,
+                l10n.settingsDeleteAccountSub,
                 () => SettingsDialogs.showDeleteAccountDialog(context),
                 isDanger: true),
           ]),

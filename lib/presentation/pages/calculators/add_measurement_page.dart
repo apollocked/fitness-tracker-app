@@ -11,7 +11,7 @@ import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/presentation/widgets/shared/guest_banner.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   const AddMeasurementPage({super.key});

@@ -716,7 +716,7 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get featuresProteinDesc =>
-      'پێویستی ڕۆژانەی پرۆتینت ژمێرە بەپێی ئاستی چالاکی.';
+      'پێویستی ڕۆژانەی پرۆتینت ژمێرە بەپێی کێش و ئاستی چالاکیت.';
 
   @override
   String get featuresCalorieTracker => 'شوێنکەوتنی کالۆری';
@@ -737,7 +737,7 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get featuresProgressDesc =>
-      'ڕەوتی کێشت بە چارت ببینە و پێشکەوتنی ئامانجەکانت شوێن بکەوە.';
+      'پێوانەکانی جەستەت تۆمار بکە و بە چارتێکی کارلێککار چاودێری بکە.';
 
   @override
   String get featuresLocalOnly => 'تەنها لەسەر ئامێر';
@@ -1099,4 +1099,645 @@ class AppLocalizationsCkb extends AppLocalizations {
   String settingsLanguageLabel(String language) {
     return 'زمان: $language';
   }
+
+  @override
+  String get appMaterialTitle => 'FitTracker';
+
+  @override
+  String get settingsAppearance => 'ڕووکار';
+
+  @override
+  String get settingsMore => 'زیاتر';
+
+  @override
+  String get settingsProfile => 'پڕۆفایل';
+
+  @override
+  String get settingsEditProfile => 'دەستکاری پڕۆفایل';
+
+  @override
+  String get settingsEditProfileSub => 'زانیارییەکانت نوێ بکە';
+
+  @override
+  String get settingsPrivacyPolicySub => 'مەرجەکانی تایبەتیمان بخوێنەوە';
+
+  @override
+  String get settingsTermsSub => 'مەرجەکانمان بخوێنەوە';
+
+  @override
+  String get settingsDeleteAccount => 'سڕینەوەی هەژمار';
+
+  @override
+  String get settingsDeleteAccountSub =>
+      'هەژمارەکەت بە شێوەیەکی هەمیشەیی بسڕەوە';
+
+  @override
+  String get settingsToggleTheme => 'گۆڕینی ڕووکاری ڕوون/تاریک';
+
+  @override
+  String get settingsDeleteAccountConfirm => 'دڵنیایت؟';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'ئەم کارە ناتوانرێت پووچەڵ بکرێتەوە.';
+
+  @override
+  String get authWelcomeBack => 'بەخێربێیتەوە';
+
+  @override
+  String get authTrackJourney => 'شوێنکەوتنی گەشتی تەندروستی تۆ';
+
+  @override
+  String get authLogin => 'چوونەژوورەوە';
+
+  @override
+  String get authDontHaveAccount => 'هەژمارت نییە؟';
+
+  @override
+  String get authRegister => 'تۆمارکردن';
+
+  @override
+  String get authRegisterTitle => 'تۆمارکردن';
+
+  @override
+  String get authLetsGetStarted => 'با دەست پێبکەین!';
+
+  @override
+  String get authCreateAccount => 'دروستکردنی هەژمار';
+
+  @override
+  String get authAlreadyHaveAccount => 'هەژمارت هەیە؟';
+
+  @override
+  String get onboardingProgressTitle => 'بینینی پێشکەوتنەکەت';
+
+  @override
+  String get onboardingProgressDesc =>
+      'کێشی ڕۆژانە تۆمار بکە و گۆڕانکارییەکانت بە چارت بینی.';
+
+  @override
+  String get onboardingGoalsTitle => 'ئامانج دابنێ، بەردەوامبە';
+
+  @override
+  String get onboardingGoalsDesc =>
+      'ئامانجی کێش، پرۆتین، و کالۆری دابنێ. پێشکەوتنەکەت شوێن بکەوە.';
+
+  @override
+  String get onboardingCalculatorsTitle => 'ژمێریارە زیرەکەکان';
+
+  @override
+  String get onboardingCalculatorsDesc =>
+      'کێشی گونجاو، کالۆری ڕۆژانە، پرۆتینی پێویست — ئامرازە زانستییەکان لەبەردەستتدا.';
+
+  @override
+  String get onboardingPersonalizedTitle => 'تایبەت کراوە بۆ تۆ';
+
+  @override
+  String get profileUpdateTitle => 'نوێکردنەوەی پڕۆفایل';
+
+  @override
+  String get profileUsername => 'ناوی بەکارهێنەر';
+
+  @override
+  String get profileWeightKg => 'کێش (کگ)';
+
+  @override
+  String get profileHeightCm => 'باڵا (سم)';
+
+  @override
+  String get profileSaveChanges => 'پاشەکەوتکردنی گۆڕانکارییەکان';
+
+  @override
+  String get validatorUsernameRequired => 'ناوی بەکارهێنەر پێویستە';
+
+  @override
+  String get validatorUsernameMinLength =>
+      'ناوی بەکارهێنەر دەبێت بەلایەنی کەم ٣ پیت بێت';
+
+  @override
+  String get validatorUsernameReserved => 'ئەم ناوە تەرخان کراوە';
+
+  @override
+  String get validatorUsernameChars =>
+      'ناوی بەکارهێنەر تەنها دەتوانێت پیت، ژمارە، ., _, و - بەکاربهێنێت';
+
+  @override
+  String get validatorAgeRequired => 'تەمەن پێویستە';
+
+  @override
+  String get validatorValidNumber => 'ژمارەیەکی ڕاست بنووسە';
+
+  @override
+  String get validatorAgeMin => 'دەبێت بەلایەنی کەم ١٣ ساڵ بیت';
+
+  @override
+  String get validatorAgeValid => 'تەمەنێکی ڕاست بنووسە';
+
+  @override
+  String get validatorWeightRequired => 'کێش پێویستە';
+
+  @override
+  String get validatorWeightRange => 'کێش دەبێت لە نێوان ١-٣٠٠ کگ بێت';
+
+  @override
+  String get validatorPasskeyRequired => 'پاسکی پێویستە';
+
+  @override
+  String get validatorPasskeyMinLength => 'دەبێت بەلایەنی کەم ٦ پیت بێت';
+
+  @override
+  String get validatorPasskeyMaxLength => 'دەبێت زۆربە ٦٤ پیت بێت';
+
+  @override
+  String get validatorPasskeyChars =>
+      'تەنها پیت، ژمارە، و هێما باوەکان ڕێگەپێدراون';
+
+  @override
+  String get validatorHeightRequired => 'باڵا پێویستە';
+
+  @override
+  String get validatorHeightRange => 'باڵا دەبێت لە نێوان ١-٣٠٠ سم بێت';
+
+  @override
+  String errorTooManyAttempts(String seconds) {
+    return 'زۆر هەوڵ. دوای $seconds چرکە هەوڵبدەوە';
+  }
+
+  @override
+  String errorInvalidCredentials(String count) {
+    return 'ناوی بەکارهێنەر یان پاسکی هەڵەیە ($count هەوڵی ماوە)';
+  }
+
+  @override
+  String errorLockedOut(String seconds) {
+    return 'زۆر هەوڵ. بۆ $seconds چرکە قەدەغە کرایت';
+  }
+
+  @override
+  String get errorLoginFailed => 'چوونەژوورەوە سەرکەوتوو نەبوو';
+
+  @override
+  String get errorGuestSessionFailed =>
+      'دەستپێکردنی دانیشتنی میوان سەرکەوتوو نەبوو';
+
+  @override
+  String get errorUsernameTaken => 'ناوی بەکارهێنەر لەبەردەستا نییە';
+
+  @override
+  String get errorRegistrationFailed => 'تۆمارکردن سەرکەوتوو نەبوو';
+
+  @override
+  String get errorNotificationBlocked => 'مۆڵەتی ئاگادارکردنەوە ڕێگری کراوە.';
+
+  @override
+  String get errorNotificationDenied => 'مۆڵەتی ئاگادارکردنەوە پێنەدرا.';
+
+  @override
+  String get errorNotificationSchedule =>
+      'ناتوانرێت ئاگادارکردنەوە لەسەر ئەم ئامێرە خشتە بکرێت.';
+
+  @override
+  String get errorNotificationUpdate =>
+      'نوێکردنەوەی ئاگادارکردنەوەکان سەرکەوتوو نەبوو.';
+
+  @override
+  String get errorNoUserLoggedIn => 'هیچ بەکارهێنەرێک نەچووەتە ژوورەوە';
+
+  @override
+  String get errorProfileUpdate => 'نوێکردنەوەی پڕۆفایل سەرکەوتوو نەبوو';
+
+  @override
+  String get successReminderScheduled =>
+      'بیرخستنەوەی کێش هەر سێ ڕۆژ جارێک خشتە کرا.';
+
+  @override
+  String get successNotificationsDisabled => 'ئاگادارکردنەوەکان ناچالاک کران.';
+
+  @override
+  String get successProfileUpdated => 'پڕۆفایل بە سەرکەوتوویی نوێ کرا!';
+
+  @override
+  String get goalsDescriptionWeight => 'شوێنکەوتنی ئامانجەکانی کێشت';
+
+  @override
+  String get goalsDescriptionProtein => 'ئامانجی ڕۆژانەی پرۆتین';
+
+  @override
+  String get goalsDescriptionCalorie => 'ئامانجی ڕۆژانەی کالۆری';
+
+  @override
+  String get featureDiscover => 'خاسیەتەکانی ئاشکرا بکە';
+
+  @override
+  String featureCount(String count) {
+    return '$count ئامراز و توانا بۆ بەهێزکردنی گەشتی تەندروستیت.';
+  }
+
+  @override
+  String get nutritionTitle => 'خۆراک';
+
+  @override
+  String get nutritionSearchHint => 'گەڕان بۆ خۆراک...';
+
+  @override
+  String get nutritionScanBarcode => 'سکانکردنی بارکۆد';
+
+  @override
+  String get nutritionNoFoods => 'هیچ خۆراکێک نەدۆزرایەوە';
+
+  @override
+  String get nutritionCalories => 'کالۆری';
+
+  @override
+  String get nutritionProtein => 'پرۆتین';
+
+  @override
+  String get nutritionCarbs => 'کاربۆهیدرات';
+
+  @override
+  String get nutritionFat => 'چەوری';
+
+  @override
+  String get nutritionActions => 'کردارەکان';
+
+  @override
+  String get nutritionAddFood => 'زیادکردنی خۆراک';
+
+  @override
+  String get nutritionFoodName => 'ناوی خۆراک';
+
+  @override
+  String get nutritionCaloriesLabel => 'کالۆری';
+
+  @override
+  String get nutritionProteinG => 'پرۆتین (گ)';
+
+  @override
+  String get nutritionCarbsG => 'کاربۆهیدرات (گ)';
+
+  @override
+  String get nutritionFatG => 'چەوری (گ)';
+
+  @override
+  String get nutritionAdd => 'زیادکردن';
+
+  @override
+  String get barcodeScan => 'سکانکردنی بارکۆد';
+
+  @override
+  String get barcodeFlashlight => 'چرای پشتی';
+
+  @override
+  String get barcodeNoDetected => 'هیچ بارکۆدێک نەدۆزرایەوە';
+
+  @override
+  String get barcodeFlashlightUnavailable => 'چرای پشتی بەردەست نییە';
+
+  @override
+  String get barcodeNoScanner => 'هیچ سکانەری بارکۆدێک بەردەست نییە';
+
+  @override
+  String get barcodeScanFailed => 'سکانکردنی بارکۆد سەرکەوتوو نەبوو';
+
+  @override
+  String get workoutTitle => 'ڕاهێنانەکان';
+
+  @override
+  String get workoutSearchHint => 'گەڕان بۆ ڕاهێنان...';
+
+  @override
+  String get workoutNoExercises => 'هیچ ڕاهێنانێک نەدۆزرایەوە';
+
+  @override
+  String get changePasskeyTitle => 'گۆڕینی پاسکی';
+
+  @override
+  String get changePasskeyCurrent => 'پاسکی ئێستا';
+
+  @override
+  String get changePasskeyNew => 'پاسکی نوێ';
+
+  @override
+  String get changePasskeyConfirm => 'پشتڕاستکردنەوەی پاسکی نوێ';
+
+  @override
+  String get changePasskeyNoMatch => 'پاسکییەکان یەک ناگرن';
+
+  @override
+  String get changePasskeyUpdate => 'نوێکردنەوەی پاسکی';
+
+  @override
+  String get changePasskeySame => 'پاسکی نابێت هەمان پاسکی کۆن بێت';
+
+  @override
+  String get helpHowCanWeHelp => 'چۆن دەتوانین یارمەتی‌ت بدەین؟';
+
+  @override
+  String get helpIntro =>
+      'وەڵام، ڕێنمایی چارەسەرکردن، و ڕێبازەکان بۆ بەدەستهێنانی زۆرترین سوود لە FitTracker.';
+
+  @override
+  String get helpQuickNavigation => 'ڕێنمایی خێرا';
+
+  @override
+  String get helpTroubleshoot => 'چارەسەرکردن';
+
+  @override
+  String get helpTips => 'ڕێنمایی';
+
+  @override
+  String get helpFaqSubtitle => 'وەڵامی پرسیارە باوەکان.';
+
+  @override
+  String get helpTroubleshootingTitle => 'چارەسەرکردن';
+
+  @override
+  String get helpTroubleshootingSub => 'چارەسەری کێشە باوەکان.';
+
+  @override
+  String get helpTipsTitle => 'ڕێنمایی و خشتەکان';
+
+  @override
+  String get helpTipsSub => 'زۆرترین سوود وەربگرە لە گەشتی تەندروستیت.';
+
+  @override
+  String get helpSolutions => 'چارەسەرەکان:';
+
+  @override
+  String get helpTroubleCalculators => 'ژمێریارەکان ئەنجامەکان نوێ ناکەن';
+
+  @override
+  String get helpTroubleCalculatorsS1 =>
+      'دوای گۆڕینی هەر بەهایەک کرتە لە \"ژمێرە\" بکە';
+
+  @override
+  String get helpTroubleCalculatorsS2 =>
+      'دڵنیابە هەموو خانەکان بە ڕاستی پڕکراونەتەوە';
+
+  @override
+  String get helpTroubleCalculatorsS3 => 'ئەپەکە دووبارە بکەرەوە و هەوڵبدەوە';
+
+  @override
+  String get helpTroubleGoals => 'ئامانجەکان لە داشبۆرددا پیشان نادرێن';
+
+  @override
+  String get helpTroubleGoalsS1 => 'دڵنیابە کە بەلایەنی کەم یەک ئامانجت داناوە';
+
+  @override
+  String get helpTroubleGoalsS2 =>
+      'لەسەر پەڕەی ماڵەوە بەرەو خوار ڕابکێشە بۆ تازەکردنەوە';
+
+  @override
+  String get helpTroubleGoalsS3 => 'بڕێکی ڕاستی بۆ ئامانجەکانت دانابە';
+
+  @override
+  String get helpTroubleDarkMode => 'گۆڕینی ڕووکاری تاریک کار ناکات';
+
+  @override
+  String get helpTroubleDarkModeS1 => 'دوای گۆڕین، ئەپەکە دووبارە بکەرەوە';
+
+  @override
+  String get helpTroubleDarkModeS2 => 'ڕێکخستنەکانی ئامێرەکەت بپشکنە';
+
+  @override
+  String get helpTroubleDarkModeS3 => 'بۆ دوایین وەشانی ئەپەکە نوێ بکە';
+
+  @override
+  String get helpTroubleChart => 'چارتی پێشکەوتن پیشان نادرێت';
+
+  @override
+  String get helpTroubleChartS1 => 'بەلایەنی کەم دوو پێوانەی کێش تۆمار بکە';
+
+  @override
+  String get helpTroubleChartS2 =>
+      'دڵنیابە پێوانەکان بە سەرکەوتوویی پاشەکەوت کراون';
+
+  @override
+  String get helpTroubleChartS3 =>
+      'پەڕەی پێشکەوتن بەرەو خوار ڕابکێشە بۆ تازەکردنەوە';
+
+  @override
+  String get helpTroubleSlow => 'ئەپەکە خاوە یان وەڵام ناداتەوە';
+
+  @override
+  String get helpTroubleSlowS1 => 'ئەپەکانی تر بەرێ بۆ ئازادکردنی بیرگە';
+
+  @override
+  String get helpTroubleSlowS2 =>
+      'کاشی ئەپەکە لە ڕێکخستنەکانی ئامێرەکەتدا بسڕەوە';
+
+  @override
+  String get helpTroubleSlowS3 => 'ئامێرەکەت دووبارە بکەرەوە';
+
+  @override
+  String get helpTipRealistic => 'ئامانجی ڕاستی دابنێ';
+
+  @override
+  String get helpTipRealisticDesc =>
+      'بەرەو 0.5-1 کگ گۆڕانکاری لە هەفتەیەکدا ئامانج دابنێ بۆ ئەنجامی بەردەوام.';
+
+  @override
+  String get helpTipConsistent => 'نوێکردنەوەی بەردەوام';
+
+  @override
+  String get helpTipConsistentDesc =>
+      'هەر هەفتەیەک لە هەمان ڕۆژ و کاتدا کێش بکە بۆ ڕەوتی ڕاست.';
+
+  @override
+  String get helpTipCalculators => 'هەموو ژمێریارەکان بەکاربهێنە';
+
+  @override
+  String get helpTipCalculatorsDesc =>
+      'ژمێریاری کالۆری، پرۆتین، و کێشی گونجاو تێکەڵ بکە بۆ پلانێکی تەواو.';
+
+  @override
+  String get helpTipDashboard => 'ڕۆژانە داشبۆرد بپشکنە';
+
+  @override
+  String get helpTipDashboardDesc =>
+      'داشبۆردی ماڵەوە هەموو شتێک پیشان دەدات — ڕۆژانە بپشکنە بۆ بەردەوامی.';
+
+  @override
+  String get helpTipDarkMode => 'ڕووکاری تاریک لە شەودا';
+
+  @override
+  String get helpTipDarkModeDesc =>
+      'ڕووکاری تاریک لە کاتی ئێواراندا چالاک بکە بۆ کەمکردنەوەی ماندووبوونی چاو.';
+
+  @override
+  String get helpTipNotifications => 'ئاگادارکردنەوەکان چالاک بکە';
+
+  @override
+  String get helpTipNotificationsDesc =>
+      'بیرخستنەوەکان چالاک بکە بۆ بەردەوامی لە تۆمارکردنی پێوانەکانت.';
+
+  @override
+  String get helpTipBodybuilder => 'ڕەوشتی بەلشکەر نوێ بکە';
+
+  @override
+  String get helpTipBodybuilderDesc =>
+      'ڕەوشتی بەلشکەرت لە پڕۆفایلدا دابنێ بۆ ژمێراری پرۆتینی ڕاستر.';
+
+  @override
+  String get helpTipReview => 'پێشکەوتن بە هەفتەیی بپشکنە';
+
+  @override
+  String get helpTipReviewDesc =>
+      'چارتی پێشکەوتنەکەت هەر هەفتەیەک بپشکنە بۆ بەردەوامی و ڕێکخستنی ئامانجەکانت.';
+
+  @override
+  String get featuresWhyUseful => 'بۆچی بەسوودە:';
+
+  @override
+  String get featuresNeedHelp => 'یارمەتی پێویستە؟';
+
+  @override
+  String get featuresHelpDesc =>
+      'سەردانی یارمەتی و پاڵپشتی بکە بۆ پرسیارە زۆرەکان و چارەسەرکردن.';
+
+  @override
+  String get featuresDashboardTitle => 'داشبۆردی ماڵەوە';
+
+  @override
+  String get featuresDashboardDesc =>
+      'داشبۆردێکی ناوەندی کە ئامارە سەرەکییەکانت، پێشکەوتنی ئامانج، پێوانەکانی دوایی، و کردارە خێراکانت پیشان دەدات.';
+
+  @override
+  String get featuresDashboardBenefit1 =>
+      'هەموو ئامارە سەرەکییەکان لە یەک شوێندا ببینە';
+
+  @override
+  String get featuresDashboardBenefit2 => 'دەستگەیشتنی خێرا بە نوێکردنەوەی کێش';
+
+  @override
+  String get featuresDashboardBenefit3 =>
+      'پێشکەوتنی ئامانج لە یەک چاوەکانداببینە';
+
+  @override
+  String get featuresIdealWeightTitle => 'ژمێریاری کێشی گونجاو';
+
+  @override
+  String get featuresIdealWeightDesc =>
+      'کێشی گونجاوی لەشت ژمێرە بەپێی باڵا و ڕەگەز بە بەکارهێنانی ڕێگەی Devine.';
+
+  @override
+  String get featuresIdealWeightBenefit1 => 'ئامانجی کێشی گونجاوت بزانە';
+
+  @override
+  String get featuresIdealWeightBenefit2 =>
+      'ئامانجی ڕاستی بە شێوەی ئۆتۆماتیکی دابنێ';
+
+  @override
+  String get featuresIdealWeightBenefit3 => 'ژمێراری زانستی پشتڕاستکراو';
+
+  @override
+  String get featuresProteinTitle => 'ژمێریاری پرۆتین';
+
+  @override
+  String get featuresProteinBenefit1 => 'پێویستی ڕۆژانەی پرۆتین دیاری بکە';
+
+  @override
+  String get featuresProteinBenefit2 => 'بەپێی ئاستی چالاکی ڕێکیبخە';
+
+  @override
+  String get featuresProteinBenefit3 =>
+      'ماسولکە بە شێوەیەکی کاریگەر بنیات بنێ و بپارێزە';
+
+  @override
+  String get featuresProgressTitle => 'شوێنکەوتنی پێشکەوتن';
+
+  @override
+  String get featuresProgressBenefit1 =>
+      'گۆڕانکاری کێش بە تێپەڕبوونی کات شوێن بکەوە';
+
+  @override
+  String get featuresProgressBenefit2 => 'چارتی پێشکەوتنی کارلێککار';
+
+  @override
+  String get featuresProgressBenefit3 => 'بە زانیارییە بینراوەکان بەردەوامبە';
+
+  @override
+  String get featuresGoalsTitle => 'بەڕێوەبردنی ئامانجی زیرەک';
+
+  @override
+  String get featuresGoalsDesc =>
+      'ئامانجی تەندروستی دابنێ، دەستکاری بکە، و شوێنی بکەوە بە دۆزینەوەی ئۆتۆماتیکی جۆری ئامانج.';
+
+  @override
+  String get featuresGoalsBenefit1 => 'شوێنکەوتنی پێشکەوتنی ڕاستەوخۆ';
+
+  @override
+  String get featuresGoalsBenefit2 => 'هەر کاتێک ئامانج دەستکاری یان بسڕەوە';
+
+  @override
+  String get featuresGoalsBenefit3 => 'نیشاندەری پێشکەوتنی بینراو';
+
+  @override
+  String get featuresProfileTitle => 'پڕۆفایلی کەسی';
+
+  @override
+  String get featuresProfileDesc =>
+      'پڕۆفایلەکەت بەڕێوەببە بە ناو، تەمەن، باڵا، کێش، و ڕەگەز بۆ ژمێراری کەسی.';
+
+  @override
+  String get featuresProfileBenefit1 => 'پڕۆفایلەکەت هەمیشە نوێ بکەرەوە';
+
+  @override
+  String get featuresProfileBenefit2 => 'ئەنجامی ژمێراری کەسی';
+
+  @override
+  String get featuresProfileBenefit3 => 'دۆخی میوان بەردەستە';
+
+  @override
+  String get featuresDarkModeTitle => 'ڕووکاری تاریک';
+
+  @override
+  String get featuresDarkModeDesc =>
+      'لە نێوان ڕووکاری ڕوون و تاریکدا بگۆڕە بۆ ئارەزووی خۆت و کەمکردنەوەی ماندووبوونی چاو.';
+
+  @override
+  String get featuresDarkModeBenefit1 => 'ئاسان بۆ چاو لە شەودا';
+
+  @override
+  String get featuresDarkModeBenefit2 => 'گۆڕینی ڕاستەوخۆی ڕووکار';
+
+  @override
+  String get featuresDarkModeBenefit3 =>
+      'پاشەکەوتکردنی پاتری لە ئامێرەکانی OLED';
+
+  @override
+  String get featuresGuestTitle => 'دۆخی میوان';
+
+  @override
+  String get featuresGuestDesc =>
+      'ئەپەکە بەبێ دروستکردنی هەژمار بگەڕێ. هەموو زانیارییەکان لەسەر ئامێرەکەت پاشەکەوت دەکرێن.';
+
+  @override
+  String get featuresGuestBenefit1 => 'پێویستی بە هەژمار نییە';
+
+  @override
+  String get featuresGuestBenefit2 => 'هەموو خاسیەتەکان بەردەستن';
+
+  @override
+  String get featuresGuestBenefit3 => 'ئەزموونێکی تەرکیزکراو لەسەر تایبەتی';
+
+  @override
+  String get featuresCalorieBenefit1 => 'کالۆری پاراستنی خۆت بزانە';
+
+  @override
+  String get featuresCalorieBenefit2 =>
+      'ئامانج بۆ کەمکردنەوە یان زیادکردنی کێش وەربگرە';
+
+  @override
+  String get featuresCalorieBenefit3 => 'خۆراکەکەت بە وردی پلان بکە';
+
+  @override
+  String get featuresNotificationsBenefit1 => 'بیرخستنەوەی پێشکەوتنی ئامانج';
+
+  @override
+  String get featuresNotificationsBenefit2 => 'بیرخستنەوەی نوێکردنەوەی پێوانە';
+
+  @override
+  String get featuresNotificationsBenefit3 =>
+      'گەشتی تەندروستیت بە بەردەوامی ڕابگرە';
 }

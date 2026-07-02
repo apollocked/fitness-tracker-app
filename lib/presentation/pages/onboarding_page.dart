@@ -5,7 +5,7 @@ import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/presentation/widgets/onboarding/onboarding_slide.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -28,28 +28,25 @@ class _OnboardingPageState extends State<OnboardingPage> {
             gradient: greenGradient,
             icon: Icons.show_chart_rounded,
             tag: 'PROGRESS',
-            title: 'Watch Your\nProgress Soar',
-            subtitle:
-                'Log daily weight measurements and visualize your transformation over time with elegant charts.'),
+            title: l10n.onboardingProgressTitle,
+            subtitle: l10n.onboardingProgressDesc),
         OnboardingSlideData(
             gradient: orangeGradient,
             icon: Icons.flag_rounded,
             tag: 'GOALS',
-            title: 'Set Goals,\nStay Motivated',
-            subtitle:
-                'Define weight, protein, and calorie targets. Track completion and celebrate every milestone.'),
+            title: l10n.onboardingGoalsTitle,
+            subtitle: l10n.onboardingGoalsDesc),
         OnboardingSlideData(
             gradient: purpleGradient,
             icon: Icons.calculate_rounded,
             tag: 'CALCULATORS',
-            title: 'Smart Fitness\nCalculators',
-            subtitle:
-                'Ideal body weight, daily calories, protein intake — science-backed tools right at your fingertips.'),
+            title: l10n.onboardingCalculatorsTitle,
+            subtitle: l10n.onboardingCalculatorsDesc),
         OnboardingSlideData(
             gradient: lightBlueGradient,
             icon: Icons.person_rounded,
             tag: 'PERSONALIZED',
-            title: 'Tailored Just\nFor You',
+            title: l10n.onboardingPersonalizedTitle,
             subtitle: l10n.appNoAccountNeeded),
       ];
 

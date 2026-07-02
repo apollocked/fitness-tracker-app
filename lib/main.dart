@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 import 'package:fit_tracker/presentation/pages/layout_page.dart';
 import 'package:fit_tracker/presentation/pages/setting_child_pages/privacy_policy_page.dart';
 import 'package:fit_tracker/presentation/pages/setting_child_pages/terms_conditions_page.dart';
@@ -139,6 +139,15 @@ class _FitAppBuilder extends StatelessWidget {
       themeMode: appVM.themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      builder: (context, child) {
+        if (appVM.locale.languageCode == 'ckb') {
+          return Directionality(
+            textDirection: TextDirection.rtl,
+            child: child!,
+          );
+        }
+        return child!;
+      },
       home: home,
       routes: {
         '/terms-conditions': (context) => const TermsConditionsPage(),

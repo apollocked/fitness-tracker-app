@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class LogoutDialog {
   static void show(BuildContext context) {
@@ -12,6 +13,7 @@ class LogoutDialog {
       barrierDismissible: false,
       builder: (BuildContext context) {
         final colors = Theme.of(context).extension<AppColorsExtension>()!;
+        final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
           backgroundColor: colors.cardColor,
           title: Text('Logout', style: TextStyle(color: colors.textColor)),
@@ -20,7 +22,7 @@ class LogoutDialog {
           actions: [
             TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel')),
+                child: Text(l10n.commonCancel)),
             TextButton(
               onPressed: () async {
                 await context.read<AuthViewModel>().logout();

@@ -5,7 +5,7 @@ import 'package:fit_tracker/presentation/widgets/help_support/help_support_secti
 import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class HelpAndSupportPage extends StatefulWidget {
   const HelpAndSupportPage({super.key});
@@ -48,10 +48,10 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
         padding: const EdgeInsets.all(20),
         physics: const BouncingScrollPhysics(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('How can we help you?', style: theme.textTheme.titleLarge),
+          Text(l10n.helpHowCanWeHelp, style: theme.textTheme.titleLarge),
           const SizedBox(height: 6),
           Text(
-              'Find answers, troubleshooting tips, and guides to get the most out of Fitness Tracker.',
+              l10n.helpIntro,
               style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
           const SizedBox(height: 24),
           AppCard(
@@ -60,18 +60,18 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
             elevation: false,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('Quick Navigation',
+              Text(l10n.helpQuickNavigation,
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: colors.textColor)),
               const SizedBox(height: 12),
               Wrap(spacing: 8, runSpacing: 8, children: [
-                _navBtn(Icons.help_outline, 'FAQs', () => _scrollTo(_faqKey),
+                _navBtn(Icons.help_outline, l10n.helpFaq, () => _scrollTo(_faqKey),
                     colors),
-                _navBtn(Icons.build_circle_outlined, 'Troubleshoot',
+                _navBtn(Icons.build_circle_outlined, l10n.helpTroubleshoot,
                     () => _scrollTo(_troubleshootKey), colors),
-                _navBtn(Icons.lightbulb_outline, 'Tips',
+                _navBtn(Icons.lightbulb_outline, l10n.helpTips,
                     () => _scrollTo(_tipsKey), colors),
               ]),
             ]),
@@ -81,22 +81,22 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
               theme: theme,
               key: _faqKey,
               title: l10n.helpFaq,
-              subtitle: 'Answers to the most common questions.',
-              child: const FAQSection()),
+              subtitle: l10n.helpFaqSubtitle,
+              child: FAQSection(l10n: l10n)),
           const SizedBox(height: 28),
           _section(
               theme: theme,
               key: _troubleshootKey,
-              title: 'Troubleshooting',
-              subtitle: 'Solutions for common issues.',
-              child: const TroubleshootSection()),
+              title: l10n.helpTroubleshootingTitle,
+              subtitle: l10n.helpTroubleshootingSub,
+              child: TroubleshootSection(l10n: l10n)),
           const SizedBox(height: 28),
           _section(
               theme: theme,
               key: _tipsKey,
-              title: 'Tips & Tricks',
-              subtitle: 'Get the most out of your fitness journey.',
-              child: const TipsSection()),
+              title: l10n.helpTipsTitle,
+              subtitle: l10n.helpTipsSub,
+              child: TipsSection(l10n: l10n)),
           const SizedBox(height: 28),
           _section(
               theme: theme,

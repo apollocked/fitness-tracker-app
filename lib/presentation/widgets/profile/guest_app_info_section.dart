@@ -6,6 +6,7 @@ import 'package:fit_tracker/presentation/pages/profile_child_pages/about_page.da
 import 'package:fit_tracker/presentation/pages/profile_child_pages/help_support_page.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_colors_extension.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class GuestAppInfoSection extends StatelessWidget {
   const GuestAppInfoSection({super.key});
@@ -13,6 +14,7 @@ class GuestAppInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: colors.cardColor, borderRadius: BorderRadius.circular(16),
@@ -27,12 +29,12 @@ class GuestAppInfoSection extends StatelessWidget {
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FeaturesPage()))),
           sectionDivider(colors),
           ProfileMenuTile(
-              icon: Icons.info_outline_rounded, title: 'About', subtitle: 'App information',
+              icon: Icons.info_outline_rounded, title: l10n.aboutTitle, subtitle: 'App information',
               accentColor: colors.subtitleColor,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPage()))),
           sectionDivider(colors),
           ProfileMenuTile(
-              icon: Icons.help_outline_rounded, title: 'Help & Support', subtitle: 'Get assistance',
+              icon: Icons.help_outline_rounded, title: l10n.helpTitle, subtitle: 'Get assistance',
               accentColor: orangeColor,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const HelpAndSupportPage()))),
         ]),

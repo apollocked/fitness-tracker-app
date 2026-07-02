@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_dialog_text_field.dart';
@@ -6,6 +7,7 @@ import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class SettingsDialogs {
   static void showEditProfileDialog(BuildContext context, Function onSave) {
@@ -13,22 +15,23 @@ class SettingsDialogs {
     if (user == null) return;
     final usernameController = TextEditingController(text: user.username);
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: colors.cardColor,
-        title: Text('Edit Profile', style: TextStyle(color: colors.textColor)),
+        title: Text(l10n.settingsEditProfile, style: TextStyle(color: colors.textColor)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomDialogTextField(
-                controller: usernameController, text: 'Username'),
+                controller: usernameController, text: l10n.profileUsername),
           ],
         ),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Cancel')),
+              child: Text(l10n.commonCancel)),
           TextButton(
             onPressed: () async {
               if (usernameController.text.isEmpty) {
@@ -39,7 +42,7 @@ class SettingsDialogs {
               }
               final appVM = dialogContext.read<AppViewModel>();
               final success = await appVM.updateProfile(
-                  usernameController.text);
+                  usernameController.text, l10n);
               if (success) {
                 await context.read<AuthViewModel>().reloadUser();
                 onSave();
@@ -48,7 +51,7 @@ class SettingsDialogs {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                      appVM.successMessage ?? appVM.settingsError ?? 'Done'),
+                      appVM.successMessage ?? appVM.settingsError ?? l10n.commonDone),
                   backgroundColor:
                       appVM.successMessage != null ? greenColor : redColor,
                 ),
@@ -63,20 +66,21 @@ class SettingsDialogs {
 
   static void showDeleteAccountDialog(BuildContext context) async {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: colors.cardColor,
         title:
-            Text('Delete Account', style: TextStyle(color: colors.textColor)),
+            Text(l10n.settingsDeleteAccount, style: TextStyle(color: colors.textColor)),
         content: Text(
-            'Are you sure you want to delete your account? This action cannot be undone.',
+            '${l10n.settingsDeleteAccountConfirm}\n${l10n.settingsDeleteAccountWarning}',
             style: TextStyle(color: colors.textColor)),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Cancel')),
+              child: Text(l10n.commonCancel)),
           TextButton(
             onPressed: () async {
               if (context.read<AuthViewModel>().currentUser == null) {
@@ -109,7 +113,7 @@ class SettingsDialogs {
                 }
               }
             },
-            child: Text('Delete', style: TextStyle(color: redColor)),
+            child: Text(l10n.commonDelete, style: TextStyle(color: redColor)),
           ),
         ],
       ),

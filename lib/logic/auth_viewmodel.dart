@@ -16,10 +16,12 @@ class AuthViewModel extends ChangeNotifier {
   UserModel? _user;
   bool _isLoading = false;
   String? _error;
+  String? _errorCode;
 
   UserModel? get currentUser => _user;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  String? get errorCode => _errorCode;
   bool get isLoggedIn => _user != null;
   bool get isGuest => _user?.id == '__guest__';
 
@@ -36,6 +38,7 @@ class AuthViewModel extends ChangeNotifier {
     final elapsed = DateTime.now().difference(last);
     final remaining = _lockoutDuration - elapsed;
     if (remaining.isNegative) return null;
+    _errorCode = 'lockout';
     return 'Too many attempts. Try again in ${remaining.inSeconds}s';
   }
 
@@ -49,6 +52,7 @@ class AuthViewModel extends ChangeNotifier {
 
     _isLoading = true;
     _error = null;
+    _errorCode = null;
     notifyListeners();
     try {
       final user = await _authRepository.login(username, passkey);
@@ -61,6 +65,7 @@ class AuthViewModel extends ChangeNotifier {
         _error = remaining > 0
             ? "Invalid username or passkey ($remaining attempt${remaining == 1 ? '' : 's'} remaining)"
             : "Too many attempts. Locked out for ${_lockoutDuration.inSeconds}s";
+        _errorCode = remaining > 0 ? 'invalidCredentials' : 'lockedOut';
       } else {
         _attemptCount.remove(username);
         _lastAttemptTime.remove(username);
@@ -71,6 +76,7 @@ class AuthViewModel extends ChangeNotifier {
     } catch (e) {
       _isLoading = false;
       _error = "Login failed";
+      _errorCode = 'loginFailed';
       notifyListeners();
     }
   }
@@ -78,6 +84,7 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> loginAsGuest() async {
     _isLoading = true;
     _error = null;
+    _errorCode = null;
     notifyListeners();
     try {
       final guest = await _authRepository.loginAsGuest();
@@ -87,6 +94,7 @@ class AuthViewModel extends ChangeNotifier {
     } catch (e) {
       _isLoading = false;
       _error = "Failed to start guest session";
+      _errorCode = 'guestSessionFailed';
       notifyListeners();
     }
   }
@@ -94,12 +102,14 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> register(UserModel user) async {
     _isLoading = true;
     _error = null;
+    _errorCode = null;
     notifyListeners();
     try {
       // Double-check username doesn't exist (TOCTOU guard)
       if (_authRepository.usernameExists(user.username)) {
         _isLoading = false;
         _error = "Username already taken";
+        _errorCode = 'usernameTaken';
         notifyListeners();
         return;
       }
@@ -110,6 +120,7 @@ class AuthViewModel extends ChangeNotifier {
     } catch (e) {
       _isLoading = false;
       _error = "Registration failed";
+      _errorCode = 'registrationFailed';
       notifyListeners();
     }
   }

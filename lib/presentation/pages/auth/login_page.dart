@@ -7,7 +7,7 @@ import 'package:fit_tracker/presentation/pages/onboarding_page.dart';
 import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
-import 'package:fit_tracker/core/l10n/app_localizations.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -80,14 +80,14 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 32),
                   TextFormField(
                     controller: _usernameCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Username',
-                      prefixIcon: Icon(Icons.person_outline),
+                    decoration: InputDecoration(
+                      labelText: l10n.profileUsername,
+                      prefixIcon: const Icon(Icons.person_outline),
                     ),
                     textCapitalization: TextCapitalization.none,
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
-                        return 'Enter your username';
+                        return l10n.validatorUsernameRequired;
                       }
                       return null;
                     },
@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     controller: _passkeyCtrl,
                     decoration: InputDecoration(
-                      labelText: 'Passkey',
+                      labelText: l10n.validatorPasskeyRequired,
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
                         icon: Icon(_obscurePasskey
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: _obscurePasskey,
                     validator: (v) {
                       if (v == null || v.trim().isEmpty) {
-                        return 'Enter your passkey';
+                        return l10n.validatorPasskeyRequired;
                       }
                       return null;
                     },

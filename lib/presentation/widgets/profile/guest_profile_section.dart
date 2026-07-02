@@ -10,6 +10,7 @@ import 'package:fit_tracker/presentation/pages/auth/login_page.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class GuestProfilePage extends StatelessWidget {
   final ThemeData theme;
@@ -18,8 +19,9 @@ class GuestProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appVM = context.watch<AppViewModel>();
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: customAppBarr('Profile', primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr(l10n.navProfile, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
