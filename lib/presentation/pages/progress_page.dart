@@ -53,16 +53,7 @@ class _ProgressPageState extends State<ProgressPage> {
               goalsVM: goalsVM,
               colors: colors,
             ),
-      floatingActionButton: measurements.isNotEmpty
-          ? FloatingActionButton.extended(
-              onPressed: _addMeasurement,
-              backgroundColor: primaryColor,
-              foregroundColor: Colors.white,
-              icon: const Icon(Icons.add),
-              label: const Text('Add Measurement',
-                  style: TextStyle(fontWeight: FontWeight.w600)),
-            )
-          : null,
+
     );
   }
 }

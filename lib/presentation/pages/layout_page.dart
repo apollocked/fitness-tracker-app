@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/pages/home_page.dart';
 import 'package:fit_tracker/presentation/pages/progress_page.dart';
 import 'package:fit_tracker/presentation/pages/profile_page.dart';
+import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
+import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/presentation/widgets/shared/guest_banner.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
@@ -107,7 +109,22 @@ class LayoutPage extends StatelessWidget {
                       ),
                       child: _DockNavBar(
                         currentIndex: appVM.currentIndex,
-                        onTap: (i) => appVM.setIndex(i),
+                        onTap: (i) async {
+                          if (i == 1 && appVM.currentIndex == 1) {
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const AddMeasurementPage()),
+                            );
+                            if (result == true && context.mounted) {
+                              context
+                                  .read<ProgressViewModel>()
+                                  .loadMeasurements();
+                            }
+                          } else {
+                            appVM.setIndex(i);
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -121,10 +138,24 @@ class LayoutPage extends StatelessWidget {
   }
 }
 
-class _DockNavBar extends StatelessWidget {
+class _DockNavBar extends StatefulWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
   const _DockNavBar({required this.currentIndex, required this.onTap});
+  @override
+  State<_DockNavBar> createState() => _DockNavBarState();
+}
+
+class _DockNavBarState extends State<_DockNavBar> {
+  bool _showAdd = false;
+
+  @override
+  void didUpdateWidget(_DockNavBar old) {
+    super.didUpdateWidget(old);
+    if (widget.currentIndex != old.currentIndex) {
+      setState(() => _showAdd = widget.currentIndex == 1);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,19 +164,50 @@ class _DockNavBar extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemWidth = constraints.maxWidth / 3;
+        final showPlus = _showAdd && widget.currentIndex == 1;
+        final progressIcon = showPlus ? Icons.add_rounded : Icons.show_chart_rounded;
+        final progressLabel = showPlus ? 'Add' : 'Progress';
         return Stack(
           children: [
             AnimatedPositioned(
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeOutCubic,
-              left: 6 + currentIndex * itemWidth,
+              left: 6 + widget.currentIndex * itemWidth,
               top: 6,
               width: itemWidth - 12,
               height: 56,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: primaryColor.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(28),
+              child: AnimatedOpacity(
+                opacity: widget.currentIndex == 1 ? 0.0 : 1.0,
+                duration: const Duration(milliseconds: 150),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                ),
+              ),
+            ),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 700),
+              curve: Curves.elasticOut,
+              left: 6 + 1 * itemWidth,
+              top: widget.currentIndex == 1 ? 4 : 80,
+              width: itemWidth - 12,
+              height: 60,
+              child: AnimatedOpacity(
+                opacity: widget.currentIndex == 1 ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 100),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                          color: primaryColor.withOpacity(0.4),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2))
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -153,8 +215,8 @@ class _DockNavBar extends StatelessWidget {
               children: [
                 _dockItem(0, Icons.home_rounded, 'Home', primaryColor,
                     colors.subtitleColor, itemWidth),
-                _dockItem(1, Icons.show_chart_rounded, 'Progress', primaryColor,
-                    colors.subtitleColor, itemWidth),
+                _animatedDockItem(1, showPlus, progressIcon, progressLabel,
+                    Colors.white, colors.subtitleColor, itemWidth),
                 _dockItem(2, Icons.person_rounded, 'Profile', primaryColor,
                     colors.subtitleColor, itemWidth),
               ],
@@ -165,11 +227,59 @@ class _DockNavBar extends StatelessWidget {
     );
   }
 
+  Widget _animatedDockItem(int index, bool showAdd, IconData icon, String label,
+      Color activeColor, Color inactiveColor, double width) {
+    final isSelected = widget.currentIndex == index;
+    return GestureDetector(
+      onTap: () => widget.onTap(index),
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 600),
+              switchInCurve: Curves.elasticOut,
+              switchOutCurve: Curves.easeOutCubic,
+              transitionBuilder: (child, anim) => RotationTransition(
+                turns: Tween(begin: 0.75, end: 1.0).animate(anim),
+                child: ScaleTransition(scale: anim, child: child),
+              ),
+              child: Icon(
+                key: ValueKey('progress_${showAdd ? 'add' : 'chart'}'),
+                icon,
+                color: isSelected ? activeColor : inactiveColor,
+                size: isSelected ? 26 : 23,
+              ),
+            ),
+            const SizedBox(height: 4),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 600),
+              switchInCurve: Curves.elasticOut,
+              switchOutCurve: Curves.easeOutCubic,
+              transitionBuilder: (child, anim) => ScaleTransition(scale: anim, child: child),
+              child: Text(
+                key: ValueKey('label_${showAdd ? 'add' : 'progress'}'),
+                label,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  color: isSelected ? activeColor : inactiveColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _dockItem(int index, IconData icon, String label, Color activeColor,
       Color inactiveColor, double width) {
-    final isSelected = currentIndex == index;
+    final isSelected = widget.currentIndex == index;
     return GestureDetector(
-      onTap: () => onTap(index),
+      onTap: () => widget.onTap(index),
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
         width: width,
