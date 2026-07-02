@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/pages/calculators/add_measurement_page.dart';
+import 'package:fit_tracker/presentation/widgets/progress/weight_chart.dart';
+import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 
@@ -264,8 +266,15 @@ class _MeasurementList extends StatelessWidget {
             ),
           ),
 
+        SliverToBoxAdapter(
+          child: WeightChart(
+            measurements: measurements.cast<Measurement>(),
+            colors: colors,
+          ),
+        ),
+
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
