@@ -109,8 +109,8 @@ class LayoutPage extends StatelessWidget {
                       ),
                       child: _DockNavBar(
                         currentIndex: appVM.currentIndex,
-                        onTap: (i) async {
-                          if (i == 1 && appVM.currentIndex == 1) {
+                        onTap: (i, wasOnProgress) async {
+                          if (wasOnProgress) {
                             final result = await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -138,24 +138,12 @@ class LayoutPage extends StatelessWidget {
   }
 }
 
-class _DockNavBar extends StatefulWidget {
+typedef _NavTapCallback = void Function(int index, bool wasOnProgress);
+
+class _DockNavBar extends StatelessWidget {
   final int currentIndex;
-  final ValueChanged<int> onTap;
+  final _NavTapCallback onTap;
   const _DockNavBar({required this.currentIndex, required this.onTap});
-  @override
-  State<_DockNavBar> createState() => _DockNavBarState();
-}
-
-class _DockNavBarState extends State<_DockNavBar> {
-  bool _showAdd = false;
-
-  @override
-  void didUpdateWidget(_DockNavBar old) {
-    super.didUpdateWidget(old);
-    if (widget.currentIndex != old.currentIndex) {
-      setState(() => _showAdd = widget.currentIndex == 1);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,20 +152,18 @@ class _DockNavBarState extends State<_DockNavBar> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemWidth = constraints.maxWidth / 3;
-        final showPlus = _showAdd && widget.currentIndex == 1;
-        final progressIcon = showPlus ? Icons.add_rounded : Icons.show_chart_rounded;
-        final progressLabel = showPlus ? 'Add' : 'Progress';
+        final onProgress = currentIndex == 1;
         return Stack(
           children: [
             AnimatedPositioned(
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeOutCubic,
-              left: 6 + widget.currentIndex * itemWidth,
+              left: 6 + currentIndex * itemWidth,
               top: 6,
               width: itemWidth - 12,
               height: 56,
               child: AnimatedOpacity(
-                opacity: widget.currentIndex == 1 ? 0.0 : 1.0,
+                opacity: onProgress ? 0.0 : 1.0,
                 duration: const Duration(milliseconds: 150),
                 child: Container(
                   decoration: BoxDecoration(
@@ -190,12 +176,12 @@ class _DockNavBarState extends State<_DockNavBar> {
             AnimatedPositioned(
               duration: const Duration(milliseconds: 700),
               curve: Curves.elasticOut,
-              left: 6 + 1 * itemWidth,
-              top: widget.currentIndex == 1 ? 4 : 80,
+              left: 6 + itemWidth,
+              top: onProgress ? 4 : 80,
               width: itemWidth - 12,
               height: 60,
               child: AnimatedOpacity(
-                opacity: widget.currentIndex == 1 ? 1.0 : 0.0,
+                opacity: onProgress ? 1.0 : 0.0,
                 duration: const Duration(milliseconds: 100),
                 child: Container(
                   decoration: BoxDecoration(
@@ -213,12 +199,15 @@ class _DockNavBarState extends State<_DockNavBar> {
             ),
             Row(
               children: [
-                _dockItem(0, Icons.home_rounded, 'Home', primaryColor,
+                _dockItem(0, Icons.home_rounded, 'Home',
+                    primaryColor, colors.subtitleColor, itemWidth),
+                _dockItem(1,
+                    onProgress ? Icons.add_rounded : Icons.show_chart_rounded,
+                    onProgress ? 'Add' : 'Progress',
+                    onProgress ? Colors.white : primaryColor,
                     colors.subtitleColor, itemWidth),
-                _animatedDockItem(1, showPlus, progressIcon, progressLabel,
-                    Colors.white, colors.subtitleColor, itemWidth),
-                _dockItem(2, Icons.person_rounded, 'Profile', primaryColor,
-                    colors.subtitleColor, itemWidth),
+                _dockItem(2, Icons.person_rounded, 'Profile',
+                    primaryColor, colors.subtitleColor, itemWidth),
               ],
             ),
           ],
@@ -227,59 +216,11 @@ class _DockNavBarState extends State<_DockNavBar> {
     );
   }
 
-  Widget _animatedDockItem(int index, bool showAdd, IconData icon, String label,
+  Widget _dockItem(int index, IconData icon, String label,
       Color activeColor, Color inactiveColor, double width) {
-    final isSelected = widget.currentIndex == index;
+    final isSelected = currentIndex == index;
     return GestureDetector(
-      onTap: () => widget.onTap(index),
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 600),
-              switchInCurve: Curves.elasticOut,
-              switchOutCurve: Curves.easeOutCubic,
-              transitionBuilder: (child, anim) => RotationTransition(
-                turns: Tween(begin: 0.75, end: 1.0).animate(anim),
-                child: ScaleTransition(scale: anim, child: child),
-              ),
-              child: Icon(
-                key: ValueKey('progress_${showAdd ? 'add' : 'chart'}'),
-                icon,
-                color: isSelected ? activeColor : inactiveColor,
-                size: isSelected ? 26 : 23,
-              ),
-            ),
-            const SizedBox(height: 4),
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 600),
-              switchInCurve: Curves.elasticOut,
-              switchOutCurve: Curves.easeOutCubic,
-              transitionBuilder: (child, anim) => ScaleTransition(scale: anim, child: child),
-              child: Text(
-                key: ValueKey('label_${showAdd ? 'add' : 'progress'}'),
-                label,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  color: isSelected ? activeColor : inactiveColor,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _dockItem(int index, IconData icon, String label, Color activeColor,
-      Color inactiveColor, double width) {
-    final isSelected = widget.currentIndex == index;
-    return GestureDetector(
-      onTap: () => widget.onTap(index),
+      onTap: () => onTap(index, currentIndex == 1 && index == 1),
       behavior: HitTestBehavior.opaque,
       child: SizedBox(
         width: width,

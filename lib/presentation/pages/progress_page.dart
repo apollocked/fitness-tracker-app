@@ -53,7 +53,6 @@ class _ProgressPageState extends State<ProgressPage> {
               goalsVM: goalsVM,
               colors: colors,
             ),
-
     );
   }
 }
@@ -72,6 +71,9 @@ class _EmptyState extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Spacer(
+            flex: 2,
+          ),
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
@@ -81,7 +83,8 @@ class _EmptyState extends StatelessWidget {
                   color: primaryColor.withOpacity(isDark ? 0.25 : 0.15),
                   width: 2),
             ),
-            child: Icon(Icons.show_chart_rounded, size: 64, color: primaryColor),
+            child:
+                Icon(Icons.show_chart_rounded, size: 64, color: primaryColor),
           ),
           const SizedBox(height: 24),
           Text('No Measurements Yet',
@@ -91,28 +94,26 @@ class _EmptyState extends StatelessWidget {
                   color: colors.textColor)),
           const SizedBox(height: 8),
           Text(
-            hasGoals
-                ? 'Start logging your weight to track progress toward your goals.'
-                : 'Start logging your weight to track your progress over time.',
+              hasGoals
+                  ? 'Start logging your weight to track progress toward your goals.'
+                  : 'Start logging your weight to track your progress over time.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: colors.subtitleColor)),
+          Spacer(
+            flex: 2,
+          ),
+          Icon(Icons.arrow_downward_rounded, size: 50, color: primaryColor),
+          const SizedBox(height: 12),
+          Text(
+            'Tap the + button below to log your first measurement',
             textAlign: TextAlign.center,
-            style: TextStyle(color: colors.subtitleColor)),
-          const SizedBox(height: 32),
-          SizedBox(
-            width: 240,
-            height: 54,
-            child: ElevatedButton.icon(
-              onPressed: onAdd,
-              icon: const Icon(Icons.add, size: 20),
-              label: const Text('Log Your First Measurement',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
-                elevation: 4,
-                shadowColor: primaryColor.withOpacity(0.4),
-              ),
+            style: TextStyle(
+              fontSize: 14,
+              color: colors.subtitleColor,
+              fontWeight: FontWeight.w500,
             ),
           ),
+          Spacer(),
         ]),
       ),
     );
@@ -128,7 +129,9 @@ class _GoalProgressBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final weightGoal = goalsVM.goals['weight'];
-    if (weightGoal == null || weightGoal['active'] != true) return const SizedBox();
+    if (weightGoal == null || weightGoal['active'] != true) {
+      return const SizedBox();
+    }
 
     final current = (weightGoal['current'] as num?)?.toDouble() ?? 0;
     final target = (weightGoal['target'] as num?)?.toDouble() ?? 0;
@@ -158,7 +161,8 @@ class _GoalProgressBanner extends StatelessWidget {
               color: greenColor.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.monitor_weight_outlined, color: greenColor, size: 22),
+            child: const Icon(Icons.monitor_weight_outlined,
+                color: greenColor, size: 22),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -167,20 +171,26 @@ class _GoalProgressBanner extends StatelessWidget {
               children: [
                 Text('Weight Goal Progress',
                     style: TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w600, color: colors.textColor)),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: colors.textColor)),
                 const SizedBox(height: 6),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: LinearProgressIndicator(
                     value: progress,
-                    backgroundColor: isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.06),
+                    backgroundColor: isDark
+                        ? Colors.white.withOpacity(0.08)
+                        : Colors.black.withOpacity(0.06),
                     color: greenColor,
                     minHeight: 6,
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text('${current.toStringAsFixed(1)} / ${target.toStringAsFixed(1)} kg',
-                    style: TextStyle(fontSize: 11, color: colors.subtitleColor)),
+                Text(
+                    '${current.toStringAsFixed(1)} / ${target.toStringAsFixed(1)} kg',
+                    style:
+                        TextStyle(fontSize: 11, color: colors.subtitleColor)),
               ],
             ),
           ),
@@ -205,7 +215,8 @@ class _MeasurementList extends StatelessWidget {
   Widget build(BuildContext context) {
     final calculator = context.read<CalculatorsViewModel>();
     final user = context.read<AuthViewModel>().currentUser;
-    final first = measurements.isNotEmpty ? measurements.first as dynamic : null;
+    final first =
+        measurements.isNotEmpty ? measurements.first as dynamic : null;
     final last = measurements.isNotEmpty ? measurements.last as dynamic : null;
     final weightChange = first != null && last != null
         ? (first.weight - last.weight).toStringAsFixed(1)
@@ -214,8 +225,8 @@ class _MeasurementList extends StatelessWidget {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        SliverToBoxAdapter(child: _GoalProgressBanner(goalsVM: goalsVM, colors: colors)),
-
+        SliverToBoxAdapter(
+            child: _GoalProgressBanner(goalsVM: goalsVM, colors: colors)),
         if (weightChange != null)
           SliverToBoxAdapter(
             child: Container(
@@ -225,45 +236,53 @@ class _MeasurementList extends StatelessWidget {
                 color: colors.cardColor,
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
-                  BoxShadow(color: colors.shadowColor, blurRadius: 8, offset: const Offset(0, 2))
+                  BoxShadow(
+                      color: colors.shadowColor,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2))
                 ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _MiniStat(colors: colors,
+                  _MiniStat(
+                    colors: colors,
                     icon: Icons.monitor_weight_outlined,
                     value: '${last.weight.toStringAsFixed(1)} kg',
                     label: 'Current',
                     color: primaryColor,
                   ),
                   if (user != null && user.height > 0)
-                    _MiniStat(colors: colors,
+                    _MiniStat(
+                      colors: colors,
                       icon: Icons.calculate_outlined,
-                      value: calculator.calculateBMI(last.weight, user.height).toStringAsFixed(1),
+                      value: calculator
+                          .calculateBMI(last.weight, user.height)
+                          .toStringAsFixed(1),
                       label: 'BMI',
                       color: blueColor,
                     ),
-                  _MiniStat(colors: colors,
+                  _MiniStat(
+                    colors: colors,
                     icon: double.parse(weightChange) <= 0
                         ? Icons.trending_down_rounded
                         : Icons.trending_up_rounded,
                     value: '$weightChange kg',
                     label: 'Change',
-                    color: double.parse(weightChange) <= 0 ? greenColor : orangeColor,
+                    color: double.parse(weightChange) <= 0
+                        ? greenColor
+                        : orangeColor,
                   ),
                 ],
               ),
             ),
           ),
-
         SliverToBoxAdapter(
           child: WeightChart(
             measurements: measurements.cast<Measurement>(),
             colors: colors,
           ),
         ),
-
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
           sliver: SliverList(
@@ -299,7 +318,8 @@ class _MeasurementList extends StatelessWidget {
                             children: [
                               Text(DateFormat('EEE, d MMM y').format(m.date),
                                   style: TextStyle(
-                                      fontSize: 13, color: colors.subtitleColor)),
+                                      fontSize: 13,
+                                      color: colors.subtitleColor)),
                               const SizedBox(height: 4),
                               Text('${m.weight} kg',
                                   style: TextStyle(
@@ -312,8 +332,9 @@ class _MeasurementList extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.delete_outline_rounded,
                           color: redColor, size: 20),
-                      onPressed: () =>
-                          context.read<ProgressViewModel>().deleteMeasurement(index),
+                      onPressed: () => context
+                          .read<ProgressViewModel>()
+                          .deleteMeasurement(index),
                     ),
                   ]),
                 );
@@ -350,7 +371,9 @@ class _MiniStat extends StatelessWidget {
         const SizedBox(height: 4),
         Text(value,
             style: TextStyle(
-                fontSize: 14, fontWeight: FontWeight.bold, color: colors.textColor)),
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: colors.textColor)),
         Text(label,
             style: TextStyle(fontSize: 11, color: colors.subtitleColor)),
       ],
