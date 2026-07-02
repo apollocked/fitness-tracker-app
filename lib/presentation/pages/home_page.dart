@@ -9,6 +9,7 @@ import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -46,7 +47,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _goToGoals() {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => const GoalsPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const GoalsPage()));
   }
 
   void _goToProgress() {
@@ -55,14 +57,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authVM = context.watch<AuthViewModel>();
     final user = authVM.currentUser;
     final measurements = context.watch<ProgressViewModel>().measurements;
     final theme = Theme.of(context);
-    final latestWeight = measurements.isNotEmpty ? measurements.last.weight : null;
+    final latestWeight =
+        measurements.isNotEmpty ? measurements.last.weight : null;
 
     return Scaffold(
-      appBar: customAppBarr('FitTracker', theme.primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          l10n.appTitle, theme.primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -74,8 +79,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 16),
             if (user != null)
               StatsSummaryCard(user: user, latestWeight: latestWeight),
-            if (user != null)
-              const SizedBox(height: 16),
+            if (user != null) const SizedBox(height: 16),
             DashboardGoalsSection(onViewAll: _goToGoals),
             const SizedBox(height: 16),
             RecentWeightSection(onAdd: _addMeasurement),
@@ -97,6 +101,7 @@ class _HomePageState extends State<HomePage> {
 class _DailyTipCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
@@ -133,11 +138,15 @@ class _DailyTipCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Daily Tip',
+                Text(l10n.homeDailyTip,
                     style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w600, color: primaryColor)),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: primaryColor)),
                 const SizedBox(height: 4),
-                Text(tip, style: TextStyle(fontSize: 13, color: colors.textColor, height: 1.4)),
+                Text(tip,
+                    style: TextStyle(
+                        fontSize: 13, color: colors.textColor, height: 1.4)),
               ],
             ),
           ),
@@ -150,6 +159,7 @@ class _DailyTipCard extends StatelessWidget {
 class _CalculatorSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -166,21 +176,26 @@ class _CalculatorSheet extends StatelessWidget {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: isDark ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.1),
+              color: isDark
+                  ? Colors.white.withOpacity(0.2)
+                  : Colors.black.withOpacity(0.1),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
           const SizedBox(height: 16),
-          Text('Fitness Calculators',
+          Text(l10n.homeCalculators,
               style: TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold, color: colors.textColor)),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor)),
           const SizedBox(height: 8),
           Text('Science-backed tools to guide your fitness journey',
               style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
           const SizedBox(height: 20),
           Row(
             children: [
-              Expanded(child: _CalcTile(
+              Expanded(
+                  child: _CalcTile(
                 icon: Icons.monitor_weight_outlined,
                 title: 'Ideal Body Weight',
                 color: primaryColor,
@@ -190,9 +205,10 @@ class _CalculatorSheet extends StatelessWidget {
                 },
               )),
               const SizedBox(width: 10),
-              Expanded(child: _CalcTile(
+              Expanded(
+                  child: _CalcTile(
                 icon: Icons.restaurant_outlined,
-                title: 'Protein Intake',
+                title: l10n.homeProteinIntake,
                 color: orangeColor,
                 onTap: () {
                   Navigator.pop(context);
@@ -204,9 +220,10 @@ class _CalculatorSheet extends StatelessWidget {
           const SizedBox(height: 10),
           Row(
             children: [
-              Expanded(child: _CalcTile(
+              Expanded(
+                  child: _CalcTile(
                 icon: Icons.local_fire_department_outlined,
-                title: 'Daily Calories',
+                title: l10n.homeCalorieCalculator,
                 color: redColor,
                 onTap: () {
                   Navigator.pop(context);
@@ -214,14 +231,17 @@ class _CalculatorSheet extends StatelessWidget {
                 },
               )),
               const SizedBox(width: 10),
-              Expanded(child: _CalcTile(
+              Expanded(
+                  child: _CalcTile(
                 icon: Icons.scale_outlined,
                 title: 'Log Weight',
                 color: greenColor,
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const AddMeasurementPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const AddMeasurementPage()));
                 },
               )),
             ],
@@ -263,7 +283,9 @@ class _CalcTile extends StatelessWidget {
             const SizedBox(height: 6),
             Text(title,
                 style: TextStyle(
-                    fontSize: 12, fontWeight: FontWeight.w600, color: (isDark ? Colors.white : Colors.black87)),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: (isDark ? Colors.white : Colors.black87)),
                 textAlign: TextAlign.center),
           ],
         ),

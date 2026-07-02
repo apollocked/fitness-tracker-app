@@ -5,6 +5,7 @@ import 'package:fit_tracker/presentation/widgets/help_support/help_support_secti
 import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class HelpAndSupportPage extends StatefulWidget {
   const HelpAndSupportPage({super.key});
@@ -36,20 +37,18 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: customAppBarr(
-          'Help & Support', primaryColor, theme.scaffoldBackgroundColor),
+          l10n.helpTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         controller: _scrollController,
         padding: const EdgeInsets.all(20),
         physics: const BouncingScrollPhysics(),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-          Text('How can we help you?',
-              style: theme.textTheme.titleLarge),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('How can we help you?', style: theme.textTheme.titleLarge),
           const SizedBox(height: 6),
           Text(
               'Find answers, troubleshooting tips, and guides to get the most out of Fitness Tracker.',
@@ -59,9 +58,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
             padding: const EdgeInsets.all(16),
             borderColor: primaryColor.withOpacity(0.2),
             elevation: false,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Quick Navigation',
                   style: TextStyle(
                       fontSize: 14,
@@ -69,8 +67,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
                       color: colors.textColor)),
               const SizedBox(height: 12),
               Wrap(spacing: 8, runSpacing: 8, children: [
-                _navBtn(Icons.help_outline, 'FAQs',
-                    () => _scrollTo(_faqKey), colors),
+                _navBtn(Icons.help_outline, 'FAQs', () => _scrollTo(_faqKey),
+                    colors),
                 _navBtn(Icons.build_circle_outlined, 'Troubleshoot',
                     () => _scrollTo(_troubleshootKey), colors),
                 _navBtn(Icons.lightbulb_outline, 'Tips',
@@ -82,7 +80,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
           _section(
               theme: theme,
               key: _faqKey,
-              title: 'Frequently Asked Questions',
+              title: l10n.helpFaq,
               subtitle: 'Answers to the most common questions.',
               child: const FAQSection()),
           const SizedBox(height: 28),
@@ -102,11 +100,11 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
           const SizedBox(height: 28),
           _section(
               theme: theme,
-              title: 'Still Need Help?',
-              subtitle: 'We\'re here for you.',
-              child: const SupportContactWidget(
-                email: 'mahamadbarznji712@gmail.com',
-                title: 'Contact Us',
+              title: l10n.helpContact,
+              subtitle: l10n.helpContactDesc,
+              child: SupportContactWidget(
+                email: l10n.helpContactEmail,
+                title: l10n.helpContact,
               )),
           const SizedBox(height: 32),
         ]),
@@ -114,8 +112,8 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
     );
   }
 
-  Widget _navBtn(
-      IconData icon, String label, VoidCallback onTap, AppColorsExtension colors) {
+  Widget _navBtn(IconData icon, String label, VoidCallback onTap,
+      AppColorsExtension colors) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -151,8 +149,9 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> {
         if (subtitle != null) ...[
           const SizedBox(height: 4),
           Text(subtitle,
-              style:
-                  TextStyle(fontSize: 12, color: theme.extension<AppColorsExtension>()!.subtitleColor)),
+              style: TextStyle(
+                  fontSize: 12,
+                  color: theme.extension<AppColorsExtension>()!.subtitleColor)),
         ],
         const SizedBox(height: 12),
         child,

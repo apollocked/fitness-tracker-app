@@ -13,6 +13,7 @@ import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class ProtienIntakePage extends StatefulWidget {
   const ProtienIntakePage({super.key});
@@ -53,10 +54,11 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
         normalProtein: vals.normal,
         minProtein: vals.min,
         maxProtein: vals.max, onSetGoal: () {
-      context.read<GoalsViewModel>().updateGoal('protein',
-          {'target': target, 'active': true, 'unit': 'g'});
-      context.read<ProgressViewModel>().addMeasurement(
-          Measurement(weight: weight, date: DateTime.now()));
+      context.read<GoalsViewModel>().updateGoal(
+          'protein', {'target': target, 'active': true, 'unit': 'g'});
+      context
+          .read<ProgressViewModel>()
+          .addMeasurement(Measurement(weight: weight, date: DateTime.now()));
       final authVM = context.read<AuthViewModel>();
       final user = authVM.currentUser;
       if (user != null) {
@@ -64,7 +66,7 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
             user.copyWith(weight: weight, isBodybuilder: _isBodybuilder));
       }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text('Protein goal saved!'),
+          content: Text(AppLocalizations.of(context)!.proteinUpdated),
           backgroundColor: greenColor));
     });
   }
@@ -73,9 +75,10 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: customAppBarr(
-          'Protein Intake', orangeColor, theme.scaffoldBackgroundColor),
+          l10n.proteinTitle, orangeColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -83,7 +86,7 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
         child: Form(
             key: _formKey,
             child: Column(children: [
-              Text('Are You a Bodybuilder?',
+              Text(l10n.proteinIntake,
                   style: TextStyle(
                       fontSize: 15,
                       color: colors.textColor,
@@ -99,7 +102,7 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                 keyboard: TextInputType.number,
                 color: orangeColor,
                 onSaved: (_) {},
-                text: 'Weight (kg)',
+                text: l10n.proteinGPerDay,
                 icon: const Icon(Icons.monitor_weight_outlined),
                 input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
                 validator: (v) {
@@ -110,7 +113,7 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
               ),
               const SizedBox(height: 28),
               CalcButton(
-                  label: 'Calculate',
+                  label: l10n.proteinResult,
                   color: orangeColor,
                   onPressed: _calculate),
             ])),

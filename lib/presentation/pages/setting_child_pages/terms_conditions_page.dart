@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
 import 'package:fit_tracker/presentation/widgets/profile/terms_data.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class TermsConditionsPage extends StatelessWidget {
   const TermsConditionsPage({super.key});
@@ -11,9 +12,10 @@ class TermsConditionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: customAppBarr(
-          'Terms & Conditions', primaryColor, theme.scaffoldBackgroundColor),
+          l10n.termsTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -21,11 +23,11 @@ class TermsConditionsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Terms & Conditions',
+            Text(l10n.termsTitle,
                 style: theme.textTheme.headlineMedium
                     ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
-            Text('Last Updated: May 1, 2026',
+            Text(l10n.termsLastUpdated,
                 style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
             const SizedBox(height: 24),
             ListView.builder(

@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
 import 'package:fit_tracker/presentation/widgets/profile/privacy_policy_data.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});
@@ -11,9 +12,10 @@ class PrivacyPolicyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: customAppBarr(
-          'Privacy Policy', primaryColor, theme.scaffoldBackgroundColor),
+          l10n.privacyTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -21,11 +23,11 @@ class PrivacyPolicyPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Privacy Policy',
+            Text(l10n.privacyTitle,
                 style: theme.textTheme.headlineMedium
                     ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
-            Text('Last Updated: May 1, 2026',
+            Text(l10n.privacyLastUpdated,
                 style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
             const SizedBox(height: 24),
             ListView.builder(

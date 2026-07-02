@@ -7,6 +7,7 @@ import 'package:fit_tracker/data/model/user_model.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class GreetingBanner extends StatelessWidget {
   const GreetingBanner({super.key, this.username});
@@ -14,6 +15,7 @@ class GreetingBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
@@ -34,9 +36,10 @@ class GreetingBanner extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text.rich(TextSpan(
-                text: 'Hello, ',
+                text: '${l10n.greetingGeneric}, ',
                 style: TextStyle(fontSize: 16, color: colors.subtitleColor),
                 children: [
                   TextSpan(
@@ -79,6 +82,7 @@ class StatsSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final calculator = context.read<CalculatorsViewModel>();
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final weight = latestWeight ?? user.weight;
@@ -92,7 +96,12 @@ class StatsSummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardColor,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: colors.shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+              color: colors.shadowColor,
+              blurRadius: 12,
+              offset: const Offset(0, 4))
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,8 +110,11 @@ class StatsSummaryCard extends StatelessWidget {
             children: [
               Icon(Icons.speed_rounded, size: 18, color: primaryColor),
               const SizedBox(width: 6),
-              Text('Your Stats',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor)),
+              Text(l10n.homeMyStats,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: colors.textColor)),
             ],
           ),
           const SizedBox(height: 14),
@@ -110,15 +122,16 @@ class StatsSummaryCard extends StatelessWidget {
             children: [
               _StatTile(
                 icon: Icons.monitor_weight_outlined,
-                value: '${weight.toStringAsFixed(1)} kg',
-                label: 'Weight',
+                value: l10n.progressWeightValue(weight.toStringAsFixed(1)),
+                label: l10n.homeWeight,
                 color: primaryColor,
               ),
               if (user.height > 0) ...[
                 _StatTile(
                   icon: Icons.height_outlined,
-                  value: '${user.height.toStringAsFixed(0)} cm',
-                  label: 'Height',
+                  value:
+                      '${user.height.toStringAsFixed(0)} ${l10n.bodyStatsUnitCm}',
+                  label: l10n.bodyStatsHeight,
                   color: blueColor,
                 ),
               ],
@@ -169,7 +182,9 @@ class _StatTile extends StatelessWidget {
           const SizedBox(height: 6),
           Text(value,
               style: TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.bold, color: colors.textColor)),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor)),
           Text(label,
               style: TextStyle(fontSize: 11, color: colors.subtitleColor)),
         ],
@@ -185,6 +200,7 @@ class DashboardGoalsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final goalsVM = context.watch<GoalsViewModel>();
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final goals = goalsVM.goals;
@@ -196,7 +212,12 @@ class DashboardGoalsSection extends StatelessWidget {
           color: colors.cardColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: primaryColor.withOpacity(0.2)),
-          boxShadow: [BoxShadow(color: colors.shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+                color: colors.shadowColor,
+                blurRadius: 12,
+                offset: const Offset(0, 4))
+          ],
         ),
         child: Row(
           children: [
@@ -206,18 +227,23 @@ class DashboardGoalsSection extends StatelessWidget {
                 color: primaryColor.withOpacity(0.08),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(Icons.flag_outlined, size: 24, color: primaryColor.withOpacity(0.5)),
+              child: Icon(Icons.flag_outlined,
+                  size: 24, color: primaryColor.withOpacity(0.5)),
             ),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('No Goals Set Yet',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor)),
+                  Text(l10n.homeNoGoalsSet,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: colors.textColor)),
                   const SizedBox(height: 2),
                   Text('Set fitness goals to track your progress',
-                      style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
+                      style:
+                          TextStyle(fontSize: 12, color: colors.subtitleColor)),
                 ],
               ),
             ),
@@ -228,10 +254,12 @@ class DashboardGoalsSection extends StatelessWidget {
                 onPressed: onViewAll,
                 icon: const Icon(Icons.add, size: 16),
                 label: const Text('Set Goal',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                    style:
+                        TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ),
@@ -244,14 +272,21 @@ class DashboardGoalsSection extends StatelessWidget {
         .where((e) => e.value['active'] == true)
         .map((e) => e.key)
         .toList();
-    final displayKeys = activeGoalKeys.isNotEmpty ? activeGoalKeys : goals.keys.take(2).toList();
+    final displayKeys = activeGoalKeys.isNotEmpty
+        ? activeGoalKeys
+        : goals.keys.take(2).toList();
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: colors.cardColor,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: colors.shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+              color: colors.shadowColor,
+              blurRadius: 12,
+              offset: const Offset(0, 4))
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,21 +295,27 @@ class DashboardGoalsSection extends StatelessWidget {
             children: [
               Icon(Icons.flag_rounded, size: 18, color: primaryColor),
               const SizedBox(width: 6),
-              Text('Your Goals',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor)),
+              Text(l10n.homeYourGoals,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: colors.textColor)),
               const Spacer(),
               GestureDetector(
                 onTap: onViewAll,
                 child: Text('View All',
-                    style: TextStyle(fontSize: 12, color: primaryColor, fontWeight: FontWeight.w600)),
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: primaryColor,
+                        fontWeight: FontWeight.w600)),
               ),
             ],
           ),
           const SizedBox(height: 14),
           ...displayKeys.map((k) => Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: _GoalProgressTile(goalKey: k, goal: goals[k]!),
-          )),
+                padding: const EdgeInsets.only(bottom: 10),
+                child: _GoalProgressTile(goalKey: k, goal: goals[k]!),
+              )),
         ],
       ),
     );
@@ -320,9 +361,13 @@ class _GoalProgressTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(goalKey[0].toUpperCase() + goalKey.substring(1),
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: colors.textColor)),
+                      style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: colors.textColor)),
                   Text(status,
-                      style: TextStyle(fontSize: 11, color: colors.subtitleColor)),
+                      style:
+                          TextStyle(fontSize: 11, color: colors.subtitleColor)),
                 ],
               ),
               const SizedBox(height: 6),
@@ -330,7 +375,9 @@ class _GoalProgressTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
                   value: progress,
-                  backgroundColor: isDark ? Colors.white.withOpacity(0.08) : Colors.black.withOpacity(0.06),
+                  backgroundColor: isDark
+                      ? Colors.white.withOpacity(0.08)
+                      : Colors.black.withOpacity(0.06),
                   color: progressColor,
                   minHeight: 6,
                 ),
@@ -350,6 +397,7 @@ class RecentWeightSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final measurements = context.watch<ProgressViewModel>().measurements;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
@@ -362,7 +410,12 @@ class RecentWeightSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: colors.cardColor,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: colors.shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+              color: colors.shadowColor,
+              blurRadius: 12,
+              offset: const Offset(0, 4))
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -371,14 +424,18 @@ class RecentWeightSection extends StatelessWidget {
             children: [
               Icon(Icons.trending_up_rounded, size: 18, color: primaryColor),
               const SizedBox(width: 6),
-              Text('Recent Measurements',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: colors.textColor)),
+              Text(l10n.homeRecentWeight,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: colors.textColor)),
               const Spacer(),
               if (onAdd != null)
                 GestureDetector(
                   onTap: onAdd,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
                       color: primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
@@ -388,8 +445,11 @@ class RecentWeightSection extends StatelessWidget {
                       children: [
                         Icon(Icons.add, size: 14, color: primaryColor),
                         const SizedBox(width: 4),
-                        Text('Log Weight',
-                            style: TextStyle(fontSize: 12, color: primaryColor, fontWeight: FontWeight.w600)),
+                        Text(l10n.homeWeight,
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: primaryColor,
+                                fontWeight: FontWeight.w600)),
                       ],
                     ),
                   ),
@@ -403,25 +463,30 @@ class RecentWeightSection extends StatelessWidget {
               child: Center(
                 child: Column(
                   children: [
-                    Icon(Icons.scale_outlined, size: 36, color: colors.subtitleColor.withOpacity(0.4)),
+                    Icon(Icons.scale_outlined,
+                        size: 36, color: colors.subtitleColor.withOpacity(0.4)),
                     const SizedBox(height: 8),
-                    Text('No measurements logged yet',
-                        style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
+                    Text(l10n.homeNoMeasurementsYet,
+                        style: TextStyle(
+                            fontSize: 13, color: colors.subtitleColor)),
                     const SizedBox(height: 4),
-                    Text('Start tracking your weight to see progress',
-                        style: TextStyle(fontSize: 12, color: colors.subtitleColor.withOpacity(0.7))),
+                    Text(l10n.progressLogFirstWeight,
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: colors.subtitleColor.withOpacity(0.7))),
                   ],
                 ),
               ),
             )
           else
-            ...recent.take(3).map((m) => _weightRow(m, colors)),
+            ...recent.take(3).map((m) => _weightRow(m, colors, l10n)),
         ],
       ),
     );
   }
 
-  Widget _weightRow(Measurement m, AppColorsExtension colors) {
+  Widget _weightRow(
+      Measurement m, AppColorsExtension colors, AppLocalizations l10n) {
     final dateStr = '${m.date.day}/${m.date.month}/${m.date.year}';
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -436,7 +501,10 @@ class RecentWeightSection extends StatelessWidget {
             ),
             child: Center(
               child: Text(dateStr.split('/')[0],
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: primaryColor)),
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor)),
             ),
           ),
           const SizedBox(width: 12),
@@ -444,8 +512,11 @@ class RecentWeightSection extends StatelessWidget {
             child: Text(dateStr,
                 style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
           ),
-          Text('${m.weight.toStringAsFixed(1)} kg',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: colors.textColor)),
+          Text(l10n.progressWeightValue(m.weight.toStringAsFixed(1)),
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor)),
         ],
       ),
     );
@@ -466,29 +537,33 @@ class QuickActionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Row(
       children: [
-        Expanded(child: _ActionChip(
+        Expanded(
+            child: _ActionChip(
           icon: Icons.calculate_outlined,
-          label: 'Calculators',
+          label: l10n.homeCalculators,
           color: primaryColor,
           isDark: isDark,
           onTap: onCalculators,
         )),
         const SizedBox(width: 10),
-        Expanded(child: _ActionChip(
+        Expanded(
+            child: _ActionChip(
           icon: Icons.flag_outlined,
-          label: 'My Goals',
+          label: l10n.homeYourGoals,
           color: greenColor,
           isDark: isDark,
           onTap: onGoals,
         )),
         const SizedBox(width: 10),
-        Expanded(child: _ActionChip(
+        Expanded(
+            child: _ActionChip(
           icon: Icons.show_chart_rounded,
-          label: 'Progress',
+          label: l10n.navProgress,
           color: blueColor,
           isDark: isDark,
           onTap: onProgress,
@@ -530,7 +605,10 @@ class _ActionChip extends StatelessWidget {
             Icon(icon, size: 22, color: color),
             const SizedBox(height: 4),
             Text(label,
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: colors.textColor)),
+                style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: colors.textColor)),
           ],
         ),
       ),

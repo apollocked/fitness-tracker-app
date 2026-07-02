@@ -7,6 +7,7 @@ import 'package:fit_tracker/presentation/widgets/goals/goals_square_row.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class GoalsPage extends StatelessWidget {
   const GoalsPage({super.key});
@@ -15,12 +16,13 @@ class GoalsPage extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
     final goalsVM = context.watch<GoalsViewModel>();
+    final l10n = AppLocalizations.of(context)!;
     final hasAnyGoal = goalsVM.goals.isNotEmpty;
     final hasWeightGoal = goalsVM.goals.containsKey('weight');
 
     return Scaffold(
       appBar: customAppBarr(
-          'My Goals', primaryColor, theme.scaffoldBackgroundColor),
+          l10n.goalsTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
@@ -40,11 +42,13 @@ class GoalsPage extends StatelessWidget {
     );
   }
 
-  Widget _goalsContent(GoalsViewModel goalsVM, AppColorsExtension colors, BuildContext context) {
+  Widget _goalsContent(
+      GoalsViewModel goalsVM, AppColorsExtension colors, BuildContext context) {
     return Column(
       children: [
         const Expanded(child: GoalsList()),
-        if (!goalsVM.goals.containsKey('calories') || !goalsVM.goals.containsKey('protein'))
+        if (!goalsVM.goals.containsKey('calories') ||
+            !goalsVM.goals.containsKey('protein'))
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: _CalcPromptCard(colors: colors),
@@ -53,30 +57,32 @@ class GoalsPage extends StatelessWidget {
     );
   }
 
-  Widget _emptyState(AppColorsExtension colors, BuildContext context, bool hasOtherGoals) {
+  Widget _emptyState(
+      AppColorsExtension colors, BuildContext context, bool hasOtherGoals) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              hasOtherGoals ? Icons.flag_outlined : Icons.flag_rounded,
-              size: 64, color: primaryColor.withOpacity(0.4)),
+            Icon(hasOtherGoals ? Icons.flag_outlined : Icons.flag_rounded,
+                size: 64, color: primaryColor.withOpacity(0.4)),
             const SizedBox(height: 20),
             Text(
-              hasOtherGoals ? 'No Weight Goal Yet' : 'No Goals Set Yet',
+              l10n.goalsNoGoalsYet,
               style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: colors.textColor),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textColor),
             ),
             const SizedBox(height: 10),
             Text(
-              hasOtherGoals
-                  ? 'Set a weight goal to track your progress alongside your other goals.'
-                  : 'Set fitness goals to track what matters to you. Use the calculators to get started.',
+              l10n.goalsStartCalculating,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: colors.subtitleColor, height: 1.4),
+              style: TextStyle(
+                  fontSize: 14, color: colors.subtitleColor, height: 1.4),
             ),
             const SizedBox(height: 24),
             if (!hasOtherGoals) ...[
@@ -90,7 +96,7 @@ class GoalsPage extends StatelessWidget {
               const SizedBox(height: 10),
               _CalcOption(
                 icon: Icons.local_fire_department_outlined,
-                label: 'Daily Calories',
+                label: l10n.goalsDailyCalories,
                 color: redColor,
                 isDark: isDark,
                 onTap: () => Navigator.pushNamed(context, '/daily-calories'),
@@ -98,7 +104,7 @@ class GoalsPage extends StatelessWidget {
               const SizedBox(height: 10),
               _CalcOption(
                 icon: Icons.restaurant_outlined,
-                label: 'Protein Intake',
+                label: l10n.goalsDailyProtein,
                 color: orangeColor,
                 isDark: isDark,
                 onTap: () => Navigator.pushNamed(context, '/protein-intake'),
@@ -106,7 +112,7 @@ class GoalsPage extends StatelessWidget {
             ] else
               _CalcOption(
                 icon: Icons.monitor_weight_outlined,
-                label: 'Set Weight Goal',
+                label: l10n.goalsWeightTarget,
                 color: blueColor,
                 isDark: isDark,
                 onTap: () => Navigator.pushNamed(context, '/ideal-weight'),
@@ -151,7 +157,9 @@ class _CalcOption extends StatelessWidget {
             const SizedBox(width: 12),
             Text(label,
                 style: TextStyle(
-                    fontSize: 15, fontWeight: FontWeight.w600, color: (isDark ? Colors.white : Colors.black87))),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: (isDark ? Colors.white : Colors.black87))),
             const Spacer(),
             Icon(Icons.chevron_right, color: color, size: 20),
           ],
@@ -191,7 +199,8 @@ class _CalcPromptCard extends StatelessWidget {
                   : !hasCalories
                       ? 'Set a daily calorie goal from the calculator.'
                       : 'Set a protein intake goal from the calculator.',
-              style: TextStyle(fontSize: 12, color: colors.textColor, height: 1.4),
+              style:
+                  TextStyle(fontSize: 12, color: colors.textColor, height: 1.4),
             ),
           ),
         ],

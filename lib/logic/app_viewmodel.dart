@@ -10,6 +10,7 @@ import 'package:fit_tracker/data/services/registration_validator.dart';
 import 'package:fit_tracker/data/services/hive_storage_service.dart';
 
 const _guestNotificationsKey = 'guest_notifications_enabled';
+const _localeStorageKey = 'app_locale';
 
 class AppViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
@@ -22,6 +23,7 @@ class AppViewModel extends ChangeNotifier {
     NotificationService? notificationService,
   }) : _notificationService =
             notificationService ?? NotificationService.instance {
+    _loadLocale();
     syncWithUser(_authRepository.getCurrentUser(), notify: false);
   }
 
@@ -45,6 +47,25 @@ class AppViewModel extends ChangeNotifier {
   }
 
   ThemeData get theme => isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme;
+
+  // --- Locale ---
+  Locale _locale = const Locale('en');
+  Locale get locale => _locale;
+
+  Future<void> setLocale(String languageCode) async {
+    _locale = Locale(languageCode);
+    notifyListeners();
+    await HiveStorageService.saveString(_localeStorageKey, languageCode);
+  }
+
+  String get localeCode => _locale.languageCode;
+
+  void _loadLocale() {
+    final stored = HiveStorageService.getString(_localeStorageKey);
+    if (stored != null && stored.isNotEmpty) {
+      _locale = Locale(stored);
+    }
+  }
 
   // --- Navigation ---
   int _currentIndex = 0;

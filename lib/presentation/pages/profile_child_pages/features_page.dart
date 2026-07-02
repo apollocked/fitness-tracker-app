@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
 import 'package:fit_tracker/presentation/widgets/profile/app_features_data.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class FeaturesPage extends StatelessWidget {
   const FeaturesPage({super.key});
@@ -11,9 +12,10 @@ class FeaturesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: customAppBarr(
-          'App Features', primaryColor, theme.scaffoldBackgroundColor),
+          l10n.featuresTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

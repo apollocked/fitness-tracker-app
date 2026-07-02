@@ -3,6 +3,7 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -10,9 +11,10 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar:
-          customAppBarr('About', primaryColor, theme.scaffoldBackgroundColor),
+      appBar: customAppBarr(
+          l10n.aboutTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -44,7 +46,7 @@ class AboutPage extends StatelessWidget {
                 style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold, color: colors.textColor)),
             const SizedBox(height: 4),
-            Text('Version 1.2.1',
+            Text(l10n.aboutVersion('1.2.1'),
                 style: TextStyle(
                     fontSize: 14,
                     color: colors.subtitleColor,
@@ -65,7 +67,7 @@ class AboutPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Fitness Tracker is your personal fitness companion designed to help you achieve your health and fitness goals. Whether you\'re looking to lose weight, build muscle, or maintain a healthy lifestyle, our app provides all the tools you need in one place.',
+                    l10n.aboutDescription,
                     style: TextStyle(
                         fontSize: 14, color: colors.subtitleColor, height: 1.5),
                   ),
@@ -99,9 +101,10 @@ class AboutPage extends StatelessWidget {
                   _divider(colors),
                   _infoRow('Version', '1.2.1', colors),
                   _divider(colors),
-                  _infoRow('Developer', 'Mohammed jameel - Apollo', colors),
+                  _infoRow(
+                      l10n.aboutDeveloper, 'Mohammed jameel - Apollo', colors),
                   _divider(colors),
-                  _infoRow('Tech Stack', 'Flutter & Dart', colors),
+                  _infoRow(l10n.aboutBuiltWith, 'Flutter & Dart', colors),
                   _divider(colors),
                   _infoRow('Email', 'mahamadbarznji712@gmail.com', colors,
                       isLink: true),

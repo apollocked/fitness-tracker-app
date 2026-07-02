@@ -7,6 +7,7 @@ import 'package:fit_tracker/presentation/pages/onboarding_page.dart';
 import 'package:fit_tracker/presentation/widgets/shared/calc_widgets.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,9 +31,9 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
     await context.read<AuthViewModel>().login(
-      _usernameCtrl.text.trim(),
-      _passkeyCtrl.text.trim(),
-    );
+          _usernameCtrl.text.trim(),
+          _passkeyCtrl.text.trim(),
+        );
     if (context.mounted && context.read<AuthViewModel>().currentUser != null) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -44,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authVM = context.watch<AuthViewModel>();
     final theme = Theme.of(context);
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
@@ -68,12 +70,12 @@ class _LoginPageState extends State<LoginPage> {
                         size: 56, color: primaryColor),
                   ),
                   const SizedBox(height: 24),
-                  Text('Welcome Back',
+                  Text(l10n.authLoginTitle,
                       style: theme.textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: colors.textColor)),
                   const SizedBox(height: 8),
-                  Text('Enter your details to continue',
+                  Text(l10n.authLoginDesc,
                       style: TextStyle(color: colors.subtitleColor)),
                   const SizedBox(height: 32),
                   TextFormField(
@@ -97,8 +99,11 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'Passkey',
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
-                        icon: Icon(_obscurePasskey ? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                        onPressed: () => setState(() => _obscurePasskey = !_obscurePasskey),
+                        icon: Icon(_obscurePasskey
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined),
+                        onPressed: () =>
+                            setState(() => _obscurePasskey = !_obscurePasskey),
                       ),
                     ),
                     obscureText: _obscurePasskey,
@@ -116,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                   const SizedBox(height: 24),
                   CalcButton(
-                    label: 'Login',
+                    label: l10n.commonContinue,
                     color: primaryColor,
                     onPressed: _login,
                     isLoading: authVM.isLoading,
@@ -126,8 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: Divider(
-                            color: theme.dividerColor.withOpacity(0.4)),
+                        child:
+                            Divider(color: theme.dividerColor.withOpacity(0.4)),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -137,34 +142,30 @@ class _LoginPageState extends State<LoginPage> {
                                     .withOpacity(0.4))),
                       ),
                       Expanded(
-                        child: Divider(
-                            color: theme.dividerColor.withOpacity(0.4)),
+                        child:
+                            Divider(color: theme.dividerColor.withOpacity(0.4)),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
                   TextButton.icon(
                     icon: const Icon(Icons.person_add_outlined),
-                    label: const Text('Create New Profile'),
+                    label: Text(l10n.guestLoginTitle),
                     onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (_) => const RegisterPage()),
+                      MaterialPageRoute(builder: (_) => const RegisterPage()),
                     ),
                   ),
                   const SizedBox(height: 8),
                   TextButton.icon(
                     icon: const Icon(Icons.explore_outlined),
-                    label: const Text('Continue as Guest'),
+                    label: Text(l10n.guestLoginButton),
                     onPressed: () async {
-                      await context
-                          .read<AuthViewModel>()
-                          .loginAsGuest();
+                      await context.read<AuthViewModel>().loginAsGuest();
                       if (context.mounted) {
                         Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                              builder: (_) => const LayoutPage()),
+                          MaterialPageRoute(builder: (_) => const LayoutPage()),
                           (_) => false,
                         );
                       }
@@ -174,12 +175,10 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                     onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (_) => const OnboardingPage()),
+                      MaterialPageRoute(builder: (_) => const OnboardingPage()),
                     ),
                     child: Text('View Onboarding',
-                        style: TextStyle(
-                            color: colors.subtitleColor)),
+                        style: TextStyle(color: colors.subtitleColor)),
                   ),
                 ],
               ),

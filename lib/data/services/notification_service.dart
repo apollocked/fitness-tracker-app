@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest.dart' as timezone_data;
 import 'package:timezone/timezone.dart' as timezone;
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class NotificationService {
   NotificationService._();
@@ -148,24 +149,21 @@ class NotificationService {
 enum NotificationPermissionResult { granted, denied, permanentlyDenied }
 
 Future<bool> showNotificationRationale(BuildContext context) async {
+  final l10n = AppLocalizations.of(context)!;
   final result = await showDialog<bool>(
     context: context,
     barrierDismissible: false,
     builder: (ctx) => AlertDialog(
-      title: const Text('Weight Reminders'),
-      content: const Text(
-        'We use notifications to remind you to log your weight every 3 days. '
-        'Consistent tracking helps you see your progress over time.\n\n'
-        'Would you like to enable this feature?',
-      ),
+      title: Text(l10n.notificationPermissionTitle),
+      content: Text(l10n.notificationPermissionMessage),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          child: const Text('No thanks'),
+          child: Text(l10n.commonCancel),
         ),
         TextButton(
           onPressed: () => Navigator.pop(ctx, true),
-          child: const Text('Enable'),
+          child: Text(l10n.commonConfirm),
         ),
       ],
     ),
@@ -174,23 +172,21 @@ Future<bool> showNotificationRationale(BuildContext context) async {
 }
 
 Future<void> showAppSettingsRedirect(BuildContext context) async {
+  final l10n = AppLocalizations.of(context)!;
   final result = await showDialog<bool>(
     context: context,
     barrierDismissible: false,
     builder: (ctx) => AlertDialog(
-      title: const Text('Permission Required'),
-      content: const Text(
-        'Notifications are blocked. Please enable them in your device settings '
-        'to receive weight tracking reminders.',
-      ),
+      title: Text(l10n.notificationPermissionTitle),
+      content: Text(l10n.notificationPermissionDenied),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          child: const Text('Cancel'),
+          child: Text(l10n.commonCancel),
         ),
         TextButton(
           onPressed: () => Navigator.pop(ctx, true),
-          child: const Text('Open Settings'),
+          child: Text(l10n.notificationGoToSettings),
         ),
       ],
     ),

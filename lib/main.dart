@@ -1,6 +1,9 @@
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 import 'package:fit_tracker/presentation/pages/layout_page.dart';
 import 'package:fit_tracker/presentation/pages/setting_child_pages/privacy_policy_page.dart';
 import 'package:fit_tracker/presentation/pages/setting_child_pages/terms_conditions_page.dart';
@@ -45,6 +48,32 @@ void main() async {
     measurementRepository: measurementRepository,
     showOnboarding: !seenOnboarding,
   ));
+}
+
+class _MaterialFallbackDelegate
+    extends LocalizationsDelegate<MaterialLocalizations> {
+  const _MaterialFallbackDelegate();
+  @override
+  bool isSupported(Locale locale) => true;
+  @override
+  Future<MaterialLocalizations> load(Locale locale) =>
+      GlobalMaterialLocalizations.delegate
+          .load(locale.languageCode == 'ckb' ? const Locale('en') : locale);
+  @override
+  bool shouldReload(_MaterialFallbackDelegate old) => false;
+}
+
+class _CupertinoFallbackDelegate
+    extends LocalizationsDelegate<CupertinoLocalizations> {
+  const _CupertinoFallbackDelegate();
+  @override
+  bool isSupported(Locale locale) => true;
+  @override
+  Future<CupertinoLocalizations> load(Locale locale) =>
+      GlobalCupertinoLocalizations.delegate
+          .load(locale.languageCode == 'ckb' ? const Locale('en') : locale);
+  @override
+  bool shouldReload(_CupertinoFallbackDelegate old) => false;
 }
 
 class FitApp extends StatelessWidget {
@@ -99,6 +128,14 @@ class _FitAppBuilder extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Fitness Tracker",
+      locale: appVM.locale,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        const _MaterialFallbackDelegate(),
+        const _CupertinoFallbackDelegate(),
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
       themeMode: appVM.themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

@@ -11,6 +11,7 @@ import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/presentation/widgets/shared/guest_banner.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   const AddMeasurementPage({super.key});
@@ -32,6 +33,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
+    final l10n = AppLocalizations.of(context)!;
     final allowed = await GuestGuard.check(context);
     if (!allowed) return;
     setState(() => _isLoading = true);
@@ -56,8 +58,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
       setState(() => _isLoading = false);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Measurement saved!'),
-            backgroundColor: greenColor));
+            content: Text(l10n.measurementSaved), backgroundColor: greenColor));
         Navigator.pop(context, true);
       }
     } catch (e) {
@@ -79,9 +80,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: customAppBarr(
-          'Add Measurement', greenColor, theme.scaffoldBackgroundColor),
+          l10n.measurementTitle, greenColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: _isLoading
           ? Center(child: CircularProgressIndicator(color: primaryColor))
@@ -104,15 +106,17 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                         icon: const Icon(Icons.monitor_weight_outlined),
                         color: greenColor,
                         onSaved: (_) {},
-                        text: 'Current Weight (kg)',
+                        text: l10n.measurementWeight,
                         isObscure: false,
                         keyboard: TextInputType.number,
                         input: FilteringTextInputFormatter.allow(
                             RegExp(r'^\d*\.?\d*')),
                         validator: (v) {
-                          if (v == null || v.isEmpty) return 'Required';
+                          if (v == null || v.isEmpty) {
+                            return l10n.measurementWeightRequired;
+                          }
                           if (double.tryParse(v) == null) {
-                            return 'Invalid number';
+                            return l10n.measurementInvalidWeight;
                           }
                           return null;
                         },
@@ -124,7 +128,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                           accentColor: greenColor),
                       const SizedBox(height: 28),
                       CalcButton(
-                          label: 'Save Measurement',
+                          label: l10n.measurementSave,
                           color: greenColor,
                           onPressed: _save),
                     ]),

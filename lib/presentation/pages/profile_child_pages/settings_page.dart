@@ -7,6 +7,7 @@ import 'package:fit_tracker/presentation/widgets/profile/settings_section_widget
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/data/services/notification_service.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -29,7 +30,9 @@ class SettingsPage extends StatelessWidget {
     final success = await appVM.setNotifications(value);
     if (!context.mounted) return;
 
-    if (!success && value && appVM.settingsError == 'Notification permission is blocked.') {
+    if (!success &&
+        value &&
+        appVM.settingsError == 'Notification permission is blocked.') {
       await showAppSettingsRedirect(context);
       if (!context.mounted) return;
       final retry = await appVM.setNotifications(value);
@@ -59,13 +62,59 @@ class SettingsPage extends StatelessWidget {
     }
   }
 
+  String _languageLabel(String code) {
+    switch (code) {
+      case 'ckb':
+        return 'کوردی (سۆرانی)';
+      case 'ar':
+        return 'العربية';
+      case 'es':
+        return 'Español';
+      default:
+        return 'English';
+    }
+  }
+
+  void _showLanguagePicker(BuildContext context) {
+    final appVM = context.read<AppViewModel>();
+    final l10n = AppLocalizations.of(context)!;
+    final current = appVM.localeCode;
+    final options = ['en', 'ckb', 'ar', 'es'];
+    final labels = {
+      'en': 'English',
+      'ckb': 'کوردی (سۆرانی)',
+      'ar': 'العربية',
+      'es': 'Español',
+    };
+    showDialog(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        title: Text(l10n.settingsLanguage),
+        children: options.map((code) {
+          return RadioListTile<String>(
+            title: Text(labels[code]!),
+            value: code,
+            groupValue: current,
+            onChanged: (v) {
+              if (v != null && v != current) {
+                appVM.setLocale(v);
+              }
+              Navigator.pop(ctx);
+            },
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appVM = context.watch<AppViewModel>();
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: customAppBarr(
-          'Settings', primaryColor, theme.scaffoldBackgroundColor),
+          l10n.settingsTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -81,13 +130,13 @@ class SettingsPage extends StatelessWidget {
                 () => SettingsDialogs.showEditProfileDialog(context, () {})),
           ]),
           const SizedBox(height: 20),
-          buildSectionTitle(context, 'Notifications'),
+          buildSectionTitle(context, l10n.settingsNotifications),
           buildCardSection(context, [
             buildSwitchTile(
                 context,
                 Icons.notifications_outlined,
-                'All Notifications',
-                'Weight reminder every 3 days',
+                l10n.settingsReminders,
+                l10n.settingsReminderDesc,
                 appVM.notificationsEnabled,
                 appVM.settingsLoading
                     ? (_) {}
@@ -99,10 +148,17 @@ class SettingsPage extends StatelessWidget {
             buildSwitchTile(
                 context,
                 Icons.dark_mode_outlined,
-                'Dark Mode',
+                l10n.settingsDark,
                 'Toggle dark/light theme',
                 appVM.isDarkMode,
                 (v) => _onDarkModeChanged(context, v)),
+            const Divider(height: 1, indent: 56),
+            buildListTile(
+                context,
+                Icons.language_outlined,
+                l10n.settingsLanguage,
+                _languageLabel(appVM.localeCode),
+                () => _showLanguagePicker(context)),
           ]),
           const SizedBox(height: 20),
           buildSectionTitle(context, 'More'),

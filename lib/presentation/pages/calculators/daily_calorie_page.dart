@@ -12,6 +12,7 @@ import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class DailyCaloriePage extends StatefulWidget {
   const DailyCaloriePage({super.key});
@@ -53,6 +54,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
 
   void _calculate() {
     if (!_formKey.currentState!.validate()) return;
+    final l10n = AppLocalizations.of(context)!;
     final calcVM = context.read<CalculatorsViewModel>();
     final weight = double.parse(_weightCtrl.text);
     final height = double.parse(_heightCtrl.text);
@@ -62,22 +64,22 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     final adj = calcVM.getCalorieAdjustment(_goalType, _weeklyGoal);
     final daily = ((maintenance + adj) / 10).round() * 10.0;
     final desc = _goalType == 'maintain'
-        ? 'Maintenance'
+        ? l10n.calorieMaintenance
         : _goalType == 'lose'
-            ? 'Weight Loss ($_weeklyGoal kg/week)'
-            : 'Weight Gain ($_weeklyGoal kg/week)';
+            ? '${l10n.calorieGoalLose} ($_weeklyGoal kg/week)'
+            : '${l10n.calorieGoalGain} ($_weeklyGoal kg/week)';
     DailyCaloriesResultsDialog.showResults(context,
         bmr: bmr,
         maintenanceCalories: maintenance,
         dailyCalories: daily,
         goalType: _goalType,
         weeklyGoal: _weeklyGoal,
-        goalDescription: desc,
-        onSetGoal: () {
-      context.read<GoalsViewModel>().updateGoal('calories',
-          {'target': daily, 'active': true, 'unit': 'cal'});
-      context.read<ProgressViewModel>().addMeasurement(
-          Measurement(weight: weight, date: DateTime.now()));
+        goalDescription: desc, onSetGoal: () {
+      context.read<GoalsViewModel>().updateGoal(
+          'calories', {'target': daily, 'active': true, 'unit': 'cal'});
+      context
+          .read<ProgressViewModel>()
+          .addMeasurement(Measurement(weight: weight, date: DateTime.now()));
       final authVM = context.read<AuthViewModel>();
       final user = authVM.currentUser;
       if (user != null) {
@@ -85,8 +87,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
             user.copyWith(weight: weight, height: height, age: age));
       }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('$desc goal saved!'),
-          backgroundColor: greenColor));
+          content: Text(l10n.calorieUpdated), backgroundColor: greenColor));
     });
   }
 
@@ -94,9 +95,10 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: customAppBarr(
-          'Daily Calories', redColor, theme.scaffoldBackgroundColor),
+          l10n.calorieTitle, redColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -105,10 +107,9 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
             key: _formKey,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('Daily Calorie Calculator',
-                  style: theme.textTheme.titleLarge),
+              Text(l10n.calorieTitle, style: theme.textTheme.titleLarge),
               const SizedBox(height: 6),
-              Text('Enter your details to calculate your daily requirements',
+              Text(l10n.calorieDescription,
                   style: TextStyle(color: colors.subtitleColor, fontSize: 13)),
               const SizedBox(height: 20),
               DailyCalorieInputSection(
@@ -129,12 +130,13 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Weight Goal', style: theme.textTheme.titleMedium),
+                      Text(l10n.calorieGoal,
+                          style: theme.textTheme.titleMedium),
                       const SizedBox(height: 12),
                       Row(children: [
                         Expanded(
                             child: CalorieGoalOption(
-                                label: 'Lose',
+                                label: l10n.calorieGoalLose,
                                 value: 'lose',
                                 selectedValue: _goalType,
                                 onTap: () =>
@@ -142,7 +144,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                         const SizedBox(width: 8),
                         Expanded(
                             child: CalorieGoalOption(
-                                label: 'Maintain',
+                                label: l10n.calorieGoalMaintain,
                                 value: 'maintain',
                                 selectedValue: _goalType,
                                 onTap: () =>
@@ -150,7 +152,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                         const SizedBox(width: 8),
                         Expanded(
                             child: CalorieGoalOption(
-                                label: 'Gain',
+                                label: l10n.calorieGoalGain,
                                 value: 'gain',
                                 selectedValue: _goalType,
                                 onTap: () =>
@@ -158,7 +160,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                       ]),
                       if (_goalType != 'maintain') ...[
                         const SizedBox(height: 14),
-                        Text('Weekly goal: $_weeklyGoal kg/week',
+                        Text('${l10n.calorieGoal}: $_weeklyGoal kg/week',
                             style: TextStyle(
                                 fontSize: 13, color: colors.textColor)),
                         Slider(

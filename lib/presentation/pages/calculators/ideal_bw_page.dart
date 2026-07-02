@@ -10,6 +10,7 @@ import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class IdealBodyWeightPage extends StatefulWidget {
   const IdealBodyWeightPage({super.key});
@@ -76,17 +77,17 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
         'active': true,
         'unit': 'kg',
       });
-      context.read<ProgressViewModel>().addMeasurement(
-          Measurement(weight: current, date: DateTime.now()));
+      context
+          .read<ProgressViewModel>()
+          .addMeasurement(Measurement(weight: current, date: DateTime.now()));
       final authVM = context.read<AuthViewModel>();
       final user = authVM.currentUser;
       if (user != null) {
         authVM.updateUser(
             user.copyWith(weight: current, height: height, gender: _gender));
       }
-      final label = '${goalType[0].toUpperCase()}${goalType.substring(1)}';
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('$label weight goal saved!'),
+          content: Text(AppLocalizations.of(context)!.bmiUpdated),
           backgroundColor: greenColor));
     });
   }
@@ -94,9 +95,10 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: customAppBarr(
-          'Ideal Body Weight', blueColor, theme.scaffoldBackgroundColor),
+          l10n.bmiTitle, blueColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -112,13 +114,12 @@ class _IdealBodyWeightPageState extends State<IdealBodyWeightPage> {
           ),
           const SizedBox(height: 14),
           InfoBox(
-            message:
-                'Goal type (Lose/Gain/Maintain) is auto-determined from your current vs target weight.',
+            message: l10n.bmiDescription,
             accentColor: blueColor,
           ),
           const SizedBox(height: 24),
           CalcButton(
-              label: 'Calculate', color: blueColor, onPressed: _calculate),
+              label: l10n.bmiResult, color: blueColor, onPressed: _calculate),
         ]),
       ),
     );

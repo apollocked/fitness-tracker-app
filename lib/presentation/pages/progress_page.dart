@@ -11,6 +11,7 @@ import 'package:fit_tracker/presentation/widgets/progress/weight_chart.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -41,10 +42,11 @@ class _ProgressPageState extends State<ProgressPage> {
     final goalsVM = context.watch<GoalsViewModel>();
     final theme = Theme.of(context);
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: customAppBarr(
-          'Progress', primaryColor, theme.scaffoldBackgroundColor),
+          l10n.progressTitle, primaryColor, theme.scaffoldBackgroundColor),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: measurements.isEmpty
           ? _EmptyState(onAdd: _addMeasurement)
@@ -66,6 +68,7 @@ class _EmptyState extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final goalsVM = context.watch<GoalsViewModel>();
     final hasGoals = goalsVM.goals.isNotEmpty;
+    final l10n = AppLocalizations.of(context)!;
 
     return Center(
       child: Padding(
@@ -87,7 +90,7 @@ class _EmptyState extends StatelessWidget {
                 Icon(Icons.show_chart_rounded, size: 64, color: primaryColor),
           ),
           const SizedBox(height: 24),
-          Text('No Measurements Yet',
+          Text(l10n.progressNoMeasurements,
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -95,8 +98,8 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
               hasGoals
-                  ? 'Start logging your weight to track progress toward your goals.'
-                  : 'Start logging your weight to track your progress over time.',
+                  ? l10n.progressSetGoalFirst
+                  : l10n.progressLogFirstWeight,
               textAlign: TextAlign.center,
               style: TextStyle(color: colors.subtitleColor)),
           Spacer(
@@ -105,7 +108,7 @@ class _EmptyState extends StatelessWidget {
           Icon(Icons.arrow_downward_rounded, size: 50, color: primaryColor),
           const SizedBox(height: 12),
           Text(
-            'Tap the + button below to log your first measurement',
+            l10n.progressTapButton,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -137,6 +140,7 @@ class _GoalProgressBanner extends StatelessWidget {
     final target = (weightGoal['target'] as num?)?.toDouble() ?? 0;
     final progress = target > 0 ? (current / target).clamp(0.0, 1.0) : 0.0;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -169,7 +173,7 @@ class _GoalProgressBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Weight Goal Progress',
+                Text(l10n.progressGoalProgress,
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
@@ -188,7 +192,8 @@ class _GoalProgressBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                    '${current.toStringAsFixed(1)} / ${target.toStringAsFixed(1)} kg',
+                    l10n.progressGoalForValue(
+                        '${current.toStringAsFixed(1)} / ${target.toStringAsFixed(1)} kg'),
                     style:
                         TextStyle(fontSize: 11, color: colors.subtitleColor)),
               ],
@@ -221,6 +226,7 @@ class _MeasurementList extends StatelessWidget {
     final weightChange = first != null && last != null
         ? (first.weight - last.weight).toStringAsFixed(1)
         : null;
+    final l10n = AppLocalizations.of(context)!;
 
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -248,8 +254,9 @@ class _MeasurementList extends StatelessWidget {
                   _MiniStat(
                     colors: colors,
                     icon: Icons.monitor_weight_outlined,
-                    value: '${last.weight.toStringAsFixed(1)} kg',
-                    label: 'Current',
+                    value:
+                        '${last.weight.toStringAsFixed(1)} ${l10n.progressKg}',
+                    label: l10n.progressCurrent,
                     color: primaryColor,
                   ),
                   if (user != null && user.height > 0)
@@ -267,8 +274,8 @@ class _MeasurementList extends StatelessWidget {
                     icon: double.parse(weightChange) <= 0
                         ? Icons.trending_down_rounded
                         : Icons.trending_up_rounded,
-                    value: '$weightChange kg',
-                    label: 'Change',
+                    value: '$weightChange ${l10n.progressKg}',
+                    label: l10n.progressWeightChange,
                     color: double.parse(weightChange) <= 0
                         ? greenColor
                         : orangeColor,
@@ -321,7 +328,8 @@ class _MeasurementList extends StatelessWidget {
                                       fontSize: 13,
                                       color: colors.subtitleColor)),
                               const SizedBox(height: 4),
-                              Text('${m.weight} kg',
+                              Text(
+                                  l10n.progressWeightValue(m.weight.toString()),
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,

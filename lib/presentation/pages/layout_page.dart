@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:fit_tracker/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -16,15 +17,16 @@ class LayoutPage extends StatelessWidget {
   const LayoutPage({super.key});
 
   void _showExitDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Exit App'),
-        content: const Text('Are you sure you want to exit the app?'),
+        title: Text(l10n.exitTitle),
+        content: Text(l10n.exitMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Cancel',
+            child: Text(l10n.exitStay,
                 style: TextStyle(
                     color: Theme.of(context)
                         .extension<AppColorsExtension>()!
@@ -35,7 +37,7 @@ class LayoutPage extends StatelessWidget {
               Navigator.pop(ctx);
               SystemNavigator.pop();
             },
-            child: const Text('Exit',
+            child: Text(l10n.exitConfirm,
                 style: TextStyle(
                     color: primaryColor, fontWeight: FontWeight.w600)),
           ),
@@ -148,6 +150,7 @@ class _DockNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
+    final l10n = AppLocalizations.of(context)!;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -199,14 +202,16 @@ class _DockNavBar extends StatelessWidget {
             ),
             Row(
               children: [
-                _dockItem(0, Icons.home_rounded, 'Home',
-                    primaryColor, colors.subtitleColor, itemWidth),
-                _dockItem(1,
-                    onProgress ? Icons.add_rounded : Icons.show_chart_rounded,
-                    onProgress ? 'Add' : 'Progress',
-                    onProgress ? Colors.white : primaryColor,
+                _dockItem(0, Icons.home_rounded, l10n.navHome, primaryColor,
                     colors.subtitleColor, itemWidth),
-                _dockItem(2, Icons.person_rounded, 'Profile',
+                _dockItem(
+                    1,
+                    onProgress ? Icons.add_rounded : Icons.show_chart_rounded,
+                    onProgress ? l10n.navAddMeasurement : l10n.navProgress,
+                    onProgress ? Colors.white : primaryColor,
+                    colors.subtitleColor,
+                    itemWidth),
+                _dockItem(2, Icons.person_rounded, l10n.navProfile,
                     primaryColor, colors.subtitleColor, itemWidth),
               ],
             ),
@@ -216,8 +221,8 @@ class _DockNavBar extends StatelessWidget {
     );
   }
 
-  Widget _dockItem(int index, IconData icon, String label,
-      Color activeColor, Color inactiveColor, double width) {
+  Widget _dockItem(int index, IconData icon, String label, Color activeColor,
+      Color inactiveColor, double width) {
     final isSelected = currentIndex == index;
     return GestureDetector(
       onTap: () => onTap(index, currentIndex == 1 && index == 1),
