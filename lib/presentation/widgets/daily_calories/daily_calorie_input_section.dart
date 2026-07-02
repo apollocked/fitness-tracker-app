@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_textfield.dart';
 import 'package:fit_tracker/presentation/widgets/shared/select_gender_radio.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class DailyCalorieInputSection extends StatelessWidget {
   final TextEditingController ageController;
@@ -25,11 +26,12 @@ class DailyCalorieInputSection extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Gender',
+        Text(l10n.calorieGender,
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -47,11 +49,11 @@ class DailyCalorieInputSection extends StatelessWidget {
           keyboard: TextInputType.number,
           icon: const Icon(Icons.cake),
           color: redColor,
-          text: 'Age (years)',
+          text: l10n.calorieAge,
           onSaved: (value) {},
           validator: (value) {
-            if (value == null || value.isEmpty) return 'Required';
-            if (int.tryParse(value) == null) return 'Invalid number';
+            if (value == null || value.isEmpty) return l10n.calorieRequired;
+            if (int.tryParse(value) == null) return l10n.calorieInvalidNumber;
             return null;
           },
           input: FilteringTextInputFormatter.digitsOnly,
@@ -63,11 +65,11 @@ class DailyCalorieInputSection extends StatelessWidget {
           keyboard: TextInputType.number,
           icon: const Icon(Icons.monitor_weight),
           color: redColor,
-          text: 'Weight (kg)',
+          text: l10n.calorieWeightKg,
           onSaved: (value) {},
           validator: (value) {
-            if (value == null || value.isEmpty) return 'Required';
-            if (double.tryParse(value) == null) return 'Invalid number';
+            if (value == null || value.isEmpty) return l10n.calorieRequired;
+            if (double.tryParse(value) == null) return l10n.calorieInvalidNumber;
             return null;
           },
           input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
@@ -79,17 +81,17 @@ class DailyCalorieInputSection extends StatelessWidget {
           keyboard: TextInputType.number,
           icon: const Icon(Icons.height),
           color: redColor,
-          text: 'Height (cm)',
+          text: l10n.calorieHeightCm,
           onSaved: (value) {},
           validator: (value) {
-            if (value == null || value.isEmpty) return 'Required';
-            if (double.tryParse(value) == null) return 'Invalid number';
+            if (value == null || value.isEmpty) return l10n.calorieRequired;
+            if (double.tryParse(value) == null) return l10n.calorieInvalidNumber;
             return null;
           },
           input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
         ),
         const SizedBox(height: 16),
-        Text('Activity Level',
+        Text(l10n.calorieActivityLevel,
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -111,22 +113,22 @@ class DailyCalorieInputSection extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w500),
               isExpanded: true,
-              items: const [
+              items: [
                 DropdownMenuItem(
                     value: 'Sedentary',
-                    child: Text('Sedentary (little or no exercise)')),
+                    child: Text(l10n.calorieActivitySedentaryFull)),
                 DropdownMenuItem(
                     value: 'Lightly Active',
-                    child: Text('Lightly Active (1-3 days/week)')),
+                    child: Text(l10n.calorieActivityLightFull)),
                 DropdownMenuItem(
                     value: 'Moderately Active',
-                    child: Text('Moderately Active (3-5 days/week)')),
+                    child: Text(l10n.calorieActivityModerateFull)),
                 DropdownMenuItem(
                     value: 'Very Active',
-                    child: Text('Very Active (6-7 days/week)')),
+                    child: Text(l10n.calorieActivityActiveFull)),
                 DropdownMenuItem(
                     value: 'Extra Active',
-                    child: Text('Extra Active (athlete/physical job)')),
+                    child: Text(l10n.calorieActivityExtraFull)),
               ],
               onChanged: (value) => onActivityChanged(value!),
             ),

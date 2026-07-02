@@ -29,7 +29,7 @@ class GuestAppearanceCard extends StatelessWidget {
           ),
           const SizedBox(width: 14),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Dark Mode', style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+            Text(l10n.settingsDark, style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
             Text(l10n.settingsToggleTheme, style: theme.textTheme.bodySmall),
           ])),
           Switch(

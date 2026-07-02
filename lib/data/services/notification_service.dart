@@ -91,7 +91,7 @@ class NotificationService {
     return status.isGranted;
   }
 
-  Future<bool> scheduleWeightReminder() async {
+  Future<bool> scheduleWeightReminder({String? title, String? body}) async {
     await initialize();
     if (!await areNotificationsAllowed()) return false;
 
@@ -119,8 +119,8 @@ class NotificationService {
         final scheduledDate = now.add(Duration(days: 3 * (i + 1)));
         await _notifications.zonedSchedule(
           id: _firstWeightReminderId + i,
-          title: 'Track your weight',
-          body: 'Take a moment to log your latest weight measurement.',
+          title: title ?? 'Track your weight',
+          body: body ?? 'Take a moment to log your latest weight measurement.',
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
           payload: 'weight-reminder',
           scheduledDate:

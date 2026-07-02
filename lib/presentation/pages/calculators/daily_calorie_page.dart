@@ -66,8 +66,8 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
     final desc = _goalType == 'maintain'
         ? l10n.calorieMaintenance
         : _goalType == 'lose'
-            ? '${l10n.calorieGoalLose} ($_weeklyGoal kg/week)'
-            : '${l10n.calorieGoalGain} ($_weeklyGoal kg/week)';
+            ? l10n.calorieGoalDescLose(_weeklyGoal.toStringAsFixed(1))
+            : l10n.calorieGoalDescGain(_weeklyGoal.toStringAsFixed(1));
     DailyCaloriesResultsDialog.showResults(context,
         bmr: bmr,
         maintenanceCalories: maintenance,
@@ -160,7 +160,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                       ]),
                       if (_goalType != 'maintain') ...[
                         const SizedBox(height: 14),
-                        Text('${l10n.calorieGoal}: $_weeklyGoal kg/week',
+                        Text(l10n.calorieGoalLabel(_weeklyGoal.toStringAsFixed(1)),
                             style: TextStyle(
                                 fontSize: 13, color: colors.textColor)),
                         Slider(
@@ -170,7 +170,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
                             divisions: 9,
                             activeColor: redColor,
                             inactiveColor: redColor.withOpacity(0.2),
-                            label: '$_weeklyGoal kg/week',
+                            label: l10n.calorieSliderLabel(_weeklyGoal.toStringAsFixed(1)),
                             onChanged: (v) => setState(() => _weeklyGoal =
                                 double.parse(v.toStringAsFixed(1)))),
                       ],
@@ -178,7 +178,7 @@ class _DailyCaloriePageState extends State<DailyCaloriePage> {
               ),
               const SizedBox(height: 24),
               CalcButton(
-                  label: 'Calculate', color: redColor, onPressed: _calculate),
+                  label: l10n.calorieCalculate, color: redColor, onPressed: _calculate),
               const SizedBox(height: 32),
             ])),
       ),

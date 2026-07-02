@@ -28,6 +28,21 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  String _errorMessage(AppLocalizations l10n, String errorCode, String? fallback) {
+    switch (errorCode) {
+      case 'loginFailed':
+        return l10n.errorLoginFailed;
+      case 'guestSessionFailed':
+        return l10n.errorGuestSessionFailed;
+      case 'usernameTaken':
+        return l10n.errorUsernameTaken;
+      case 'registrationFailed':
+        return l10n.errorRegistrationFailed;
+      default:
+        return fallback ?? l10n.errorLoginFailed;
+    }
+  }
+
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
     await context.read<AuthViewModel>().login(
@@ -114,9 +129,9 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
-                  if (authVM.error != null) ...[
+                  if (authVM.errorCode != null) ...[
                     const SizedBox(height: 12),
-                    Text(authVM.error!,
+                    Text(_errorMessage(l10n, authVM.errorCode!, authVM.error),
                         style: const TextStyle(color: redColor, fontSize: 13)),
                   ],
                   const SizedBox(height: 24),
@@ -136,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text('or',
+                        child: Text(l10n.loginOr,
                             style: TextStyle(
                                 color: theme.colorScheme.onSurface
                                     .withOpacity(0.4))),
@@ -177,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                       context,
                       MaterialPageRoute(builder: (_) => const OnboardingPage()),
                     ),
-                    child: Text('View Onboarding',
+                    child: Text(l10n.loginViewOnboarding,
                         style: TextStyle(color: colors.subtitleColor)),
                   ),
                 ],

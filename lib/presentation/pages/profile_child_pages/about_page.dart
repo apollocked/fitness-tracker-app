@@ -77,12 +77,12 @@ class AboutPage extends StatelessWidget {
                       Icon(Icons.track_changes_rounded,
                           color: orangeColor, size: 22),
                       const SizedBox(width: 10),
-                      Text('Our Mission', style: theme.textTheme.titleMedium),
+                      Text(l10n.aboutOurMission, style: theme.textTheme.titleMedium),
                     ],
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'We believe fitness is a journey, not a destination. Our mission is to make fitness tracking simple, accessible, and enjoyable for everyone. With Fitness Tracker, you\'re never alone in your fitness journey.',
+                    l10n.aboutMissionText,
                     style: TextStyle(
                         fontSize: 14, color: colors.subtitleColor, height: 1.5),
                   ),
@@ -95,18 +95,18 @@ class AboutPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('App Information', style: theme.textTheme.titleMedium),
+                  Text(l10n.aboutAppInformation, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 16),
-                  _infoRow('App Name', l10n.appMaterialTitle, colors),
+                  _infoRow(l10n.aboutAppName, l10n.appMaterialTitle, colors),
                   _divider(colors),
                   _infoRow(l10n.appVersion, '1.2.1', colors),
                   _divider(colors),
                   _infoRow(
-                      l10n.aboutDeveloper, 'Mohammed jameel - Apollo', colors),
+                       l10n.aboutDeveloper, l10n.aboutDeveloperName, colors),
                   _divider(colors),
-                  _infoRow(l10n.aboutBuiltWith, 'Flutter & Dart', colors),
+                  _infoRow(l10n.aboutBuiltWith, l10n.aboutBuiltWithValue, colors),
                   _divider(colors),
-                  _infoRow('Email', 'mahamadbarznji712@gmail.com', colors,
+                  _infoRow(l10n.aboutEmail, 'mahamadbarznji712@gmail.com', colors,
                       isLink: true),
                 ],
               ),

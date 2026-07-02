@@ -3,11 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class GoalsStats extends StatelessWidget {
   const GoalsStats({super.key});
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final cubit = context.watch<GoalsViewModel>();
     final activeGoals =
@@ -21,9 +23,9 @@ class GoalsStats extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildStatItem(
-              colors, 'Total', cubit.goals.length.toString(), Icons.list),
-          _buildStatItem(colors, 'Active', activeGoals.toString(), Icons.flag),
-          _buildStatItem(colors, 'Completed', completedGoals.toString(),
+              colors, l10n.goalsTotal, cubit.goals.length.toString(), Icons.list),
+          _buildStatItem(colors, l10n.goalsActive, activeGoals.toString(), Icons.flag),
+          _buildStatItem(colors, l10n.goalsCompleted, completedGoals.toString(),
               Icons.check_circle),
         ],
       ),

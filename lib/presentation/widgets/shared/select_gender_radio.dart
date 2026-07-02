@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class CustomGenderRatio extends StatelessWidget {
   const CustomGenderRatio({
@@ -13,12 +14,13 @@ class CustomGenderRatio extends StatelessWidget {
   final String selectedGender;
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Column(
       children: [
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(color),
-          title: Text("Male", style: TextStyle(color: colors.textColor)),
+          title: Text(l10n.genderMale, style: TextStyle(color: colors.textColor)),
           value: "Male",
           groupValue: selectedGender,
           onChanged: (value) {
@@ -30,7 +32,7 @@ class CustomGenderRatio extends StatelessWidget {
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(color),
           title: Text(
-            "Female",
+            l10n.genderFemale,
             style: TextStyle(color: colors.textColor),
           ),
           value: "Female",

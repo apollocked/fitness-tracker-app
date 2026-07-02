@@ -9,6 +9,27 @@ import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
 
+String _settingsErrorMsg(AppLocalizations l10n, String? errorCode, String fallback) {
+  switch (errorCode) {
+    case 'notificationBlocked':
+      return l10n.errorNotificationBlocked;
+    case 'notificationDenied':
+      return l10n.errorNotificationDenied;
+    case 'notificationSchedule':
+      return l10n.errorNotificationSchedule;
+    case 'notificationUpdate':
+      return l10n.errorNotificationUpdate;
+    case 'noUserLoggedIn':
+      return l10n.errorNoUserLoggedIn;
+    case 'usernameTaken':
+      return l10n.errorUsernameTaken;
+    case 'profileUpdate':
+      return l10n.errorProfileUpdate;
+    default:
+      return fallback;
+  }
+}
+
 class SettingsDialogs {
   static void showEditProfileDialog(BuildContext context, Function onSave) {
     final user = context.read<AuthViewModel>().currentUser;
@@ -35,8 +56,8 @@ class SettingsDialogs {
           TextButton(
             onPressed: () async {
               if (usernameController.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Please fill all fields'),
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(l10n.settingsPleaseFillFields),
                     backgroundColor: redColor));
                 return;
               }
@@ -48,16 +69,22 @@ class SettingsDialogs {
                 onSave();
                 Navigator.pop(dialogContext);
               }
+              final msg = appVM.successMessage != null
+                  ? (appVM.errorCode == 'profileUpdated'
+                      ? l10n.successProfileUpdated
+                      : appVM.successMessage!)
+                  : appVM.settingsError != null
+                      ? _settingsErrorMsg(l10n, appVM.errorCode, appVM.settingsError!)
+                      : l10n.commonDone;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(
-                      appVM.successMessage ?? appVM.settingsError ?? l10n.commonDone),
+                  content: Text(msg),
                   backgroundColor:
                       appVM.successMessage != null ? greenColor : redColor,
                 ),
               );
             },
-            child: const Text('Update'),
+            child: Text(l10n.settingsUpdateButton),
           ),
         ],
       ),
@@ -91,8 +118,8 @@ class SettingsDialogs {
                 Navigator.pop(dialogContext);
                 await context.read<AuthViewModel>().deleteAccount();
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Account deleted successfully'),
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(l10n.settingsAccountDeleted),
                       backgroundColor: greenColor,
                       duration: Duration(seconds: 3)));
                 }
@@ -107,7 +134,7 @@ class SettingsDialogs {
               } catch (e) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Failed to delete account: $e'),
+                      content: Text(l10n.settingsFailedDelete(e.toString())),
                       backgroundColor: redColor,
                       duration: const Duration(seconds: 3)));
                 }

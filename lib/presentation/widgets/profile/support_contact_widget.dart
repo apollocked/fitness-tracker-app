@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/presentation/widgets/shared/app_card.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class SupportContactWidget extends StatelessWidget {
   final String email;
@@ -13,6 +14,7 @@ class SupportContactWidget extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     return AppCard(
@@ -31,7 +33,7 @@ class SupportContactWidget extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'Contact our support team:',
+            l10n.supportContactTeam,
             style: TextStyle(fontSize: 14, color: colors.subtitleColor),
           ),
           const SizedBox(height: 8),
@@ -44,7 +46,7 @@ class SupportContactWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Support Email',
+                      l10n.supportSupportEmail,
                       style:
                           TextStyle(fontSize: 12, color: colors.subtitleColor),
                     ),

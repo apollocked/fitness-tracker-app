@@ -107,11 +107,11 @@ class _DailyTipCard extends StatelessWidget {
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     final tips = [
-      'Consistency beats intensity — small daily habits build lasting results.',
-      'Stay hydrated! Drink water before, during, and after your workout.',
-      'Aim for 7-9 hours of sleep to support muscle recovery and growth.',
-      'Track your meals — what gets measured gets managed.',
-      'Rest days are just as important as training days.',
+      l10n.homeTip1,
+      l10n.homeTip2,
+      l10n.homeTip3,
+      l10n.homeTip4,
+      l10n.homeTip5,
     ];
     final tip = tips[DateTime.now().day % tips.length];
 
@@ -189,7 +189,7 @@ class _CalculatorSheet extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: colors.textColor)),
           const SizedBox(height: 8),
-          Text('Science-backed tools to guide your fitness journey',
+          Text(l10n.homeCalculatorSubtitle,
               style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
           const SizedBox(height: 20),
           Row(
@@ -197,7 +197,7 @@ class _CalculatorSheet extends StatelessWidget {
               Expanded(
                   child: _CalcTile(
                 icon: Icons.monitor_weight_outlined,
-                title: 'Ideal Body Weight',
+                title: l10n.homeIdealBodyWeight,
                 color: primaryColor,
                 onTap: () {
                   Navigator.pop(context);
@@ -234,7 +234,7 @@ class _CalculatorSheet extends StatelessWidget {
               Expanded(
                   child: _CalcTile(
                 icon: Icons.scale_outlined,
-                title: 'Log Weight',
+                title: l10n.homeLogWeight,
                 color: greenColor,
                 onTap: () {
                   Navigator.pop(context);

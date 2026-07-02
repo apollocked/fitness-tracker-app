@@ -24,17 +24,17 @@ class GuestAppInfoSection extends StatelessWidget {
         color: Colors.transparent, borderRadius: BorderRadius.circular(16), clipBehavior: Clip.hardEdge,
         child: Column(children: [
           ProfileMenuTile(
-              icon: Icons.auto_fix_high_rounded, title: 'App Features', subtitle: 'Explore all features',
+              icon: Icons.auto_fix_high_rounded, title: l10n.guestAppFeatures, subtitle: l10n.guestAppFeaturesSub,
               accentColor: blueColor,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FeaturesPage()))),
           sectionDivider(colors),
           ProfileMenuTile(
-              icon: Icons.info_outline_rounded, title: l10n.aboutTitle, subtitle: 'App information',
+              icon: Icons.info_outline_rounded, title: l10n.aboutTitle, subtitle: l10n.guestAppInfoSub,
               accentColor: colors.subtitleColor,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPage()))),
           sectionDivider(colors),
           ProfileMenuTile(
-              icon: Icons.help_outline_rounded, title: l10n.helpTitle, subtitle: 'Get assistance',
+              icon: Icons.help_outline_rounded, title: l10n.helpTitle, subtitle: l10n.guestGetAssistance,
               accentColor: orangeColor,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const HelpAndSupportPage()))),
         ]),

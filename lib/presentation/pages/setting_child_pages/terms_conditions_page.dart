@@ -54,17 +54,17 @@ class TermsConditionsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Contact Information',
+                  Text(l10n.termsContactInfo,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: colors.textColor)),
                   const SizedBox(height: 8),
-                  Text('For questions about these Terms & Conditions:',
+                  Text(l10n.termsContactMessage,
                       style:
                           TextStyle(color: colors.subtitleColor, fontSize: 13)),
                   const SizedBox(height: 8),
-                  Text('mahamadbarznji712@gmail.com',
+                  Text(l10n.termsContactEmail,
                       style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.bold,

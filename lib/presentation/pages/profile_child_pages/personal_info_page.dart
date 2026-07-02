@@ -15,20 +15,31 @@ class PersonalInfoPage extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.extension<AppColorsExtension>()!;
     final l10n = AppLocalizations.of(context)!;
-
     if (user == null) {
       return Scaffold(
-        appBar: customAppBarr(l10n.bodyStatsTitle, primaryColor,
-            theme.scaffoldBackgroundColor),
+        appBar: customAppBarr(
+            l10n.bodyStatsTitle, primaryColor, theme.scaffoldBackgroundColor),
         body: Center(child: Text(l10n.errorNoUserLoggedIn)),
       );
     }
 
     final fields = [
       (l10n.profileUsername, user.username, Icons.person_outline_rounded),
-      (l10n.bodyStatsAge, '${user.age} years', Icons.cake_outlined),
-      (l10n.bodyStatsHeight, '${user.height} ${l10n.bodyStatsCm}', Icons.height_rounded),
-      (l10n.bodyStatsWeight, '${user.weight} ${l10n.bodyStatsKg}', Icons.monitor_weight_outlined),
+      (
+        l10n.bodyStatsAge,
+        '${user.age} ${l10n.bodyStatsYears}',
+        Icons.cake_outlined
+      ),
+      (
+        l10n.bodyStatsHeight,
+        '${user.height} ${l10n.bodyStatsCm}',
+        Icons.height_rounded
+      ),
+      (
+        l10n.bodyStatsWeight,
+        '${user.weight} ${l10n.bodyStatsKg}',
+        Icons.monitor_weight_outlined
+      ),
       (l10n.bodyStatsGender, user.gender, Icons.wc_rounded),
     ];
 

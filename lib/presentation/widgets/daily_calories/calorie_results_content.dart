@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class CalorieResultsContent extends StatelessWidget {
   final double bmr;
@@ -24,6 +25,7 @@ class CalorieResultsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -31,15 +33,15 @@ class CalorieResultsContent extends StatelessWidget {
         Row(children: [
           Icon(Icons.local_fire_department, color: redColor, size: 32),
           const SizedBox(width: 12),
-          Expanded(child: Text('Calorie Results', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: colors.textColor))),
+          Expanded(child: Text(l10n.calorieResultsTitle, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: colors.textColor))),
         ]),
         const SizedBox(height: 16),
         Divider(color: colors.subtitleColor.withOpacity(0.3)),
         const SizedBox(height: 16),
-        _buildResultRow('Basal Metabolic Rate (BMR)', '${bmr.toStringAsFixed(0)} calories/day', Icons.energy_savings_leaf, blueColor, colors),
+        _buildResultRow(l10n.calorieBmrFull, '${bmr.toStringAsFixed(0)} ${l10n.calorieCaloriesPerDay}', Icons.energy_savings_leaf, blueColor, colors),
         if (maintenanceCalories != null) ...[
           const SizedBox(height: 12),
-          _buildResultRow('Maintenance Calories', '${maintenanceCalories!.toStringAsFixed(0)} calories/day', Icons.balance, greenColor, colors),
+          _buildResultRow(l10n.calorieMaintenanceFull, '${maintenanceCalories!.toStringAsFixed(0)} ${l10n.calorieCaloriesPerDay}', Icons.balance, greenColor, colors),
         ],
         const SizedBox(height: 12),
         Container(
@@ -54,7 +56,7 @@ class CalorieResultsContent extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(goalDescription, style: TextStyle(fontSize: 14, color: colors.subtitleColor)),
-              Text('${dailyCalories.toStringAsFixed(0)} calories/day',
+              Text('${dailyCalories.toStringAsFixed(0)} ${l10n.calorieCaloriesPerDay}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: _getGoalColor(goalType))),
             ])),
           ]),
@@ -73,8 +75,8 @@ class CalorieResultsContent extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(child: Text(
                   goalType == 'lose'
-                      ? 'To lose ${weeklyGoal}kg per week, consume ${dailyCalories.toStringAsFixed(0)} calories daily'
-                      : 'To gain ${weeklyGoal}kg per week, consume ${dailyCalories.toStringAsFixed(0)} calories daily',
+                      ? l10n.calorieToLoseInfo(weeklyGoal.toStringAsFixed(1), dailyCalories.toStringAsFixed(0))
+                      : l10n.calorieToGainInfo(weeklyGoal.toStringAsFixed(1), dailyCalories.toStringAsFixed(0)),
                   style: TextStyle(fontSize: 13, color: colors.subtitleColor))),
             ]),
           ),
@@ -87,13 +89,13 @@ class CalorieResultsContent extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 14),
               side: const BorderSide(color: primaryColor),
             ),
-            child: const Text('Close', style: TextStyle(color: primaryColor, fontWeight: FontWeight.w600)),
+            child: Text(l10n.calorieClose, style: TextStyle(color: primaryColor, fontWeight: FontWeight.w600)),
           )),
           const SizedBox(width: 12),
           Expanded(child: ElevatedButton(
             onPressed: () { onSetGoal?.call(); Navigator.pop(context); },
             style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
-            child: const Text('Set as Goal', style: TextStyle(fontWeight: FontWeight.w600)),
+            child: Text(l10n.calorieSetAsGoal, style: TextStyle(fontWeight: FontWeight.w600)),
           )),
         ]),
       ]),

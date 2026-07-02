@@ -315,6 +315,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get bodyStatsKg => 'kg';
 
   @override
+  String get bodyStatsYears => 'años';
+
+  @override
   String get bodyStatsTargetWeight => 'Peso Objetivo';
 
   @override
@@ -1078,6 +1081,9 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get progressBmi => 'IMC';
+
+  @override
   String progressGoalForValue(String value) {
     return 'Objetivo de $value';
   }
@@ -1759,4 +1765,537 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get featuresNotificationsBenefit3 =>
       'Mantén constante tu viaje de fitness';
+
+  @override
+  String get settingsLanguageNativeEn => 'English';
+
+  @override
+  String get settingsLanguageNativeCkb => 'کوردی (سۆرانی)';
+
+  @override
+  String get settingsLanguageNativeAr => 'العربية';
+
+  @override
+  String get settingsLanguageNativeEs => 'Español';
+
+  @override
+  String get settingsNotificationsEnabled => 'Notificaciones activadas.';
+
+  @override
+  String get settingsUpdated => 'Ajustes actualizados.';
+
+  @override
+  String get settingsPleaseFillFields => 'Por favor, complete todos los campos';
+
+  @override
+  String get settingsUpdateButton => 'Actualizar';
+
+  @override
+  String get settingsAccountDeleted => 'Cuenta eliminada correctamente';
+
+  @override
+  String settingsFailedDelete(String error) {
+    return 'Error al eliminar la cuenta: $error';
+  }
+
+  @override
+  String get profileSectionAccount => 'CUENTA';
+
+  @override
+  String get profileSectionApp => 'APP';
+
+  @override
+  String get profileLogout => 'Cerrar sesión';
+
+  @override
+  String get profileLogoutSubtitle => 'Cerrar su perfil';
+
+  @override
+  String get profilePersonalJourney => 'Tu viaje de fitness personal';
+
+  @override
+  String get profileAccount => 'Cuenta';
+
+  @override
+  String get loginOr => 'o';
+
+  @override
+  String get loginViewOnboarding => 'Ver introducción';
+
+  @override
+  String get logoutTitle => 'Cerrar sesión';
+
+  @override
+  String get logoutMessage => '¿Estás seguro de que quieres cerrar sesión?';
+
+  @override
+  String get homeTip1 =>
+      'La constancia vence a la intensidad: los pequeños hábitos diarios crean resultados duraderos.';
+
+  @override
+  String get homeTip2 =>
+      '¡Mantente hidratado! Bebe agua antes, durante y después de tu entrenamiento.';
+
+  @override
+  String get homeTip3 =>
+      'Duerme de 7 a 9 horas para favorecer la recuperación y el crecimiento muscular.';
+
+  @override
+  String get homeTip4 => 'Registra tus comidas: lo que se mide, se gestiona.';
+
+  @override
+  String get homeTip5 =>
+      'Los días de descanso son tan importantes como los días de entrenamiento.';
+
+  @override
+  String get homeCalculatorSubtitle =>
+      'Herramientas con base científica para guiar tu viaje de fitness';
+
+  @override
+  String get homeIdealBodyWeight => 'Peso Corporal Ideal';
+
+  @override
+  String get homeLogWeight => 'Registrar Peso';
+
+  @override
+  String get homeAthleteFallback => 'Atleta';
+
+  @override
+  String get homeFitnessJourney => 'Tu viaje de fitness de un vistazo';
+
+  @override
+  String get homeNoGoalsSubtitle =>
+      'Establece metas de fitness para seguir tu progreso';
+
+  @override
+  String get homeSetGoal => 'Establecer Meta';
+
+  @override
+  String get homeViewAll => 'Ver Todo';
+
+  @override
+  String get guestBrowsingAsGuest => 'Navegando como Invitado';
+
+  @override
+  String get guestDataNotSaved => 'Tus datos no se están guardando';
+
+  @override
+  String get guestBannerMessage => 'Modo invitado — tus datos no se guardarán.';
+
+  @override
+  String get guestCreateProfile => 'Crear Perfil';
+
+  @override
+  String get guestCreateFreeProfile => 'Crear Perfil Gratuito';
+
+  @override
+  String get guestAlreadyHaveProfile => '¿Ya tienes un perfil? Inicia sesión';
+
+  @override
+  String get guestExitGuestMode => 'Salir del Modo Invitado';
+
+  @override
+  String get guestModeTitle => 'Modo Invitado';
+
+  @override
+  String get guestModeMessage =>
+      'Actualmente estás en modo invitado.\n\nCrea un perfil gratuito para guardar tus datos de fitness, seguir tu progreso y establecer metas.';
+
+  @override
+  String get guestStayAsGuest => 'Seguir como Invitado';
+
+  @override
+  String get guestBenefitsTitle => 'Crea un perfil para desbloquear:';
+
+  @override
+  String get guestBenefitSaveData => 'Guarda tus datos';
+
+  @override
+  String get guestBenefitSaveDataSub =>
+      'Las mediciones y el progreso persisten entre sesiones';
+
+  @override
+  String get guestBenefitSetGoals => 'Establece metas';
+
+  @override
+  String get guestBenefitSetGoalsSub =>
+      'Objetivos de peso, proteínas y calorías';
+
+  @override
+  String get guestBenefitTrackProgress => 'Sigue tu progreso';
+
+  @override
+  String get guestBenefitTrackProgressSub =>
+      'Visualiza tu viaje de fitness a lo largo del tiempo';
+
+  @override
+  String get guestBenefitReminders => 'Recordatorios';
+
+  @override
+  String get guestBenefitRemindersSub => 'Notificaciones de control de peso';
+
+  @override
+  String get guestAppFeatures => 'Funciones de la App';
+
+  @override
+  String get guestAppFeaturesSub => 'Explora todas las funciones';
+
+  @override
+  String get guestAppInfoSub => 'Información de la app';
+
+  @override
+  String get guestGetAssistance => 'Obtener ayuda';
+
+  @override
+  String goalEditTitle(String goalName) {
+    return 'Editar Meta de $goalName';
+  }
+
+  @override
+  String goalEditCurrentWeight(String unit) {
+    return 'Peso Actual ($unit)';
+  }
+
+  @override
+  String goalEditTargetWeight(String unit) {
+    return 'Peso Objetivo ($unit)';
+  }
+
+  @override
+  String get goalEditGoalType => 'Tipo de Meta';
+
+  @override
+  String get goalEditLoseWeight => 'Perder Peso';
+
+  @override
+  String get goalEditGainWeight => 'Ganar Peso';
+
+  @override
+  String get goalEditMaintainWeight => 'Mantener Peso';
+
+  @override
+  String get goalEditActiveGoal => 'Meta Activa';
+
+  @override
+  String get goalEditSave => 'Guardar';
+
+  @override
+  String get goalEditCancel => 'Cancelar';
+
+  @override
+  String get goalsInfoText =>
+      'Toca cualquier meta para editar su objetivo o activarla/desactivarla. Las metas de calorías y proteínas también se pueden configurar desde las calculadoras en la página de inicio.';
+
+  @override
+  String get goalsCalories => 'Calorías';
+
+  @override
+  String get goalsProtein => 'Proteína';
+
+  @override
+  String get goalsWeight => 'Peso';
+
+  @override
+  String get goalsDailyGoal => 'Objetivo Diario';
+
+  @override
+  String get goalsGoalSet => 'Meta Establecida';
+
+  @override
+  String get goalsTotal => 'Total';
+
+  @override
+  String get goalsActive => 'Activas';
+
+  @override
+  String get goalsCompleted => 'Completadas';
+
+  @override
+  String get goalsPromptBothMissing =>
+      'Usa las calculadoras para establecer metas de calorías y proteínas.';
+
+  @override
+  String get goalsPromptCaloriesMissing =>
+      'Establece una meta diaria de calorías desde la calculadora.';
+
+  @override
+  String get goalsPromptProteinMissing =>
+      'Establece una meta de ingesta de proteínas desde la calculadora.';
+
+  @override
+  String get aboutOurMission => 'Nuestra Misión';
+
+  @override
+  String get aboutMissionText =>
+      'Creemos que el fitness es un viaje, no un destino. Nuestra misión es hacer que el seguimiento del fitness sea simple, accesible y agradable para todos. Con Fitness Tracker, nunca estás solo en tu viaje de fitness.';
+
+  @override
+  String get aboutAppInformation => 'Información de la App';
+
+  @override
+  String get aboutAppName => 'Nombre de la App';
+
+  @override
+  String get aboutEmail => 'Correo electrónico';
+
+  @override
+  String get aboutDeveloperName => 'Mohammed jameel - Apollo';
+
+  @override
+  String get aboutBuiltWithValue => 'Flutter & Dart';
+
+  @override
+  String get notificationChannelNameFull => 'Recordatorios de control de peso';
+
+  @override
+  String get notificationChannelDescFull =>
+      'Recordatorios para registrar tu peso cada tres días.';
+
+  @override
+  String get notificationTitleText => 'Registra tu peso';
+
+  @override
+  String get notificationBodyText =>
+      'Tómate un momento para registrar tu última medición de peso.';
+
+  @override
+  String get calorieGender => 'Género';
+
+  @override
+  String get calorieAge => 'Edad (años)';
+
+  @override
+  String get calorieWeightKg => 'Peso (kg)';
+
+  @override
+  String get calorieHeightCm => 'Altura (cm)';
+
+  @override
+  String get calorieRequired => 'Obligatorio';
+
+  @override
+  String get calorieInvalidNumber => 'Número inválido';
+
+  @override
+  String get calorieActivitySedentaryFull =>
+      'Sedentario (poco o ningún ejercicio)';
+
+  @override
+  String get calorieActivityLightFull => 'Ligeramente Activo (1-3 días/semana)';
+
+  @override
+  String get calorieActivityModerateFull =>
+      'Moderadamente Activo (3-5 días/semana)';
+
+  @override
+  String get calorieActivityActiveFull => 'Muy Activo (6-7 días/semana)';
+
+  @override
+  String get calorieActivityExtraFull => 'Extra Activo (atleta/trabajo físico)';
+
+  @override
+  String calorieGoalLabel(String goal) {
+    return 'Objetivo: $goal kg/semana';
+  }
+
+  @override
+  String calorieSliderLabel(String goal) {
+    return '$goal kg/semana';
+  }
+
+  @override
+  String get calorieCalculate => 'Calcular';
+
+  @override
+  String get calorieResultsTitle => 'Resultados de Calorías';
+
+  @override
+  String get calorieBmrFull => 'Tasa Metabólica Basal (TMB)';
+
+  @override
+  String get calorieMaintenanceFull => 'Calorías de Mantenimiento';
+
+  @override
+  String calorieToLoseInfo(String weekly, String daily) {
+    return 'Para perder ${weekly}kg por semana, consume $daily calorías diarias';
+  }
+
+  @override
+  String calorieToGainInfo(String weekly, String daily) {
+    return 'Para ganar ${weekly}kg por semana, consume $daily calorías diarias';
+  }
+
+  @override
+  String calorieGoalDescLose(String weekly) {
+    return 'Perder ($weekly kg/semana)';
+  }
+
+  @override
+  String calorieGoalDescGain(String weekly) {
+    return 'Ganar ($weekly kg/semana)';
+  }
+
+  @override
+  String get calorieClose => 'Cerrar';
+
+  @override
+  String get dailyCaloriesGoalDescription => 'Mantenimiento';
+
+  @override
+  String get genderMale => 'Masculino';
+
+  @override
+  String get genderFemale => 'Femenino';
+
+  @override
+  String get bodybuilderNo => 'No';
+
+  @override
+  String get bodybuilderYes => 'Sí';
+
+  @override
+  String get idealWeightSelectGender => 'Selecciona Tu Género';
+
+  @override
+  String get idealWeightHeightCm => 'Altura (cm)';
+
+  @override
+  String get idealWeightCurrentWeightKg => 'Peso Actual (kg)';
+
+  @override
+  String get idealWeightTargetOptional => 'Peso Objetivo (kg) — Opcional';
+
+  @override
+  String idealWeightValidatorEmpty(String field) {
+    return 'Ingresa tu $field';
+  }
+
+  @override
+  String get idealWeightValidatorInvalid => 'Número inválido';
+
+  @override
+  String get idealWeightYourIdeal => 'Tu Peso Corporal Ideal';
+
+  @override
+  String get idealWeightResult => 'Peso Ideal';
+
+  @override
+  String get idealWeightCurrentWeight => 'Peso Actual';
+
+  @override
+  String get idealWeightToLose => 'Para Perder';
+
+  @override
+  String get idealWeightToGain => 'Para Ganar';
+
+  @override
+  String idealWeightNeedToLose(String diff) {
+    return 'Necesitas perder $diff kg para alcanzar tu peso ideal';
+  }
+
+  @override
+  String idealWeightNeedToGain(String diff) {
+    return 'Necesitas ganar $diff kg para alcanzar tu peso ideal';
+  }
+
+  @override
+  String get idealWeightGotIt => '¡Entendido!';
+
+  @override
+  String get proteinYourIntake => 'Tu Ingesta de Proteína';
+
+  @override
+  String get proteinBodybuilderPlan => 'Plan para Culturistas';
+
+  @override
+  String get proteinRegularPlan => 'Plan Regular';
+
+  @override
+  String get proteinDailyRange => 'Rango Diario de Proteína';
+
+  @override
+  String get proteinMinimum => 'Mínimo';
+
+  @override
+  String get proteinTo => 'a';
+
+  @override
+  String get proteinMaximum => 'Máximo';
+
+  @override
+  String get proteinBodybuilderHint =>
+      'Como culturista, consume proteína durante todo el día para un crecimiento muscular óptimo.';
+
+  @override
+  String get proteinDailyIntake => 'Ingesta Diaria de Proteína';
+
+  @override
+  String get proteinRegularHint =>
+      'Esta es la ingesta diaria de proteína recomendada para un estilo de vida saludable.';
+
+  @override
+  String get proteinGotIt => '¡Entendido!';
+
+  @override
+  String get proteinEnterWeight => 'Ingresa tu peso';
+
+  @override
+  String get measurementUpdateTitle => 'Actualiza Tu Peso';
+
+  @override
+  String get measurementUpdateSubtitle =>
+      'Actualiza automáticamente el progreso de tu meta de peso';
+
+  @override
+  String get measurementWeightGoalAuto =>
+      'Tu meta de peso se actualizará automáticamente con esta medición.';
+
+  @override
+  String measurementError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get privacyContactInfo => 'Información de Contacto';
+
+  @override
+  String get privacyContactMessage =>
+      'Si tienes alguna pregunta sobre esta Política de Privacidad, contáctanos en:';
+
+  @override
+  String get privacyContactEmail => 'mahamadbarznji712@gmail.com';
+
+  @override
+  String get termsContactInfo => 'Información de Contacto';
+
+  @override
+  String get termsContactMessage =>
+      'Para preguntas sobre estos Términos y Condiciones:';
+
+  @override
+  String get termsContactEmail => 'mahamadbarznji712@gmail.com';
+
+  @override
+  String get supportNeedHelp => '¿Necesitas Ayuda?';
+
+  @override
+  String get supportContactTeam => 'Contacta a nuestro equipo de soporte:';
+
+  @override
+  String get supportSupportEmail => 'Correo de Soporte';
+
+  @override
+  String get onboardingTagWelcome => 'BIENVENIDA';
+
+  @override
+  String get onboardingTagProgress => 'PROGRESO';
+
+  @override
+  String get onboardingTagGoals => 'METAS';
+
+  @override
+  String get onboardingTagCalculators => 'CALCULADORAS';
+
+  @override
+  String get onboardingTagPersonalized => 'PERSONALIZADO';
 }

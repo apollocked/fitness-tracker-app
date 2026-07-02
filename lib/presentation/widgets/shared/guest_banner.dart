@@ -4,6 +4,7 @@ import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/presentation/pages/auth/register_page.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 /// Sticky gradient banner shown at the top of every main page for guests.
 class GuestBanner extends StatelessWidget {
@@ -11,6 +12,7 @@ class GuestBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isGuest = context.watch<AuthViewModel>().isGuest;
     if (!isGuest) return const SizedBox.shrink();
     final theme = Theme.of(context);
@@ -34,7 +36,7 @@ class GuestBanner extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: Text(
-            'Guest mode — your data won\'t be saved.',
+            l10n.guestBannerMessage,
             style: theme.textTheme.bodySmall?.copyWith(
               color: fg,
               fontWeight: FontWeight.w600,
@@ -51,7 +53,7 @@ class GuestBanner extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14)),
             ),
-            child: const Text('Create Profile',
+            child: Text(l10n.guestCreateProfile,
                 style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
           ),
         ),
@@ -70,25 +72,23 @@ class GuestBanner extends StatelessWidget {
 class GuestGuard {
   static Future<bool> check(BuildContext context) async {
     final authVM = context.read<AuthViewModel>();
+    final l10n = AppLocalizations.of(context)!;
     if (!authVM.isGuest) return true; // not guest — allow action
 
     await showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Row(children: [
+        title: Row(children: [
           Icon(Icons.lock_outline_rounded, color: primaryColor),
           SizedBox(width: 10),
-          Text('Guest Mode'),
+          Text(l10n.guestModeTitle),
         ]),
-        content: const Text(
-          'You\'re currently in guest mode.\n\n'
-          'Create a free profile to save your fitness data, track progress, and set goals.',
-        ),
+        content: Text(l10n.guestModeMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Stay as Guest'),
+            child: Text(l10n.guestStayAsGuest),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
@@ -103,7 +103,7 @@ class GuestGuard {
                 MaterialPageRoute(builder: (_) => const RegisterPage()),
               );
             },
-            child: const Text('Create Profile'),
+            child: Text(l10n.guestCreateProfile),
           ),
         ],
       ),

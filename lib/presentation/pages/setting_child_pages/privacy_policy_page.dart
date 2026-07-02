@@ -54,18 +54,17 @@ class PrivacyPolicyPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Contact Information',
+                  Text(l10n.privacyContactInfo,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: colors.textColor)),
                   const SizedBox(height: 8),
-                  Text(
-                      'If you have any questions about this Privacy Policy, please contact us at:',
+                  Text(l10n.privacyContactMessage,
                       style:
                           TextStyle(color: colors.subtitleColor, fontSize: 13)),
                   const SizedBox(height: 8),
-                  Text('mahamadbarznji712@gmail.com',
+                  Text(l10n.privacyContactEmail,
                       style: TextStyle(
                           color: primaryColor,
                           fontWeight: FontWeight.bold,

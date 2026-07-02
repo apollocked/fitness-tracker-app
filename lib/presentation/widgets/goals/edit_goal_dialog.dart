@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_dialog_text_field
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class EditGoalDialog extends StatefulWidget {
   final String goalKey;
@@ -47,12 +48,13 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final goal = context.read<GoalsViewModel>().goals[widget.goalKey]!;
     return AlertDialog(
       backgroundColor: colors.cardColor,
       title: Text(
-          'Edit ${widget.goalKey[0].toUpperCase() + widget.goalKey.substring(1)} Goal',
+          l10n.goalEditTitle('${widget.goalKey[0].toUpperCase()}${widget.goalKey.substring(1)}'),
           style: TextStyle(color: colors.textColor)),
       content: SingleChildScrollView(
         child: Column(
@@ -61,14 +63,14 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
           children: [
             CustomDialogTextField(
               controller: _currentController,
-              text: 'Current Weight (${goal['unit'] ?? 'kg'})',
+              text: l10n.goalEditCurrentWeight(goal['unit'] ?? 'kg'),
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
             ),
             const SizedBox(height: 16),
             CustomDialogTextField(
               controller: _targetController,
-              text: 'Target Weight (${goal['unit'] ?? 'kg'})',
+              text: l10n.goalEditTargetWeight(goal['unit'] ?? 'kg'),
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
             ),
@@ -77,7 +79,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
               DropdownButtonFormField<String>(
                 value: _selectedGoalType,
                 decoration: InputDecoration(
-                  labelText: 'Goal Type',
+                  labelText: l10n.goalEditGoalType,
                   labelStyle: TextStyle(color: colors.subtitleColor),
                   filled: true,
                   fillColor: colors.cardColor,
@@ -97,35 +99,35 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
                 items: [
                   DropdownMenuItem(
                       value: 'lose',
-                      child: Text('Lose Weight',
+                      child: Text(l10n.goalEditLoseWeight,
                           style: TextStyle(color: colors.textColor))),
                   DropdownMenuItem(
                       value: 'gain',
-                      child: Text('Gain Weight',
+                      child: Text(l10n.goalEditGainWeight,
                           style: TextStyle(color: colors.textColor))),
                   DropdownMenuItem(
                       value: 'maintain',
-                      child: Text('Maintain Weight',
+                      child: Text(l10n.goalEditMaintainWeight,
                           style: TextStyle(color: colors.textColor))),
                 ],
                 onChanged: (value) => setState(() => _selectedGoalType = value),
               ),
               const SizedBox(height: 20),
             ],
-            _buildActiveSwitch(colors),
+            _buildActiveSwitch(colors, l10n),
           ],
         ),
       ),
       actions: [
         TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel')),
-        TextButton(onPressed: _saveChanges, child: const Text('Save')),
+            child: Text(l10n.goalEditCancel)),
+        TextButton(onPressed: _saveChanges, child: Text(l10n.goalEditSave)),
       ],
     );
   }
 
-  Widget _buildActiveSwitch(AppColorsExtension colors) {
+  Widget _buildActiveSwitch(AppColorsExtension colors, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       decoration: BoxDecoration(
@@ -136,7 +138,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Active Goal',
+          Text(l10n.goalEditActiveGoal,
               style: TextStyle(fontSize: 16, color: colors.textColor)),
           Switch(
               value: _isActive,

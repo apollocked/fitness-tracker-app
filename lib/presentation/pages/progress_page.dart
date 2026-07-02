@@ -193,7 +193,7 @@ class _GoalProgressBanner extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                     l10n.progressGoalForValue(
-                        '${current.toStringAsFixed(1)} / ${target.toStringAsFixed(1)} kg'),
+                        '${current.toStringAsFixed(1)} / ${target.toStringAsFixed(1)} ${l10n.progressKg}'),
                     style:
                         TextStyle(fontSize: 11, color: colors.subtitleColor)),
               ],
@@ -266,7 +266,7 @@ class _MeasurementList extends StatelessWidget {
                       value: calculator
                           .calculateBMI(last.weight, user.height)
                           .toStringAsFixed(1),
-                      label: 'BMI',
+                      label: l10n.progressBmi,
                       color: blueColor,
                     ),
                   _MiniStat(

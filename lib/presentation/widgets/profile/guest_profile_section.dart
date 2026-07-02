@@ -38,8 +38,8 @@ class GuestProfilePage extends StatelessWidget {
               SizedBox(
                 width: double.infinity, height: 50,
                 child: ElevatedButton.icon(
-                  icon: const Icon(Icons.person_add_outlined, size: 20),
-                  label: const Text('Create Free Profile',
+                  icon: Icon(Icons.person_add_outlined, size: 20),
+                  label: Text(l10n.guestCreateFreeProfile,
                       style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
                   onPressed: () => Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const RegisterPage())),
@@ -53,8 +53,8 @@ class GuestProfilePage extends StatelessWidget {
                     side: const BorderSide(color: primaryColor, width: 1.5),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                   ),
-                  icon: const Icon(Icons.login_rounded, color: primaryColor, size: 20),
-                  label: const Text('Already have a profile? Login',
+                  icon: Icon(Icons.login_rounded, color: primaryColor, size: 20),
+                  label: Text(l10n.guestAlreadyHaveProfile,
                       style: TextStyle(color: primaryColor, fontWeight: FontWeight.w600, fontSize: 14)),
                   onPressed: () {
                     context.read<AuthViewModel>().logout();
@@ -68,7 +68,7 @@ class GuestProfilePage extends StatelessWidget {
               const SizedBox(height: 20),
               TextButton.icon(
                 icon: Icon(Icons.logout_rounded, color: redColor, size: 18),
-                label: Text('Exit Guest Mode',
+                label: Text(l10n.guestExitGuestMode,
                     style: TextStyle(color: redColor, fontWeight: FontWeight.w600)),
                 onPressed: () {
                   context.read<AuthViewModel>().logout();

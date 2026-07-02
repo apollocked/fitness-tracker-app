@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class GuestHeroSection extends StatelessWidget {
   final bool isDark;
@@ -7,6 +8,7 @@ class GuestHeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final fg = isDark ? const Color(0xFFE0E0E0) : blackColor;
     return Container(
       width: double.infinity, padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 24),
@@ -26,10 +28,10 @@ class GuestHeroSection extends StatelessWidget {
           child: Icon(Icons.person_outline_rounded, size: 44, color: fg),
         ),
         const SizedBox(height: 14),
-        Text('Browsing as Guest',
+        Text(l10n.guestBrowsingAsGuest,
             style: TextStyle(color: fg, fontSize: 20, fontWeight: FontWeight.w700)),
         const SizedBox(height: 6),
-        Text('Your data is not being saved',
+        Text(l10n.guestDataNotSaved,
             style: TextStyle(color: fg.withOpacity(0.7), fontSize: 13, fontWeight: FontWeight.w500)),
       ]),
     );

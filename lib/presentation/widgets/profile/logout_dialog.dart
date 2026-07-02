@@ -16,8 +16,8 @@ class LogoutDialog {
         final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
           backgroundColor: colors.cardColor,
-          title: Text('Logout', style: TextStyle(color: colors.textColor)),
-          content: Text('Are you sure you want to logout?',
+          title: Text(l10n.logoutTitle, style: TextStyle(color: colors.textColor)),
+          content: Text(l10n.logoutMessage,
               style: TextStyle(color: colors.textColor)),
           actions: [
             TextButton(
@@ -34,7 +34,7 @@ class LogoutDialog {
                   );
                 }
               },
-              child: Text('Logout', style: TextStyle(color: redColor)),
+              child: Text(l10n.logoutTitle, style: TextStyle(color: redColor)),
             ),
           ],
         );

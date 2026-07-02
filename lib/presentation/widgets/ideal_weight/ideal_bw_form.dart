@@ -4,6 +4,7 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_textfield.dart';
 import 'package:fit_tracker/presentation/widgets/shared/select_gender_radio.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 /// Form fields for the Ideal Body Weight calculator.
 class IdealBwForm extends StatelessWidget {
@@ -24,19 +25,20 @@ class IdealBwForm extends StatelessWidget {
   final String gender;
   final ValueChanged<String> onGenderChanged;
 
-  String? _numValidator(String? v, String field) {
-    if (v == null || v.isEmpty) return 'Enter your $field';
-    if (double.tryParse(v) == null) return 'Invalid number';
+  String? _numValidator(String? v, String field, AppLocalizations l10n) {
+    if (v == null || v.isEmpty) return l10n.idealWeightValidatorEmpty(field);
+    if (double.tryParse(v) == null) return l10n.idealWeightValidatorInvalid;
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Form(
       key: formKey,
       child: Column(children: [
-        Text('Select Your Gender',
+        Text(l10n.idealWeightSelectGender,
             style: TextStyle(color: colors.subtitleColor, fontSize: 15)),
         CustomGenderRatio(
             color: blueColor,
@@ -49,10 +51,10 @@ class IdealBwForm extends StatelessWidget {
           keyboard: TextInputType.number,
           color: blueColor,
           onSaved: (_) {},
-          text: 'Height (cm)',
+          text: l10n.idealWeightHeightCm,
           icon: const Icon(Icons.height_rounded),
           input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-          validator: (v) => _numValidator(v, 'height'),
+          validator: (v) => _numValidator(v, 'height', l10n),
         ),
         const SizedBox(height: 14),
         CustomTextfield(
@@ -61,10 +63,10 @@ class IdealBwForm extends StatelessWidget {
           keyboard: TextInputType.number,
           color: blueColor,
           onSaved: (_) {},
-          text: 'Current Weight (kg)',
+          text: l10n.idealWeightCurrentWeightKg,
           icon: const Icon(Icons.monitor_weight_outlined),
           input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-          validator: (v) => _numValidator(v, 'weight'),
+          validator: (v) => _numValidator(v, 'weight', l10n),
         ),
         const SizedBox(height: 14),
         CustomTextfield(
@@ -73,12 +75,12 @@ class IdealBwForm extends StatelessWidget {
           keyboard: TextInputType.number,
           color: blueColor,
           onSaved: (_) {},
-          text: 'Target Weight (kg) — Optional',
+          text: l10n.idealWeightTargetOptional,
           icon: const Icon(Icons.flag_outlined),
           input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
           validator: (v) {
             if (v != null && v.isNotEmpty && double.tryParse(v) == null) {
-              return 'Invalid number';
+              return l10n.idealWeightValidatorInvalid;
             }
             return null;
           },

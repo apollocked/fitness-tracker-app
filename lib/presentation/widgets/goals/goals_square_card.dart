@@ -3,12 +3,23 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
+
+String _goalLabel(AppLocalizations l10n, String key) {
+  switch (key) {
+    case 'calories': return l10n.goalsCalories;
+    case 'protein': return l10n.goalsProtein;
+    case 'weight': return l10n.goalsWeight;
+    default: return key[0].toUpperCase() + key.substring(1);
+  }
+}
 
 class GoalsSquareCard extends StatelessWidget {
   final String goalKey;
   const GoalsSquareCard({super.key, required this.goalKey});
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final goal = context.watch<GoalsViewModel>().goals[goalKey];
     if (goal == null) return const SizedBox();
@@ -21,17 +32,17 @@ class GoalsSquareCard extends StatelessWidget {
       case 'calories':
         cardColor = redColor;
         icon = Icons.local_fire_department;
-        title = 'Calories';
+        title = l10n.goalsCalories;
         break;
       case 'protein':
         cardColor = orangeColor;
         icon = Icons.restaurant;
-        title = 'Protein';
+        title = l10n.goalsProtein;
         break;
       default:
         cardColor = primaryColor;
         icon = Icons.flag;
-        title = goalKey;
+        title = _goalLabel(l10n, goalKey);
     }
     return Container(
       decoration: BoxDecoration(
@@ -73,7 +84,7 @@ class GoalsSquareCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Daily Goal',
+                Text(l10n.goalsDailyGoal,
                     style:
                         TextStyle(fontSize: 11, color: colors.subtitleColor)),
                 const SizedBox(height: 4),
@@ -89,7 +100,7 @@ class GoalsSquareCard extends StatelessWidget {
                 children: [
                   Icon(Icons.circle, size: 8, color: greenColor),
                   SizedBox(width: 6),
-                  Text('Goal Set',
+                  Text(l10n.goalsGoalSet,
                       style: TextStyle(
                           fontSize: 11,
                           color: greenColor,

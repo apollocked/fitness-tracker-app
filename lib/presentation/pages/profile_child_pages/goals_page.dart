@@ -51,7 +51,10 @@ class GoalsPage extends StatelessWidget {
             !goalsVM.goals.containsKey('protein'))
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: _CalcPromptCard(colors: colors),
+            child: _CalcPromptCard(
+              colors: colors,
+              l10n: AppLocalizations.of(context)!,
+            ),
           ),
       ],
     );
@@ -88,7 +91,7 @@ class GoalsPage extends StatelessWidget {
             if (!hasOtherGoals) ...[
               _CalcOption(
                 icon: Icons.monitor_weight_outlined,
-                label: 'Ideal Body Weight',
+                label: l10n.homeIdealBodyWeight,
                 color: blueColor,
                 isDark: isDark,
                 onTap: () => Navigator.pushNamed(context, '/ideal-weight'),
@@ -171,8 +174,8 @@ class _CalcOption extends StatelessWidget {
 
 class _CalcPromptCard extends StatelessWidget {
   final AppColorsExtension colors;
-
-  const _CalcPromptCard({required this.colors});
+  final AppLocalizations l10n;
+  const _CalcPromptCard({required this.colors, required this.l10n});
 
   @override
   Widget build(BuildContext context) {
@@ -195,10 +198,10 @@ class _CalcPromptCard extends StatelessWidget {
           Expanded(
             child: Text(
               !hasCalories && !hasProtein
-                  ? 'Use the calculators to set calorie and protein goals.'
+                  ? l10n.goalsPromptBothMissing
                   : !hasCalories
-                      ? 'Set a daily calorie goal from the calculator.'
-                      : 'Set a protein intake goal from the calculator.',
+                      ? l10n.goalsPromptCaloriesMissing
+                      : l10n.goalsPromptProteinMissing,
               style:
                   TextStyle(fontSize: 12, color: colors.textColor, height: 1.4),
             ),

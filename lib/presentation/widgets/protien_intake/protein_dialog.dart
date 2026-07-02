@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class ProteinResultsDialog {
   static void showResults(
@@ -11,6 +12,7 @@ class ProteinResultsDialog {
     required double maxProtein,
     required VoidCallback onSetGoal,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
     showDialog(
@@ -34,13 +36,13 @@ class ProteinResultsDialog {
                       size: 48, color: orangeColor),
                 ),
                 const SizedBox(height: 20),
-                Text('Your Protein Intake',
+                Text(l10n.proteinYourIntake,
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: colors.textColor)),
                 const SizedBox(height: 8),
-                Text(isBodybuilder ? 'Bodybuilder Plan' : 'Regular Plan',
+                Text(isBodybuilder ? l10n.proteinBodybuilderPlan : l10n.proteinRegularPlan,
                     style:
                         TextStyle(fontSize: 14, color: colors.subtitleColor)),
                 const SizedBox(height: 24),
@@ -48,7 +50,7 @@ class ProteinResultsDialog {
                   _ResultPanel(
                     child: Column(
                       children: [
-                        Text('Daily Protein Range',
+                        Text(l10n.proteinDailyRange,
                             style: TextStyle(
                                 fontSize: 14, color: colors.subtitleColor)),
                         const SizedBox(height: 12),
@@ -56,15 +58,15 @@ class ProteinResultsDialog {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             _ProteinValue(
-                              label: 'Minimum',
+                              label: l10n.proteinMinimum,
                               value: minProtein,
                               colors: colors,
                             ),
-                            Text('to',
+                            Text(l10n.proteinTo,
                                 style: TextStyle(
                                     fontSize: 16, color: colors.subtitleColor)),
                             _ProteinValue(
-                              label: 'Maximum',
+                              label: l10n.proteinMaximum,
                               value: maxProtein,
                               colors: colors,
                             ),
@@ -75,8 +77,7 @@ class ProteinResultsDialog {
                   ),
                   const SizedBox(height: 16),
                   _HintBox(
-                    message:
-                        'As a bodybuilder, consume protein throughout the day for optimal muscle growth.',
+                    message: l10n.proteinBodybuilderHint,
                     color: blueColor,
                     colors: colors,
                   ),
@@ -84,7 +85,7 @@ class ProteinResultsDialog {
                   _ResultPanel(
                     child: Column(
                       children: [
-                        Text('Daily Protein Intake',
+                        Text(l10n.proteinDailyIntake,
                             style: TextStyle(
                                 fontSize: 14, color: colors.subtitleColor)),
                         const SizedBox(height: 12),
@@ -98,8 +99,7 @@ class ProteinResultsDialog {
                   ),
                   const SizedBox(height: 16),
                   _HintBox(
-                    message:
-                        'This is the recommended daily protein intake for a healthy lifestyle.',
+                    message: l10n.proteinRegularHint,
                     color: greenColor,
                     colors: colors,
                   ),
@@ -113,7 +113,7 @@ class ProteinResultsDialog {
                       onSetGoal();
                       Navigator.pop(context);
                     },
-                    child: const Text('Got it!',
+                    child: Text(l10n.proteinGotIt,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
                   ),

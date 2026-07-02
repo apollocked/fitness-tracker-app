@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class CustomBodyTypeRatio extends StatelessWidget {
   final bool isBodybuilder;
@@ -12,12 +13,13 @@ class CustomBodyTypeRatio extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     return Column(
       children: [
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(orangeColor),
-          title: Text("No", style: TextStyle(color: colors.textColor)),
+          title: Text(l10n.bodybuilderNo, style: TextStyle(color: colors.textColor)),
           value: false.toString(),
           groupValue: isBodybuilder.toString(),
           onChanged: (value) {
@@ -27,7 +29,7 @@ class CustomBodyTypeRatio extends StatelessWidget {
         RadioListTile<String>(
           fillColor: WidgetStatePropertyAll(orangeColor),
           title: Text(
-            "Yes",
+            l10n.bodybuilderYes,
             style: TextStyle(color: colors.textColor),
           ),
           value: true.toString(),

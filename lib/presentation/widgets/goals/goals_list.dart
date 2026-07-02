@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fit_tracker/presentation/widgets/goals/goals_tile.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class GoalsList extends StatelessWidget {
   const GoalsList({super.key});
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
 
@@ -31,7 +33,7 @@ class GoalsList extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'Tap any goal to edit its target or toggle it on/off. Calorie and protein goals can also be set from the calculators on the Home page.',
+                  l10n.goalsInfoText,
                   style: TextStyle(
                       fontSize: 12, color: colors.textColor, height: 1.4),
                 ),

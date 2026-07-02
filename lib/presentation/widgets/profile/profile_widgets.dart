@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 /// Gradient avatar + name/email header for the profile page.
 class ProfileHero extends StatelessWidget {
@@ -52,7 +53,7 @@ class ProfileHero extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: colors.textColor)),
           const SizedBox(height: 4),
-          Text('Your personal fitness journey',
+          Text(AppLocalizations.of(context)!.profilePersonalJourney,
               style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
         ],
       ),

@@ -21,31 +21,31 @@ class _OnboardingPageState extends State<OnboardingPage> {
         OnboardingSlideData(
             gradient: primaryGradient,
             icon: Icons.fitness_center_rounded,
-            tag: 'WELCOME',
+            tag: l10n.onboardingTagWelcome,
             title: l10n.appTitle,
             subtitle: l10n.appDescriptionLocal),
         OnboardingSlideData(
             gradient: greenGradient,
             icon: Icons.show_chart_rounded,
-            tag: 'PROGRESS',
+            tag: l10n.onboardingTagProgress,
             title: l10n.onboardingProgressTitle,
             subtitle: l10n.onboardingProgressDesc),
         OnboardingSlideData(
             gradient: orangeGradient,
             icon: Icons.flag_rounded,
-            tag: 'GOALS',
+            tag: l10n.onboardingTagGoals,
             title: l10n.onboardingGoalsTitle,
             subtitle: l10n.onboardingGoalsDesc),
         OnboardingSlideData(
             gradient: purpleGradient,
             icon: Icons.calculate_rounded,
-            tag: 'CALCULATORS',
+            tag: l10n.onboardingTagCalculators,
             title: l10n.onboardingCalculatorsTitle,
             subtitle: l10n.onboardingCalculatorsDesc),
         OnboardingSlideData(
             gradient: lightBlueGradient,
             icon: Icons.person_rounded,
-            tag: 'PERSONALIZED',
+            tag: l10n.onboardingTagPersonalized,
             title: l10n.onboardingPersonalizedTitle,
             subtitle: l10n.appNoAccountNeeded),
       ];
@@ -74,18 +74,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
   }
 
   void _showLanguagePicker() {
+    final l10n = AppLocalizations.of(context)!;
     final appVM = context.read<AppViewModel>();
     final options = ['en', 'ckb', 'ar', 'es'];
     final labels = {
-      'en': 'English',
-      'ckb': 'کوردی (سۆرانی)',
-      'ar': 'العربية',
-      'es': 'Español',
+      'en': l10n.settingsLanguageNativeEn,
+      'ckb': l10n.settingsLanguageNativeCkb,
+      'ar': l10n.settingsLanguageNativeAr,
+      'es': l10n.settingsLanguageNativeEs,
     };
     showDialog(
       context: context,
       builder: (ctx) => SimpleDialog(
-        title: Text(AppLocalizations.of(context)!.settingsLanguage),
+        title: Text(l10n.settingsLanguage),
         children: options.map((code) {
           final selected = code == appVM.localeCode;
           return RadioListTile<String>(

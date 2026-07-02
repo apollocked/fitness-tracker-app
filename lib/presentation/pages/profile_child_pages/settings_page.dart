@@ -20,6 +20,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   Future<void> _onNotificationsChanged(BuildContext context, bool value) async {
+    final l10n = AppLocalizations.of(context)!;
     if (value) {
       final accepted = await showNotificationRationale(context);
       if (!accepted || !context.mounted) return;
@@ -32,7 +33,7 @@ class SettingsPage extends StatelessWidget {
 
     if (!success &&
         value &&
-        appVM.settingsError == 'Notification permission is blocked.') {
+        appVM.errorCode == 'notificationBlocked') {
       await showAppSettingsRedirect(context);
       if (!context.mounted) return;
       final retry = await appVM.setNotifications(value);
@@ -40,7 +41,7 @@ class SettingsPage extends StatelessWidget {
         await context.read<AuthViewModel>().reloadUser();
         messenger.showSnackBar(
           SnackBar(
-            content: Text(appVM.successMessage ?? 'Notifications enabled.'),
+            content: Text(l10n.settingsNotificationsEnabled),
             backgroundColor: greenColor,
           ),
         );
@@ -49,11 +50,12 @@ class SettingsPage extends StatelessWidget {
     }
 
     await context.read<AuthViewModel>().reloadUser();
+    final snackMsg = appVM.errorCode != null
+        ? _errorMessage(appVM.errorCode!, l10n)
+        : (success ? l10n.settingsNotificationsEnabled : l10n.settingsUpdated);
     messenger.showSnackBar(
       SnackBar(
-        content: Text(
-          appVM.successMessage ?? appVM.settingsError ?? 'Settings updated.',
-        ),
+        content: Text(snackMsg),
         backgroundColor: success ? greenColor : redColor,
       ),
     );
@@ -62,16 +64,37 @@ class SettingsPage extends StatelessWidget {
     }
   }
 
-  String _languageLabel(String code) {
+  String _errorMessage(String code, AppLocalizations l10n) {
+    switch (code) {
+      case 'notificationBlocked':
+        return l10n.errorNotificationBlocked;
+      case 'notificationDenied':
+        return l10n.errorNotificationDenied;
+      case 'notificationSchedule':
+        return l10n.errorNotificationSchedule;
+      case 'notificationUpdate':
+        return l10n.errorNotificationUpdate;
+      case 'noUserLoggedIn':
+        return l10n.errorNoUserLoggedIn;
+      case 'profileUpdate':
+        return l10n.errorProfileUpdate;
+      case 'usernameTaken':
+        return l10n.errorUsernameTaken;
+      default:
+        return l10n.settingsUpdated;
+    }
+  }
+
+  String _languageLabel(String code, AppLocalizations l10n) {
     switch (code) {
       case 'ckb':
-        return 'کوردی (سۆرانی)';
+        return l10n.settingsLanguageNativeCkb;
       case 'ar':
-        return 'العربية';
+        return l10n.settingsLanguageNativeAr;
       case 'es':
-        return 'Español';
+        return l10n.settingsLanguageNativeEs;
       default:
-        return 'English';
+        return l10n.settingsLanguageNativeEn;
     }
   }
 
@@ -81,10 +104,10 @@ class SettingsPage extends StatelessWidget {
     final current = appVM.localeCode;
     final options = ['en', 'ckb', 'ar', 'es'];
     final labels = {
-      'en': 'English',
-      'ckb': 'کوردی (سۆرانی)',
-      'ar': 'العربية',
-      'es': 'Español',
+      'en': l10n.settingsLanguageNativeEn,
+      'ckb': l10n.settingsLanguageNativeCkb,
+      'ar': l10n.settingsLanguageNativeAr,
+      'es': l10n.settingsLanguageNativeEs,
     };
     showDialog(
       context: context,
@@ -157,7 +180,7 @@ class SettingsPage extends StatelessWidget {
                 context,
                 Icons.language_outlined,
                 l10n.settingsLanguage,
-                _languageLabel(appVM.localeCode),
+                _languageLabel(appVM.localeCode, l10n),
                 () => _showLanguagePicker(context)),
           ]),
           const SizedBox(height: 20),

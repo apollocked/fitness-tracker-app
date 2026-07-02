@@ -65,7 +65,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
       setState(() => _isLoading = false);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: $e'), backgroundColor: redColor));
+            SnackBar(content: Text(l10n.measurementError(e.toString())), backgroundColor: redColor));
       }
     }
   }
@@ -94,10 +94,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Update Your Weight',
+                      Text(l10n.measurementUpdateTitle,
                           style: theme.textTheme.titleLarge),
                       const SizedBox(height: 6),
-                      Text('Updates your weight goal progress automatically',
+                      Text(l10n.measurementUpdateSubtitle,
                           style: TextStyle(
                               color: colors.subtitleColor, fontSize: 13)),
                       const SizedBox(height: 24),
@@ -123,8 +123,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                       ),
                       const SizedBox(height: 16),
                       InfoBox(
-                          message:
-                              'Your weight goal will be automatically updated with this measurement.',
+                          message: l10n.measurementWeightGoalAuto,
                           accentColor: greenColor),
                       const SizedBox(height: 28),
                       CalcButton(

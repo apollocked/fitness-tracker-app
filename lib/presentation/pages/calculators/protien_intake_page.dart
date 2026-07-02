@@ -106,8 +106,8 @@ class _ProtienIntakePageState extends State<ProtienIntakePage> {
                 icon: const Icon(Icons.monitor_weight_outlined),
                 input: FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
                 validator: (v) {
-                  if (v == null || v.isEmpty) return 'Enter your weight';
-                  if (double.tryParse(v) == null) return 'Invalid number';
+                  if (v == null || v.isEmpty) return l10n.proteinEnterWeight;
+                  if (double.tryParse(v) == null) return l10n.calorieInvalidNumber;
                   return null;
                 },
               ),

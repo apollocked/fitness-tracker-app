@@ -9,6 +9,25 @@ import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
 
+String _goalLabel(AppLocalizations l10n, String key) {
+  switch (key) {
+    case 'calories': return l10n.goalsCalories;
+    case 'protein': return l10n.goalsProtein;
+    case 'weight': return l10n.goalsWeight;
+    default: return key[0].toUpperCase() + key.substring(1);
+  }
+}
+
+String _bmiCategoryLabel(AppLocalizations l10n, String category) {
+  switch (category) {
+    case 'Underweight': return l10n.bmiUnderweight;
+    case 'Normal': return l10n.bmiNormal;
+    case 'Overweight': return l10n.bmiOverweight;
+    case 'Obese': return l10n.bmiObese;
+    default: return category;
+  }
+}
+
 class GreetingBanner extends StatelessWidget {
   const GreetingBanner({super.key, this.username});
   final String? username;
@@ -43,7 +62,7 @@ class GreetingBanner extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: colors.subtitleColor),
                 children: [
                   TextSpan(
-                    text: '${username ?? 'Athlete'}!',
+                    text: '${username ?? l10n.homeAthleteFallback}!',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -53,7 +72,7 @@ class GreetingBanner extends StatelessWidget {
                 ],
               )),
               const SizedBox(height: 4),
-              Text('Your fitness journey at a glance',
+              Text(l10n.homeFitnessJourney,
                   style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
             ]),
           ),
@@ -89,7 +108,8 @@ class StatsSummaryCard extends StatelessWidget {
     final bmi = weight > 0 && user.height > 0
         ? calculator.calculateBMI(weight, user.height)
         : 0.0;
-    final category = bmi > 0 ? calculator.getBMICategory(bmi) : null;
+    final categoryRaw = bmi > 0 ? calculator.getBMICategory(bmi) : null;
+    final category = categoryRaw != null ? _bmiCategoryLabel(l10n, categoryRaw) : null;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -241,7 +261,7 @@ class DashboardGoalsSection extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: colors.textColor)),
                   const SizedBox(height: 2),
-                  Text('Set fitness goals to track your progress',
+                  Text(l10n.homeNoGoalsSubtitle,
                       style:
                           TextStyle(fontSize: 12, color: colors.subtitleColor)),
                 ],
@@ -253,7 +273,7 @@ class DashboardGoalsSection extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: onViewAll,
                 icon: const Icon(Icons.add, size: 16),
-                label: const Text('Set Goal',
+                label: Text(l10n.homeSetGoal,
                     style:
                         TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
                 style: ElevatedButton.styleFrom(
@@ -303,7 +323,7 @@ class DashboardGoalsSection extends StatelessWidget {
               const Spacer(),
               GestureDetector(
                 onTap: onViewAll,
-                child: Text('View All',
+                child: Text(l10n.homeViewAll,
                     style: TextStyle(
                         fontSize: 12,
                         color: primaryColor,
@@ -330,6 +350,7 @@ class _GoalProgressTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final goalsVM = context.watch<GoalsViewModel>();
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -360,7 +381,7 @@ class _GoalProgressTile extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(goalKey[0].toUpperCase() + goalKey.substring(1),
+                  Text(_goalLabel(l10n, goalKey),
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,

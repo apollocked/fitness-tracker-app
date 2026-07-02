@@ -39,10 +39,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
+    final l10n = AppLocalizations.of(context)!;
     final authVM = context.read<AuthViewModel>();
     final username = _usernameCtrl.text.trim();
     if (authVM.usernameExists(username)) {
-      _snack('Username already taken', redColor);
+      _snack(l10n.errorUsernameTaken, redColor);
       return;
     }
     final user = UserModel(

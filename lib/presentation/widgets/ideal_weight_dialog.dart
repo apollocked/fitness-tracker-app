@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/l10n/app_localizations.dart';
 
 class IdealWeightResultsDialog {
   static void showResults(
@@ -11,6 +12,7 @@ class IdealWeightResultsDialog {
     required String goalType,
     required double weightDifference,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).extension<AppColorsExtension>()!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final difference = currentWeight - idealWeight;
@@ -35,7 +37,7 @@ class IdealWeightResultsDialog {
                   child: Icon(Icons.scale, size: 48, color: blueColor),
                 ),
                 const SizedBox(height: 20),
-                Text('Your Ideal Body Weight',
+                Text(l10n.idealWeightYourIdeal,
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -51,11 +53,11 @@ class IdealWeightResultsDialog {
                   ),
                   child: Column(
                     children: [
-                      Text('Ideal Weight',
+                      Text(l10n.idealWeightResult,
                           style: TextStyle(
                               fontSize: 14, color: colors.subtitleColor)),
                       const SizedBox(height: 8),
-                      Text('${idealWeight.toStringAsFixed(1)} kg',
+                      Text('${idealWeight.toStringAsFixed(1)} ${l10n.bodyStatsKg}',
                           style: TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
@@ -74,11 +76,11 @@ class IdealWeightResultsDialog {
                     children: [
                       Column(
                         children: [
-                          Text('Current Weight',
+                          Text(l10n.idealWeightCurrentWeight,
                               style: TextStyle(
                                   fontSize: 12, color: colors.subtitleColor)),
                           const SizedBox(height: 8),
-                          Text('${currentWeight.toStringAsFixed(1)} kg',
+                          Text('${currentWeight.toStringAsFixed(1)} ${l10n.bodyStatsKg}',
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -91,14 +93,14 @@ class IdealWeightResultsDialog {
                           color: colors.subtitleColor.withOpacity(0.3)),
                       Column(
                         children: [
-                          Text(isOverweight ? 'To Lose' : 'To Gain',
+                          Text(isOverweight ? l10n.idealWeightToLose : l10n.idealWeightToGain,
                               style: TextStyle(
                                   fontSize: 12,
                                   color: isOverweight
                                       ? redColor
                                       : greenColor)),
                           const SizedBox(height: 8),
-                          Text('${difference.abs().toStringAsFixed(1)} kg',
+                          Text('${difference.abs().toStringAsFixed(1)} ${l10n.bodyStatsKg}',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -134,8 +136,8 @@ class IdealWeightResultsDialog {
                       Expanded(
                         child: Text(
                           isOverweight
-                              ? 'You need to lose ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight'
-                              : 'You need to gain ${difference.abs().toStringAsFixed(1)} kg to reach your ideal weight',
+                              ? l10n.idealWeightNeedToLose(difference.abs().toStringAsFixed(1))
+                              : l10n.idealWeightNeedToGain(difference.abs().toStringAsFixed(1)),
                           style: TextStyle(
                               fontSize: 12,
                               color: isOverweight
@@ -156,7 +158,7 @@ class IdealWeightResultsDialog {
                         onSetGoal?.call();
                         Navigator.pop(context);
                       },
-                      child: const Text('Got it!',
+                      child: Text(l10n.idealWeightGotIt,
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
                     ),

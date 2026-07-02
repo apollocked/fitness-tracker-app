@@ -59,7 +59,7 @@ class ProfilePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        sectionLabel('ACCOUNT', colors),
+        sectionLabel(l10n.profileSectionAccount, colors),
         const SizedBox(height: 8),
         sectionCard(context, colors, [
           ProfileMenuTile(
@@ -77,7 +77,7 @@ class ProfilePage extends StatelessWidget {
               onTap: () => pushPage(context, const GoalsPage())),
         ]),
         const SizedBox(height: 16),
-        sectionLabel('APP', colors),
+        sectionLabel(l10n.profileSectionApp, colors),
         const SizedBox(height: 8),
         sectionCard(context, colors, [
           ProfileMenuTile(
@@ -97,7 +97,7 @@ class ProfilePage extends StatelessWidget {
           ProfileMenuTile(
               icon: Icons.auto_fix_high_rounded,
               title: l10n.profileFeatures,
-              subtitle: 'Explore all features',
+              subtitle: l10n.guestAppFeaturesSub,
               accentColor: blueColor,
               onTap: () => pushPage(context, const FeaturesPage())),
           sectionDivider(colors),
@@ -112,8 +112,8 @@ class ProfilePage extends StatelessWidget {
         sectionCard(context, colors, [
           ProfileMenuTile(
               icon: Icons.logout_rounded,
-              title: 'Logout',
-              subtitle: 'Sign out of your profile',
+              title: l10n.profileLogout,
+              subtitle: l10n.profileLogoutSubtitle,
               accentColor: redColor,
               isDanger: true,
               onTap: () => LogoutDialog.show(context)),
