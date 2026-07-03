@@ -1741,97 +1741,96 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsLanguageNativeEs => 'Español';
 
   @override
-  String get settingsNotificationsEnabled => 'Notifications enabled.';
+  String get settingsNotificationsEnabled => 'تم تمكين الإشعارات.';
 
   @override
-  String get settingsUpdated => 'Settings updated.';
+  String get settingsUpdated => 'تم تحديث الإعدادات.';
 
   @override
-  String get settingsPleaseFillFields => 'Please fill all fields';
+  String get settingsPleaseFillFields => 'يرجى ملء جميع الحقول';
 
   @override
-  String get settingsUpdateButton => 'Update';
+  String get settingsUpdateButton => 'تحديث';
 
   @override
-  String get settingsAccountDeleted => 'Account deleted successfully';
+  String get settingsAccountDeleted => 'تم حذف الحساب بنجاح';
 
   @override
   String settingsFailedDelete(String error) {
-    return 'Failed to delete account: $error';
+    return 'فشل حذف الحساب: $error';
   }
 
   @override
-  String get profileSectionAccount => 'ACCOUNT';
+  String get profileSectionAccount => 'الحساب';
 
   @override
-  String get profileSectionApp => 'APP';
+  String get profileSectionApp => 'التطبيق';
 
   @override
-  String get profileLogout => 'Logout';
+  String get profileLogout => 'تسجيل الخروج';
 
   @override
-  String get profileLogoutSubtitle => 'Sign out of your profile';
+  String get profileLogoutSubtitle => 'تسجيل الخروج من ملفك الشخصي';
 
   @override
-  String get profilePersonalJourney => 'Your personal fitness journey';
+  String get profilePersonalJourney => 'رحلتك الشخصية في اللياقة البدنية';
 
   @override
-  String get profileAccount => 'Account';
+  String get profileAccount => 'الحساب';
 
   @override
-  String get loginOr => 'or';
+  String get loginOr => 'أو';
 
   @override
-  String get loginViewOnboarding => 'View Onboarding';
+  String get loginViewOnboarding => 'عرض الدليل التعريفي';
 
   @override
-  String get logoutTitle => 'Logout';
+  String get logoutTitle => 'تسجيل الخروج';
 
   @override
-  String get logoutMessage => 'Are you sure you want to logout?';
+  String get logoutMessage => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
 
   @override
   String get homeTip1 =>
-      'Consistency beats intensity — small daily habits build lasting results.';
+      'الاستمرارية تتفوق على الشدة — العادات اليومية الصغيرة تبني نتائج دائمة.';
 
   @override
   String get homeTip2 =>
-      'Stay hydrated! Drink water before, during, and after your workout.';
+      'حافظ على ترطيب جسمك! اشرب الماء قبل وأثناء وبعد التمرين.';
 
   @override
   String get homeTip3 =>
-      'Aim for 7-9 hours of sleep to support muscle recovery and growth.';
+      'احصل على ٧-٩ ساعات من النوم لدعم تعافي العضلات ونموها.';
 
   @override
-  String get homeTip4 => 'Track your meals — what gets measured gets managed.';
+  String get homeTip4 => 'تتبع وجباتك — ما يتم قياسه يُدار بشكل أفضل.';
 
   @override
-  String get homeTip5 => 'Rest days are just as important as training days.';
+  String get homeTip5 => 'أيام الراحة لا تقل أهمية عن أيام التمرين.';
 
   @override
-  String get homeCalculatorSubtitle =>
-      'Science-backed tools to guide your fitness journey';
+  String get homeCalculatorSubtitle => 'أدوات مدعومة علمياً لتوجيه رحلة لياقتك';
 
   @override
-  String get homeIdealBodyWeight => 'Ideal Body Weight';
+  String get homeIdealBodyWeight => 'الوزن المثالي للجسم';
 
   @override
-  String get homeLogWeight => 'Log Weight';
+  String get homeLogWeight => 'تسجيل الوزن';
 
   @override
-  String get homeAthleteFallback => 'Athlete';
+  String get homeAthleteFallback => 'رياضي';
 
   @override
-  String get homeFitnessJourney => 'Your fitness journey at a glance';
+  String get homeFitnessJourney => 'رحلة لياقتك في لمحة';
 
   @override
-  String get homeNoGoalsSubtitle => 'Set fitness goals to track your progress';
+  String get homeNoGoalsSubtitle => 'حدد أهداف لياقة بدنية لتتبع تقدمك';
 
   @override
-  String get homeSetGoal => 'Set Goal';
+  String get homeSetGoal => 'تعيين هدف';
 
   @override
-  String get homeViewAll => 'View All';
+  String get homeViewAll => 'عرض الكل';
 
   @override
   String get guestBrowsingAsGuest => 'تصفح كضيف';
@@ -1905,43 +1904,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String goalEditTitle(String goalName) {
-    return 'Edit $goalName Goal';
+    return 'تعديل هدف $goalName';
   }
 
   @override
   String goalEditCurrentWeight(String unit) {
-    return 'Current Weight ($unit)';
+    return 'الوزن الحالي ($unit)';
   }
 
   @override
   String goalEditTargetWeight(String unit) {
-    return 'Target Weight ($unit)';
+    return 'الوزن المستهدف ($unit)';
   }
 
   @override
-  String get goalEditGoalType => 'Goal Type';
+  String get goalEditGoalType => 'نوع الهدف';
 
   @override
-  String get goalEditLoseWeight => 'Lose Weight';
+  String get goalEditLoseWeight => 'فقدان الوزن';
 
   @override
-  String get goalEditGainWeight => 'Gain Weight';
+  String get goalEditGainWeight => 'زيادة الوزن';
 
   @override
-  String get goalEditMaintainWeight => 'Maintain Weight';
+  String get goalEditMaintainWeight => 'الحفاظ على الوزن';
 
   @override
-  String get goalEditActiveGoal => 'Active Goal';
+  String get goalEditActiveGoal => 'هدف نشط';
 
   @override
-  String get goalEditSave => 'Save';
+  String get goalEditSave => 'حفظ';
 
   @override
-  String get goalEditCancel => 'Cancel';
+  String get goalEditCancel => 'إلغاء';
 
   @override
   String get goalsInfoText =>
-      'Tap any goal to edit its target or toggle it on/off. Calorie and protein goals can also be set from the calculators on the Home page.';
+      'اضغط على أي هدف لتعديل هدفه أو تشغيله/إيقافه. يمكن أيضاً تعيين أهداف السعرات والبروتين من الحاسبات في الصفحة الرئيسية.';
 
   @override
   String get goalsCalories => 'سعرة حرارية';
@@ -1953,47 +1952,47 @@ class AppLocalizationsAr extends AppLocalizations {
   String get goalsWeight => 'الوزن';
 
   @override
-  String get goalsDailyGoal => 'Daily Goal';
+  String get goalsDailyGoal => 'الهدف اليومي';
 
   @override
-  String get goalsGoalSet => 'Goal Set';
+  String get goalsGoalSet => 'تم تعيين الهدف';
 
   @override
-  String get goalsTotal => 'Total';
+  String get goalsTotal => 'المجموع';
 
   @override
-  String get goalsActive => 'Active';
+  String get goalsActive => 'نشط';
 
   @override
-  String get goalsCompleted => 'Completed';
+  String get goalsCompleted => 'مكتمل';
 
   @override
   String get goalsPromptBothMissing =>
-      'Use the calculators to set calorie and protein goals.';
+      'استخدم الحاسبات لتعيين أهداف السعرات والبروتين.';
 
   @override
   String get goalsPromptCaloriesMissing =>
-      'Set a daily calorie goal from the calculator.';
+      'حدد هدفاً يومياً للسعرات من الحاسبة.';
 
   @override
   String get goalsPromptProteinMissing =>
-      'Set a protein intake goal from the calculator.';
+      'حدد هدفاً لتناول البروتين من الحاسبة.';
 
   @override
-  String get aboutOurMission => 'Our Mission';
+  String get aboutOurMission => 'رسالتنا';
 
   @override
   String get aboutMissionText =>
-      'We believe fitness is a journey, not a destination. Our mission is to make fitness tracking simple, accessible, and enjoyable for everyone. With Fitness Tracker, you\'re never alone in your fitness journey.';
+      'نؤمن أن اللياقة البدنية رحلة وليست وجهة. مهمتنا هي جعل تتبع اللياقة بسيطاً ومتاحاً وممتعاً للجميع. مع FitTracker، أنت لست وحدك في رحلة لياقتك.';
 
   @override
-  String get aboutAppInformation => 'App Information';
+  String get aboutAppInformation => 'معلومات التطبيق';
 
   @override
-  String get aboutAppName => 'App Name';
+  String get aboutAppName => 'اسم التطبيق';
 
   @override
-  String get aboutEmail => 'Email';
+  String get aboutEmail => 'البريد الإلكتروني';
 
   @override
   String get aboutDeveloperName => 'Mohammed jameel - Apollo';
@@ -2002,93 +2001,91 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aboutBuiltWithValue => 'Flutter & Dart';
 
   @override
-  String get notificationChannelNameFull => 'Weight tracking reminders';
+  String get notificationChannelNameFull => 'تذكيرات تتبع الوزن';
 
   @override
   String get notificationChannelDescFull =>
-      'Reminders to log your body weight every three days.';
+      'تذكيرات لتسجيل وزنك كل ثلاثة أيام.';
 
   @override
-  String get notificationTitleText => 'Track your weight';
+  String get notificationTitleText => 'تتبع وزنك';
 
   @override
-  String get notificationBodyText =>
-      'Take a moment to log your latest weight measurement.';
+  String get notificationBodyText => 'خذ لحظة لتسجيل آخر قياس لوزنك.';
 
   @override
-  String get calorieGender => 'Gender';
+  String get calorieGender => 'الجنس';
 
   @override
-  String get calorieAge => 'Age (years)';
+  String get calorieAge => 'العمر (سنوات)';
 
   @override
-  String get calorieWeightKg => 'Weight (kg)';
+  String get calorieWeightKg => 'الوزن (كجم)';
 
   @override
-  String get calorieHeightCm => 'Height (cm)';
+  String get calorieHeightCm => 'الطول (سم)';
 
   @override
-  String get calorieRequired => 'Required';
+  String get calorieRequired => 'مطلوب';
 
   @override
-  String get calorieInvalidNumber => 'Invalid number';
+  String get calorieInvalidNumber => 'رقم غير صالح';
 
   @override
-  String get calorieActivitySedentaryFull =>
-      'Sedentary (little or no exercise)';
+  String get calorieActivitySedentaryFull => 'خامل (قليل أو لا ممارسة)';
 
   @override
-  String get calorieActivityLightFull => 'Lightly Active (1-3 days/week)';
+  String get calorieActivityLightFull => 'نشاط خفيف (١-٣ أيام/أسبوع)';
 
   @override
-  String get calorieActivityModerateFull => 'Moderately Active (3-5 days/week)';
+  String get calorieActivityModerateFull => 'نشاط معتدل (٣-٥ أيام/أسبوع)';
 
   @override
-  String get calorieActivityActiveFull => 'Very Active (6-7 days/week)';
+  String get calorieActivityActiveFull => 'نشط جداً (٦-٧ أيام/أسبوع)';
 
   @override
-  String get calorieActivityExtraFull => 'Extra Active (athlete/physical job)';
+  String get calorieActivityExtraFull => 'نشاط إضافي (رياضي/عمل بدني)';
 
   @override
   String calorieGoalLabel(String goal) {
-    return 'Goal: $goal kg/week';
+    return 'الهدف: $goal كجم/أسبوع';
   }
 
   @override
   String calorieSliderLabel(String goal) {
-    return '$goal kg/week';
+    return '$goal كجم/أسبوع';
   }
 
   @override
-  String get calorieCalculate => 'Calculate';
+  String get calorieCalculate => 'احسب';
 
   @override
-  String get calorieResultsTitle => 'Calorie Results';
+  String get calorieResultsTitle => 'نتائج السعرات';
 
   @override
-  String get calorieBmrFull => 'Basal Metabolic Rate (BMR)';
+  String get calorieBmrFull => 'معدل الأيض الأساسي (BMR)';
 
   @override
-  String get calorieMaintenanceFull => 'Maintenance Calories';
+  String get calorieMaintenanceFull => 'سعرات الصيانة';
 
   @override
   String calorieToLoseInfo(String weekly, String daily) {
-    return 'To lose ${weekly}kg per week, consume $daily calories daily';
+    return 'لفقدان $weeklyكجم أسبوعياً، استهلك $daily سعرة حرارية يومياً';
   }
 
   @override
   String calorieToGainInfo(String weekly, String daily) {
-    return 'To gain ${weekly}kg per week, consume $daily calories daily';
+    return 'لزيادة $weeklyكجم أسبوعياً، استهلك $daily سعرة حرارية يومياً';
   }
 
   @override
   String calorieGoalDescLose(String weekly) {
-    return 'Lose ($weekly kg/week)';
+    return 'فقدان ($weekly كجم/أسبوع)';
   }
 
   @override
   String calorieGoalDescGain(String weekly) {
-    return 'Gain ($weekly kg/week)';
+    return 'زيادة ($weekly كجم/أسبوع)';
   }
 
   @override
@@ -2098,162 +2095,160 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dailyCaloriesGoalDescription => 'صيانة';
 
   @override
-  String get genderMale => 'Male';
+  String get genderMale => 'ذكر';
 
   @override
-  String get genderFemale => 'Female';
+  String get genderFemale => 'أنثى';
 
   @override
-  String get bodybuilderNo => 'No';
+  String get bodybuilderNo => 'لا';
 
   @override
-  String get bodybuilderYes => 'Yes';
+  String get bodybuilderYes => 'نعم';
 
   @override
-  String get idealWeightSelectGender => 'Select Your Gender';
+  String get idealWeightSelectGender => 'اختر جنسك';
 
   @override
-  String get idealWeightHeightCm => 'Height (cm)';
+  String get idealWeightHeightCm => 'الطول (سم)';
 
   @override
-  String get idealWeightCurrentWeightKg => 'Current Weight (kg)';
+  String get idealWeightCurrentWeightKg => 'الوزن الحالي (كجم)';
 
   @override
-  String get idealWeightTargetOptional => 'Target Weight (kg) — Optional';
+  String get idealWeightTargetOptional => 'الوزن المستهدف (كجم) — اختياري';
 
   @override
   String idealWeightValidatorEmpty(String field) {
-    return 'Enter your $field';
+    return 'أدخل $field';
   }
 
   @override
-  String get idealWeightValidatorInvalid => 'Invalid number';
+  String get idealWeightValidatorInvalid => 'رقم غير صالح';
 
   @override
-  String get idealWeightYourIdeal => 'Your Ideal Body Weight';
+  String get idealWeightYourIdeal => 'وزن جسمك المثالي';
 
   @override
-  String get idealWeightResult => 'Ideal Weight';
+  String get idealWeightResult => 'الوزن المثالي';
 
   @override
-  String get idealWeightCurrentWeight => 'Current Weight';
+  String get idealWeightCurrentWeight => 'الوزن الحالي';
 
   @override
-  String get idealWeightToLose => 'To Lose';
+  String get idealWeightToLose => 'لفقدان';
 
   @override
-  String get idealWeightToGain => 'To Gain';
+  String get idealWeightToGain => 'لزيادة';
 
   @override
   String idealWeightNeedToLose(String diff) {
-    return 'You need to lose $diff kg to reach your ideal weight';
+    return 'تحتاج إلى فقدان $diff كجم للوصول إلى وزنك المثالي';
   }
 
   @override
   String idealWeightNeedToGain(String diff) {
-    return 'You need to gain $diff kg to reach your ideal weight';
+    return 'تحتاج إلى زيادة $diff كجم للوصول إلى وزنك المثالي';
   }
 
   @override
-  String get idealWeightGotIt => 'Got it!';
+  String get idealWeightGotIt => 'حسناً!';
 
   @override
-  String get proteinYourIntake => 'Your Protein Intake';
+  String get proteinYourIntake => 'تناولك من البروتين';
 
   @override
-  String get proteinBodybuilderPlan => 'Bodybuilder Plan';
+  String get proteinBodybuilderPlan => 'خطة كمال الأجسام';
 
   @override
-  String get proteinRegularPlan => 'Regular Plan';
+  String get proteinRegularPlan => 'الخطة العادية';
 
   @override
-  String get proteinDailyRange => 'Daily Protein Range';
+  String get proteinDailyRange => 'المدى اليومي للبروتين';
 
   @override
-  String get proteinMinimum => 'Minimum';
+  String get proteinMinimum => 'الحد الأدنى';
 
   @override
-  String get proteinTo => 'to';
+  String get proteinTo => 'إلى';
 
   @override
-  String get proteinMaximum => 'Maximum';
+  String get proteinMaximum => 'الحد الأقصى';
 
   @override
   String get proteinBodybuilderHint =>
-      'As a bodybuilder, consume protein throughout the day for optimal muscle growth.';
+      'كرياضي كمال أجسام، تناول البروتين طوال اليوم لنمو عضلي أمثل.';
 
   @override
-  String get proteinDailyIntake => 'Daily Protein Intake';
+  String get proteinDailyIntake => 'تناول البروتين اليومي';
 
   @override
   String get proteinRegularHint =>
-      'This is the recommended daily protein intake for a healthy lifestyle.';
+      'هذا هو تناول البروتين اليومي الموصى به لنمط حياة صحي.';
 
   @override
-  String get proteinGotIt => 'Got it!';
+  String get proteinGotIt => 'حسناً!';
 
   @override
-  String get proteinEnterWeight => 'Enter your weight';
+  String get proteinEnterWeight => 'أدخل وزنك';
 
   @override
-  String get measurementUpdateTitle => 'Update Your Weight';
+  String get measurementUpdateTitle => 'تحديث وزنك';
 
   @override
-  String get measurementUpdateSubtitle =>
-      'Updates your weight goal progress automatically';
+  String get measurementUpdateSubtitle => 'يحدث تقدم هدف الوزن تلقائياً';
 
   @override
   String get measurementWeightGoalAuto =>
-      'Your weight goal will be automatically updated with this measurement.';
+      'سيتم تحديث هدف الوزن تلقائياً بهذا القياس.';
 
   @override
   String measurementError(String error) {
-    return 'Error: $error';
+    return 'خطأ: $error';
   }
 
   @override
-  String get privacyContactInfo => 'Contact Information';
+  String get privacyContactInfo => 'معلومات الاتصال';
 
   @override
   String get privacyContactMessage =>
-      'If you have any questions about this Privacy Policy, please contact us at:';
+      'إذا كانت لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى الاتصال بنا على:';
 
   @override
   String get privacyContactEmail => 'mahamadbarznji712@gmail.com';
 
   @override
-  String get termsContactInfo => 'Contact Information';
+  String get termsContactInfo => 'معلومات الاتصال';
 
   @override
-  String get termsContactMessage =>
-      'For questions about these Terms & Conditions:';
+  String get termsContactMessage => 'للاستفسار عن هذه الشروط والأحكام:';
 
   @override
   String get termsContactEmail => 'mahamadbarznji712@gmail.com';
 
   @override
-  String get supportNeedHelp => 'Need Help?';
+  String get supportNeedHelp => 'هل تحتاج مساعدة؟';
 
   @override
-  String get supportContactTeam => 'Contact our support team:';
+  String get supportContactTeam => 'اتصل بفريق الدعم لدينا:';
 
   @override
-  String get supportSupportEmail => 'Support Email';
+  String get supportSupportEmail => 'البريد الإلكتروني للدعم';
 
   @override
-  String get onboardingTagWelcome => 'WELCOME';
+  String get onboardingTagWelcome => 'مرحباً';
 
   @override
-  String get onboardingTagProgress => 'PROGRESS';
+  String get onboardingTagProgress => 'التقدم';
 
   @override
-  String get onboardingTagGoals => 'GOALS';
+  String get onboardingTagGoals => 'الأهداف';
 
   @override
-  String get onboardingTagCalculators => 'CALCULATORS';
+  String get onboardingTagCalculators => 'الحاسبات';
 
   @override
-  String get onboardingTagPersonalized => 'PERSONALIZED';
+  String get onboardingTagPersonalized => 'مخصص';
 
   @override
   String get proteinGramsShort => 'جم';
