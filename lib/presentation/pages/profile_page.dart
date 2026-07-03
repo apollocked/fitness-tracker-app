@@ -118,6 +118,7 @@ class ProfilePage extends StatelessWidget {
               isDanger: true,
               onTap: () => LogoutDialog.show(context)),
         ]),
+        const SizedBox(height: 32),
       ]),
     );
   }

@@ -8,7 +8,8 @@ typedef NavTapCallback = void Function(int index, bool wasOnProgress);
 class DockNavBar extends StatelessWidget {
   final int currentIndex;
   final NavTapCallback onTap;
-  const DockNavBar({super.key, required this.currentIndex, required this.onTap});
+  const DockNavBar(
+      {super.key, required this.currentIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +108,11 @@ class DockNavBar extends StatelessWidget {
             const SizedBox(height: 4),
             AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 250),
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected ? activeColor : inactiveColor,
-              ),
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    fontSize: 11,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                    color: isSelected ? activeColor : inactiveColor,
+                  ),
               child: Text(label),
             ),
           ],
