@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fit_tracker/presentation/widgets/shared/custom_dialog_text_field.dart';
-import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
+import 'package:fit_tracker/presentation/widgets/goals/goal_edit_content.dart';
 
 class EditGoalDialog extends StatefulWidget {
   final String goalKey;
@@ -24,18 +23,13 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     final goalsVM = context.read<GoalsViewModel>();
     final goal = goalsVM.goals[widget.goalKey]!;
     _targetController = TextEditingController(text: goal['target'].toString());
-    _currentController =
-        TextEditingController(text: goal['current'].toString());
+    _currentController = TextEditingController(text: goal['current'].toString());
     _isActive = goal['active'] == true;
     _selectedGoalType = goal['goalType'];
     if (widget.goalKey == 'weight' && _selectedGoalType == null) {
-      double target = double.tryParse(_targetController.text) ?? 0;
-      double current = double.tryParse(_currentController.text) ?? 0;
-      _selectedGoalType = current > target
-          ? 'lose'
-          : current < target
-              ? 'gain'
-              : 'maintain';
+      double t = double.tryParse(_targetController.text) ?? 0;
+      double c = double.tryParse(_currentController.text) ?? 0;
+      _selectedGoalType = c > t ? 'lose' : c < t ? 'gain' : 'maintain';
     }
   }
 
@@ -53,106 +47,29 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     final goal = context.read<GoalsViewModel>().goals[widget.goalKey]!;
     return AlertDialog(
       backgroundColor: colors.cardColor,
-      title: Text(
-          l10n.goalEditTitle('${widget.goalKey[0].toUpperCase()}${widget.goalKey.substring(1)}'),
+      title: Text(l10n.goalEditTitle('${widget.goalKey[0].toUpperCase()}${widget.goalKey.substring(1)}'),
           style: TextStyle(color: colors.textColor)),
       content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomDialogTextField(
-              controller: _currentController,
-              text: l10n.goalEditCurrentWeight(goal['unit'] ?? 'kg'),
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-            ),
-            const SizedBox(height: 16),
-            CustomDialogTextField(
-              controller: _targetController,
-              text: l10n.goalEditTargetWeight(goal['unit'] ?? 'kg'),
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-            ),
-            const SizedBox(height: 16),
-            if (widget.goalKey == 'weight') ...[
-              DropdownButtonFormField<String>(
-                value: _selectedGoalType,
-                decoration: InputDecoration(
-                  labelText: l10n.goalEditGoalType,
-                  labelStyle: TextStyle(color: colors.subtitleColor),
-                  filled: true,
-                  fillColor: colors.cardColor,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: colors.subtitleColor.withOpacity(0.5)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: primaryColor, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                dropdownColor: colors.cardColor,
-                items: [
-                  DropdownMenuItem(
-                      value: 'lose',
-                      child: Text(l10n.goalEditLoseWeight,
-                          style: TextStyle(color: colors.textColor))),
-                  DropdownMenuItem(
-                      value: 'gain',
-                      child: Text(l10n.goalEditGainWeight,
-                          style: TextStyle(color: colors.textColor))),
-                  DropdownMenuItem(
-                      value: 'maintain',
-                      child: Text(l10n.goalEditMaintainWeight,
-                          style: TextStyle(color: colors.textColor))),
-                ],
-                onChanged: (value) => setState(() => _selectedGoalType = value),
-              ),
-              const SizedBox(height: 20),
-            ],
-            _buildActiveSwitch(colors, l10n),
-          ],
+        child: GoalEditContent(
+          currentController: _currentController,
+          targetController: _targetController,
+          unit: goal['unit'] ?? 'kg',
+          showGoalType: widget.goalKey == 'weight',
+          selectedGoalType: _selectedGoalType,
+          onGoalTypeChanged: (value) => setState(() => _selectedGoalType = value),
+          isActive: _isActive,
+          onActiveChanged: (value) => setState(() => _isActive = value),
         ),
       ),
       actions: [
-        TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(l10n.goalEditCancel)),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.goalEditCancel)),
         TextButton(onPressed: _saveChanges, child: Text(l10n.goalEditSave)),
       ],
     );
   }
 
-  Widget _buildActiveSwitch(AppColorsExtension colors, AppLocalizations l10n) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-      decoration: BoxDecoration(
-        color: colors.cardColor,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: colors.subtitleColor.withOpacity(0.5)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(l10n.goalEditActiveGoal,
-              style: TextStyle(fontSize: 16, color: colors.textColor)),
-          Switch(
-              value: _isActive,
-              activeColor: primaryColor,
-              onChanged: (value) => setState(() => _isActive = value)),
-        ],
-      ),
-    );
-  }
-
   void _saveChanges() {
-    if (_targetController.text.isEmpty || _currentController.text.isEmpty) {
-      return;
-    }
+    if (_targetController.text.isEmpty || _currentController.text.isEmpty) return;
     final goalsVM = context.read<GoalsViewModel>();
     final goal = goalsVM.goals[widget.goalKey]!;
     double targetValue = double.tryParse(_targetController.text) ?? 0.0;
@@ -169,12 +86,10 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     };
     if (widget.goalKey == 'weight') {
       updatedGoal['goalType'] = _selectedGoalType;
-      bool goalTypeChanged = goal['goalType'] != _selectedGoalType;
-      bool targetChanged = goal['target'] != targetValue;
-      updatedGoal['startWeight'] =
-          (goal['startWeight'] == null || goalTypeChanged || targetChanged)
-              ? currentValue
-              : goal['startWeight'];
+      bool gtChanged = goal['goalType'] != _selectedGoalType;
+      bool tChanged = goal['target'] != targetValue;
+      updatedGoal['startWeight'] = (goal['startWeight'] == null || gtChanged || tChanged)
+          ? currentValue : goal['startWeight'];
     }
     goalsVM.updateGoal(widget.goalKey, updatedGoal);
     Navigator.pop(context);

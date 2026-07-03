@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
-import 'package:fit_tracker/core/utils/goal_utils.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
+import 'package:fit_tracker/presentation/widgets/goals/goal_square_progress.dart';
 
 String _goalLabel(AppLocalizations l10n, String key) {
   switch (key) {
-    case 'calories': return l10n.goalsCalories;
-    case 'protein': return l10n.goalsProtein;
-    case 'weight': return l10n.goalsWeight;
-    default: return key[0].toUpperCase() + key.substring(1);
+    case 'calories':
+      return l10n.goalsCalories;
+    case 'protein':
+      return l10n.goalsProtein;
+    case 'weight':
+      return l10n.goalsWeight;
+    default:
+      return key[0].toUpperCase() + key.substring(1);
   }
 }
 
@@ -82,32 +86,11 @@ class GoalsSquareCard extends StatelessWidget {
                         color: colors.textColor)),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(l10n.goalsDailyGoal,
-                    style:
-                        TextStyle(fontSize: 11, color: colors.subtitleColor)),
-                const SizedBox(height: 4),
-                Text('${target.toStringAsFixed(0)} ${localizedGoalUnit(l10n, unit)}',
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: colors.textColor,
-                        height: 1.1)),
-              ],
+            GoalSquareProgress(
+              target: target,
+              unit: unit,
+              cardColor: cardColor,
             ),
-              Row(
-                children: [
-                  Icon(Icons.circle, size: 8, color: greenColor),
-                  SizedBox(width: 6),
-                  Text(l10n.goalsGoalSet,
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: greenColor,
-                          fontWeight: FontWeight.w600)),
-                ],
-              ),
           ],
         ),
       ),

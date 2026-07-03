@@ -4,6 +4,8 @@ import 'package:fit_tracker/presentation/widgets/shared/custom_appbar.dart';
 import 'package:fit_tracker/presentation/widgets/goals/goal_status.dart';
 import 'package:fit_tracker/presentation/widgets/goals/goals_list.dart';
 import 'package:fit_tracker/presentation/widgets/goals/goals_square_row.dart';
+import 'package:fit_tracker/presentation/widgets/goals/calc_option.dart';
+import 'package:fit_tracker/presentation/widgets/goals/calc_prompt_card.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
@@ -33,37 +35,30 @@ class GoalsPage extends StatelessWidget {
           ],
           if (hasWeightGoal) ...[
             const SizedBox(height: 16),
-            Expanded(child: _goalsContent(goalsVM, colors, context)),
+            Expanded(child: _goalsContent(goalsVM, colors)),
           ],
           if (!hasWeightGoal)
-            Expanded(child: _emptyState(colors, context, hasAnyGoal)),
+            Expanded(child: _emptyState(colors, hasAnyGoal)),
         ],
       ),
     );
   }
 
-  Widget _goalsContent(
-      GoalsViewModel goalsVM, AppColorsExtension colors, BuildContext context) {
+  Widget _goalsContent(GoalsViewModel goalsVM, AppColorsExtension colors) {
     return Column(
       children: [
         const Expanded(child: GoalsList()),
         if (!goalsVM.goals.containsKey('calories') ||
             !goalsVM.goals.containsKey('protein'))
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: _CalcPromptCard(
-              colors: colors,
-              l10n: AppLocalizations.of(context)!,
-            ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: CalcPromptCard(),
           ),
       ],
     );
   }
 
-  Widget _emptyState(
-      AppColorsExtension colors, BuildContext context, bool hasOtherGoals) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final l10n = AppLocalizations.of(context)!;
+  Widget _emptyState(AppColorsExtension colors, bool hasOtherGoals) {
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -73,53 +68,14 @@ class GoalsPage extends StatelessWidget {
             Icon(hasOtherGoals ? Icons.flag_outlined : Icons.flag_rounded,
                 size: 64, color: primaryColor.withOpacity(0.4)),
             const SizedBox(height: 20),
-            Text(
-              l10n.goalsNoGoalsYet,
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: colors.textColor),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              l10n.goalsStartCalculating,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14, color: colors.subtitleColor, height: 1.4),
-            ),
-            const SizedBox(height: 24),
+            GoalsEmptyText(colors: colors, hasOtherGoals: hasOtherGoals),
             if (!hasOtherGoals) ...[
-              _CalcOption(
-                icon: Icons.monitor_weight_outlined,
-                label: l10n.homeIdealBodyWeight,
-                color: blueColor,
-                isDark: isDark,
-                onTap: () => Navigator.pushNamed(context, '/ideal-weight'),
-              ),
-              const SizedBox(height: 10),
-              _CalcOption(
-                icon: Icons.local_fire_department_outlined,
-                label: l10n.goalsDailyCalories,
-                color: redColor,
-                isDark: isDark,
-                onTap: () => Navigator.pushNamed(context, '/daily-calories'),
-              ),
-              const SizedBox(height: 10),
-              _CalcOption(
-                icon: Icons.restaurant_outlined,
-                label: l10n.goalsDailyProtein,
-                color: orangeColor,
-                isDark: isDark,
-                onTap: () => Navigator.pushNamed(context, '/protein-intake'),
-              ),
-            ] else
-              _CalcOption(
-                icon: Icons.monitor_weight_outlined,
-                label: l10n.goalsWeightTarget,
-                color: blueColor,
-                isDark: isDark,
-                onTap: () => Navigator.pushNamed(context, '/ideal-weight'),
-              ),
+              const SizedBox(height: 24),
+              GoalsCalcOptions(),
+            ] else ...[
+              const SizedBox(height: 24),
+              GoalsWeightOption(),
+            ],
           ],
         ),
       ),
@@ -127,87 +83,85 @@ class GoalsPage extends StatelessWidget {
   }
 }
 
-class _CalcOption extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color color;
-  final bool isDark;
-  final VoidCallback onTap;
-
-  const _CalcOption({
-    required this.icon,
-    required this.label,
-    required this.color,
-    required this.isDark,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-        decoration: BoxDecoration(
-          color: color.withOpacity(isDark ? 0.12 : 0.08),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: color.withOpacity(isDark ? 0.25 : 0.15)),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: color, size: 22),
-            const SizedBox(width: 12),
-            Text(label,
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: (isDark ? Colors.white : Colors.black87))),
-            const Spacer(),
-            Icon(Icons.chevron_right, color: color, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _CalcPromptCard extends StatelessWidget {
+class GoalsEmptyText extends StatelessWidget {
   final AppColorsExtension colors;
-  final AppLocalizations l10n;
-  const _CalcPromptCard({required this.colors, required this.l10n});
+  final bool hasOtherGoals;
+  const GoalsEmptyText({super.key, required this.colors, required this.hasOtherGoals});
 
   @override
   Widget build(BuildContext context) {
-    final goalsVM = context.watch<GoalsViewModel>();
-    final hasCalories = goalsVM.goals.containsKey('calories');
-    final hasProtein = goalsVM.goals.containsKey('protein');
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      children: [
+        Text(
+          l10n.goalsNoGoalsYet,
+          style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: colors.textColor),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          l10n.goalsStartCalculating,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 14, color: colors.subtitleColor, height: 1.4),
+        ),
+      ],
+    );
+  }
+}
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: primaryColor.withOpacity(isDark ? 0.1 : 0.06),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: primaryColor.withOpacity(0.2)),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.auto_fix_high_rounded, size: 20, color: primaryColor),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              !hasCalories && !hasProtein
-                  ? l10n.goalsPromptBothMissing
-                  : !hasCalories
-                      ? l10n.goalsPromptCaloriesMissing
-                      : l10n.goalsPromptProteinMissing,
-              style:
-                  TextStyle(fontSize: 12, color: colors.textColor, height: 1.4),
-            ),
-          ),
-        ],
-      ),
+class GoalsCalcOptions extends StatelessWidget {
+  const GoalsCalcOptions({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      children: [
+        CalcOption(
+          icon: Icons.monitor_weight_outlined,
+          label: l10n.homeIdealBodyWeight,
+          color: blueColor,
+          isDark: isDark,
+          onTap: () => Navigator.pushNamed(context, '/ideal-weight'),
+        ),
+        const SizedBox(height: 10),
+        CalcOption(
+          icon: Icons.local_fire_department_outlined,
+          label: l10n.goalsDailyCalories,
+          color: redColor,
+          isDark: isDark,
+          onTap: () => Navigator.pushNamed(context, '/daily-calories'),
+        ),
+        const SizedBox(height: 10),
+        CalcOption(
+          icon: Icons.restaurant_outlined,
+          label: l10n.goalsDailyProtein,
+          color: orangeColor,
+          isDark: isDark,
+          onTap: () => Navigator.pushNamed(context, '/protein-intake'),
+        ),
+      ],
+    );
+  }
+}
+
+class GoalsWeightOption extends StatelessWidget {
+  const GoalsWeightOption({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
+    return CalcOption(
+      icon: Icons.monitor_weight_outlined,
+      label: l10n.goalsWeightTarget,
+      color: blueColor,
+      isDark: isDark,
+      onTap: () => Navigator.pushNamed(context, '/ideal-weight'),
     );
   }
 }

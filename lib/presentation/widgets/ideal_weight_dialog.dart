@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
+import 'package:fit_tracker/presentation/widgets/ideal_weight/ideal_weight_result_display.dart';
+import 'package:fit_tracker/presentation/widgets/ideal_weight/ideal_weight_comparison.dart';
+import 'package:fit_tracker/presentation/widgets/ideal_weight/ideal_weight_warning_message.dart';
+import 'package:fit_tracker/presentation/widgets/ideal_weight/ideal_weight_action_button.dart';
 
 class IdealWeightResultsDialog {
   static void showResults(
@@ -43,126 +47,27 @@ class IdealWeightResultsDialog {
                         fontWeight: FontWeight.bold,
                         color: colors.textColor)),
                 const SizedBox(height: 24),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: blueColor.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(12),
-                    border:
-                        Border.all(color: blueColor.withOpacity(0.3), width: 2),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(l10n.idealWeightResult,
-                          style: TextStyle(
-                              fontSize: 14, color: colors.subtitleColor)),
-                      const SizedBox(height: 8),
-                      Text('${idealWeight.toStringAsFixed(1)} ${l10n.bodyStatsKg}',
-                          style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              color: blueColor)),
-                    ],
-                  ),
+                IdealWeightResultDisplay(
+                    idealWeight: idealWeight, l10n: l10n, colors: colors),
+                const SizedBox(height: 20),
+                IdealWeightComparison(
+                  currentWeight: currentWeight,
+                  weightDifference: weightDifference,
+                  isOverweight: isOverweight,
+                  isDark: isDark,
+                  l10n: l10n,
+                  colors: colors,
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      color: colors.cardColor.withOpacity(isDark ? 0.8 : 0.5),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Text(l10n.idealWeightCurrentWeight,
-                              style: TextStyle(
-                                  fontSize: 12, color: colors.subtitleColor)),
-                          const SizedBox(height: 8),
-                          Text('${currentWeight.toStringAsFixed(1)} ${l10n.bodyStatsKg}',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: colors.textColor)),
-                        ],
-                      ),
-                      Container(
-                          width: 2,
-                          height: 60,
-                          color: colors.subtitleColor.withOpacity(0.3)),
-                      Column(
-                        children: [
-                          Text(isOverweight ? l10n.idealWeightToLose : l10n.idealWeightToGain,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: isOverweight
-                                      ? redColor
-                                      : greenColor)),
-                          const SizedBox(height: 8),
-                          Text('${difference.abs().toStringAsFixed(1)} ${l10n.bodyStatsKg}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: isOverweight ? redColor : greenColor,
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: isOverweight
-                        ? redColor.withOpacity(isDark ? 0.3 : 0.08)
-                        : greenColor.withOpacity(isDark ? 0.3 : 0.08),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        isOverweight
-                            ? Icons.warning_rounded
-                            : Icons.check_circle_rounded,
-                        size: 16,
-                        color: isOverweight
-                            ? redColor
-                            : greenColor,
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          isOverweight
-                              ? l10n.idealWeightNeedToLose(difference.abs().toStringAsFixed(1))
-                              : l10n.idealWeightNeedToGain(difference.abs().toStringAsFixed(1)),
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: isOverweight
-                                  ? redColor
-                                  : greenColor),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
+                IdealWeightWarningMessage(
+                  isOverweight: isOverweight,
+                  weightDifference: weightDifference,
+                  isDark: isDark,
+                  l10n: l10n,
+                  colors: colors,
                 ),
                 const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        onSetGoal?.call();
-                        Navigator.pop(context);
-                      },
-                      child: Text(l10n.idealWeightGotIt,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                    ),
-                  ),
+                IdealWeightActionButton(onSetGoal: onSetGoal, l10n: l10n),
               ],
             ),
           ),
