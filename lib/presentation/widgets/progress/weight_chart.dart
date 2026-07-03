@@ -150,7 +150,7 @@ class WeightChart extends StatelessWidget {
               getTooltipItems: (t) => t.map((spot) {
                     final i = spot.spotIndex;
                     final d = i < s.length
-                        ? DateFormat('d MMM').format(s[i].date)
+                        ? DateFormat.MMMd().format(s[i].date)
                         : '';
                     return LineTooltipItem(
                         '$d\n${spot.y.toStringAsFixed(1)} ${l10n.weightChartKgLabel}',

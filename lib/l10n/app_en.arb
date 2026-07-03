@@ -4,6 +4,8 @@
 
   "appTitle": "FitTracker",
   "@appTitle": { "description": "Application title" },
+  "appMaterialTitle": "Fitness Tracker",
+  "@appMaterialTitle": { "description": "Material app title for OS" },
   "appDescriptionLocal": "Your local-only fitness tracker. All data stays on your device.",
   "appVersion": "Version",
   "appRightsReserved": "All rights reserved.",
@@ -256,13 +258,11 @@
   "featuresBmiCalculator": "BMI Calculator",
   "featuresBmiDesc": "Calculate your Body Mass Index and set target BMI goals.",
   "featuresProteinTracker": "Protein Intake Tracker",
-  "featuresProteinDesc": "Calculate daily protein needs based on activity level.",
   "featuresCalorieTracker": "Calorie Tracker",
   "featuresCalorieDesc": "Estimate daily calorie needs and track your intake.",
   "featuresMacroTracker": "Macro Tracker",
   "featuresMacroDesc": "Track your carbohydrate, protein, and fat intake.",
   "featuresProgressTracking": "Progress Tracking",
-  "featuresProgressDesc": "Visualize your weight trends with charts and track goal progress.",
   "featuresLocalOnly": "100% Local",
   "featuresLocalOnlyDesc": "All data stored on your device — no account needed.",
   "featuresNotifications": "Smart Reminders",
@@ -330,6 +330,8 @@
   "weightChartNeedMore": "Log at least 2 measurements to see your weight trend",
   "weightChartToday": "Today",
   "weightChartKgLabel": "kg",
+  "weightChartKgValue": "{value} kg",
+  "@weightChartKgValue": { "placeholders": { "value": { "type": "String" } } },
   "weightChartDateLabel": "Date",
 
   "guestLoginTitle": "Continue as Guest",
@@ -400,7 +402,6 @@
   "settingsLanguageLabel": "Language: {language}",
   "@settingsLanguageLabel": { "placeholders": { "language": { "type": "String" } } },
 
-  "appMaterialTitle": "Fitness Tracker",
   "settingsAppearance": "Appearance",
   "settingsMore": "More",
   "settingsProfile": "Profile",
@@ -751,8 +752,6 @@
   "calorieGoalDescGain": "Gain ({weekly} kg/week)",
   "@calorieGoalDescGain": { "placeholders": { "weekly": { "type": "String" } } },
   "calorieClose": "Close",
-  "calorieSetAsGoal": "Set as Goal",
-  "calorieCaloriesPerDay": "calories/day",
 
   "dailyCaloriesGoalDescription": "Maintenance",
 
@@ -812,9 +811,17 @@
   "supportContactTeam": "Contact our support team:",
   "supportSupportEmail": "Support Email",
 
-  "onboardingTagWelcome": "WELCOME",
+"onboardingTagWelcome": "WELCOME",
   "onboardingTagProgress": "PROGRESS",
   "onboardingTagGoals": "GOALS",
   "onboardingTagCalculators": "CALCULATORS",
-  "onboardingTagPersonalized": "PERSONALIZED"
+  "onboardingTagPersonalized": "PERSONALIZED",
+
+  "proteinGramsShort": "g",
+  "@proteinGramsShort": { "description": "Short unit for grams" },
+
+  "proteinGramsPerDay": "g/day",
+  "@proteinGramsPerDay": { "description": "Grams per day unit" },
+
+  "homeAppTitle": "Fitness Tracker"
 }

@@ -28,7 +28,8 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  String _errorMessage(AppLocalizations l10n, String errorCode, String? fallback) {
+  String _errorMessage(
+      AppLocalizations l10n, String errorCode, String? fallback) {
     switch (errorCode) {
       case 'loginFailed':
         return l10n.errorLoginFailed;
@@ -38,6 +39,12 @@ class _LoginPageState extends State<LoginPage> {
         return l10n.errorUsernameTaken;
       case 'registrationFailed':
         return l10n.errorRegistrationFailed;
+      case 'invalidCredentials':
+        return l10n.errorInvalidCredentials('0');
+      case 'lockedOut':
+        return l10n.errorLockedOut('60');
+      case 'lockout':
+        return l10n.errorTooManyAttempts('60');
       default:
         return fallback ?? l10n.errorLoginFailed;
     }
@@ -165,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 16),
                   TextButton.icon(
                     icon: const Icon(Icons.person_add_outlined),
-                    label: Text(l10n.guestLoginTitle),
+                    label: Text(l10n.guestCreateFreeProfile),
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const RegisterPage()),

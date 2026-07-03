@@ -12,6 +12,9 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get appTitle => 'FitTracker';
 
   @override
+  String get appMaterialTitle => 'FitTracker';
+
+  @override
   String get appDescriptionLocal =>
       'شۆپکەری تەندروستی تەنها لەسەر ئامێرەکەت. هەموو زانیارییەکان لەسەر ئامێرەکەت دەمێننەوە.';
 
@@ -227,7 +230,7 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get progressKg => 'کگ';
 
   @override
-  String get progressLb => 'lbs';
+  String get progressLb => 'lb';
 
   @override
   String get progressLbs => 'lbs';
@@ -314,7 +317,7 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get bodyStatsKg => 'کگ';
 
   @override
-  String get bodyStatsYears => 'years';
+  String get bodyStatsYears => 'ساڵ';
 
   @override
   String get bodyStatsTargetWeight => 'کێشی ئامانج';
@@ -514,7 +517,7 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get calorieSurplus => 'زیاتر';
 
   @override
-  String get calorieSetAsGoal => 'Set as Goal';
+  String get calorieSetAsGoal => 'دانان وەک ئامانج';
 
   @override
   String get calorieUpdated => 'ئامانجی کالۆری نوێ کرا';
@@ -718,10 +721,6 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get featuresProteinTracker => 'شوێنکەوتنی پرۆتین';
 
   @override
-  String get featuresProteinDesc =>
-      'پێویستی ڕۆژانەی پرۆتینت ژمێرە بەپێی کێش و ئاستی چالاکیت.';
-
-  @override
   String get featuresCalorieTracker => 'شوێنکەوتنی کالۆری';
 
   @override
@@ -737,10 +736,6 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get featuresProgressTracking => 'شوێنکەوتنی پێشکەوتن';
-
-  @override
-  String get featuresProgressDesc =>
-      'پێوانەکانی جەستەت تۆمار بکە و بە چارتێکی کارلێککار چاودێری بکە.';
 
   @override
   String get featuresLocalOnly => 'تەنها لەسەر ئامێر';
@@ -960,6 +955,11 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get weightChartKgLabel => 'کگ';
 
   @override
+  String weightChartKgValue(String value) {
+    return '$value کگ';
+  }
+
+  @override
   String get weightChartDateLabel => 'بەروار';
 
   @override
@@ -1009,7 +1009,7 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get proteinGoal => 'ئامانج';
 
   @override
-  String get calorieCaloriesPerDay => 'calories/day';
+  String get calorieCaloriesPerDay => 'کالۆری/ڕۆژ';
 
   @override
   String get calorieActivityLevel => 'ئاستی چالاکی';
@@ -1105,9 +1105,6 @@ class AppLocalizationsCkb extends AppLocalizations {
   String settingsLanguageLabel(String language) {
     return 'زمان: $language';
   }
-
-  @override
-  String get appMaterialTitle => 'FitTracker';
 
   @override
   String get settingsAppearance => 'ڕووکار';
@@ -1640,6 +1637,10 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get featuresProteinTitle => 'ژمێریاری پرۆتین';
 
   @override
+  String get featuresProteinDesc =>
+      'پێویستی ڕۆژانەی پرۆتینت ژمێرە بەپێی کێش و ئاستی چالاکیت.';
+
+  @override
   String get featuresProteinBenefit1 => 'پێویستی ڕۆژانەی پرۆتین دیاری بکە';
 
   @override
@@ -1651,6 +1652,10 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get featuresProgressTitle => 'شوێنکەوتنی پێشکەوتن';
+
+  @override
+  String get featuresProgressDesc =>
+      'پێوانەکانی جەستەت تۆمار بکە و بە چارتێکی کارلێککار چاودێری بکە.';
 
   @override
   String get featuresProgressBenefit1 =>
@@ -1760,519 +1765,527 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get settingsLanguageNativeEs => 'Español';
 
   @override
-  String get settingsNotificationsEnabled => 'Notifications enabled.';
+  String get settingsNotificationsEnabled => 'ئاگادارکردنەوەکان چالاک کرا.';
 
   @override
-  String get settingsUpdated => 'Settings updated.';
+  String get settingsUpdated => 'ڕێکخستنەکان نوێ کران.';
 
   @override
-  String get settingsPleaseFillFields => 'Please fill all fields';
+  String get settingsPleaseFillFields => 'تکایە هەموو خانەکان پڕ بکە';
 
   @override
-  String get settingsUpdateButton => 'Update';
+  String get settingsUpdateButton => 'نوێکردنەوە';
 
   @override
-  String get settingsAccountDeleted => 'Account deleted successfully';
+  String get settingsAccountDeleted => 'هەژمار بە سەرکەوتوویی سڕایەوە';
 
   @override
   String settingsFailedDelete(String error) {
-    return 'Failed to delete account: $error';
+    return 'سڕینەوەی هەژمار سەرکەوتوو نەبوو: $error';
   }
 
   @override
-  String get profileSectionAccount => 'ACCOUNT';
+  String get profileSectionAccount => 'هەژمار';
 
   @override
-  String get profileSectionApp => 'APP';
+  String get profileSectionApp => 'ئەپ';
 
   @override
-  String get profileLogout => 'Logout';
+  String get profileLogout => 'چوونەدەرەوە';
 
   @override
-  String get profileLogoutSubtitle => 'Sign out of your profile';
+  String get profileLogoutSubtitle => 'لە پڕۆفایلەکەت بچۆرە دەرەوە';
 
   @override
-  String get profilePersonalJourney => 'Your personal fitness journey';
+  String get profilePersonalJourney => 'گەشتی تەندروستی تایبەتی تۆ';
 
   @override
-  String get profileAccount => 'Account';
+  String get profileAccount => 'هەژمار';
 
   @override
-  String get loginOr => 'or';
+  String get loginOr => 'یان';
 
   @override
-  String get loginViewOnboarding => 'View Onboarding';
+  String get loginViewOnboarding => 'بینینی ڕێنمایی دەستپێک';
 
   @override
-  String get logoutTitle => 'Logout';
+  String get logoutTitle => 'چوونەدەرەوە';
 
   @override
-  String get logoutMessage => 'Are you sure you want to logout?';
+  String get logoutMessage => 'دڵنیایت دەتەوێت بچیتە دەرەوە؟';
 
   @override
   String get homeTip1 =>
-      'Consistency beats intensity — small daily habits build lasting results.';
+      'بەردەوامی لە توندی بەهێزترە — ڕێزمانی ڕۆژانەی بچووک ئەنجامی بەردەوام دروست دەکەن.';
 
   @override
-  String get homeTip2 =>
-      'Stay hydrated! Drink water before, during, and after your workout.';
+  String get homeTip2 => 'ئاو بخۆ! پێش، لە کاتی، و دوای ڕاهێنانەکەت ئاو بخۆ.';
 
   @override
   String get homeTip3 =>
-      'Aim for 7-9 hours of sleep to support muscle recovery and growth.';
+      'ئامانجی ٧-٩ کاتژمێر خەو دابنێ بۆ پشتگیری چاکبوونەوە و گەشەی ماسولکە.';
 
   @override
-  String get homeTip4 => 'Track your meals — what gets measured gets managed.';
+  String get homeTip4 => 'خۆراکەکانت تۆمار بکە — چی بپێورێت بەڕێوە دەبرێت.';
 
   @override
-  String get homeTip5 => 'Rest days are just as important as training days.';
+  String get homeTip5 => 'ڕۆژانی پشوو هەر به‌قەد ڕۆژانی ڕاهێنان گرنگن.';
 
   @override
   String get homeCalculatorSubtitle =>
-      'Science-backed tools to guide your fitness journey';
+      'ئامرازە زانستییەکان بۆ ڕێنمایی گەشتی تەندروستیت';
 
   @override
-  String get homeIdealBodyWeight => 'Ideal Body Weight';
+  String get homeIdealBodyWeight => 'کێشی گونجاوی جەستە';
 
   @override
-  String get homeLogWeight => 'Log Weight';
+  String get homeLogWeight => 'تۆمارکردنی کێش';
 
   @override
-  String get homeAthleteFallback => 'Athlete';
+  String get homeAthleteFallback => 'وەرزشکار';
 
   @override
-  String get homeFitnessJourney => 'Your fitness journey at a glance';
+  String get homeFitnessJourney => 'گەشتی تەندروستیت لە یەک چاوەکێشاندا';
 
   @override
-  String get homeNoGoalsSubtitle => 'Set fitness goals to track your progress';
+  String get homeNoGoalsSubtitle =>
+      'ئامانجی تەندروستی دابنێ بۆ شوێنکەوتنی پێشکەوتن';
 
   @override
-  String get homeSetGoal => 'Set Goal';
+  String get homeSetGoal => 'دانانی ئامانج';
 
   @override
-  String get homeViewAll => 'View All';
+  String get homeViewAll => 'بینینی هەموو';
 
   @override
-  String get guestBrowsingAsGuest => 'Browsing as Guest';
+  String get guestBrowsingAsGuest => 'گەڕان وەک میوان';
 
   @override
-  String get guestDataNotSaved => 'Your data is not being saved';
+  String get guestDataNotSaved => 'زانیارییەکانت پاشەکەوت ناکرێن';
 
   @override
-  String get guestBannerMessage => 'Guest mode — your data won\'t be saved.';
+  String get guestBannerMessage => 'دۆخی میوان — زانیارییەکانت پاشەکەوت نابێت.';
 
   @override
-  String get guestCreateProfile => 'Create Profile';
+  String get guestCreateProfile => 'دروستکردنی پڕۆفایل';
 
   @override
-  String get guestCreateFreeProfile => 'Create Free Profile';
+  String get guestCreateFreeProfile => 'دروستکردنی پڕۆفایلی بێبەرامبەر';
 
   @override
-  String get guestAlreadyHaveProfile => 'Already have a profile? Login';
+  String get guestAlreadyHaveProfile => 'پڕۆفایلێکت هەیە؟ چوونەژوورەوە';
 
   @override
-  String get guestExitGuestMode => 'Exit Guest Mode';
+  String get guestExitGuestMode => 'دەرچوون لە دۆخی میوان';
 
   @override
-  String get guestModeTitle => 'Guest Mode';
+  String get guestModeTitle => 'دۆخی میوان';
 
   @override
   String get guestModeMessage =>
-      'You\'re currently in guest mode.\n\nCreate a free profile to save your fitness data, track progress, and set goals.';
+      'ئێستا لە دۆخی میوانیت.\n\nپڕۆفایلێکی بێبەرامبەر دروستبکە بۆ پاشەکەوتکردنی زانیارییەکانی گونجاندن، شوێنکەوتنی پێشکەوتن و دیاریکردنی ئامانجەکان.';
 
   @override
-  String get guestStayAsGuest => 'Stay as Guest';
+  String get guestStayAsGuest => 'وەک میوان بمێنەوە';
 
   @override
-  String get guestBenefitsTitle => 'Create a profile to unlock:';
+  String get guestBenefitsTitle => 'پڕۆفایلێک دروستبکە بۆ کردنەوەی:';
 
   @override
-  String get guestBenefitSaveData => 'Save your data';
+  String get guestBenefitSaveData => 'زانیارییەکانت پاشەکەوت بکە';
 
   @override
   String get guestBenefitSaveDataSub =>
-      'Measurements & progress persist across sessions';
+      'پێوانەکان و پێشکەوتن لە نێوان دانیشتنەکاندا دەمێننەوە';
 
   @override
-  String get guestBenefitSetGoals => 'Set goals';
+  String get guestBenefitSetGoals => 'ئامانجەکان دیاری بکە';
 
   @override
-  String get guestBenefitSetGoalsSub => 'Weight, protein & calorie targets';
+  String get guestBenefitSetGoalsSub => 'ئامانجەکانی کێش، پرۆتین و کالۆری';
 
   @override
-  String get guestBenefitTrackProgress => 'Track progress';
+  String get guestBenefitTrackProgress => 'شوێنکەوتنی پێشکەوتن';
 
   @override
   String get guestBenefitTrackProgressSub =>
-      'Visualize your fitness journey over time';
+      'ڕێگای گونجاندنی خۆت بە تێپەڕبوونی کات ببینە';
 
   @override
-  String get guestBenefitReminders => 'Reminders';
+  String get guestBenefitReminders => 'بیرخستنەوەکان';
 
   @override
-  String get guestBenefitRemindersSub => 'Weight check-in notifications';
+  String get guestBenefitRemindersSub => 'ئاگادارکردنەوەکانی پشکنینی کێش';
 
   @override
-  String get guestAppFeatures => 'App Features';
+  String get guestAppFeatures => 'خاسیەتەکانی ئەپ';
 
   @override
-  String get guestAppFeaturesSub => 'Explore all features';
+  String get guestAppFeaturesSub => 'هەموو خاسیەتەکان بگەڕێ';
 
   @override
-  String get guestAppInfoSub => 'App information';
+  String get guestAppInfoSub => 'زانیاری ئەپ';
 
   @override
-  String get guestGetAssistance => 'Get assistance';
+  String get guestGetAssistance => 'یارمەتی وەرگرە';
 
   @override
   String goalEditTitle(String goalName) {
-    return 'Edit $goalName Goal';
+    return 'دەستکاری ئامانجی $goalName';
   }
 
   @override
   String goalEditCurrentWeight(String unit) {
-    return 'Current Weight ($unit)';
+    return 'کێشی ئێستا ($unit)';
   }
 
   @override
   String goalEditTargetWeight(String unit) {
-    return 'Target Weight ($unit)';
+    return 'کێشی ئامانج ($unit)';
   }
 
   @override
-  String get goalEditGoalType => 'Goal Type';
+  String get goalEditGoalType => 'جۆری ئامانج';
 
   @override
-  String get goalEditLoseWeight => 'Lose Weight';
+  String get goalEditLoseWeight => 'کەمکردنەوەی کێش';
 
   @override
-  String get goalEditGainWeight => 'Gain Weight';
+  String get goalEditGainWeight => 'زیادکردنی کێش';
 
   @override
-  String get goalEditMaintainWeight => 'Maintain Weight';
+  String get goalEditMaintainWeight => 'پاراستنی کێش';
 
   @override
-  String get goalEditActiveGoal => 'Active Goal';
+  String get goalEditActiveGoal => 'ئامانجی چالاک';
 
   @override
-  String get goalEditSave => 'Save';
+  String get goalEditSave => 'پاشەکەوتکردن';
 
   @override
-  String get goalEditCancel => 'Cancel';
+  String get goalEditCancel => 'پاشگەزبوونەوە';
 
   @override
   String get goalsInfoText =>
-      'Tap any goal to edit its target or toggle it on/off. Calorie and protein goals can also be set from the calculators on the Home page.';
+      'لەسەر هەر ئامانجێک کلیک بکە بۆ دەستکاری کردنی یان چالاک/ناچالاک کردنی. ئامانجی کالۆری و پرۆتین دەتوانرێت لە ژمێریارەکانی پەڕەی ماڵەوەش دانرێت.';
 
   @override
-  String get goalsCalories => 'Calories';
+  String get goalsCalories => 'کالۆری';
 
   @override
-  String get goalsProtein => 'Protein';
+  String get goalsProtein => 'پرۆتین';
 
   @override
-  String get goalsWeight => 'Weight';
+  String get goalsWeight => 'کێش';
 
   @override
-  String get goalsDailyGoal => 'Daily Goal';
+  String get goalsDailyGoal => 'ئامانجی ڕۆژانە';
 
   @override
-  String get goalsGoalSet => 'Goal Set';
+  String get goalsGoalSet => 'ئامانج دانرا';
 
   @override
-  String get goalsTotal => 'Total';
+  String get goalsTotal => 'گشتی';
 
   @override
-  String get goalsActive => 'Active';
+  String get goalsActive => 'چالاک';
 
   @override
-  String get goalsCompleted => 'Completed';
+  String get goalsCompleted => 'تەواوکراو';
 
   @override
   String get goalsPromptBothMissing =>
-      'Use the calculators to set calorie and protein goals.';
+      'ژمێریارەکان بەکاربهێنە بۆ دانانی ئامانجی کالۆری و پرۆتین.';
 
   @override
   String get goalsPromptCaloriesMissing =>
-      'Set a daily calorie goal from the calculator.';
+      'ئامانجێکی ڕۆژانەی کالۆری لە ژمێریارەکەوە دابنێ.';
 
   @override
   String get goalsPromptProteinMissing =>
-      'Set a protein intake goal from the calculator.';
+      'ئامانجێکی ڕۆژانەی پرۆتین لە ژمێریارەکەوە دابنێ.';
 
   @override
-  String get aboutOurMission => 'Our Mission';
+  String get aboutOurMission => 'ئامانجی ئێمە';
 
   @override
   String get aboutMissionText =>
-      'We believe fitness is a journey, not a destination. Our mission is to make fitness tracking simple, accessible, and enjoyable for everyone. With Fitness Tracker, you\'re never alone in your fitness journey.';
+      'ئێمە پێمان وایە کە گونجاندن گەشتێکە، نەک شوێنێک. ئامانجی ئێمە ئەوەیە کە شوێنکەوتنی گونجاندن سادە، بەردەست، و خۆش بکەین بۆ هەموو کەس. لەگەڵ FitTracker، تۆ هەرگیز لە گەشتی گونجاندندا تەنها نیت.';
 
   @override
-  String get aboutAppInformation => 'App Information';
+  String get aboutAppInformation => 'زانیاری ئەپ';
 
   @override
-  String get aboutAppName => 'App Name';
+  String get aboutAppName => 'ناوی ئەپ';
 
   @override
-  String get aboutEmail => 'Email';
+  String get aboutEmail => 'ئیمەیڵ';
 
   @override
-  String get aboutDeveloperName => 'Mohammed jameel - Apollo';
+  String get aboutDeveloperName => 'محەممەد جەمیل - ئەپۆلۆ';
 
   @override
   String get aboutBuiltWithValue => 'Flutter & Dart';
 
   @override
-  String get notificationChannelNameFull => 'Weight tracking reminders';
+  String get notificationChannelNameFull => 'بیرخستنەوەی شوێنکەوتنی کێش';
 
   @override
   String get notificationChannelDescFull =>
-      'Reminders to log your body weight every three days.';
+      'بیرخستنەوە بۆ تۆمارکردنی کێشی جەستەت هەر سێ ڕۆژ جارێک.';
 
   @override
-  String get notificationTitleText => 'Track your weight';
+  String get notificationTitleText => 'کێشت تۆمار بکە';
 
   @override
   String get notificationBodyText =>
-      'Take a moment to log your latest weight measurement.';
+      'کاتێک تەرخان بکە بۆ تۆمارکردنی دوایین پێوانەی کێشت.';
 
   @override
-  String get calorieGender => 'Gender';
+  String get calorieGender => 'ڕەگەز';
 
   @override
-  String get calorieAge => 'Age (years)';
+  String get calorieAge => 'تەمەن (ساڵ)';
 
   @override
-  String get calorieWeightKg => 'Weight (kg)';
+  String get calorieWeightKg => 'کێش (کگ)';
 
   @override
-  String get calorieHeightCm => 'Height (cm)';
+  String get calorieHeightCm => 'باڵا (سم)';
 
   @override
-  String get calorieRequired => 'Required';
+  String get calorieRequired => 'پێویستە';
 
   @override
-  String get calorieInvalidNumber => 'Invalid number';
+  String get calorieInvalidNumber => 'ژمارەی نادروست';
 
   @override
-  String get calorieActivitySedentaryFull =>
-      'Sedentary (little or no exercise)';
+  String get calorieActivitySedentaryFull => 'دانیشتوو (ڕاهێنانی کەم یان هیچ)';
 
   @override
-  String get calorieActivityLightFull => 'Lightly Active (1-3 days/week)';
+  String get calorieActivityLightFull => 'چالاکی سووک (١-٣ ڕۆژ لە هەفتەیەکدا)';
 
   @override
-  String get calorieActivityModerateFull => 'Moderately Active (3-5 days/week)';
+  String get calorieActivityModerateFull =>
+      'چالاکی مامناوەند (٣-٥ ڕۆژ لە هەفتەیەکدا)';
 
   @override
-  String get calorieActivityActiveFull => 'Very Active (6-7 days/week)';
+  String get calorieActivityActiveFull => 'زۆر چالاک (٦-٧ ڕۆژ لە هەفتەیەکدا)';
 
   @override
-  String get calorieActivityExtraFull => 'Extra Active (athlete/physical job)';
+  String get calorieActivityExtraFull => 'چالاکی زۆر (وەرزشکار/کارێکی جەستەیی)';
 
   @override
   String calorieGoalLabel(String goal) {
-    return 'Goal: $goal kg/week';
+    return 'ئامانج: $goal کگ/هەفتە';
   }
 
   @override
   String calorieSliderLabel(String goal) {
-    return '$goal kg/week';
+    return '$goal کگ/هەفتە';
   }
 
   @override
-  String get calorieCalculate => 'Calculate';
+  String get calorieCalculate => 'ژمێرە';
 
   @override
-  String get calorieResultsTitle => 'Calorie Results';
+  String get calorieResultsTitle => 'ئەنجامەکانی کالۆری';
 
   @override
-  String get calorieBmrFull => 'Basal Metabolic Rate (BMR)';
+  String get calorieBmrFull => 'ڕێژەی میتابۆلیکی بنەڕەتی (BMR)';
 
   @override
-  String get calorieMaintenanceFull => 'Maintenance Calories';
+  String get calorieMaintenanceFull => 'کالۆری پاراستن';
 
   @override
   String calorieToLoseInfo(String weekly, String daily) {
-    return 'To lose ${weekly}kg per week, consume $daily calories daily';
+    return 'بۆ کەمکردنەوەی $weeklyکگ لە هەفتەیەکدا، ڕۆژانە $daily کالۆری بخۆ';
   }
 
   @override
   String calorieToGainInfo(String weekly, String daily) {
-    return 'To gain ${weekly}kg per week, consume $daily calories daily';
+    return 'بۆ زیادکردنی $weeklyکگ لە هەفتەیەکدا، ڕۆژانە $daily کالۆری بخۆ';
   }
 
   @override
   String calorieGoalDescLose(String weekly) {
-    return 'Lose ($weekly kg/week)';
+    return 'کەمکردنەوە ($weekly کگ/هەفتە)';
   }
 
   @override
   String calorieGoalDescGain(String weekly) {
-    return 'Gain ($weekly kg/week)';
+    return 'زیادکردن ($weekly کگ/هەفتە)';
   }
 
   @override
-  String get calorieClose => 'Close';
+  String get calorieClose => 'داخستن';
 
   @override
-  String get dailyCaloriesGoalDescription => 'Maintenance';
+  String get dailyCaloriesGoalDescription => 'پاراستن';
 
   @override
-  String get genderMale => 'Male';
+  String get genderMale => 'نێر';
 
   @override
-  String get genderFemale => 'Female';
+  String get genderFemale => 'مێ';
 
   @override
-  String get bodybuilderNo => 'No';
+  String get bodybuilderNo => 'نەخێر';
 
   @override
-  String get bodybuilderYes => 'Yes';
+  String get bodybuilderYes => 'بەڵێ';
 
   @override
-  String get idealWeightSelectGender => 'Select Your Gender';
+  String get idealWeightSelectGender => 'ڕەگەزەکەت هەڵبژێرە';
 
   @override
-  String get idealWeightHeightCm => 'Height (cm)';
+  String get idealWeightHeightCm => 'باڵا (سم)';
 
   @override
-  String get idealWeightCurrentWeightKg => 'Current Weight (kg)';
+  String get idealWeightCurrentWeightKg => 'کێشی ئێستا (کگ)';
 
   @override
-  String get idealWeightTargetOptional => 'Target Weight (kg) — Optional';
+  String get idealWeightTargetOptional => 'کێشی ئامانج (کگ) — ئارەزوومەندانە';
 
   @override
   String idealWeightValidatorEmpty(String field) {
-    return 'Enter your $field';
+    return '$fieldەکەت داخل بکە';
   }
 
   @override
-  String get idealWeightValidatorInvalid => 'Invalid number';
+  String get idealWeightValidatorInvalid => 'ژمارەی نادروست';
 
   @override
-  String get idealWeightYourIdeal => 'Your Ideal Body Weight';
+  String get idealWeightYourIdeal => 'کێشی گونجاوی جەستەی تۆ';
 
   @override
-  String get idealWeightResult => 'Ideal Weight';
+  String get idealWeightResult => 'کێشی گونجاو';
 
   @override
-  String get idealWeightCurrentWeight => 'Current Weight';
+  String get idealWeightCurrentWeight => 'کێشی ئێستا';
 
   @override
-  String get idealWeightToLose => 'To Lose';
+  String get idealWeightToLose => 'بۆ کەمکردنەوە';
 
   @override
-  String get idealWeightToGain => 'To Gain';
+  String get idealWeightToGain => 'بۆ زیادکردن';
 
   @override
   String idealWeightNeedToLose(String diff) {
-    return 'You need to lose $diff kg to reach your ideal weight';
+    return 'پێویستە $diff کگ کەم بکەیت بۆ گەیشتن بە کێشی گونجاوت';
   }
 
   @override
   String idealWeightNeedToGain(String diff) {
-    return 'You need to gain $diff kg to reach your ideal weight';
+    return 'پێویستە $diff کگ زیاد بکەیت بۆ گەیشتن بە کێشی گونجاوت';
   }
 
   @override
-  String get idealWeightGotIt => 'Got it!';
+  String get idealWeightGotIt => 'تێگەیشتم!';
 
   @override
-  String get proteinYourIntake => 'Your Protein Intake';
+  String get proteinYourIntake => 'پێویستی پرۆتینی تۆ';
 
   @override
-  String get proteinBodybuilderPlan => 'Bodybuilder Plan';
+  String get proteinBodybuilderPlan => 'پلانی بەلشکەر';
 
   @override
-  String get proteinRegularPlan => 'Regular Plan';
+  String get proteinRegularPlan => 'پلانی ئاسایی';
 
   @override
-  String get proteinDailyRange => 'Daily Protein Range';
+  String get proteinDailyRange => 'ماوەی ڕۆژانەی پرۆتین';
 
   @override
-  String get proteinMinimum => 'Minimum';
+  String get proteinMinimum => 'کەمترین';
 
   @override
-  String get proteinTo => 'to';
+  String get proteinTo => 'بۆ';
 
   @override
-  String get proteinMaximum => 'Maximum';
+  String get proteinMaximum => 'زۆرترین';
 
   @override
   String get proteinBodybuilderHint =>
-      'As a bodybuilder, consume protein throughout the day for optimal muscle growth.';
+      'وەک بەلشکەر، پرۆتین بە درێژایی ڕۆژ بخۆ بۆ گەشەی ماسولکەی باشتر.';
 
   @override
-  String get proteinDailyIntake => 'Daily Protein Intake';
+  String get proteinDailyIntake => 'پێویستی ڕۆژانەی پرۆتین';
 
   @override
   String get proteinRegularHint =>
-      'This is the recommended daily protein intake for a healthy lifestyle.';
+      'ئەمە پێویستی ڕۆژانەی پرۆتینی پێشنیار کراوە بۆ ژیانێکی تەندروست.';
 
   @override
-  String get proteinGotIt => 'Got it!';
+  String get proteinGotIt => 'تێگەیشتم!';
 
   @override
-  String get proteinEnterWeight => 'Enter your weight';
+  String get proteinEnterWeight => 'کێشت داخل بکە';
 
   @override
-  String get measurementUpdateTitle => 'Update Your Weight';
+  String get measurementUpdateTitle => 'نوێکردنەوەی کێش';
 
   @override
   String get measurementUpdateSubtitle =>
-      'Updates your weight goal progress automatically';
+      'بە شێوەیەکی ئۆتۆماتیکی پێشکەوتنی ئامانجی کێشت نوێ دەکات';
 
   @override
   String get measurementWeightGoalAuto =>
-      'Your weight goal will be automatically updated with this measurement.';
+      'ئامانجی کێشت بە شێوەیەکی ئۆتۆماتیکی بەم پێوانەیە نوێ دەکرێت.';
 
   @override
   String measurementError(String error) {
-    return 'Error: $error';
+    return 'هەڵە: $error';
   }
 
   @override
-  String get privacyContactInfo => 'Contact Information';
+  String get privacyContactInfo => 'زانیاری پەیوەندی';
 
   @override
   String get privacyContactMessage =>
-      'If you have any questions about this Privacy Policy, please contact us at:';
+      'ئەگەر هەر پرسیارێکت هەیە دەربارەی ئەم سیاسەتەی تایبەتی، تکایە پەیوەندیمان پێوە بکە لە:';
 
   @override
   String get privacyContactEmail => 'mahamadbarznji712@gmail.com';
 
   @override
-  String get termsContactInfo => 'Contact Information';
+  String get termsContactInfo => 'زانیاری پەیوەندی';
 
   @override
-  String get termsContactMessage =>
-      'For questions about these Terms & Conditions:';
+  String get termsContactMessage => 'بۆ پرسیار دەربارەی ئەم مەرج و ڕێسانە:';
 
   @override
   String get termsContactEmail => 'mahamadbarznji712@gmail.com';
 
   @override
-  String get supportNeedHelp => 'Need Help?';
+  String get supportNeedHelp => 'یارمەتی پێویستە؟';
 
   @override
-  String get supportContactTeam => 'Contact our support team:';
+  String get supportContactTeam => 'پەیوەندی بە تیمی پاڵپشتییەوە:';
 
   @override
-  String get supportSupportEmail => 'Support Email';
+  String get supportSupportEmail => 'ئیمەیڵی پاڵپشتی';
 
   @override
-  String get onboardingTagWelcome => 'WELCOME';
+  String get onboardingTagWelcome => 'بەخێربێیت';
 
   @override
-  String get onboardingTagProgress => 'PROGRESS';
+  String get onboardingTagProgress => 'پێشکەوتن';
 
   @override
-  String get onboardingTagGoals => 'GOALS';
+  String get onboardingTagGoals => 'ئامانجەکان';
 
   @override
-  String get onboardingTagCalculators => 'CALCULATORS';
+  String get onboardingTagCalculators => 'ژمێریارەکان';
 
   @override
-  String get onboardingTagPersonalized => 'PERSONALIZED';
+  String get onboardingTagPersonalized => 'تایبەت کراوە';
+
+  @override
+  String get proteinGramsShort => 'گ';
+
+  @override
+  String get proteinGramsPerDay => 'گ/ڕۆژ';
+
+  @override
+  String get homeAppTitle => 'FitTracker';
 }

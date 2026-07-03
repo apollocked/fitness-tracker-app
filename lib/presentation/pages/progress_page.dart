@@ -323,7 +323,7 @@ class _MeasurementList extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(DateFormat('EEE, d MMM y').format(m.date),
+                              Text(DateFormat.yMMMEd().format(m.date),
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: colors.subtitleColor)),

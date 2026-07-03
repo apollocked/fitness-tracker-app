@@ -3,6 +3,7 @@
   "@@last_modified": "2026-07-02",
 
   "appTitle": "FitTracker",
+  "appMaterialTitle": "FitTracker",
   "appDescriptionLocal": "Tu rastreador de fitness solo local. Todos los datos permanecen en tu dispositivo.",
   "appVersion": "Versión",
   "appRightsReserved": "Todos los derechos reservados.",
@@ -250,13 +251,11 @@
   "featuresBmiCalculator": "Calculadora de IMC",
   "featuresBmiDesc": "Calcula tu Índice de Masa Corporal y establece objetivos de IMC.",
   "featuresProteinTracker": "Rastreador de Proteína",
-  "featuresProteinDesc": "Calcula tus necesidades diarias de proteína según tu actividad.",
   "featuresCalorieTracker": "Rastreador de Calorías",
   "featuresCalorieDesc": "Estima tus necesidades calóricas diarias y haz seguimiento.",
   "featuresMacroTracker": "Rastreador de Macros",
   "featuresMacroDesc": "Haz seguimiento de tus carbohidratos, proteínas y grasas.",
   "featuresProgressTracking": "Seguimiento de Progreso",
-  "featuresProgressDesc": "Visualiza tus tendencias de peso con gráficos y sigue el progreso de tus objetivos.",
   "featuresLocalOnly": "100% Local",
   "featuresLocalOnlyDesc": "Todos los datos almacenados en tu dispositivo — sin necesidad de cuenta.",
   "featuresNotifications": "Recordatorios Inteligentes",
@@ -269,7 +268,7 @@
   "helpFaq2Q": "¿Puedo exportar mis datos?",
   "helpFaq2A": "La exportación de datos no está disponible actualmente. Tus datos permanecen seguros en tu dispositivo.",
   "helpFaq3Q": "¿Cómo restablezco mis datos?",
-  "helpFaq3A": "Ve a Ajustes y selecciona 'Eliminar Todos los Datos'. Esto eliminará永久mente todas tus mediciones y objetivos.",
+  "helpFaq3A": "Ve a Ajustes y selecciona 'Eliminar Todos los Datos'. Esto eliminará permanentemente todas tus mediciones y objetivos.",
   "helpFaq4Q": "¿Cómo funcionan las notificaciones?",
   "helpFaq4A": "Los recordatorios opcionales se pueden activar en Ajustes. Las notificaciones se programan localmente en tu dispositivo y no se envían a través de internet.",
   "helpFaq5Q": "¿Se requiere una cuenta?",
@@ -378,7 +377,6 @@
 
   "settingsLanguageLabel": "Idioma: {language}",
 
-  "appMaterialTitle": "FitTracker",
   "settingsAppearance": "Apariencia",
   "settingsMore": "Más",
   "settingsProfile": "Perfil",
@@ -702,8 +700,6 @@
   "calorieGoalDescLose": "Perder ({weekly} kg/semana)",
   "calorieGoalDescGain": "Ganar ({weekly} kg/semana)",
   "calorieClose": "Cerrar",
-  "calorieSetAsGoal": "Establecer como Objetivo",
-  "calorieCaloriesPerDay": "calorías/día",
   "dailyCaloriesGoalDescription": "Mantenimiento",
   "genderMale": "Masculino",
   "genderFemale": "Femenino",
@@ -753,5 +749,16 @@
   "onboardingTagGoals": "METAS",
   "onboardingTagCalculators": "CALCULADORAS",
   "onboardingTagPersonalized": "PERSONALIZADO",
-  "profileAccount": "Cuenta"
+  "profileAccount": "Cuenta",
+
+  "proteinGramsShort": "g",
+  "@proteinGramsShort": { "description": "Short unit for grams" },
+
+  "proteinGramsPerDay": "g/día",
+  "@proteinGramsPerDay": { "description": "Grams per day unit" },
+
+  "weightChartKgValue": "{value} kg",
+  "@weightChartKgValue": { "placeholders": { "value": { "type": "String" } } },
+
+  "homeAppTitle": "FitTracker"
 }

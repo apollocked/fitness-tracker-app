@@ -9,7 +9,7 @@ class SupportContactWidget extends StatelessWidget {
   final String title;
   const SupportContactWidget({
     required this.email,
-    this.title = 'Need Help?',
+    this.title = '',
     super.key,
   });
   @override

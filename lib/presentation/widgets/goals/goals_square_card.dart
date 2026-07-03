@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/core/utils/goal_utils.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
 
@@ -88,7 +89,7 @@ class GoalsSquareCard extends StatelessWidget {
                     style:
                         TextStyle(fontSize: 11, color: colors.subtitleColor)),
                 const SizedBox(height: 4),
-                Text('${target.toStringAsFixed(0)} $unit',
+                Text('${target.toStringAsFixed(0)} ${localizedGoalUnit(l10n, unit)}',
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,

@@ -31,21 +31,20 @@ class AuthViewModel extends ChangeNotifier {
   static const int _maxAttempts = 5;
   static const Duration _lockoutDuration = Duration(minutes: 1);
 
-  String? getRemainingLockout(String username) {
+  bool isLockedOut(String username) {
     final last = _lastAttemptTime[username];
     final attempts = _attemptCount[username] ?? 0;
-    if (last == null || attempts < _maxAttempts) return null;
+    if (last == null || attempts < _maxAttempts) return false;
     final elapsed = DateTime.now().difference(last);
     final remaining = _lockoutDuration - elapsed;
-    if (remaining.isNegative) return null;
+    if (remaining.isNegative) return false;
     _errorCode = 'lockout';
-    return 'Too many attempts. Try again in ${remaining.inSeconds}s';
+    _error = null;
+    return true;
   }
 
   Future<void> login(String username, String passkey) async {
-    final lockout = getRemainingLockout(username);
-    if (lockout != null) {
-      _error = lockout;
+    if (isLockedOut(username)) {
       notifyListeners();
       return;
     }
@@ -60,11 +59,8 @@ class AuthViewModel extends ChangeNotifier {
         _isLoading = false;
         _attemptCount[username] = (_attemptCount[username] ?? 0) + 1;
         _lastAttemptTime[username] = DateTime.now();
-        final remaining =
-            _maxAttempts - (_attemptCount[username] ?? 0);
-        _error = remaining > 0
-            ? "Invalid username or passkey ($remaining attempt${remaining == 1 ? '' : 's'} remaining)"
-            : "Too many attempts. Locked out for ${_lockoutDuration.inSeconds}s";
+        final remaining = _maxAttempts - (_attemptCount[username] ?? 0);
+        _error = null;
         _errorCode = remaining > 0 ? 'invalidCredentials' : 'lockedOut';
       } else {
         _attemptCount.remove(username);
@@ -75,7 +71,7 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _isLoading = false;
-      _error = "Login failed";
+      _error = null;
       _errorCode = 'loginFailed';
       notifyListeners();
     }
@@ -93,7 +89,7 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _isLoading = false;
-      _error = "Failed to start guest session";
+      _error = null;
       _errorCode = 'guestSessionFailed';
       notifyListeners();
     }
@@ -108,7 +104,7 @@ class AuthViewModel extends ChangeNotifier {
       // Double-check username doesn't exist (TOCTOU guard)
       if (_authRepository.usernameExists(user.username)) {
         _isLoading = false;
-        _error = "Username already taken";
+        _error = null;
         _errorCode = 'usernameTaken';
         notifyListeners();
         return;
@@ -119,7 +115,7 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _isLoading = false;
-      _error = "Registration failed";
+      _error = null;
       _errorCode = 'registrationFailed';
       notifyListeners();
     }

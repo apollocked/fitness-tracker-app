@@ -32,8 +32,7 @@ class ProteinResultsDialog {
                     color: orangeColor.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Icon(Icons.restaurant,
-                      size: 48, color: orangeColor),
+                  child: Icon(Icons.restaurant, size: 48, color: orangeColor),
                 ),
                 const SizedBox(height: 20),
                 Text(l10n.proteinYourIntake,
@@ -42,7 +41,10 @@ class ProteinResultsDialog {
                         fontWeight: FontWeight.bold,
                         color: colors.textColor)),
                 const SizedBox(height: 8),
-                Text(isBodybuilder ? l10n.proteinBodybuilderPlan : l10n.proteinRegularPlan,
+                Text(
+                    isBodybuilder
+                        ? l10n.proteinBodybuilderPlan
+                        : l10n.proteinRegularPlan,
                     style:
                         TextStyle(fontSize: 14, color: colors.subtitleColor)),
                 const SizedBox(height: 24),
@@ -59,6 +61,7 @@ class ProteinResultsDialog {
                           children: [
                             _ProteinValue(
                               label: l10n.proteinMinimum,
+                              l10n: l10n,
                               value: minProtein,
                               colors: colors,
                             ),
@@ -67,6 +70,7 @@ class ProteinResultsDialog {
                                     fontSize: 16, color: colors.subtitleColor)),
                             _ProteinValue(
                               label: l10n.proteinMaximum,
+                              l10n: l10n,
                               value: maxProtein,
                               colors: colors,
                             ),
@@ -89,7 +93,8 @@ class ProteinResultsDialog {
                             style: TextStyle(
                                 fontSize: 14, color: colors.subtitleColor)),
                         const SizedBox(height: 12),
-                        Text('${normalProtein.toStringAsFixed(1)}g',
+                        Text(
+                            '${normalProtein.toStringAsFixed(1)}${l10n.proteinGramsShort}',
                             style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
@@ -152,8 +157,9 @@ class _ProteinValue extends StatelessWidget {
     required this.label,
     required this.value,
     required this.colors,
+    required this.l10n,
   });
-
+  final AppLocalizations l10n;
   final String label;
   final double value;
   final AppColorsExtension colors;
@@ -165,11 +171,9 @@ class _ProteinValue extends StatelessWidget {
         Text(label,
             style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
         const SizedBox(height: 4),
-        Text('${value.toStringAsFixed(1)}g',
+        Text('${value.toStringAsFixed(1)}${l10n.proteinGramsShort}',
             style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: orangeColor)),
+                fontSize: 24, fontWeight: FontWeight.bold, color: orangeColor)),
       ],
     );
   }

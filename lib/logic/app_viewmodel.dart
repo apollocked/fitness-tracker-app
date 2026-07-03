@@ -108,7 +108,7 @@ class AppViewModel extends ChangeNotifier {
           await _notificationService.cancelWeightReminder();
           await _persistNotificationState(false);
           _settingsLoading = false;
-          _settingsError = 'Notification permission is blocked.';
+          _settingsError = null;
           _errorCode = 'notificationBlocked';
           notifyListeners();
           return false;
@@ -119,7 +119,7 @@ class AppViewModel extends ChangeNotifier {
           await _notificationService.cancelWeightReminder();
           await _persistNotificationState(false);
           _settingsLoading = false;
-          _settingsError = 'Notification permission was not granted.';
+          _settingsError = null;
           _errorCode = 'notificationDenied';
           notifyListeners();
           return false;
@@ -130,7 +130,7 @@ class AppViewModel extends ChangeNotifier {
           _notificationsEnabled = false;
           await _persistNotificationState(false);
           _settingsLoading = false;
-          _settingsError = 'Unable to schedule notifications on this device.';
+          _settingsError = null;
           _errorCode = 'notificationSchedule';
           notifyListeners();
           return false;
@@ -142,14 +142,13 @@ class AppViewModel extends ChangeNotifier {
       _notificationsEnabled = enabled;
       await _persistNotificationState(enabled);
       _settingsLoading = false;
-      _successMessage = enabled
-          ? 'Weight reminder scheduled every three days.'
-          : 'Notifications disabled.';
+      _successMessage = null;
+      _errorCode = enabled ? null : 'notificationsDisabled';
       notifyListeners();
       return true;
     } catch (_) {
       _settingsLoading = false;
-      _settingsError = 'Failed to update notifications.';
+      _settingsError = null;
       _errorCode = 'notificationUpdate';
       notifyListeners();
       return false;
@@ -175,8 +174,8 @@ class AppViewModel extends ChangeNotifier {
       final guestMode = guestDark ? ThemeMode.dark : ThemeMode.light;
       final guestNotif =
           HiveStorageService.getString(_guestNotificationsKey) == 'true';
-      final changed = _themeMode != guestMode ||
-          _notificationsEnabled != guestNotif;
+      final changed =
+          _themeMode != guestMode || _notificationsEnabled != guestNotif;
 
       _themeMode = guestMode;
       _notificationsEnabled = guestNotif;
@@ -241,7 +240,7 @@ class AppViewModel extends ChangeNotifier {
       final user = _authRepository.getCurrentUser();
       if (user == null) {
         _settingsLoading = false;
-        _settingsError = 'No user logged in';
+        _settingsError = null;
         _errorCode = 'noUserLoggedIn';
         notifyListeners();
         return false;
@@ -249,7 +248,7 @@ class AppViewModel extends ChangeNotifier {
       if (username != user.username &&
           _authRepository.usernameExists(username)) {
         _settingsLoading = false;
-        _settingsError = 'Username already taken';
+        _settingsError = null;
         _errorCode = 'usernameTaken';
         notifyListeners();
         return false;
@@ -258,12 +257,13 @@ class AppViewModel extends ChangeNotifier {
       await _userRepository.updateUser(updated);
       await _authRepository.setCurrentUser(updated);
       _settingsLoading = false;
-      _successMessage = 'Profile updated successfully!';
+      _successMessage = null;
+      _errorCode = 'profileUpdated';
       notifyListeners();
       return true;
     } catch (e) {
       _settingsLoading = false;
-      _settingsError = 'Failed to update profile';
+      _settingsError = null;
       _errorCode = 'profileUpdate';
       notifyListeners();
       return false;

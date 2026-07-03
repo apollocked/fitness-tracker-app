@@ -12,6 +12,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'FitTracker';
 
   @override
+  String get appMaterialTitle => 'FitTracker';
+
+  @override
   String get appDescriptionLocal =>
       'متتبع اللياقة البدنية المحلي فقط. جميع بياناتك تبقى على جهازك.';
 
@@ -712,10 +715,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get featuresProteinTracker => 'متتبع البروتين';
 
   @override
-  String get featuresProteinDesc =>
-      'احسب احتياجك اليومي من البروتين بناءً على وزنك ومستوى نشاطك.';
-
-  @override
   String get featuresCalorieTracker => 'متتبع السعرات';
 
   @override
@@ -730,10 +729,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get featuresProgressTracking => 'تتبع التقدم';
-
-  @override
-  String get featuresProgressDesc =>
-      'سجل وراقب قياسات جسمك بمرور الوقت باستخدام مخطط تفاعلي.';
 
   @override
   String get featuresLocalOnly => 'محلي ١٠٠٪';
@@ -951,6 +946,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get weightChartKgLabel => 'كجم';
 
   @override
+  String weightChartKgValue(String value) {
+    return '$value كجم';
+  }
+
+  @override
   String get weightChartDateLabel => 'التاريخ';
 
   @override
@@ -1000,7 +1000,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get proteinGoal => 'الهدف';
 
   @override
-  String get calorieCaloriesPerDay => 'سعرة حرارية/يوم';
+  String get calorieCaloriesPerDay => 'سعرة/يوم';
 
   @override
   String get calorieActivityLevel => 'مستوى النشاط';
@@ -1096,9 +1096,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String settingsLanguageLabel(String language) {
     return 'اللغة: $language';
   }
-
-  @override
-  String get appMaterialTitle => 'FitTracker';
 
   @override
   String get settingsAppearance => 'المظهر';
@@ -1621,6 +1618,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get featuresProteinTitle => 'حاسبة البروتين';
 
   @override
+  String get featuresProteinDesc =>
+      'احسب احتياجك اليومي من البروتين بناءً على وزنك ومستوى نشاطك.';
+
+  @override
   String get featuresProteinBenefit1 => 'تحديد متطلبات البروتين اليومية';
 
   @override
@@ -1631,6 +1632,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get featuresProgressTitle => 'تتبع التقدم';
+
+  @override
+  String get featuresProgressDesc =>
+      'سجل وراقب قياسات جسمك بمرور الوقت باستخدام مخطط تفاعلي.';
 
   @override
   String get featuresProgressBenefit1 => 'تتبع تغيرات الوزن بمرور الوقت';
@@ -1829,76 +1834,74 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeViewAll => 'View All';
 
   @override
-  String get guestBrowsingAsGuest => 'Browsing as Guest';
+  String get guestBrowsingAsGuest => 'تصفح كضيف';
 
   @override
-  String get guestDataNotSaved => 'Your data is not being saved';
+  String get guestDataNotSaved => 'بياناتك لا يتم حفظها';
 
   @override
-  String get guestBannerMessage => 'Guest mode — your data won\'t be saved.';
+  String get guestBannerMessage => 'وضع الضيف — بياناتك لن يتم حفظها.';
 
   @override
-  String get guestCreateProfile => 'Create Profile';
+  String get guestCreateProfile => 'إنشاء ملف شخصي';
 
   @override
-  String get guestCreateFreeProfile => 'Create Free Profile';
+  String get guestCreateFreeProfile => 'إنشاء ملف شخصي مجاني';
 
   @override
-  String get guestAlreadyHaveProfile => 'Already have a profile? Login';
+  String get guestAlreadyHaveProfile => 'هل لديك ملف شخصي؟ تسجيل الدخول';
 
   @override
-  String get guestExitGuestMode => 'Exit Guest Mode';
+  String get guestExitGuestMode => 'الخروج من وضع الضيف';
 
   @override
-  String get guestModeTitle => 'Guest Mode';
+  String get guestModeTitle => 'وضع الضيف';
 
   @override
   String get guestModeMessage =>
-      'You\'re currently in guest mode.\n\nCreate a free profile to save your fitness data, track progress, and set goals.';
+      'أنت حالياً في وضع الضيف.\n\nأنشئ ملفاً شخصياً مجانياً لحفظ بيانات اللياقة الخاصة بك وتتبع التقدم وتحديد الأهداف.';
 
   @override
-  String get guestStayAsGuest => 'Stay as Guest';
+  String get guestStayAsGuest => 'البقاء كضيف';
 
   @override
-  String get guestBenefitsTitle => 'Create a profile to unlock:';
+  String get guestBenefitsTitle => 'أنشئ ملفاً شخصياً لفتح:';
 
   @override
-  String get guestBenefitSaveData => 'Save your data';
+  String get guestBenefitSaveData => 'احفظ بياناتك';
 
   @override
-  String get guestBenefitSaveDataSub =>
-      'Measurements & progress persist across sessions';
+  String get guestBenefitSaveDataSub => 'القياسات والتقدم يستمران عبر الجلسات';
 
   @override
-  String get guestBenefitSetGoals => 'Set goals';
+  String get guestBenefitSetGoals => 'حدد الأهداف';
 
   @override
-  String get guestBenefitSetGoalsSub => 'Weight, protein & calorie targets';
+  String get guestBenefitSetGoalsSub => 'أهداف الوزن والبروتين والسعرات';
 
   @override
-  String get guestBenefitTrackProgress => 'Track progress';
+  String get guestBenefitTrackProgress => 'تتبع التقدم';
 
   @override
-  String get guestBenefitTrackProgressSub =>
-      'Visualize your fitness journey over time';
+  String get guestBenefitTrackProgressSub => 'تصور رحلة لياقتك مع مرور الوقت';
 
   @override
-  String get guestBenefitReminders => 'Reminders';
+  String get guestBenefitReminders => 'تذكيرات';
 
   @override
-  String get guestBenefitRemindersSub => 'Weight check-in notifications';
+  String get guestBenefitRemindersSub => 'إشعارات فحص الوزن';
 
   @override
-  String get guestAppFeatures => 'App Features';
+  String get guestAppFeatures => 'ميزات التطبيق';
 
   @override
-  String get guestAppFeaturesSub => 'Explore all features';
+  String get guestAppFeaturesSub => 'استكشف جميع الميزات';
 
   @override
-  String get guestAppInfoSub => 'App information';
+  String get guestAppInfoSub => 'معلومات التطبيق';
 
   @override
-  String get guestGetAssistance => 'Get assistance';
+  String get guestGetAssistance => 'احصل على المساعدة';
 
   @override
   String goalEditTitle(String goalName) {
@@ -2251,4 +2254,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingTagPersonalized => 'PERSONALIZED';
+
+  @override
+  String get proteinGramsShort => 'جم';
+
+  @override
+  String get proteinGramsPerDay => 'جم/يوم';
+
+  @override
+  String get homeAppTitle => 'FitTracker';
 }

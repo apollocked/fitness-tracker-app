@@ -9,7 +9,8 @@ import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/logic/app_viewmodel.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
 
-String _settingsErrorMsg(AppLocalizations l10n, String? errorCode, String fallback) {
+String _settingsErrorMsg(
+    AppLocalizations l10n, String? errorCode, String fallback) {
   switch (errorCode) {
     case 'notificationBlocked':
       return l10n.errorNotificationBlocked;
@@ -25,6 +26,8 @@ String _settingsErrorMsg(AppLocalizations l10n, String? errorCode, String fallba
       return l10n.errorUsernameTaken;
     case 'profileUpdate':
       return l10n.errorProfileUpdate;
+    case 'profileUpdated':
+      return l10n.successProfileUpdated;
     default:
       return fallback;
   }
@@ -41,7 +44,8 @@ class SettingsDialogs {
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: colors.cardColor,
-        title: Text(l10n.settingsEditProfile, style: TextStyle(color: colors.textColor)),
+        title: Text(l10n.settingsEditProfile,
+            style: TextStyle(color: colors.textColor)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -62,25 +66,21 @@ class SettingsDialogs {
                 return;
               }
               final appVM = dialogContext.read<AppViewModel>();
-              final success = await appVM.updateProfile(
-                  usernameController.text, l10n);
+              final success =
+                  await appVM.updateProfile(usernameController.text, l10n);
               if (success) {
                 await context.read<AuthViewModel>().reloadUser();
                 onSave();
                 Navigator.pop(dialogContext);
               }
-              final msg = appVM.successMessage != null
-                  ? (appVM.errorCode == 'profileUpdated'
-                      ? l10n.successProfileUpdated
-                      : appVM.successMessage!)
-                  : appVM.settingsError != null
-                      ? _settingsErrorMsg(l10n, appVM.errorCode, appVM.settingsError!)
-                      : l10n.commonDone;
+              final msg = appVM.errorCode != null
+                  ? _settingsErrorMsg(l10n, appVM.errorCode, l10n.commonDone)
+                  : l10n.commonDone;
+              final isSuccess = appVM.errorCode == 'profileUpdated';
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(msg),
-                  backgroundColor:
-                      appVM.successMessage != null ? greenColor : redColor,
+                  backgroundColor: isSuccess ? greenColor : redColor,
                 ),
               );
             },
@@ -99,8 +99,8 @@ class SettingsDialogs {
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: colors.cardColor,
-        title:
-            Text(l10n.settingsDeleteAccount, style: TextStyle(color: colors.textColor)),
+        title: Text(l10n.settingsDeleteAccount,
+            style: TextStyle(color: colors.textColor)),
         content: Text(
             '${l10n.settingsDeleteAccountConfirm}\n${l10n.settingsDeleteAccountWarning}',
             style: TextStyle(color: colors.textColor)),

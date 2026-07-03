@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fit_tracker/presentation/widgets/goals/edit_goal_dialog.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
+import 'package:fit_tracker/core/utils/goal_utils.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
 
@@ -62,7 +63,7 @@ class GoalTile extends StatelessWidget {
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(children: [
                 Expanded(child: Text(goal['label'] ?? _goalLabel(l10n, goalKey), style: TextStyle(fontWeight: FontWeight.bold, color: colors.textColor))),
-                Text(cubit.getGoalStatus(goalKey), style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
+                Text(cubit.getGoalStatus(goalKey, unit: localizedGoalUnit(l10n, goal['unit'])), style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
               ]),
               const SizedBox(height: 4),
               Text(_goalDescription(l10n, goalKey), style: TextStyle(fontSize: 12, color: colors.subtitleColor)),
@@ -79,11 +80,11 @@ class GoalTile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text('$percent%', style: TextStyle(fontSize: 11, color: colors.subtitleColor)),
+                Text('$percent${l10n.macroPercentage}', style: TextStyle(fontSize: 11, color: colors.subtitleColor)),
               ],
               if (cubit.shouldShowPercentage(goalKey)) ...[
                 const SizedBox(height: 4),
-                Text('${goal['target']} ${goal['unit'] ?? ''}',
+                Text('${goal['target']} ${localizedGoalUnit(l10n, goal['unit'])}',
                     style: TextStyle(fontSize: 11, color: colors.subtitleColor)),
               ],
             ])),

@@ -42,13 +42,14 @@ class GoalsViewModel extends ChangeNotifier {
     return orangeColor;
   }
 
-  String getGoalStatus(String key) {
+  String getGoalStatus(String key, {String? unit}) {
     final goal = _currentGoals?[key];
     if (goal == null) return '';
     final current = goal['current'];
     final target = goal['target'];
     if (current == null || target == null) return '';
-    return '$current / $target ${goal['unit'] ?? ''}';
+    final unitStr = unit ?? (goal['unit'] ?? '');
+    return '$current / $target $unitStr';
   }
 
   int get completedCount {
@@ -90,19 +91,6 @@ class GoalsViewModel extends ChangeNotifier {
         return Icons.local_fire_department_outlined;
       default:
         return Icons.flag_outlined;
-    }
-  }
-
-  static String getGoalDescription(String key) {
-    switch (key) {
-      case 'weight':
-        return 'Track your weight goals';
-      case 'protein':
-        return 'Daily protein intake target';
-      case 'calories':
-        return 'Daily calorie intake target';
-      default:
-        return '';
     }
   }
 }

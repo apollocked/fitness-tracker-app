@@ -108,6 +108,12 @@ abstract class AppLocalizations {
   /// **'FitTracker'**
   String get appTitle;
 
+  /// Material app title for OS
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness Tracker'**
+  String get appMaterialTitle;
+
   /// No description provided for @appDescriptionLocal.
   ///
   /// In en, this message translates to:
@@ -1482,12 +1488,6 @@ abstract class AppLocalizations {
   /// **'Protein Intake Tracker'**
   String get featuresProteinTracker;
 
-  /// No description provided for @featuresProteinDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Calculate your daily protein needs based on your weight and fitness level.'**
-  String get featuresProteinDesc;
-
   /// No description provided for @featuresCalorieTracker.
   ///
   /// In en, this message translates to:
@@ -1517,12 +1517,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Progress Tracking'**
   String get featuresProgressTracking;
-
-  /// No description provided for @featuresProgressDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Record and monitor your body measurements over time with an interactive chart.'**
-  String get featuresProgressDesc;
 
   /// No description provided for @featuresLocalOnly.
   ///
@@ -1902,6 +1896,12 @@ abstract class AppLocalizations {
   /// **'kg'**
   String get weightChartKgLabel;
 
+  /// No description provided for @weightChartKgValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} kg'**
+  String weightChartKgValue(String value);
+
   /// No description provided for @weightChartDateLabel.
   ///
   /// In en, this message translates to:
@@ -2129,12 +2129,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language: {language}'**
   String settingsLanguageLabel(String language);
-
-  /// No description provided for @appMaterialTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Fitness Tracker'**
-  String get appMaterialTitle;
 
   /// No description provided for @settingsAppearance.
   ///
@@ -3114,6 +3108,12 @@ abstract class AppLocalizations {
   /// **'Protein Intake Calculator'**
   String get featuresProteinTitle;
 
+  /// No description provided for @featuresProteinDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculate your daily protein needs based on your weight and fitness level.'**
+  String get featuresProteinDesc;
+
   /// No description provided for @featuresProteinBenefit1.
   ///
   /// In en, this message translates to:
@@ -3137,6 +3137,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Progress Tracking'**
   String get featuresProgressTitle;
+
+  /// No description provided for @featuresProgressDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record and monitor your body measurements over time with an interactive chart.'**
+  String get featuresProgressDesc;
 
   /// No description provided for @featuresProgressBenefit1.
   ///
@@ -4271,6 +4277,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PERSONALIZED'**
   String get onboardingTagPersonalized;
+
+  /// Short unit for grams
+  ///
+  /// In en, this message translates to:
+  /// **'g'**
+  String get proteinGramsShort;
+
+  /// Grams per day unit
+  ///
+  /// In en, this message translates to:
+  /// **'g/day'**
+  String get proteinGramsPerDay;
+
+  /// No description provided for @homeAppTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness Tracker'**
+  String get homeAppTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -9,7 +9,7 @@ class DailyCaloriesResultsDialog {
     double? maintenanceCalories,
     String goalType = 'maintain',
     double weeklyGoal = 0.5,
-    String goalDescription = "Maintenance",
+    String goalDescription = "",
     VoidCallback? onSetGoal,
   }) {
     showDialog(

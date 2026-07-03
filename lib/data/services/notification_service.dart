@@ -19,6 +19,9 @@ class NotificationService {
   static const String _channelName = 'Weight tracking reminders';
   static const String _channelDescription =
       'Reminders to log your body weight every three days.';
+  static const String _defaultTitle = 'Track your weight';
+  static const String _defaultBody =
+      'Take a moment to log your latest weight measurement.';
 
   final FlutterLocalNotificationsPlugin _notifications =
       FlutterLocalNotificationsPlugin();
@@ -119,8 +122,8 @@ class NotificationService {
         final scheduledDate = now.add(Duration(days: 3 * (i + 1)));
         await _notifications.zonedSchedule(
           id: _firstWeightReminderId + i,
-          title: title ?? 'Track your weight',
-          body: body ?? 'Take a moment to log your latest weight measurement.',
+          title: title ?? _defaultTitle,
+          body: body ?? _defaultBody,
           androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
           payload: 'weight-reminder',
           scheduledDate:

@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'FitTracker';
 
   @override
+  String get appMaterialTitle => 'Fitness Tracker';
+
+  @override
   String get appDescriptionLocal =>
       'Your local-only fitness tracker. All data stays on your device.';
 
@@ -716,10 +719,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get featuresProteinTracker => 'Protein Intake Tracker';
 
   @override
-  String get featuresProteinDesc =>
-      'Calculate your daily protein needs based on your weight and fitness level.';
-
-  @override
   String get featuresCalorieTracker => 'Calorie Tracker';
 
   @override
@@ -735,10 +734,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get featuresProgressTracking => 'Progress Tracking';
-
-  @override
-  String get featuresProgressDesc =>
-      'Record and monitor your body measurements over time with an interactive chart.';
 
   @override
   String get featuresLocalOnly => '100% Local';
@@ -957,6 +952,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get weightChartKgLabel => 'kg';
 
   @override
+  String weightChartKgValue(String value) {
+    return '$value kg';
+  }
+
+  @override
   String get weightChartDateLabel => 'Date';
 
   @override
@@ -1102,9 +1102,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String settingsLanguageLabel(String language) {
     return 'Language: $language';
   }
-
-  @override
-  String get appMaterialTitle => 'Fitness Tracker';
 
   @override
   String get settingsAppearance => 'Appearance';
@@ -1629,6 +1626,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get featuresProteinTitle => 'Protein Intake Calculator';
 
   @override
+  String get featuresProteinDesc =>
+      'Calculate your daily protein needs based on your weight and fitness level.';
+
+  @override
   String get featuresProteinBenefit1 => 'Determine daily protein requirements';
 
   @override
@@ -1639,6 +1640,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get featuresProgressTitle => 'Progress Tracking';
+
+  @override
+  String get featuresProgressDesc =>
+      'Record and monitor your body measurements over time with an interactive chart.';
 
   @override
   String get featuresProgressBenefit1 => 'Track weight changes over time';
@@ -2260,4 +2265,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingTagPersonalized => 'PERSONALIZED';
+
+  @override
+  String get proteinGramsShort => 'g';
+
+  @override
+  String get proteinGramsPerDay => 'g/day';
+
+  @override
+  String get homeAppTitle => 'Fitness Tracker';
 }

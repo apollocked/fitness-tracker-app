@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import 'package:fit_tracker/logic/goals_viewmodel.dart';
 import 'package:fit_tracker/logic/progress_viewmodel.dart';
 import 'package:fit_tracker/logic/calculators_viewmodel.dart';
@@ -7,6 +8,7 @@ import 'package:fit_tracker/data/model/user_model.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
+import 'package:fit_tracker/core/utils/goal_utils.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
 
 String _goalLabel(AppLocalizations l10n, String key) {
@@ -356,7 +358,7 @@ class _GoalProgressTile extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final progress = goalsVM.getProgress(goalKey);
-    final status = goalsVM.getGoalStatus(goalKey);
+    final status = goalsVM.getGoalStatus(goalKey, unit: localizedGoalUnit(l10n, goal['unit']));
     final icon = GoalsViewModel.getGoalIcon(goalKey);
     final progressColor = goalsVM.getProgressColor(goalKey);
     final active = goal['active'] == true;
@@ -508,7 +510,6 @@ class RecentWeightSection extends StatelessWidget {
 
   Widget _weightRow(
       Measurement m, AppColorsExtension colors, AppLocalizations l10n) {
-    final dateStr = '${m.date.day}/${m.date.month}/${m.date.year}';
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
@@ -521,7 +522,7 @@ class RecentWeightSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
-              child: Text(dateStr.split('/')[0],
+              child: Text('${m.date.day}',
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -530,7 +531,7 @@ class RecentWeightSection extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(dateStr,
+            child: Text(DateFormat.yMd().format(m.date),
                 style: TextStyle(fontSize: 13, color: colors.subtitleColor)),
           ),
           Text(l10n.progressWeightValue(m.weight.toStringAsFixed(1)),

@@ -127,7 +127,8 @@ class _FitAppBuilder extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Fitness Tracker",
+      title:
+          AppLocalizations.of(context)?.appMaterialTitle ?? "Fitness Tracker",
       locale: appVM.locale,
       localizationsDelegates: [
         AppLocalizations.delegate,
@@ -140,7 +141,8 @@ class _FitAppBuilder extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       builder: (context, child) {
-        if (appVM.locale.languageCode == 'ckb') {
+        if (appVM.locale.languageCode == 'ckb' ||
+            appVM.locale.languageCode == 'ar') {
           return Directionality(
             textDirection: TextDirection.rtl,
             child: child!,

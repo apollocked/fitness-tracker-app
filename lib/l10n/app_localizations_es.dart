@@ -12,6 +12,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appTitle => 'FitTracker';
 
   @override
+  String get appMaterialTitle => 'FitTracker';
+
+  @override
   String get appDescriptionLocal =>
       'Tu rastreador de fitness solo local. Todos los datos permanecen en tu dispositivo.';
 
@@ -720,10 +723,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get featuresProteinTracker => 'Rastreador de Proteína';
 
   @override
-  String get featuresProteinDesc =>
-      'Calcula tus necesidades diarias de proteína según tu peso y nivel de actividad.';
-
-  @override
   String get featuresCalorieTracker => 'Rastreador de Calorías';
 
   @override
@@ -739,10 +738,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get featuresProgressTracking => 'Seguimiento de Progreso';
-
-  @override
-  String get featuresProgressDesc =>
-      'Registra y monitorea tus medidas corporales a lo largo del tiempo con un gráfico interactivo.';
 
   @override
   String get featuresLocalOnly => '100% Local';
@@ -783,7 +778,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get helpFaq3A =>
-      'Ve a Ajustes y selecciona \'Eliminar Todos los Datos\'. Esto eliminará永久mente todas tus mediciones y objetivos.';
+      'Ve a Ajustes y selecciona \'Eliminar Todos los Datos\'. Esto eliminará permanentemente todas tus mediciones y objetivos.';
 
   @override
   String get helpFaq4Q => '¿Cómo funcionan las notificaciones?';
@@ -961,6 +956,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get weightChartKgLabel => 'kg';
 
   @override
+  String weightChartKgValue(String value) {
+    return '$value kg';
+  }
+
+  @override
   String get weightChartDateLabel => 'Fecha';
 
   @override
@@ -1107,9 +1107,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String settingsLanguageLabel(String language) {
     return 'Idioma: $language';
   }
-
-  @override
-  String get appMaterialTitle => 'FitTracker';
 
   @override
   String get settingsAppearance => 'Apariencia';
@@ -1655,6 +1652,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get featuresProteinTitle => 'Calculadora de Proteína';
 
   @override
+  String get featuresProteinDesc =>
+      'Calcula tus necesidades diarias de proteína según tu peso y nivel de actividad.';
+
+  @override
   String get featuresProteinBenefit1 =>
       'Determina los requerimientos diarios de proteína';
 
@@ -1667,6 +1668,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get featuresProgressTitle => 'Seguimiento de Progreso';
+
+  @override
+  String get featuresProgressDesc =>
+      'Registra y monitorea tus medidas corporales a lo largo del tiempo con un gráfico interactivo.';
 
   @override
   String get featuresProgressBenefit1 =>
@@ -2298,4 +2303,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get onboardingTagPersonalized => 'PERSONALIZADO';
+
+  @override
+  String get proteinGramsShort => 'g';
+
+  @override
+  String get proteinGramsPerDay => 'g/día';
+
+  @override
+  String get homeAppTitle => 'FitTracker';
 }

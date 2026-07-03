@@ -31,9 +31,7 @@ class SettingsPage extends StatelessWidget {
     final success = await appVM.setNotifications(value);
     if (!context.mounted) return;
 
-    if (!success &&
-        value &&
-        appVM.errorCode == 'notificationBlocked') {
+    if (!success && value && appVM.errorCode == 'notificationBlocked') {
       await showAppSettingsRedirect(context);
       if (!context.mounted) return;
       final retry = await appVM.setNotifications(value);
@@ -53,6 +51,15 @@ class SettingsPage extends StatelessWidget {
     final snackMsg = appVM.errorCode != null
         ? _errorMessage(appVM.errorCode!, l10n)
         : (success ? l10n.settingsNotificationsEnabled : l10n.settingsUpdated);
+    if (appVM.errorCode == 'notificationsDisabled') {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(l10n.settingsNotificationsEnabled),
+          backgroundColor: greenColor,
+        ),
+      );
+      return;
+    }
     messenger.showSnackBar(
       SnackBar(
         content: Text(snackMsg),
@@ -80,6 +87,8 @@ class SettingsPage extends StatelessWidget {
         return l10n.errorProfileUpdate;
       case 'usernameTaken':
         return l10n.errorUsernameTaken;
+      case 'profileUpdated':
+        return l10n.successProfileUpdated;
       default:
         return l10n.settingsUpdated;
     }
