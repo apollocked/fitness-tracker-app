@@ -8,12 +8,13 @@ import 'package:fit_tracker/logic/auth_viewmodel.dart';
 import 'package:fit_tracker/presentation/widgets/progress/weight_chart.dart';
 import 'package:fit_tracker/presentation/widgets/progress/goal_progress_banner.dart';
 import 'package:fit_tracker/presentation/widgets/progress/stats_row.dart';
+import 'package:fit_tracker/presentation/widgets/progress/month_selector.dart';
 import 'package:fit_tracker/data/model/measurement_model.dart';
 import 'package:fit_tracker/core/theme/app_colors.dart';
 import 'package:fit_tracker/core/theme/app_theme.dart';
 import 'package:fit_tracker/l10n/app_localizations.dart';
 
-class MeasurementList extends StatelessWidget {
+class MeasurementList extends StatefulWidget {
   final List measurements;
   final GoalsViewModel goalsVM;
   final AppColorsExtension colors;
@@ -26,36 +27,113 @@ class MeasurementList extends StatelessWidget {
   });
 
   @override
+  State<MeasurementList> createState() => _MeasurementListState();
+}
+
+class _MeasurementListState extends State<MeasurementList> {
+  late DateTime _selectedMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedMonth = _latestMonth();
+  }
+
+  @override
+  void didUpdateWidget(MeasurementList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.measurements != widget.measurements) {
+      final months = _availableMonths();
+      if (!months.contains(_selectedMonth) && months.isNotEmpty) {
+        _selectedMonth = months.last;
+      }
+    }
+  }
+
+  DateTime _latestMonth() {
+    if (widget.measurements.isEmpty) return DateTime.now();
+    final latest = widget.measurements
+        .cast<Measurement>()
+        .map((m) => m.date)
+        .reduce((a, b) => a.isAfter(b) ? a : b);
+    return DateTime(latest.year, latest.month);
+  }
+
+  List<DateTime> _availableMonths() {
+    final months = <DateTime>{};
+    for (final m in widget.measurements.cast<Measurement>()) {
+      months.add(DateTime(m.date.year, m.date.month));
+    }
+    final sorted = months.toList()..sort();
+    return sorted;
+  }
+
+  List<Measurement> _chartMeasurements() {
+    final filtered = widget.measurements
+        .cast<Measurement>()
+        .where((m) =>
+            m.date.year == _selectedMonth.year &&
+            m.date.month == _selectedMonth.month)
+        .toList()
+      ..sort((a, b) => a.date.compareTo(b.date));
+    if (filtered.length > 10) {
+      return filtered.sublist(filtered.length - 10);
+    }
+    return filtered;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final calculator = context.read<CalculatorsViewModel>();
     final user = context.read<AuthViewModel>().currentUser;
-    final first = measurements.isNotEmpty ? measurements.first as dynamic : null;
-    final last = measurements.isNotEmpty ? measurements.last as dynamic : null;
+    final first = widget.measurements.isNotEmpty ? widget.measurements.first as dynamic : null;
+    final last = widget.measurements.isNotEmpty ? widget.measurements.last as dynamic : null;
     final weightChange = first != null && last != null
         ? (first.weight - last.weight).toStringAsFixed(1)
         : null;
     final bmi = user != null && user.height > 0 && last != null
         ? calculator.calculateBMI(last.weight, user.height)
         : null;
+    final months = _availableMonths();
+    final monthIdx = months.indexOf(_selectedMonth);
+    final chartMeasurements = _chartMeasurements();
+    final monthMeasurements = widget.measurements
+        .cast<Measurement>()
+        .where((m) =>
+            m.date.year == _selectedMonth.year &&
+            m.date.month == _selectedMonth.month)
+        .toList();
 
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverToBoxAdapter(
-            child: GoalProgressBanner(goalsVM: goalsVM, colors: colors)),
+            child: GoalProgressBanner(goalsVM: widget.goalsVM, colors: widget.colors)),
         if (weightChange != null)
           SliverToBoxAdapter(
             child: StatsRow(
-              colors: colors,
+              colors: widget.colors,
               latestWeight: last.weight.toDouble(),
               bmi: bmi,
               weightChange: weightChange,
             ),
           ),
         SliverToBoxAdapter(
-          child: WeightChart(
-            measurements: measurements.cast<Measurement>(),
-            colors: colors,
+          child: Column(
+            children: [
+              if (months.length > 1)
+                MonthSelector(
+                  currentMonth: _selectedMonth,
+                  canGoBack: monthIdx > 0,
+                  canGoForward: monthIdx < months.length - 1,
+                  onPrevious: () => setState(() => _selectedMonth = months[monthIdx - 1]),
+                  onNext: () => setState(() => _selectedMonth = months[monthIdx + 1]),
+                ),
+              WeightChart(
+                measurements: chartMeasurements,
+                colors: widget.colors,
+              ),
+            ],
           ),
         ),
         SliverPadding(
@@ -63,14 +141,13 @@ class MeasurementList extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                final m = measurements[measurements.length - 1 - index];
+                final m = monthMeasurements[monthMeasurements.length - 1 - index];
                 return MeasurementItem(
-                  measurement: m as Measurement,
-                  index: index,
-                  colors: colors,
+                  measurement: m,
+                  colors: widget.colors,
                 );
               },
-              childCount: measurements.length,
+              childCount: monthMeasurements.length,
             ),
           ),
         ),
@@ -81,13 +158,11 @@ class MeasurementList extends StatelessWidget {
 
 class MeasurementItem extends StatelessWidget {
   final Measurement measurement;
-  final int index;
   final AppColorsExtension colors;
 
   const MeasurementItem({
     super.key,
     required this.measurement,
-    required this.index,
     required this.colors,
   });
 
@@ -139,9 +214,13 @@ class MeasurementItem extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.delete_outline_rounded,
               color: redColor, size: 20),
-          onPressed: () => context
-              .read<ProgressViewModel>()
-              .deleteMeasurement(index),
+          onPressed: () {
+            final all = context.read<ProgressViewModel>().measurements;
+            final idx = all.indexOf(m);
+            if (idx >= 0) {
+              context.read<ProgressViewModel>().deleteMeasurement(idx);
+            }
+          },
         ),
       ]),
     );
